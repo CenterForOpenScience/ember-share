@@ -1,9 +1,9 @@
 import DS from 'ember-data';
-import ShareObjectMixin from 'ember-share/mixins/share-object-mixin'
+import ShareObject from './share-object'
 // import attr from 'ember-data/attr';
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
-export default DS.Model.extend(ShareObjectMixin, {
+export default ShareObject.extend({
     person = DS.belongsTo('person', {
         inverse: 'affiliations'
     }),

@@ -4,10 +4,10 @@ import ShareObject from './share-object'
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default ShareObject.extend({
-    person = DS.belongsTo('person', {
-        inverse: 'emails'
-    })
-    email = DS.belongsTo('email', {
-        inverse: 'email'
+    institution = DS.belongsTo('institution', {
+        inverse: 'thoughInstitutions'
+    }),
+    creativeWork = DS.belongsTo('abstractCreativeWork', {
+        polymorphic: true
     })
 });
