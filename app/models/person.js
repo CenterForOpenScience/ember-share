@@ -8,16 +8,10 @@ export default ShareObject.extend({
     givenName = DS.attr('string'),
     additionalName = DS.attr('string'),
     suffix = DS.attr('string'),
-    emails = DS.hasMany('personEmails', {
-        inverse: 'person'
-    }),
-    affiliations = DS.hasMany('affiliations', {
-        inverse: 'person'
-    }),
+    emails = DS.hasMany('emails'),
+    affiliations = DS.hasMany('organizations'),
     orcid = DS.attr('string'),
-    identifiers = DS.hasMany('throughIdentifiers', {
-        inverse: 'person'
-    }),
+    identifiers = DS.hasMany('identifiers'),
     location = DS.attr('string'),
     url = DS.attr('string')
 });

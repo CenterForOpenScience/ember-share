@@ -5,7 +5,5 @@ import ShareObject from './share-object'
 
 export default ShareObject.extend({
     isPrimary = DS.attr('boolean'),
-    email = DS.belongsTo('personEmail',{
-        inverse: 'email'
-    })
+    email = DS.belongsTo('person')
 });
