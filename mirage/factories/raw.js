@@ -1,8 +1,7 @@
-import DS from 'ember-data';
-import ShareObjectMixin from '../mixins/share-object';
+import { Factory } from 'ember-cli-mirage';
 
-export default DS.Model.extend(ShareObjectMixin, {
-    id(i): {return '${i}'},
+export default Factory.extend({
+    id(i) {return '${i}'},
     source: 'person', //not sure what the source is supposed to be yet
     data: 'Oh man would you look at how much data is in this guy! It\'s so raw!',
     sha256: '617bcce3bae1a09ff626ce239540bc77f57a09f45708e20aefc1f4c42a0fec65',
