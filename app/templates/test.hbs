@@ -1,6 +1,14 @@
 {{outlet}}
-{{#each model as |man|}}
+{{#each model.manuscripts as |man|}}
    <li>{{man.title}}, {{man.id}}</li>
 {{/each}}
 
-{{search-facet title='manuscripts!' key='manuscripts' choices=model onChange='queryFacetChanged'}}
+{{search-facet-set onChange='queryFacetChanged' facets=(hash
+    institution=(hash title='Institution' choices=model.institutions)
+    funder=(hash title='Funder' choices=model.funders)
+    tag=(hash title='Tag' choices=model.tags)
+    venue=(hash title='Venue' choices=model.venues)
+    award=(hash title='Award' choices=model.awards)
+    dataProvider=(hash title='Data Provider' choices=model.dataProviders)
+    )
+}}

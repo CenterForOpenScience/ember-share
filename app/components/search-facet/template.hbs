@@ -9,9 +9,11 @@
     {{else}}
         {{#each choices as |choice|}}
             <div class='choice'>
-                {{input id=choice.id type='checkbox'
-                change=(action 'change' choice)}}
-                <label for={{choice.id}}>{{choice.title}}</label>
+                <label>
+                    {{input type='checkbox'
+                    change=(action 'change' choice)}}
+                    {{choice.name}}
+                </label>
             </div>
         {{/each}}
     {{/if}}

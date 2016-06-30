@@ -2,12 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model() {
-        return this.store.findAll('manuscript');
+        return Ember.RSVP.hash({
+            manuscripts: this.store.findAll('manuscript'),
+            funders: this.store.findAll('funder'),
+            institutions: this.store.findAll('institution'),
+            tags: this.store.findAll('tag'),
+            venues: this.store.findAll('venue'),
+            awards: this.store.findAll('award'),
+            dataProviders: this.store.findAll('data-provider'),
+        });
     },
 
     actions: {
         queryFacetChanged(facet) {
-            debugger;
+            this.set('query', facet);
         }
     }
 });

@@ -19,7 +19,12 @@ export default Ember.Component.extend({
 
     queryFacet: Ember.computed('selected.[]', function() {
         let facet = {};
-        facet[this.get('key')] = this.get('selected').mapBy('id');
+        let selected = this.get('selected');
+        if (selected.length) {
+            facet[this.get('key')] = selected.mapBy('id');
+        } else {
+            facet[this.get('key')] = undefined;
+        }
         return facet;
     }),
 
