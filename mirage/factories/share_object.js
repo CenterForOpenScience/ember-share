@@ -1,5 +1,6 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
-    postedDate(i) {return faker.date.past(i)}
+    id(i) {return '${i}'},
+    version(i) {return '${i}.${i}'}
 });

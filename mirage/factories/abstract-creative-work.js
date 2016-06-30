@@ -1,6 +1,7 @@
-import { Factory, faker, hasMany, belongsTo } from 'ember-cli-mirage';
+import { faker, hasMany, belongsTo } from 'ember-cli-mirage';
+import shareObject from './share-object';
 
-export default Factory.extend({
+export default shareObject.extend({
     title(i) {return 'Creative Stuff #${i}'},
     description: 'I\'m here to describe things',
     contributors: hasMany('contributors'),
