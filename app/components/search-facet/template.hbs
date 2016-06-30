@@ -1,0 +1,24 @@
+{{!TODO styles!}}
+<div class='header'>
+    <h3>{{title}}</h3>
+    {{!TODO collapse/expand?}}
+</div>
+<div class='choices'>
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        {{#each choices as |choice|}}
+            <div class='choice'>
+                {{input id=choice.id type='checkbox'
+                change=(action 'change' choice)}}
+                <label for={{choice.id}}>{{choice.title}}</label>
+            </div>
+        {{/each}}
+    {{/if}}
+</div>
+<div class='footer push-right'>
+    <a {{action 'toggleModal'}}>See more...</a>
+</div>
+{{#if showModal}}
+    modal!!
+{{/if}}
