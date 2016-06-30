@@ -3,7 +3,6 @@ import DS from 'ember-data';
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default DS.Model.extend({
-    id: DS.attr('string'),
     version: DS.attr('string'),
     objects: null //what is even this?
 });

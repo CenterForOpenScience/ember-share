@@ -1,5 +1,6 @@
 import DS from 'ember-data';
+import ShareObject from './share-object';
 import AbstractCreativeWorkMixin from '../mixins/abstract-creative-work';
 
-export default DS.Model.extend(AbstractCreativeWorkMixin, {
+export default ShareObject.extend(AbstractCreativeWorkMixin, {
 });
