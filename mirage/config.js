@@ -28,4 +28,4 @@ export default function() {
     this.get('/api/funder/:id');
     this.get('/api/raw');
     this.get('/api/raw/:id');
-};
+}
