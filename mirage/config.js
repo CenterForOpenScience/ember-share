@@ -10,7 +10,7 @@ export default function() {
     this.get('/venue/');
     this.get('/institution');
     this.get('/institution/:id');
-    this.get('/manuscript');
+    this.get('/manuscripts');
     this.get('/manuscript/:id');
     this.get('/preprint');
     this.get('/preprint/:id');

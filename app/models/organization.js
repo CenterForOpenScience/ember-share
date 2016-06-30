@@ -4,5 +4,5 @@ import ShareObject from './share-object'
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default ShareObject.extend({
-    name = DS.attr('string')
+    name: DS.attr('string')
 });

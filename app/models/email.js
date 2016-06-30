@@ -4,6 +4,6 @@ import ShareObject from './share-object'
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default ShareObject.extend({
-    isPrimary = DS.attr('boolean'),
-    email = DS.belongsTo('person')
+    isPrimary: DS.attr('boolean'),
+    email: DS.belongsTo('person')
 });
