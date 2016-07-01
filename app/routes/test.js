@@ -14,6 +14,9 @@ export default Ember.Route.extend({
     },
 
     actions: {
+        search() {
+            this.store.findAll('elastic-search-result');
+        }
         queryFacetChanged(facet) {
             this.set('query', facet);
         }
