@@ -1,8 +1,4 @@
-{{outlet}}
-{{#each model.manuscripts as |man|}}
-   <li>{{man.title}}, {{man.id}}</li>
-{{/each}}
-
+<div class='col-sm-6'>
 {{faceted-search onChange='queryChanged' facets=(hash
     institution=(hash title='Institution' choices=model.institutions)
     funder=(hash title='Funder' choices=model.funders)
@@ -12,3 +8,8 @@
     dataProvider=(hash title='Data Provider' choices=model.dataProviders)
     )
 }}
+</div>
+<div class='col-sm-6'>
+    {{input action='search'}}
+    {{search-results data=searchData}}
+</div>
