@@ -3,9 +3,6 @@
     <span>Contributors:
         {{#each obj.contributors as |contrib|}}
             contrib.name
-            {{#if contributors.indexOf(contrib) + 1 !== contributors.length}}
-            ,
-            {{/if}}
         {{/each}}
     </span>
     <div>
