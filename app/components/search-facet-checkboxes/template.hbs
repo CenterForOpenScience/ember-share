@@ -1,0 +1,41 @@
+{{!TODO styles!}}
+<div class='header'>
+    <h3>{{facet.title}}</h3>
+    {{!TODO clear selection, collapse/expand?}}
+</div>
+<div class='choices'>
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        {{#each topChoices as |choice|}}
+            {{bound-checkbox choice=choice
+            onChange='changeChecked'
+            selectedChoices=selected}}
+        {{/each}}
+    {{/if}}
+</div>
+{{#if moreChoices}}
+    <div class='footer push-right'>
+        <a {{action 'toggleModal'}}>See more...</a>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="more{{key}}choices" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" {{action 'toggleModal'}} aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">{{facet.title}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{#each facet.choices as |choice|}}
+                        {{bound-checkbox choice=choice
+                        onChange='changeChecked'
+                        selectedChoices=selected}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}

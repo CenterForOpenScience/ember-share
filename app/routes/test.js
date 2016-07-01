@@ -14,8 +14,7 @@ export default Ember.Route.extend({
     },
 
     actions: {
-        queryFacetChanged(facet) {
-            this.set('query', facet);
+        queryChanged(facet) {
         }
     }
 });

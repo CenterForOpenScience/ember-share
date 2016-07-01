@@ -1,8 +1,0 @@
-<div>
-    query: {{stringifiedQuery}}
-</div>
-
-{{#each-in facets as |key facet|}}
-    {{search-facet key=key title=facet.title choices=facet.choices
-    onChange=(action 'facetChanged')}}
-{{/each-in}}
