@@ -1,4 +1,5 @@
 export default function() {
+    this.passthrough('http://osf.io/**');
     this.namespace = '/api';
     this.get('/normalized');
     this.get('/normalized/:id');
