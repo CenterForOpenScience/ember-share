@@ -1,4 +1,4 @@
-pmport Ember from 'ember';
+import Ember from 'ember';
 
 let CurateFieldComponent = Ember.Component.extend({
     classNames: ['curate-field'],
