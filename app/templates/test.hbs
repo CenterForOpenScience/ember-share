@@ -1,6 +1,5 @@
-{{outlet}}
 <div class='col-sm-6'>
-{{search-facet-set onChange='queryFacetChanged' facets=(hash
+{{faceted-search onChange='queryChanged' facets=(hash
     institution=(hash title='Institution' choices=model.institutions)
     funder=(hash title='Funder' choices=model.funders)
     tag=(hash title='Tag' choices=model.tags)
