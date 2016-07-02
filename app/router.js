@@ -11,6 +11,7 @@ Router.map(function() {
         this.route('work', { path: '/work/:work_id' });
         this.route('person', { path: '/person/:person_id' });
     });
+    this.route('changes');
 });
 
 export default Router;

@@ -1,16 +1,24 @@
-<!-- {{#each data as |obj|}}
+{{#each data as |obj|}}
     <h4>{{obj.title}}</h4>
-    <span>Contributors:
-        {{#each obj.contributors as |contrib|}}
-            contrib.name
-        {{/each}}
-    </span>
-    <div>
-        obj.description
+    <div class="row">
+        <div class="col-md-7">
+            <span class="pull-left" style="text-align: left">
+                {{#each obj.contributors as |contrib|}}
+                    {{contrib.familyName}}
+                {{/each}}
+            </span>
+        </div>
+        <div class="col-md-5">
+            <span class="pull-right" style="text-align: right">
+                {{#each obj.tags as |tag|}}
+                    {{tag.title}}
+                {{/each}}
+            </span>
+        </div>
     </div>
-    {{#if obj.tags}}
-        {{#each obj.tags as |tag|}}
-            {{tag.name}}
-        {{/each}}
-    {{/if}}
-{{/each}} -->
+
+    <div>
+        {{obj.description}}
+    </div>
+    <hr>
+{{/each}}

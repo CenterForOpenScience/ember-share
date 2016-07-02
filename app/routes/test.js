@@ -12,12 +12,9 @@ export default Ember.Route.extend({
             dataProviders: this.store.findAll('data-provider'),
         });
     },
-
     actions: {
-        search() {
-            this.store.findAll('elastic-search-result');
-        },
-        queryChanged(facet) {
+        queryFacetChanged(facet) {
+            this.set('query', facet);
         }
     }
 });

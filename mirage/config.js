@@ -1,11 +1,12 @@
 export default function() {
+    this.passthrough('http://localhost:9200/share/**');
     this.namespace = '/api';
     this.get('/normalized');
     this.get('/normalized/:id');
     this.get('/changeset');
     this.get('/changeset/:id');
-    this.get('/change');
-    this.get('/change/:id');
+    this.get('/changes');
+    this.get('/changes/:id');
     this.get('/venues');
     this.get('/venues/');
     this.get('/institutions');

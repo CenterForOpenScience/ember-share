@@ -10,6 +10,6 @@
 }}
 </div>
 <div class='col-sm-6'>
-    {{input action='search'}}
+    {{input value=searchString}}<button {{action 'search' searchString}}>Search!</button>
     {{search-results data=searchData}}
 </div>
