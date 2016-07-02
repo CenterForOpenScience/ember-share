@@ -6,8 +6,13 @@
 <div class="row">
     <div class="col-md-7">
         <span class="pull-left" style="text-align: left">
-            {{#each obj.contributors as |contrib|}}
-                {{contrib.familyName}}
+            {{#each obj.contributors as |contrib index|}}
+                {{#if index}}
+                 --
+                {{/if}}
+                <a>
+                    {{contrib.familyName}}
+                </a>
             {{/each}}
         </span>
     </div>
@@ -19,6 +24,7 @@
         </span>
     </div>
 </div>
+<br>
 <div>
     {{abbreviation}}
 </div>

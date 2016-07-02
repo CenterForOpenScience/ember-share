@@ -4,7 +4,8 @@ export default Ember.Controller.extend({
     actions: {
         search(searchString) {
             let query = this.get('query');
-            this.store.query('elastic-search-result', {q: searchString, query: query}).then(responses => {
+            let queryDict = searchString && query ? {query: query, q: searchString} : (searchString ? {q: searchString} : (query ? {query: query} : {}))
+            this.store.query('elastic-search-result', queryDict).then(responses => {
                 this.set('searchData', responses);
             });
         },
