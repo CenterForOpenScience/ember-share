@@ -10,6 +10,8 @@
 }}
 </div>
 <div class='col-sm-6'>
-    {{input value=searchString}}<button {{action 'search' searchString}}>Search!</button>
-    {{search-results data=searchData}}
+    {{input value=searchString}}<button {{action 'search' searchString query}}>Search!</button>
+    {{#each searchData as |obj|}}
+        {{search-result obj=obj}}
+    {{/each}}
 </div>

@@ -15,13 +15,12 @@ export default JSONAPISerializer.extend({
                         contributors: hit.contributors.map(contributor =>
                             {return {familyName: contributor.family_name, givenName: contributor.given_name};}
                         ),
-                        tags: [{title: 'tag'}, {title: 'another tag'}]
+                        tags: hit.tags
                     },
                     type: 'elastic-search-result'
                 }
             }
         );
-        debugger;
         return {
             data: data
         }

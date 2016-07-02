@@ -1,0 +1,25 @@
+<h4>
+    <a href="">
+        {{obj.title}}
+    </a>
+</h4>
+<div class="row">
+    <div class="col-md-7">
+        <span class="pull-left" style="text-align: left">
+            {{#each obj.contributors as |contrib|}}
+                {{contrib.familyName}}
+            {{/each}}
+        </span>
+    </div>
+    <div class="col-md-5">
+        <span class="pull-right" style="text-align: right">
+            {{#each obj.tags as |tag|}}
+                {{tag.title}}
+            {{/each}}
+        </span>
+    </div>
+</div>
+<div>
+    {{abbreviate}}
+</div>
+<hr>
