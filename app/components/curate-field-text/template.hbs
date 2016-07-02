@@ -1,0 +1,11 @@
+{{#if edit}}
+    {{input type='text' value=inputValue change=(action 'change')}}
+    {{fa-icon 'times' click=(action 'cancel') class='pull-right'}}
+{{else}}
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        {{value}}
+    {{/if}}
+    {{fa-icon 'magic' click=(action 'edit') class='pull-right'}}
+{{/if}}

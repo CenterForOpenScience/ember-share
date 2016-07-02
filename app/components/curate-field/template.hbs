@@ -1,0 +1,9 @@
+{{#if edit}}
+{{else}}
+{{/if}}
+
+{{#if hasBlock}}
+    {{yield}}
+{{else}}
+    {{input value=fieldValue change='change'}}
+{{/if}}
