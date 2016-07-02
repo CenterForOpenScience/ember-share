@@ -11,6 +11,9 @@ export default Ember.Controller.extend({
         },
         queryChanged(facet) {
             this.set('query', facet);
+        },
+        addFilter(filter) {
+            
         }
     }
 });

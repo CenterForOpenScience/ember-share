@@ -7,4 +7,9 @@ export default Ember.Component.extend({
         let desc = this.get('obj.description');
         return desc.length > 350 ? desc.substring(0, 350) + '...' : desc
     }),
+    actions: {
+        addFilter(filter) {
+            this.sendAction('addFilter', filter);
+        }
+    }
 });

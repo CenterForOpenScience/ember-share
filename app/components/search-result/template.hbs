@@ -8,9 +8,9 @@
         <span class="pull-left" style="text-align: left">
             {{#each obj.contributors as |contrib index|}}
                 {{#if index}}
-                 --
+                 -
                 {{/if}}
-                <a>
+                <a {{action 'addFilter' contrib.familyName}}>
                     {{contrib.familyName}}
                 </a>
             {{/each}}
