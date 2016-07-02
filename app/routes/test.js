@@ -12,7 +12,6 @@ export default Ember.Route.extend({
             dataProviders: this.store.findAll('data-provider'),
         });
     },
-
     actions: {
         queryFacetChanged(facet) {
             this.set('query', facet);
