@@ -11,8 +11,12 @@
 </div>
 <div class='col-sm-9'>
     {{input value=searchString}}<button {{action 'search' searchString query}}>Search!</button>
+    <br>
+    <a href={{queryString}}>{{queryString}}</a>
+    <hr>
     {{#each searchData as |obj|}}
         {{search-result obj=obj}}
     {{/each}}
+    <br>
     <button {{action 'next'}}> More </button>
 </div>
