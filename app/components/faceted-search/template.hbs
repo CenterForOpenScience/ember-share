@@ -1,8 +1,6 @@
-<div>
-    query: {{stringifiedQuery}}
-</div>
 
 {{#each-in facets as |key facet|}}
+<div style="border: 1px solid #ccc; border-radius: 15px; margin-bottom: 5px;">
     {{#if facet.component}}
         {{component facet.component
         key=key
@@ -16,4 +14,5 @@
         facet=facet
         onChange=(action 'facetChanged')}}
     {{/if}}
+    </div>
 {{/each-in}}

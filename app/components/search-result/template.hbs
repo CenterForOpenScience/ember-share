@@ -23,9 +23,11 @@
             {{/each}}
         </span>
     </div>
-</div>
-<br>
+</div><br>
 <div>
     {{abbreviation}}
+</div><br>
+<div>
+    {{#link-to "curate.work" obj.id}}Curate{{/link-to}}, <a href="http://localhost:9200/share/document/{{obj.id}}">Data</a>
 </div>
 <hr>
