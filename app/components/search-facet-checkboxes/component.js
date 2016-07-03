@@ -24,9 +24,9 @@ export default Ember.Component.extend({
         changeChecked(choice, checked) {
             let selected = this.get('selected');
             if (checked) {
-                selected.addObject(choice.get('id'));
+                selected.addObject(choice.get('elasticFilter'));
             } else {
-                selected.removeObject(choice.get('id'));
+                selected.removeObject(choice.get('elasticFilter'));
             }
             this.sendAction('onChange', this.get('key'),
                             selected.length ? selected : undefined);
