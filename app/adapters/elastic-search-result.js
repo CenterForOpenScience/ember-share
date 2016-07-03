@@ -1,4 +1,5 @@
 import ApplicationAdapter from './application';
+import buildQueryString from '../utils/build-query-string';
 
 export default ApplicationAdapter.extend({
     buildURL(_, __, ___, ____, query) {
@@ -9,18 +10,7 @@ export default ApplicationAdapter.extend({
                 stringQ += 'q=' + query.q;
             }
             if (query.query) {
-                Object.keys(query.query).map(function(field) {
-                    let val = query.query[field];
-                    if (typeof val === 'object') {
-                        val = val.join(' AND '); //can be switched to OR
-                    }
-                    if (val) {
-                        qStrings.push('q=' + field + '=' + String(val));
-                    }
-                })
-                if (qStrings.length) {
-                    stringQ += (stringQ.length ? '&' : '') + qStrings.join('&'); //can be switched to |
-                }
+                stringQ += (stringQ.length ? '&' : '') + buildQueryString(query.query); //can be switched to |
             }
             delete query.q;
             delete query.query;

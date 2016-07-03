@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import buildQueryString from '../utils/build-query-string';
 
 export default Ember.Controller.extend({
     size: 10,
@@ -18,18 +19,7 @@ export default Ember.Controller.extend({
             });
         },
         queryChanged(facet) {
-            var queryStrings = [];
-            Object.keys(facet).map(key => {
-                let val = facet[key];
-                if (typeof val === 'object') {
-                    val = val.join(' AND '); //can be switched to OR
-                }
-                if (val) {
-                    queryStrings.push('q=' + key + '=' + String(val));
-                }
-            })
-
-            this.set('queryString', 'http://osf.io/api/v1/_search?' + queryStrings.join('&'));
+            this.set('queryString', 'http://localhost:9200/share/_search?' + buildQueryString(facet));
             this.set('query', facet);
         },
         addFilter(filter) {
