@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import ApplicationController from './application';
 import buildQueryString from '../utils/build-query-string';
 
-export default Ember.Controller.extend({
+export default ApplicationController.extend({
     size: 10,
     page: 0,
     query: {},
