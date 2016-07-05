@@ -1,7 +1,8 @@
-import ApplicationAdapter from './application';
+import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import buildQueryString from '../utils/build-query-string';
 
-export default ApplicationAdapter.extend({
+export default JSONAPIAdapter.extend({
+    namespace: 'api',
     buildURL(_, __, ___, ____, query) {
         var qStrings = [];
         var stringQ = '';
