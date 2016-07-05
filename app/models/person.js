@@ -6,7 +6,8 @@ export default DS.Model.extend(ShareObjectMixin, {
     givenName: DS.attr('string'),
     additionalName: DS.attr('string'),
     suffix: DS.attr('string'),
-    emails: DS.hasMany('emails'),
+
+    emails: DS.hasMany('email'),
     affiliations: DS.hasMany('organizations'),
     orcid: DS.attr('string'),
     identifiers: DS.hasMany('identifiers'),

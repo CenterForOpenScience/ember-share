@@ -9,7 +9,6 @@ export default Ember.Route.extend({
             tags: this.store.findAll('tag'),
             venues: this.store.findAll('venue'),
             awards: this.store.findAll('award'),
-            dataProviders: this.store.findAll('data-provider'),
         });
     },
 });

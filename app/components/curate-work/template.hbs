@@ -4,8 +4,11 @@
 <div class='description'>
     {{curate-field-text work=work field='description' onChange=(action 'fieldChanged')}}
 </div>
-{{curate-field-text work=work field='providerLink' onChange=(action 'fieldChanged')}}
-
-{{curate-field-list work=work field='funders' onChange=(action 'listChanged')}}
+<div class='col-sm-6'>
+    {{curate-field-text work=work field='providerLink' onChange=(action 'fieldChanged')}}
+</div>
+<div class='col-sm-6'>
+    {{curate-field-list work=work field='tags' onChange=(action 'listChanged')}}
+</div>
 
 <button class='btn btn-default' {{action 'submitChanges'}}>Submit Changes</button>
