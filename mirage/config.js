@@ -1,4 +1,8 @@
+import ENV from '../config/environment';
+
 export default function() {
+    //ideally check env for this:
+    this.passthrough('http://localhost:8000/**');
     this.passthrough('http://localhost:9200/share/**');
     this.namespace = '/api';
     this.get('/normalized');

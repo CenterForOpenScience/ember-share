@@ -18,7 +18,8 @@ module.exports = function(environment) {
       // when it is created
     }
   };
-
+  //this needs to go in an actual env at some point
+  ENV.apiUrl = 'http://localhost:8000'
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
