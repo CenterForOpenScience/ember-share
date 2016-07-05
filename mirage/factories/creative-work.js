@@ -1,4 +1,4 @@
-import Mirage from 'ember-cli-mirage';
+import AbstractCreativeWork from './abstract-creative-work';
 
-export default Mirage.Factory.extend({
+export default AbstractCreativeWork.extend({
 });

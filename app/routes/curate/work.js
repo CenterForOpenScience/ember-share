@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model(params) {
-        return this.get('store').findRecord('abstract-creative-work',
+        return this.get('store').findRecord('creative-work',
                                             params.work_id);
     }
 });

@@ -15,8 +15,8 @@ export default function() {
     this.get('/manuscript/:id');
     this.get('/preprints');
     this.get('/preprints/:id');
-    this.get('/creative_works');
-    this.get('/creative_works/:id');
+    this.get('/creative-works');
+    this.get('/creative-works/:id');
     this.get('/tags');
     this.get('/tags/:id');
     this.get('/taxonomy');
