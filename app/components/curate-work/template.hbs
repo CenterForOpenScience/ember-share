@@ -1,10 +1,14 @@
-{{curate-field-text model.title onChange=(action 'change')}}
-{{curate-field-text model.description onChange=(action 'change')}}
-{{curate-field-text model.providerLink onChange=(action 'change')}}
-{{curate-field-text model.doi onChange=(action 'change')}}
-{{curate-field-text model.isbn onChange=(action 'change')}}
-{{curate-field-text model.workType onChange=(action 'change')}}
-{{curate-field-text model.license onChange=(action 'change')}}
-{{!TODO hasManys}}
+<h3 class='title'>
+    {{curate-field-text work=work field='title' onChange=(action 'fieldChanged')}}
+</h3>
+<div class='description'>
+    {{curate-field-text work=work field='description' onChange=(action 'fieldChanged')}}
+</div>
+<div class='col-sm-6'>
+    {{curate-field-text work=work field='providerLink' onChange=(action 'fieldChanged')}}
+</div>
+<div class='col-sm-6'>
+    {{curate-field-list work=work field='tags' onChange=(action 'listChanged')}}
+</div>
 
-{{!TODO submit change button}}
+<button class='btn btn-default' {{action 'submitChanges'}}>Submit Changes</button>

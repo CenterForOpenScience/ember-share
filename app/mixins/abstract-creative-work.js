@@ -1,24 +1,29 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ShareObjectMixin from './share-object';
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(ShareObjectMixin, {
     title: DS.attr('string'),
     description: DS.attr('string'),
-    contributors: DS.hasMany('contributors'),
-    institutions: DS.hasMany('institutions'),
-    venues: DS.hasMany('venues'),
-    funders: DS.hasMany('funders'),
-    awards: DS.hasMany('awards'),
-    dataProviders: DS.hasMany('data-providers'),
-    providerLink: DS.attr('string'),
+
+    contributors: DS.hasMany('contributor'),
+
+    awards: DS.hasMany('award'),
+    venues: DS.hasMany('venue'),
+
+    links: DS.hasMany('link'),
+
+    funders: DS.hasMany('funder'),
+    publishers: DS.hasMany('publisher'),
+    institutions: DS.hasMany('institution'),
+
     subject: DS.belongsTo('tag'),
-    doi: DS.attr('string'),
-    isbn: DS.attr('string'),
     tags: DS.hasMany('tags'),
-    workType: DS.attr('string'),
     created: DS.attr('date'),
     published: DS.attr('date'),
     freeToReadType: DS.attr('string'),
     freeToReadDate: DS.attr('date'),
-    license: DS.attr('string')
+
+    rights: DS.attr('string'),
+    language: DS.attr('string'),
 });

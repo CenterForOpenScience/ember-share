@@ -1,0 +1,14 @@
+{{#each displayList as |item|}}
+    <span class='list-item'>
+        {{item.name}} {{!TODO method to get name?}}
+        {{#if edit}}
+            {{fa-icon 'trash' click=(action 'remove' item)}}
+        {{/if}}
+    </span>
+{{/each}}
+{{#if edit}}
+    {{!TODO search/add items}}
+    {{fa-icon 'times' click=(action 'cancel')}}
+{{else}}
+    {{fa-icon 'magic' click=(action 'edit')}}
+{{/if}}

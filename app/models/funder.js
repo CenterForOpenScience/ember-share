@@ -1,10 +1,8 @@
 import DS from 'ember-data';
-import ShareObjectMixin from '../mixins/share-object';
+import EntityMixin from '../mixins/entity';
 
-export default DS.Model.extend(ShareObjectMixin, {
-    name: DS.attr('string'),
+export default DS.Model.extend(EntityMixin, {
     funderRegion: DS.attr('string'),
     communityIdentifier: DS.attr('string'),
-    url: DS.attr('string'),
 });
 
