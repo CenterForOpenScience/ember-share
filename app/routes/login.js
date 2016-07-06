@@ -3,19 +3,16 @@ import Ember from 'ember';
 export default Ember.Route.extend({
     session: Ember.inject.service(),
     beforeModel() {
-        debugger;
-        // var accessToken;
-        // if (config.OSF.isLocal) {
-        //     accessToken = config.OSF.accessToken;
-        // } else {
-        //     accessToken = getTokenFromHash(window.location.hash);
-        //     if (!accessToken) {
-        //         return null;
-        //     }
-        //     window.location.hash = '';
-        // }
+        Ember.$.ajax('/profile').then(response => {
+            this.get('session').set('data.userData', response.data);
+        })
+        //go to /authenticate/
+        //grab the info guy
+        //accessToken = getTokenFromHash(window.location.hash);
         //
-        // return this.get('session').authenticate('authenticator:osf-token', accessToken)
-        //     .then(() => this.transitionTo('index'));
+        //
+        return this.get('session').authenticate('authenticator:osf-token', 'this is a token I guess').then(() => this.transitionTo('/discover'));
+
+
     }
 });

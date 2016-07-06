@@ -1,0 +1,21 @@
+.navbar {
+    min-height: 50px;
+    margin-bottom: 25px;
+    background-color: #204762;
+}
+
+.gravatar {
+    float: right;
+}
+
+.log-button {
+    float: right;
+}
+
+.navbar-logo {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+    height: 35px;
+    width: auto;
+}

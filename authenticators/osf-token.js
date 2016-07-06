@@ -3,6 +3,7 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 export default BaseAuthenticator.extend({
     store: Ember.inject.service(),
-    authenticate(accessToken) {
+    authenticate() {
+        return this._super(...arguments);
     }
 });
