@@ -6,4 +6,15 @@
     border-radius: 15px;
     padding: 10px;
     width: 800px;
+
+    .tags {
+        .list-item {
+            background-color: #aaa;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 2px 5px;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+    }
 }

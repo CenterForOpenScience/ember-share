@@ -2,10 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     tagName: 'span',
-    text: Ember.computed('work', 'field', function() {
-        let field = this.get('field');
-        return this.get('work').get(field);
-    }),
 
     newText: Ember.computed.reads('text'),
 
@@ -15,8 +11,7 @@ export default Ember.Component.extend({
                 edit: false,
                 newText: this.get('text')
             });
-            let field = this.get('field');
-            this.sendAction('onChange', field, undefined);
+            this.sendAction('onChange', undefined);
         },
 
         edit() {
@@ -24,9 +19,8 @@ export default Ember.Component.extend({
         },
 
         change() {
-            let field = this.get('field');
             let newText = this.get('newText');
-            this.sendAction('onChange', field, newText);
+            this.sendAction('onChange', newText);
         }
     }
 });

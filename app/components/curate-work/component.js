@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.set('changes', Ember.Object.create());
+        this.set('changes', Ember.A());
     },
 
     changes: null,
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
             let changes = this.get('changes');
             debugger;
 
-            //TODO submit changes
+            //TODO construct changeset, submit changes
         }
     }
 });
