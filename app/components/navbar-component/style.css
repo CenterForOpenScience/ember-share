@@ -10,6 +10,7 @@
 
 .log-button {
     float: right;
+    min-height: 50px;
 }
 
 .navbar-logo {
@@ -18,4 +19,23 @@
     float: left;
     height: 35px;
     width: auto;
+}
+
+.nav-link {
+    float: right;
+    color: white;
+    padding: 5px;
+    position: relative;
+    display: block;
+    font-size: 110%;
+    padding-top: 14px;
+    padding-right: 10px;
+}
+
+.nav-link:hover {
+    color: #E0EBF3;
+}
+
+.nav-link .selected {
+    background-color: #333333;
 }
