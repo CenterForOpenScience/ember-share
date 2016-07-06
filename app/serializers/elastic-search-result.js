@@ -3,6 +3,7 @@ import JSONAPISerializer from 'ember-data/serializers/json-api';
 export default JSONAPISerializer.extend({
     normalizeResponse(_, __, response) {
         let data = [];
+        debugger;
         data = response.hits.hits.map(
             hit => {
                 let id = hit._id;

@@ -8,10 +8,12 @@
 </div>
 <div class='col-sm-6'>
     {{curate-field-list list=work.contributors
+    listItem='curate-list-contributor'
     onChange=(action 'listChanged' 'contributors')}}
 </div>
 <div class='col-sm-6 tags'>
     {{curate-field-list list=work.tags
+    listItem='curate-list-tag'
     onChange=(action 'listChanged' 'tags')}}
 </div>
 

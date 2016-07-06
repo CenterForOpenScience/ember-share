@@ -1,10 +1,5 @@
 {{#each displayList as |item|}}
-    <span class='list-item'>
-        {{item.name}} {{!TODO method to get name?}}
-        {{#if edit}}
-            {{fa-icon 'trash' click=(action 'remove' item)}}
-        {{/if}}
-    </span>
+    {{component listItem item edit=edit remove=(action 'remove')}}
 {{/each}}
 {{#if edit}}
     {{!TODO search for and add items}}
