@@ -22,8 +22,10 @@ export default BaseAuthenticator.extend({
     },
     invalidate() {
         //implement django-side logout
-        return new Ember.RSVP.Promise(function(resolve, reject) {
-            return;
-        });
+        return Ember.$.ajax({
+            url: 'http://localhost:8000/api/user_info',
+            crossDomain: true,
+            xhrFields: {withCredentials: true}
+        }).then(() => '')
     }
 });

@@ -6,8 +6,19 @@
 
 .gravatar {
     float: right;
+    margin-top: 5px;
+    margin-left: 5px;
+    height: 35px;
+    margin-left: 5px;
+    width: auto;
 }
 
+.hello-text {
+    float: right;
+    margin: 5px;
+    margin-top: 15px;
+    color: white;
+}
 .log-button {
     float: right;
     min-height: 50px;
