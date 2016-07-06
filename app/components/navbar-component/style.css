@@ -1,0 +1,15 @@
+.navbar {
+    min-height: 50px;
+    margin-bottom: 25px;
+    background-color: #204762;
+}
+
+.log-button {
+    float: right;
+}
+
+.navbar-logo {
+    float: left;
+    height: 35px;
+    width: auto;
+}

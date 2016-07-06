@@ -2,6 +2,17 @@ import ENV from '../config/environment';
 
 export default function() {
     //ideally check env for this:
+    this.get('/profile', () => {
+        return {
+            data: {
+                '@id': 'aGuid',
+                username: 'anEmail@net.beans',
+                name: 'FirstName',
+                gravatar: 'http://www.gravatar.com/avatar/911a5cc0f2182a5ab58e421211af6d03',
+                token: 'sunDontShineIntheShadeBirdCantFlyInTheCage'
+            }
+        };
+    });
     this.passthrough('http://localhost:8000/**');
     this.passthrough('http://localhost:9200/share/**');
     this.namespace = '/api';
