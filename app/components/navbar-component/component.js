@@ -1,7 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-
+    session: Ember.inject.service(),
+    beforeModel() {
+        var userData = this.get('session.data.userData');
+        if (userData) {
+            this.set('gravatarSrc', userData.gravatar);
+            this.set('userName', userData.name);
+        }
+    },
     actions: {
         login(){
             window.location = '/login';

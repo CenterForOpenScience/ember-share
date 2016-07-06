@@ -11,8 +11,7 @@ export default Ember.Route.extend({
         //accessToken = getTokenFromHash(window.location.hash);
         //
         //
-        // return this.get('session').authenticate()
-        //     .then(() => this.transitionTo('index'));
+        return this.get('session').authenticate('authenticator:osf-token', 'this is a token I guess').then(() => this.transitionTo('/discover'));
 
 
     }
