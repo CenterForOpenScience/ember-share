@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Route.extend({
     session: Ember.inject.service(),
     model() {
-        debugger;
         return Ember.RSVP.hash({
             funders: this.store.findAll('funder'),
             institutions: this.store.findAll('institution'),
