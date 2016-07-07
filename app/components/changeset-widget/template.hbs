@@ -1,6 +1,14 @@
-<div>
-    This is a changeset.
-    {{#each changes as |change|}}
-        {{change-widget obj=change}}
-    {{/each}}
+<div class='changeset'>
+    <div class='changeset-title'>Changeset</div>
+    <div> Submitted At: {{obj.submittedAt}} </div>
+    {{#if expanded}}
+    Changes (<a {{action 'expand' false}}>collapse</a>)
+    <ul>
+        {{#each changes as |change|}}
+            <li>{{change-widget obj=change}}</li>
+        {{/each}}
+    </ul>
+    {{else}}
+    Changes (<a {{action 'expand' true}}>expand</a>)
+    {{/if}}
 </div>
