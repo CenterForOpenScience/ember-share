@@ -25,7 +25,7 @@ export default ApplicationController.extend({
       //   query.size = this.get('page') * this.get('size');
       // }
       this.loadPage(query);
-      this.set('debouncedSearch', _.debounce(this.loadPage.bind(this), 250))
+      this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250))
     },
 
     searchQuery() {
@@ -43,7 +43,6 @@ export default ApplicationController.extend({
     loadPage(query=null) {
       query = query || this.searchQuery();
 
-      console.log(query);
       return this.store.query('elastic-search-result', query).then(results => {
         // Set loading to False just in case
         this.set('loading', false);
@@ -51,7 +50,7 @@ export default ApplicationController.extend({
       })
     },
 
-    search: function() {
+    search() {
       this.set('page', 1);
       this.set('loading', true);
       this.get('results').clear();
