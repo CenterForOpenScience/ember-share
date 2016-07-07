@@ -1,5 +1,5 @@
 {{#each displayList as |item|}}
-    {{component listItem item edit=edit remove=(action 'remove')}}
+    {{component listItem item=item edit=edit remove=(action 'remove')}}
 {{/each}}
 {{#if edit}}
     {{!TODO search for and add items}}
