@@ -1,4 +1,9 @@
+{{#if session.isAuthenticated}}
+<h4>Your Changes:</h4>
 {{#each model.changesets as |change|}}
     {{changeset-widget obj=change}}
     <hr>
 {{/each}}
+{{else}}
+A users' changes.
+{{/if}}
