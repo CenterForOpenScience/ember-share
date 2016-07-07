@@ -22,7 +22,6 @@ export default Ember.Component.extend({
 
         submitChanges() {
             let changes = this.get('changes');
-            debugger;
 
             //TODO construct changeset, submit changes
         }
