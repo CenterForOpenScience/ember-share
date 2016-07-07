@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('change-set', 'Unit | Model | change set', {
+moduleForModel('changeset', 'Unit | Model | changeset', {
   // Specify the other units that are required for this test.
   needs: []
 });
