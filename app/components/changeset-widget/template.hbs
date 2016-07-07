@@ -1,1 +1,6 @@
-{{yield}}
+<div>
+    This is a changeset.
+    {{#each changes as |change|}}
+        {{change-widget obj=change}}
+    {{/each}}
+</div>

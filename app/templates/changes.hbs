@@ -1,3 +1,4 @@
-{{#each changes as |change|}}
+{{#each model.changesets as |change|}}
     {{changeset-widget obj=change}}
+    <hr>
 {{/each}}
