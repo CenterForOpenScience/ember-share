@@ -12,5 +12,8 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
         hash.crossDomain = true;
         hash.xhrFields = {withCredentials: true};
         return this._super(url, method, hash);
+    },
+    pathForType(type) {
+        return Ember.String.underscore(type);
     }
 });
