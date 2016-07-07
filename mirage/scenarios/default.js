@@ -1,4 +1,5 @@
 export default function(server) {
+  let people = server.createList('person', 15);
   server.createList('manuscript', 15);
   server.createList('funder', 15);
   server.createList('institution', 15);

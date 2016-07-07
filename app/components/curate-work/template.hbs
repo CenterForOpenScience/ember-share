@@ -1,14 +1,22 @@
 <h3 class='title'>
-    {{curate-field-text work=work field='title' onChange=(action 'fieldChanged')}}
+    {{curate-field-text text=work.title
+    onChange=(action 'fieldChanged' 'title')}}
 </h3>
 <div class='description'>
-    {{curate-field-text work=work field='description' onChange=(action 'fieldChanged')}}
+    {{curate-field-text text=work.description
+    onChange=(action 'fieldChanged' 'description')}}
 </div>
 <div class='col-sm-6'>
-    {{curate-field-text work=work field='providerLink' onChange=(action 'fieldChanged')}}
+    {{curate-field-list list=work.contributors
+    listItem='curate-list-contributor'
+    onChange=(action 'listChanged' 'contributors')}}
 </div>
 <div class='col-sm-6'>
-    {{curate-field-list work=work field='tags' onChange=(action 'listChanged')}}
+    {{curate-field-list list=work.tags
+    listItem='curate-list-tag'
+    onChange=(action 'listChanged' 'tags')}}
 </div>
 
-<button class='btn btn-default' {{action 'submitChanges'}}>Submit Changes</button>
+<button class='btn btn-default' {{action 'submitChanges'}}>
+    Submit Changes
+</button>

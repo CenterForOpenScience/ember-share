@@ -1,17 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    classNames: ['curate-list'],
 
     init() {
         this._super(...arguments);
         this.set('added', Ember.A());
         this.set('removed', Ember.A());
     },
-
-    list: Ember.computed('work', 'field', function() {
-        let field = this.get('field');
-        return this.get('work').get(field);
-    }),
 
     added: null,
     removed: null,
@@ -34,7 +30,7 @@ export default Ember.Component.extend({
             } else {
                 added.addObject(item);
             }
-            this.sendAction('onChange', this.get('field'), added, removed);
+            this.sendAction('onChange', added, removed);
         },
 
         remove(item) {
@@ -46,7 +42,7 @@ export default Ember.Component.extend({
             } else {
                 added.removeObject(item);
             }
-            this.sendAction('onChange', this.get('field'), added, removed);
+            this.sendAction('onChange', added, removed);
         },
 
         cancel() {
