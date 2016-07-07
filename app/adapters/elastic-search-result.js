@@ -1,8 +1,8 @@
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import ApplicationAdapter from './application';
 import buildQueryString from '../utils/build-query-string';
+import ENV from '../config/environment';
 
-export default JSONAPIAdapter.extend({
-    namespace: 'api',
+export default ApplicationAdapter.extend({
     buildURL(_, __, ___, ____, query) {
         var qStrings = [];
         var stringQ = '';
@@ -16,6 +16,6 @@ export default JSONAPIAdapter.extend({
             delete query.q;
             delete query.query;
         }
-        return 'http://localhost:9200/share/_search?' + stringQ;
+        return ENV.apiUrl + '/api/search/abstractcreativework/_search?' + stringQ;
     },
 });

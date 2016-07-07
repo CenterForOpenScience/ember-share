@@ -19,7 +19,9 @@
     <div class="col-md-5">
         <span class="pull-right" style="text-align: right">
             {{#each obj.tags as |tag|}}
-                {{tag.title}}
+                <span class='tag'>
+                    {{tag}}
+                </span>
             {{/each}}
         </span>
     </div>
