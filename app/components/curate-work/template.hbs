@@ -1,5 +1,5 @@
 <h3 class='title'>
-    {{curate-field-text field=work.title
+    {{curate-field-text text=work.title
     onChange=(action 'fieldChanged' 'title')}}
 </h3>
 <div class='description'>
@@ -11,7 +11,7 @@
     listItem='curate-list-contributor'
     onChange=(action 'listChanged' 'contributors')}}
 </div>
-<div class='col-sm-6 tags'>
+<div class='col-sm-6'>
     {{curate-field-list list=work.tags
     listItem='curate-list-tag'
     onChange=(action 'listChanged' 'tags')}}
