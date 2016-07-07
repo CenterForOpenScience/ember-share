@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    store: Ember.inject.service(),
     classNames: ['curate-work'],
 
     init() {
@@ -9,7 +10,10 @@ export default Ember.Component.extend({
     },
 
     changes: null,
-
+    previousChanges: Ember.computed('work', function() {
+        debugger;
+        return this.get('work.changes');
+    }),
     actions: {
         fieldChanged(field, newValue) {
             let changes = this.get('changes');
