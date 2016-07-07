@@ -14,6 +14,7 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
         return this._super(url, method, hash);
     },
     pathForType(type) {
-        return Ember.String.underscore(type);
+        var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
+        return Ember.String.underscore(inflector.pluralize(type));
     }
 });
