@@ -2,9 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     store: Ember.inject.service(),
-    changes: Ember.computed('obj', function() {
-        let id_ = this.get('obj.id');
-        return;
-        //return this.store.query('change', {changeset: id_})
-    })
+    actions: {
+        expand(doit) {
+            let id_ = this.get('obj.id');
+            this.get('store').query('change', {changeset: id_}).then(results => {
+                this.set('changes', results);
+            })
+            this.set('expanded', doit);
+        }
+    }
 });
