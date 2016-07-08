@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     store: Ember.inject.service(),
     classNames: ['curate-work'],
-
+    curate: false,
     init() {
         this._super(...arguments);
         this.set('changes', Ember.Object.create());
@@ -32,6 +32,9 @@ export default Ember.Component.extend({
             let changes = this.get('changes');
 
             //TODO construct changeset, submit changes
+        },
+        curateToggle() {
+            this.set('curate', !this.get('curate'));
         }
     }
 });

@@ -3,8 +3,9 @@
         <div class='row'>
             <h3 class='title'>
                 {{curate-field-text text=work.title
-                onChange=(action 'fieldChanged' 'title')}}
+                onChange=(action 'fieldChanged' 'title') curate=curate}}
             </h3>
+            <button class='btn btn-primary' style='float: right' {{action 'curateToggle'}}>Curate</button>
         </div>
         <div class='row'>
             <div class='col-sm-6'>
@@ -12,13 +13,13 @@
                 listItem='curate-list-contributor'
                 itemType='person'
                 placeholder='Add a contributor'
-                onChange=(action 'listChanged' 'contributors')}}
+                onChange=(action 'listChanged' 'contributors') curate=curate}}
             </div>
         </div>
         <div class='row'>
             <div class='description'>
                 {{curate-field-text text=work.description
-                onChange=(action 'fieldChanged' 'description')}}
+                onChange=(action 'fieldChanged' 'description') curate=curate}}
             </div>
         </div>
         <div class='row'>
@@ -27,21 +28,25 @@
                 listItem='curate-list-tag'
                 itemType='tag'
                 placeholder='Add a tag'
-                onChange=(action 'listChanged' 'tags')}}
+                onChange=(action 'listChanged' 'tags') curate=curate}}
             </div>
         </div>
         <div class='row'>
+            {{#if curate}}
             <button class='btn btn-default pull-right' {{action 'submitChanges'}}>
                 Submit Changes
             </button>
+            {{/if}}
         </div>
         <h4> Previous Changes: </h4>
         {{#each previousChanges as |change|}}
         {{change-widget obj=change}}
         {{/each}}
     </div>
-    <div class='col-sm-3'>
-        <h4>Potential Merges</h4>
-        {{merge-widget obj=work _type='abstractcreativework'}}
-    </div>
+    {{#if curate}}
+        <div class='col-sm-3'>
+            <h4>Potential Merges</h4>
+            {{merge-widget obj=work _type='abstractcreativework'}}
+        </div>
+    {{/if}}
 </div>

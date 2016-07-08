@@ -24,6 +24,9 @@ export default Ember.Component.extend({
             let changes = this.get('changes');
 
             //TODO construct changeset, submit changes
+        },
+        curateToggle() {
+            this.set('curate', !this.get('curate'));
         }
     }
 });

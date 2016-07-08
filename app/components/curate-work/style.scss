@@ -3,7 +3,9 @@
     border-radius: 15px;
     padding: 10px;
     width: 800px;
-
+    .title {
+        float: left;
+    }
     .tags {
         .list-item {
             background-color: #aaa;
