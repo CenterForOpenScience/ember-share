@@ -3,12 +3,14 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     selectedType: Ember.computed('query', function() {
         let query = this.get('query');
-        return query ? query.get(this.get('key')) : undefined;
+        let key = '@type'; // this.get('key')
+        return query ? query.get(key) : undefined;
     }),
 
     actions: {
         change(type) {
-            this.sendAction('onChange', this.get('key'), type);
+            let key = '@type'; // this.get('key')
+            this.sendAction('onChange', key, type);
         }
     }
 });
