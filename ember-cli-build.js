@@ -6,7 +6,8 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
       'ember-font-awesome': {
           useScss: true
-      }
+      },
+      sassOptions: {includePaths: ["node_modules/osf-style/css"]}
   });
 
   // Use `app.import` to add additional libraries to the generated
