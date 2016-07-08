@@ -1,1 +1,12 @@
-{{yield}}
+{{#power-select
+    options=dateRanges
+    searchEnabled=false 
+    selected=selectedRange
+    onchange=(action 'selectRange')
+    as |range|}}
+    {{#if range.chosen}}
+        {{range.start}} - {{range.end}}
+    {{else}}
+        {{range.name}}
+    {{/if}}
+{{/power-select}}
