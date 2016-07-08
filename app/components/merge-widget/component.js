@@ -27,6 +27,11 @@ export default Ember.Component.extend({
             'data': data
         }).then(function(json) {
             let hits = json.hits.hits.splice(0, 3);
+            hits.map(hit => {
+                Ember.$.extend(hit, hit._source);
+                delete hit._source;
+                return hit;
+            })
             _this.set('recommendations', hits);
         });
         return this._super(...arguments);

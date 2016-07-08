@@ -1,0 +1,7 @@
+{{obj.title}}
+{{#each obj.contributors as |contrib index|}}
+    {{#if index}}
+     -
+    {{/if}}
+    {{contrib.family_name}}
+{{/each}}
