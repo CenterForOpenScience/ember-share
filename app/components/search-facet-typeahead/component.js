@@ -26,13 +26,9 @@ export default Ember.Component.extend({
 
         elasticSearch(term) {
             if (Ember.isBlank(term)) { return []; }
-            var title = this.get('options.title').toLowerCase();
-            var type = title;
-            if (title.includes('tag')) {
-                type = 'tag';
-            }
+
             var data = JSON.stringify({
-                'filter': {'match': {'@type': type}},
+                'filter': {'match': {'@type': this.get('key')}},
                 'query': {
                     'match': {'text': term}
                 }
