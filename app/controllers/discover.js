@@ -1,9 +1,6 @@
 import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
-import buildQueryString from '../utils/build-query-string';
-
-let {RSVP} = Ember;
 
 export default ApplicationController.extend({
     queryParams: ['page', 'searchString'],
@@ -25,7 +22,7 @@ export default ApplicationController.extend({
       //   query.size = this.get('page') * this.get('size');
       // }
       this.loadPage(query);
-      this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250))
+      this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
     searchQuery() {
@@ -33,21 +30,19 @@ export default ApplicationController.extend({
         q: this.get('searchString') || '*',  // Default to everything
         from: (this.get('page') - 1) * this.get('size'),
       };
-
-      if (Object.keys(this.get('query')).length > 0)
-        query.query = this.get('query')
-
+      if (Object.keys(this.get('query')).length > 0) {
+          query.query = this.get('query');
+      }
       return query;
     },
 
     loadPage(query=null) {
-      query = query || this.searchQuery();
-
-      return this.store.query('elastic-search-result', query).then(results => {
-        // Set loading to False just in case
-        this.set('loading', false);
-        this.get('results').addObjects(results);
-      })
+        query = query || this.searchQuery();
+        return this.store.query('elastic-search-result', query).then(results => {
+            // Set loading to False just in case
+            this.set('loading', false);
+            this.get('results').addObjects(results);
+        });
     },
 
     search() {
@@ -59,32 +54,31 @@ export default ApplicationController.extend({
 
     actions: {
         typing(val, event) {
-          // Ignore all keycodes that do not result in the value changing
-          // 8 == Backspace, 32 == Space
-          if (event.keyCode < 49 && !(event.keyCode == 8 || event.keyCode == 32)) return;
-          this.search();
+            // Ignore all keycodes that do not result in the value changing
+            // 8 == Backspace, 32 == Space
+            if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
+            return;
+            }
+            this.search();
         },
         search(searchString, append) {
-          this.search();
+            this.search();
         },
         queryChanged(facet) {
-          this.set('query', facet);
-          this.search();
-        },
-        addFilter(filter) {
-
+            this.set('query', facet);
+            this.search();
         },
         next() {
-          // If we don't have full pages then we've hit the end of our search
-          if (this.get('results.length') % this.get('size') != 0) return;
-          this.incrementProperty('page', 1)
-          this.loadPage();
+            // If we don't have full pages then we've hit the end of our search
+            if (this.get('results.length') % this.get('size') != 0) return;
+            this.incrementProperty('page', 1);
+            this.loadPage();
         },
         prev() {
-          // No negative pages
-          if (this.get('page') < 1) return;
-          this.decrementProperty('page', 1)
-          this.loadPage();
+            // No negative pages
+            if (this.get('page') < 1) return;
+            this.decrementProperty('page', 1);
+            this.loadPage();
         }
     }
 });

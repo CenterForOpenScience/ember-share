@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import ShareObjectMixin from '../mixins/share-object';
 
