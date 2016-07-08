@@ -1,4 +1,5 @@
 import ApplicationAdapter from './application';
+import ENV from '../config/environment';
 
 export default ApplicationAdapter.extend({
     buildURL(_, __, ___, ____, query) {

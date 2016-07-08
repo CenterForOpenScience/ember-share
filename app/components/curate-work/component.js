@@ -13,10 +13,10 @@ export default Ember.Component.extend({
     previousChanges: Ember.computed('work', function() {
         let id_ = this.get('work.id');
         let type = this.get('work.type');
-        return this.get('store').query('change', {objectChanged: {
-            id: id_,
-            type: type
-        }});
+        // return this.get('store').query('change', {objectChanged: {
+        //     id: id_,
+        //     type: type
+        // }});
     }),
     actions: {
         fieldChanged(field, newValue) {

@@ -1,26 +1,37 @@
-<h3 class='title'>
-    {{curate-field-text text=work.title
-    onChange=(action 'fieldChanged' 'title')}}
-</h3>
-<div class='description'>
-    {{curate-field-text text=work.description
-    onChange=(action 'fieldChanged' 'description')}}
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-9'>
+            <h3 class='title'>
+                {{curate-field-text text=work.title
+                onChange=(action 'fieldChanged' 'title')}}
+            </h3>
+            <div class='description'>
+                {{curate-field-text text=work.description
+                onChange=(action 'fieldChanged' 'description')}}
+            </div>
+            <div class='row'>
+                <div class='col-sm-6'>
+                    {{curate-field-list list=work.contributors
+                    listItem='curate-list-contributor'
+                    onChange=(action 'listChanged' 'contributors')}}
+                </div>
+                <div class='col-sm-6'>
+                    {{curate-field-list list=work.tags
+                    listItem='curate-list-tag'
+                    onChange=(action 'listChanged' 'tags')}}
+                </div>
+            </div>
+        </div>
+        <div class='col-sm-3'>
+            {{merge-widget obj=work _type='abstractcreativework'}}
+        </div>
+    </div>
 </div>
-<div class='col-sm-6'>
-    {{curate-field-list list=work.contributors
-    listItem='curate-list-contributor'
-    onChange=(action 'listChanged' 'contributors')}}
-</div>
-<div class='col-sm-6'>
-    {{curate-field-list list=work.tags
-    listItem='curate-list-tag'
-    onChange=(action 'listChanged' 'tags')}}
-</div>
-
 <button class='btn btn-default' {{action 'submitChanges'}}>
     Submit Changes
 </button>
 
 <h4> Previous Changes: </h4>
 {{#each previousChanges as |change|}}
+{{change-widget obj=change}}
 {{/each}}
