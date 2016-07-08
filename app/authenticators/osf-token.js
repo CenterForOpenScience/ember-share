@@ -10,7 +10,8 @@ export default BaseAuthenticator.extend({
             xhrFields: {withCredentials: true}
         }).then(response => {
             this.get('session').set('data.userData', response);
-        })    },
+        });
+    },
     authenticate() {
         return Ember.$.ajax({
             url: 'http://localhost:8000/api/user_info',
@@ -18,7 +19,7 @@ export default BaseAuthenticator.extend({
             xhrFields: {withCredentials: true}
         }).then(response => {
             this.get('session').set('data.userData', response);
-        })
+        });
     },
     invalidate() {
         //implement django-side logout
@@ -26,6 +27,6 @@ export default BaseAuthenticator.extend({
             url: 'http://localhost:8000/api/user_info',
             crossDomain: true,
             xhrFields: {withCredentials: true}
-        }).then(() => '')
+        }).then(() => '');
     }
 });

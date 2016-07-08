@@ -22,7 +22,7 @@ export default JSONSerializer.extend({
         return this._super(typeClass, hash);
     },
 
-    keyForAttribute: function(attr, method) {
+    keyForAttribute: function(attr) {
         return Ember.String.underscore(attr);
     }
 });

@@ -19,7 +19,7 @@ export default Ember.Component.extend({
             }
         });
         var url = ENV.apiUrl + '/api/search/' + _type + '/_search?';
-        var response = Ember.$.ajax({
+        Ember.$.ajax({
             'url': url,
             'crossDomain': true,
             'type': 'POST',
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
                 Ember.$.extend(hit, hit._source);
                 delete hit._source;
                 return hit;
-            })
+            });
             _this.set('recommendations', hits);
         });
         return this._super(...arguments);
