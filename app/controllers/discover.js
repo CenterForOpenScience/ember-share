@@ -1,41 +1,90 @@
+import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildQueryString from '../utils/build-query-string';
 
-export default ApplicationController.extend({
-    size: 10,
-    page: 0,
-    query: {},
-    queryDict: {},
-    actions: {
-        search(searchString, append) {
-            this.set('page', 0);
-            this.set('queryDict', {});
-            let query = this.get('query');
-            let queryDict = searchString && query ? {query: query, q: searchString} : (searchString ? {q: searchString} : (query ? {query: query} : {}))
+let {RSVP} = Ember;
 
-            this.set('queryDict', queryDict);
-            this.store.query('elastic-search-result', queryDict).then(responses => {
-                this.set('searchData', responses);
-            });
+export default ApplicationController.extend({
+    queryParams: ['page', 'searchString'],
+    page: 1,
+    size: 10,
+    query: {},
+    searchString: '',
+
+    results: Ember.ArrayProxy.create({content: []}),
+    loading: true,
+
+    init() {
+      //TODO Sort initial results on date_modified
+      this._super(...arguments);
+      let query = this.searchQuery();
+      // TODO Load all previous pages when hitting a page with page > 1
+      // if (this.get('page') != 1) {
+      //   query.from = 0;
+      //   query.size = this.get('page') * this.get('size');
+      // }
+      this.loadPage(query);
+      this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250))
+    },
+
+    searchQuery() {
+      let query = {
+        q: this.get('searchString') || '*',  // Default to everything
+        from: (this.get('page') - 1) * this.get('size'),
+      };
+
+      if (Object.keys(this.get('query')).length > 0)
+        query.query = this.get('query')
+
+      return query;
+    },
+
+    loadPage(query=null) {
+      query = query || this.searchQuery();
+
+      return this.store.query('elastic-search-result', query).then(results => {
+        // Set loading to False just in case
+        this.set('loading', false);
+        this.get('results').addObjects(results);
+      })
+    },
+
+    search() {
+      this.set('page', 1);
+      this.set('loading', true);
+      this.get('results').clear();
+      this.get('debouncedLoadPage')();
+    },
+
+    actions: {
+        typing(val, event) {
+          // Ignore all keycodes that do not result in the value changing
+          // 8 == Backspace, 32 == Space
+          if (event.keyCode < 49 && !(event.keyCode == 8 || event.keyCode == 32)) return;
+          this.search();
+        },
+        search(searchString, append) {
+          this.search();
         },
         queryChanged(facet) {
-            this.set('queryString', 'http://localhost:9200/share/_search?' + buildQueryString(facet));
-            this.set('query', facet);
+          this.set('query', facet);
+          this.search();
         },
         addFilter(filter) {
 
         },
         next() {
-            let from_ = (this.get('page') + 1) * this.get('size');
-            var currentResults = this.get('searchData');
-            var queryDict = this.get('queryDict');
-            queryDict.from = from_;
-            this.store.query('elastic-search-result', queryDict).then(newResults => {
-                newResults.map(result => currentResults.addObject(result));
-                //doesnt work, figure out how to concatenate the results;
-                this.set('searchData', currentResults);
-            })
+          // If we don't have full pages then we've hit the end of our search
+          if (this.get('results.length') % this.get('size') != 0) return;
+          this.incrementProperty('page', 1)
+          this.loadPage();
+        },
+        prev() {
+          // No negative pages
+          if (this.get('page') < 1) return;
+          this.decrementProperty('page', 1)
+          this.loadPage();
         }
     }
 });

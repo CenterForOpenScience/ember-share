@@ -11,8 +11,12 @@ export default Ember.Component.extend({
 
     changes: null,
     previousChanges: Ember.computed('work', function() {
-        debugger;
-        return this.get('work.changes');
+        let id_ = this.get('work.id');
+        let type = this.get('work.type');
+        return this.get('store').query('change', {objectChanged: {
+            id: id_,
+            type: type
+        }});
     }),
     actions: {
         fieldChanged(field, newValue) {
@@ -26,7 +30,6 @@ export default Ember.Component.extend({
 
         submitChanges() {
             let changes = this.get('changes');
-            debugger;
 
             //TODO construct changeset, submit changes
         }
