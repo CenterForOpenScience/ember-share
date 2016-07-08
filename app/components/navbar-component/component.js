@@ -4,7 +4,8 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     gravatarSrc: '',
     userName: '',
-    didRender() {
+    init() {
+        this._super(...arguments);
         var userData = this.get('session.data.userData');
         if (userData) {
             this.set('gravatarSrc', userData.gravatar);
