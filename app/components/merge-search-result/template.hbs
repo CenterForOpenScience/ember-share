@@ -1,7 +1,10 @@
-{{obj.title}}
+<h5>{{obj.title}}</h5>
+<div><b>Contributors:</b>
 {{#each obj.contributors as |contrib index|}}
     {{#if index}}
      -
     {{/if}}
     {{contrib.family_name}}
-{{/each}}
+{{/each}}</div>
+<div><b>Description:</b>
+{{abbreviation}}</div>

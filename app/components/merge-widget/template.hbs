@@ -1,5 +1,6 @@
 {{#each recommendations as |obj|}}
+<div class='well'>
 {{merge-search-result obj=obj}}
-<a>Compare</a>
-<hr>
+<button class='btn' {{action 'compare' obj}}>Compare</button>
+</div>
 {{/each}}

@@ -1,7 +1,7 @@
 {{#if edit}}
-    {{input type='text' value=newText change=(action 'change')}}
+    <input type='text' value={{newText}} style={{inputStyle}} {{action 'change' on='change'}}>
     {{fa-icon 'times' click=(action 'cancel')}}
 {{else}}
-    {{text}}
+    <span class='text-display'>{{text}}</span>
     {{fa-icon 'magic' click=(action 'edit')}}
 {{/if}}

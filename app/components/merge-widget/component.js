@@ -35,5 +35,10 @@ export default Ember.Component.extend({
             _this.set('recommendations', hits);
         });
         return this._super(...arguments);
+    },
+    actions: {
+        compare(obj) {
+            //pop up comparison modal
+        }
     }
 });

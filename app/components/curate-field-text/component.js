@@ -4,6 +4,13 @@ export default Ember.Component.extend({
     tagName: 'span',
 
     newText: Ember.computed.reads('text'),
+    textWidth: null,
+
+    inputStyle: Ember.computed('textWidth', function() {
+        let width = this.get('textWidth') + 10;
+        let style = width ? `width: ${width}px;` : '';
+        return Ember.String.htmlSafe(style);
+    }),
 
     actions: {
         cancel() {
@@ -15,7 +22,10 @@ export default Ember.Component.extend({
         },
 
         edit() {
-            this.set('edit', true);
+            this.setProperties({
+                edit: true,
+                textWidth: this.$('.text-display').width()
+            });
         },
 
         change() {
