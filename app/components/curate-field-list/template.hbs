@@ -1,9 +1,24 @@
-{{#each displayList as |item|}}
-    {{component listItem item=item edit=edit remove=(action 'remove')}}
-{{/each}}
+<div class='row'>
+    {{#each displayList as |item|}}
+        {{component listItem item=item edit=edit remove=(action 'remove')}}
+    {{/each}}
+    {{#if edit}}
+        {{!TODO search for and add items}}
+        {{fa-icon 'times' click=(action 'cancel')}}
+    {{else}}
+        {{fa-icon 'magic' click=(action 'edit')}}
+    {{/if}}
+</div>
 {{#if edit}}
-    {{!TODO search for and add items}}
-    {{fa-icon 'times' click=(action 'cancel')}}
-{{else}}
-    {{fa-icon 'magic' click=(action 'edit')}}
+    <div class='row'>
+        {{#power-select
+            search=(action "elasticSearch")
+            placeholder=placeholder
+            selected=selected
+            onchange=(action "changeFilter")
+            as |option|
+        }}
+            {{option._source.text}}
+        {{/power-select}}
+    </div>
 {{/if}}
