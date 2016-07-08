@@ -35,7 +35,7 @@
 </div>
 <div class='col-xs-9'>
 {{#if loading}}
-    LOADING
+    {{fa-icon 'spinner' pulse=true size=5}}
 {{else}}
     {{#each results as |obj|}}
         {{search-result obj=obj}}
