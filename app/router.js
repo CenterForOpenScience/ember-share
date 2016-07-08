@@ -13,7 +13,6 @@ Router.map(function() {
   this.route('changes');
   this.route('discover');
   this.route('login');
-  this.route('error');
 });
 
 export default Router;
