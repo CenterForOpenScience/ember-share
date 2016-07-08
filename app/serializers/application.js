@@ -19,5 +19,9 @@ export default JSONSerializer.extend({
             hash.type = hash['@type'];
         }
         return this._super(typeClass, hash);
+    },
+
+    keyForAttribute: function(attr, method) {
+        return Ember.String.underscore(attr);
     }
 });
