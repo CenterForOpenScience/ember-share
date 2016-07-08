@@ -8,6 +8,6 @@ export default function buildQueryString(queryDict) {
         if (val) {
             queryStrings.push('q=' + key + '=' + String(val));
         }
-    })
+    });
     return queryStrings.join('&');
 }
