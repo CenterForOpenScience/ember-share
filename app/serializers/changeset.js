@@ -1,19 +1,8 @@
-import JSONAPISerializer from 'ember-data/serializers/json-api';
+import DS from 'ember-data';
+import ApplicationSerializer from './application';
 
-export default JSONAPISerializer.extend({
-    normalizeResponse(_, __, data, ___, ____){
-        data = {
-            data: data.results.map(result => {
-                //oh please rewrite this when you are not so tired
-                let splitog = result['self'];
-                let id_ = splitog[splitog.length - 2];
-                return {
-                    id: id_,
-                    type: 'changeset',
-                    attributes: result
-                }
-            })
-        };
-        return this._super(_, __, data, ___, ____);
+export default ApplicationSerializer.extend({
+    normalize(_, __) {
+        return this._super(_, __, 'changeset');
     }
 });
