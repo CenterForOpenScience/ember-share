@@ -1,1 +1,19 @@
-{{yield}}
+{{!TODO styles!}}
+<div class='header'>
+    <h3>{{facet.title}}</h3>
+</div>
+<div class='choices'>
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        {{#power-select-multiple
+            search=(action "elasticSearch")
+            placeholder=placeholder
+            selected=filters
+            onchange=(action "changeFilter")
+            as |option|
+        }}
+            {{option._source.text}}
+        {{/power-select-multiple}}
+    {{/if}}
+</div>
