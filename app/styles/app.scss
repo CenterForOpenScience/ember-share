@@ -2,3 +2,7 @@
 @import 'font-awesome';
 @import 'ember-power-select';
 @import 'pod-styles';
+
+.editable:hover {
+  background-color: #E0EBF3;
+}
