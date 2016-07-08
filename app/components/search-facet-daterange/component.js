@@ -7,6 +7,11 @@ export default Ember.Component.extend({
         this.set('selectedRange', this.get('dateRanges')[0]);
     },
 
+    didInsertElement() {
+        this._super(...arguments);
+        this.$('input[name="daterange"]').daterangepicker();
+    },
+
     dateRanges: Ember.computed(function() {
         return [
             { name: 'All time' },
