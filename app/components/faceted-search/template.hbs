@@ -7,8 +7,8 @@
         <div class='panel-body'>
             {{component facet.component
             key=key
-            query=query
-            facet=facet
+            options=facet
+            query=(get query key)
             onChange=(action 'facetChanged')}}
         </div>
     </div>

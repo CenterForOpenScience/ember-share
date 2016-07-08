@@ -7,7 +7,7 @@ export default Ember.Component.extend({
     },
 
     placeholder: Ember.computed(function() {
-        return 'Add ' + this.get('facet.title') + ' filter';
+        return 'Add ' + this.get('options.title') + ' filter';
     }),
 
     filters: [],
@@ -26,7 +26,7 @@ export default Ember.Component.extend({
 
         elasticSearch(term) {
             if (Ember.isBlank(term)) { return []; }
-            var title = this.get('facet.title').toLowerCase();
+            var title = this.get('options.title').toLowerCase();
             var type = title;
             if (title.includes('tag')) {
                 type = 'tag';
