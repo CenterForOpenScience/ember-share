@@ -1,18 +1,15 @@
 
 {{#each-in facets as |key facet|}}
-<div style="border: 1px solid #ccc; border-radius: 15px; margin-bottom: 5px;">
-    {{#if facet.component}}
-        {{component facet.component
-        key=key
-        query=query
-        facet=facet
-        onChange=(action 'facetChanged')}}
-    {{else}}
-        {{search-facet-checkboxes
-        key=key
-        query=query
-        facet=facet
-        onChange=(action 'facetChanged')}}
-    {{/if}}
+    <div class='panel panel-default'>
+        <div class='panel-heading'>
+            {{facet.title}}
+        </div>
+        <div class='panel-body'>
+            {{component facet.component
+            key=key
+            query=query
+            facet=facet
+            onChange=(action 'facetChanged')}}
+        </div>
     </div>
 {{/each-in}}

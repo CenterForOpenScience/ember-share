@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.set('changes', Ember.A());
+        this.set('changes', {});
     },
 
     changes: null,

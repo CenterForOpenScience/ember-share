@@ -6,6 +6,6 @@ export default DS.Model.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
     contributors: DS.attr(),
-    tags: DS.attr()
-
+    tags: DS.attr(),
+    workType: DS.attr('string')
 });

@@ -4,7 +4,6 @@ import ENV from '../config/environment';
 
 export default ApplicationAdapter.extend({
     buildURL(_, __, ___, ____, query) {
-        var qStrings = [];
         var stringQ = '';
         if (query && (query.query || query.q)) {
             if (query.q) {

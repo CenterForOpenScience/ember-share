@@ -1,0 +1,16 @@
+{{!TODO styles!}}
+<div class='choices'>
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        {{#power-select-multiple
+            search=(action "elasticSearch")
+            placeholder=placeholder
+            selected=filters
+            onchange=(action "changeFilter")
+            as |option|
+        }}
+            {{option._source.text}}
+        {{/power-select-multiple}}
+    {{/if}}
+</div>

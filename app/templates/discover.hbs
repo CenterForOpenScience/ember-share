@@ -23,11 +23,13 @@
 <div class="row">
 <div class='col-xs-3'>
 {{faceted-search onChange='queryChanged' facets=(hash
-    institution=(hash title='Institution' choices=model.institutions)
-    funder=(hash title='Funder' choices=model.funders)
-    tag=(hash title='Tag' choices=model.tags)
-    venue=(hash title='Venue' choices=model.venues)
-    award=(hash title='Award' choices=model.awards)
+    date=(hash title='Date' component='search-facet-daterange')
+    type=(hash title='Type' component='search-facet-worktype')
+    tag=(hash title='Subject/Tag' component='search-facet-typeahead')
+    publisher=(hash title='Publisher' component='search-facet-typeahead')
+    language=(hash title='Language' component='search-facet-typeahead')
+    association=(hash title='Association' component='search-facet-typeahead')
+    source=(hash title='Source' component='search-facet-typeahead')
     )
 }}
 </div>
