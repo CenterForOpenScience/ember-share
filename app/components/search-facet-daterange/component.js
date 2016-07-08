@@ -9,18 +9,26 @@ export default Ember.Component.extend({
 
     didInsertElement() {
         this._super(...arguments);
-        this.$('input[name="daterange"]').daterangepicker();
+
+        this.$('.date-range').daterangepicker({
+            autoApply: true,
+            ranges: this.get('dateRanges')
+        }, (start, end, label) => {
+            debugger;
+            Ember.run(() => {
+                this.set('displayRange', label);
+            });
+        });
     },
 
     dateRanges: Ember.computed(function() {
-        return [
-            { name: 'All time' },
-            { name: 'Past week', range: { gte: 'now-1w/d', lt: 'now' } },
-            { name: 'Past month', range: { gte: 'now-1M/d', lt: 'now' } },
-            { name: 'Past year', range: { gte: 'now-1y/d', lt: 'now' } },
-            { name: 'Past decade', range: { gte: 'now-10y/d', lt: 'now' } },
-            { name: 'Custom range...' },
-        ];
+        return {
+           'All time': [null, null],
+           'Past week': [moment().subtract(1, 'week'), moment()],
+           'Past month': [moment().subtract(1, 'month'), moment()],
+           'Past year': [moment().subtract(1, 'year'), moment()],
+           'Past decade': [moment().subtract(10, 'year'), moment()]
+        };
     }),
 
     actions: {
