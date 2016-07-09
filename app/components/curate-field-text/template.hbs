@@ -1,7 +1,17 @@
-{{#if edit}}
-    <input type='text' value={{newText}} style={{inputStyle}} {{action 'change' on='change'}}>
-    {{fa-icon 'times' click=(action 'cancel')}}
+<style scoped>
+  .set-width {
+    width: {{textWidth}};
+  }
+</style>
+{{#if editing}}
+    {{input type='text' class="set-width" value=updated key-up='submit'}}
+    <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
 {{else}}
-    <span class='text-display'>{{text}}</span>
-    {{fa-icon 'magic' click=(action 'edit')}}
+<span class='text-display'>
+  {{#if changed}}
+    <i>{{updated}}</i>
+  {{else}}
+    {{text}}
+  {{/if}}
+</span>
 {{/if}}
