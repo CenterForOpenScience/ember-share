@@ -2,7 +2,9 @@
     Curate Person
 </h3>
 <button class='btn btn-primary' style='float: right' {{action 'curateToggle'}}>Curate</button>
-
+<div class='row'>
+<div class='col-sm-9'>
+<div class='row'>
 <div class='col-sm-6'>
     <div>
         <label>Family name</label>
@@ -49,7 +51,15 @@
         onChange=(action 'listChanged' 'identifiers') curate=curate}}
     </div>
 </div>
-
+</div>
 <button class='btn btn-default' {{action 'submitChanges'}}>
     Submit Changes
 </button>
+</div>
+{{#if curate}}
+    <div class='col-sm-3'>
+        <h4>Potential Merges</h4>
+        {{merge-widget obj=work _type='person'}}
+    </div>
+{{/if}}
+</div>

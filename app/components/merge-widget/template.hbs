@@ -1,6 +1,46 @@
 {{#each recommendations as |obj|}}
 <div class='well'>
+{{#if isCreativeWork}}
 {{merge-search-result obj=obj}}
+{{else}}
+{{merge-search-result-person obj=obj}}
+{{/if}}
 <button class='btn' {{action 'compare' obj}}>Compare</button>
 </div>
 {{/each}}
+
+{{#bs-modal open=openModal footer=false title='Merge'}}
+    {{#if compareTo}}
+    <h4> {{attr}} </h4>
+    {{#each objAttributes as |attr|}}
+        <h4> {{attr}} </h4>
+        <div class='row'>
+            <div class='col-xs-6'>
+                {{get obj attr}}
+            </div>
+            <div class='col-xs-6'>
+                {{get compareTo attr}}
+            </div>
+        </div>
+        <hr>
+    {{/each}}
+    {{#each objRelationships as |rel|}}
+        <h4> {{rel}} </h4>
+        <div class='row'>
+            <div class='col-xs-6'>
+                {{relationship-display obj=obj rel=rel}}
+            </div>
+            <div class='col-xs-6'>
+                {{relationship-display obj=compareTo rel=rel}}
+            </div>
+        </div>
+        <hr>
+    {{/each}}
+    {{#bs-modal-footer as |footer|}}
+        {{#bs-button action=(action "close" target=footer)}}Cancel{{/bs-button}}
+        {{#bs-button action=(action "merge") type="success"}}Yeah!{{/bs-button}}
+    {{/bs-modal-footer}}
+    {{else}}
+    Loading ...
+    {{/if}}
+{{/bs-modal}}
