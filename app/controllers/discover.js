@@ -1,7 +1,7 @@
 import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
-import ENV from 'ember-share/config/environment';
+import buildElasticCall from '../utils/build-elastic-call';
 
 export default ApplicationController.extend({
     queryParams: ['page', 'searchString'],
@@ -9,6 +9,11 @@ export default ApplicationController.extend({
     size: 10,
     query: {},
     searchString: '',
+    displayQueryBodyString: '',
+    displayQueryBaseString: Ember.computed( function() {
+        return buildElasticCall(Ember.$.param(this.searchQuery()));
+    }),
+    collapsedQueryBody: true,
 
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
@@ -38,8 +43,7 @@ export default ApplicationController.extend({
         query = query || this.searchQuery();
         let queryString = Ember.$.param(query);
         let queryBody = JSON.stringify(this.get('queryBody'));
-        let searchPath = 'api/search/abstractcreativework/_search';
-        const url = `${ENV.apiUrl}/${searchPath}?${queryString}`;
+        const url = buildElasticCall(queryString);
         return Ember.$.ajax({
             'url': url,
             'crossDomain': true,
@@ -76,6 +80,9 @@ export default ApplicationController.extend({
     },
 
     actions: {
+        toggleCollapsedQueryBody() {
+            this.toggleProperty('collapsedQueryBody');
+        },
         typing(val, event) {
             // Ignore all keycodes that do not result in the value changing
             // 8 == Backspace, 32 == Space
@@ -89,6 +96,7 @@ export default ApplicationController.extend({
         },
         queryChanged(queryBody) {
             this.set('queryBody', queryBody);
+            this.set('displayQueryBodyString', JSON.stringify(queryBody, null, 4));
             this.search();
         },
         next() {
