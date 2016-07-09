@@ -7,7 +7,8 @@
             {{!TODO search for and add items}}
             {{fa-icon 'times' click=(action 'cancel')}}
         {{else}}
-            {{fa-icon 'magic' click=(action 'edit')}}
+            (<a href='' {{action 'edit'}}>edit</a>)
+            <!-- {{fa-icon 'magic' click=(action 'edit')}} -->
         {{/if}}
     {{/if}}
 </div>

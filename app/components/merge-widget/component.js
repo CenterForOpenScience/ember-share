@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     store: Ember.inject.service(),
     recommendations: [],
     openModal: false,
+    isPerson: false,
     objAttributes: Ember.computed('obj', function() {
         var obj = this.get('obj');
         var ret = [];
@@ -38,6 +39,9 @@ export default Ember.Component.extend({
     init() {
         var _this = this;
         var _type = this.get('_type');
+        if (_type === 'person') {
+            this.set('isPerson', true);
+        }
         var data = JSON.stringify({
             query: {
                 'more_like_this': {
@@ -45,7 +49,9 @@ export default Ember.Component.extend({
                         '_index': 'share',
                         '_type': _type,
                         '_id': this.get('obj.id')
-                    }
+                    },
+                    'min_term_freq': 1,
+                    'min_doc_freq': 1
                 }
             }
         });
@@ -69,7 +75,7 @@ export default Ember.Component.extend({
     },
     actions: {
         compare(obj) {
-            this.get('store').findRecord(obj['@type'], obj._id).then(model => {
+            this.get('store').findRecord(obj['@type'] || obj._type, obj._id).then(model => {
                 this.set('compareTo', model);
             })
             this.set('openModal', true);

@@ -4,7 +4,8 @@
         {{fa-icon 'times' click=(action 'cancel')}}
     {{else}}
         <span class='text-display'>{{text}}</span>
-        {{fa-icon 'magic' click=(action 'edit')}}
+        (<a href='' {{action 'edit'}}>edit</a>)
+        <!-- {{fa-icon 'magic' click=(action 'edit')}} -->
     {{/if}}
 {{else}}
     <span class='text-display'>{{text}}</span>
