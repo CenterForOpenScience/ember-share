@@ -11,6 +11,9 @@ export default Ember.Component.extend({
 
     click() {
         let type = this.get('selected') ? null : this.get('type');
+        if (!type) {
+            this.$().blur();
+        }
         this.sendAction('onClick', type);
     }
 });
