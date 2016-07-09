@@ -18,7 +18,7 @@
 <div style="text-align: center; font-size:75%; margin-top:15px">
     <i>Your query API call: <a href={{displayQueryBaseString}}>{{displayQueryBaseString}}</a></i>
 </div>
-{{#if displayQueryBodyString}}
+{{#if queryBody}}
     <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
         <i>
             <a{{action 'toggleCollapsedQueryBody'}}>
@@ -36,9 +36,12 @@
     <div id="queryBody" class="row">
         <div class="col-xs-8 col-xs-offset-2">
             <div class="row">
-                <pre class="well col-xs-6 col-xs-offset-3">
-                    {{displayQueryBodyString}}
-                </pre>
+                <div class="well col-xs-8 col-xs-offset-2">
+                    {{json-pretty
+                        obj=queryBody
+                        shouldHighlight=true
+                    }}
+                </div>
             </div>
         </div>
     </div>

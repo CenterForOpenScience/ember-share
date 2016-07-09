@@ -9,7 +9,6 @@ export default ApplicationController.extend({
     size: 10,
     query: {},
     searchString: '',
-    displayQueryBodyString: '',
     displayQueryBaseString: Ember.computed( function() {
         return buildElasticCall(Ember.$.param(this.searchQuery()));
     }),
@@ -96,8 +95,6 @@ export default ApplicationController.extend({
         },
         queryChanged(queryBody) {
             this.set('queryBody', queryBody);
-            this.set('displayQueryBaseString', buildElasticCall(Ember.$.param(queryBody)));
-            this.set('displayQueryBodyString', JSON.stringify(queryBody, null, 2));
             this.search();
         },
         next() {
