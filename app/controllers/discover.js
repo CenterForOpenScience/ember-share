@@ -96,7 +96,8 @@ export default ApplicationController.extend({
         },
         queryChanged(queryBody) {
             this.set('queryBody', queryBody);
-            this.set('displayQueryBodyString', JSON.stringify(queryBody, null, 4));
+            this.set('displayQueryBaseString', buildElasticCall(Ember.$.param(queryBody)));
+            this.set('displayQueryBodyString', JSON.stringify(queryBody, null, 2));
             this.search();
         },
         next() {
