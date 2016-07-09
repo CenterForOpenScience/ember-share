@@ -14,7 +14,7 @@ export default Ember.Component.extend({
             autoApply: true,
             ranges: this.get('dateRanges')
         }, (start, end, label) => {
-            debugger;
+            // TODO update searchfacet, sendAction('onChange')
             Ember.run(() => {
                 this.set('displayRange', label);
             });
