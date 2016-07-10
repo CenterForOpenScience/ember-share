@@ -1,36 +1,39 @@
-<h3 class='title'>
-    Curate Person
-</h3>
+{{#if session.isAuthenticated}}
+    <button class='btn btn-primary' style='float: right' {{action 'curateToggle'}}>Curate</button>
+{{/if}}
+<div class='row'>
+<div class='col-sm-9'>
+<div class='row'>
 <div class='col-sm-6'>
     <div>
         <label>Family name</label>
         {{curate-field-text text=person.familyName
-        onChange=(action 'fieldChanged' 'familyName')}}
+        onChange=(action 'fieldChanged' 'familyName') curate=curate}}
     </div>
     <div>
         <label>Given name</label>
         {{curate-field-text text=person.givenName
-        onChange=(action 'fieldChanged' 'givenName')}}
+        onChange=(action 'fieldChanged' 'givenName') curate=curate}}
     </div>
     <div>
         <label>Additional name</label>
         {{curate-field-text text=person.additionalName
-        onChange=(action 'fieldChanged' 'additionalName')}}
+        onChange=(action 'fieldChanged' 'additionalName') curate=curate}}
     </div>
     <div>
         <label>Suffix</label>
         {{curate-field-text text=person.suffix
-        onChange=(action 'fieldChanged' 'suffix')}}
+        onChange=(action 'fieldChanged' 'suffix') curate=curate}}
     </div>
     <div>
         <label>Location</label>
         {{curate-field-text text=person.location
-        onChange=(action 'fieldChanged' 'location')}}
+        onChange=(action 'fieldChanged' 'location') curate=curate}}
     </div>
     <div>
         <label>URL</label>
         {{curate-field-text text=person.url
-        onChange=(action 'fieldChanged' 'url')}}
+        onChange=(action 'fieldChanged' 'url') curate=curate}}
     </div>
 </div>
 <div class='col-sm-6'>
@@ -38,16 +41,26 @@
         <h4>Affiliations</h4>
         {{curate-field-list list=person.affiliations
         listItem='curate-list-affiliation'
-        onChange=(action 'listChanged' 'affiliations')}}
+        onChange=(action 'listChanged' 'affiliations') curate=curate}}
     </div>
     <div>
         <h4>Identifiers</h4>
         {{curate-field-list list=person.identifiers
         listItem='curate-list-identifier'
-        onChange=(action 'listChanged' 'identifiers')}}
+        onChange=(action 'listChanged' 'identifiers') curate=curate}}
     </div>
 </div>
-
+</div>
+{{#if curate}}
 <button class='btn btn-default' {{action 'submitChanges'}}>
     Submit Changes
 </button>
+{{/if}}
+</div>
+{{#if curate}}
+    <div class='col-sm-3'>
+        <h4>Potential Merges</h4>
+        {{merge-widget obj=person _type='person'}}
+    </div>
+{{/if}}
+</div>

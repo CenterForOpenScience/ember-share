@@ -42,6 +42,7 @@
     "ember-data": "^2.5.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.1.1",
+    "ember-inflector": "1.9.4",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
     "ember-moment": "7.0.0-beta.3",

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    session: Ember.inject.service(),
     classNames: ['curate-person'],
 
     init() {
@@ -24,6 +25,9 @@ export default Ember.Component.extend({
             let changes = this.get('changes');
 
             //TODO construct changeset, submit changes
+        },
+        curateToggle() {
+            this.set('curate', !this.get('curate'));
         }
     }
 });

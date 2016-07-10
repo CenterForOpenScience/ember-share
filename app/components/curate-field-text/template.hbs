@@ -2,11 +2,11 @@
   {{textarea rows=rows class="form-control" keyDown=(action 'submit') value=updated}}
   <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
 {{else}}
-<span class='text-display'>
-  {{#if changed}}
-    <i>{{updated}}</i>
-  {{else}}
-    {{text}}
-  {{/if}}
-</span>
+  <span class='text-display'>
+    {{#if changed}}
+      <i>{{updated}}</i>
+    {{else}}
+      {{text}}
+    {{/if}}
+  </span>
 {{/if}}
