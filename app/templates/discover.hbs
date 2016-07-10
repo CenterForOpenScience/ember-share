@@ -73,14 +73,3 @@
         {{/if}}
     </div>
 </div>
-<div class='col-xs-9'>
-    {{#if loading}}
-        {{fa-icon 'spinner' pulse=true size=5}}
-    {{else}}
-        {{#each results as |obj|}}
-            {{search-result obj=obj}}
-        {{/each}}
-        <br>
-        <button {{action 'next'}}> More </button>
-    {{/if}}
-</div>
