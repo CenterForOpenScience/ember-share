@@ -59,7 +59,8 @@ export default ApplicationController.extend({
                 source.contributors = source.contributors.map(contributor => {
                     return {
                         familyName: contributor.family_name,
-                        givenName: contributor.given_name
+                        givenName: contributor.given_name,
+                        id: contributor['@id']
                     };
                 });
                 return source;
