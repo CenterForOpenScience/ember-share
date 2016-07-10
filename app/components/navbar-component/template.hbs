@@ -1,16 +1,31 @@
 <div class="container">
-  <div class="navbar-header">
-    <a class="navbar-brand">
-        <img height='35px' width='auto' src='assets/images/nav_logo.png'>
-      </a>
-  </div>
-
+<div class="navbar-header">
+  <a class="navbar-brand">
+    <img height='35px' width='auto' src='assets/images/nav_logo.png'>
+  </a>
+</div>
+<div class="navbar-collapse collapse navbar-right">
+  <ul class="nav navbar-nav">
+    <li>{{link-to 'Discover' 'discover' class='nav-link'}}</li>
     {{#if session.isAuthenticated}}
-        <span class="hello-text">Hello{{#if userName}}, {{userName}}{{/if}}! (<a {{action 'logout'}}>Logout</a>)</span>
-        <img class='img-circle gravatar' src={{gravatarSrc}}>
-        {{link-to 'Changes' 'changes' class='nav-link'}}
+      {{#bs-dropdown tagName="li"}}
+        {{#bs-dropdown-toggle}}
+          {{userName}}
+          <span class="gravatar">
+            <img class='img-circle gravatar' src={{gravatarSrc}}>
+          </span>
+          <i class="fa fa-caret-down"></i>
+        {{/bs-dropdown-toggle}}
+        {{#bs-dropdown-menu}}
+          <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
+          <li><a {{action 'logout'}}>Logout</a></li>
+        {{/bs-dropdown-menu}}
+      {{/bs-dropdown}}
     {{else}}
+      <li>
         <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
+      </li>
     {{/if}}
-    {{link-to 'Discover' 'discover' class='nav-link'}}
+  </ul>
+</div>
 </div>
