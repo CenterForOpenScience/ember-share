@@ -24,6 +24,10 @@ export default Ember.Component.extend({
         return queryFilter;
     },
 
+    typeaheadQueryUrl() {
+        return ENV.apiUrl + '/api/search/autocomplete/_search';
+    },
+
     buildTypeaheadQuery(text) {
         let type = this.get('options.type') || this.get('key');
         return {
@@ -32,6 +36,10 @@ export default Ember.Component.extend({
                 'match': {'text': text}
             }
         };
+    },
+
+    handleTypeaheadResponse(response) {
+        return response.hits.hits;
     },
 
     actions: {
@@ -48,18 +56,16 @@ export default Ember.Component.extend({
         elasticSearch(term) {
             if (Ember.isBlank(term)) { return []; }
 
-
             var data = JSON.stringify(this.buildTypeaheadQuery(term));
 
-            const url = ENV.apiUrl + '/api/search/autocomplete/_search';
             return Ember.$.ajax({
-                'url': url,
+                'url': this.typeaheadQueryUrl(),
                 'crossDomain': true,
                 'type': 'POST',
                 'contentType': 'application/json',
                 'data': data
-            }).then(function(json) {
-                return json.hits.hits;
+            }).then((json) => {
+                return this.handleTypeaheadResponse(json);
             });
         }
     }
