@@ -10,45 +10,41 @@
 </div>
 
 
-<div class='row'>
+<div class="container">
+  <div class='row'>
     <div class='col-sm-9'>
-        <div class='row'>
-            <div class='col-sm-6'>
-                {{curate-field-list list=work.contributors
-                listItem='curate-list-contributor'
-                itemType='person'
-                field='Contributors'
-                placeholder='Add a contributor'
-                onChange=(action 'listChanged' 'contributors')}}
-            </div>
+      <div class='row'>
+        <div class='col-sm-6'>
+          {{curate-field-list list=work.contributors
+          listItem='curate-list-contributor'
+          itemType='person'
+          field='Contributors'
+          placeholder='Add a contributor'
+          onChange=(action 'listChanged' 'contributors')}}
         </div>
-        <div class='row'>
-            <div class='description'>
-                {{curate-field-text text=work.description
-                onChange=(action 'fieldChanged' 'description')}}
-            </div>
+      </div>
+      <div class='row'>
+        <div class='col-sm-6'>
+          {{curate-field-list list=work.tags
+          listItem='curate-list-tag'
+          itemType='tag'
+          placeholder='Add a tag'
+          onChange=(action 'listChanged' 'tags')}}
         </div>
-        <div class='row'>
-            <div class='col-sm-6'>
-                {{curate-field-list list=work.tags
-                listItem='curate-list-tag'
-                itemType='tag'
-                placeholder='Add a tag'
-                onChange=(action 'listChanged' 'tags')}}
-            </div>
-        </div>
-        <div class='row'>
-            <button class='btn btn-default pull-right' {{action 'submitChanges'}}>
-                Submit Changes
-            </button>
-        </div>
-        <h4> Previous Changes: </h4>
-        {{#each previousChanges as |change|}}
+      </div>
+      <div class='row'>
+        <button class='btn btn-default pull-right' {{action 'submitChanges'}}>
+          Submit Changes
+        </button>
+      </div>
+      <h4> Previous Changes: </h4>
+      {{#each previousChanges as |change|}}
         {{change-widget obj=change}}
-        {{/each}}
+      {{/each}}
     </div>
     <div class='col-sm-3'>
-        <h4>Potential Merges</h4>
-        {{merge-widget obj=work _type='abstractcreativework'}}
+      <h4>Potential Merges</h4>
+      {{merge-widget obj=work _type='abstractcreativework'}}
     </div>
+  </div>
 </div>
