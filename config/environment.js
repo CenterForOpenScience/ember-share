@@ -34,7 +34,9 @@ module.exports = function(environment) {
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
 
-  if (environment === 'test') {
+  if (environment === 'staging') {
+    ENV.apiUrl = 'https://staging-share.osf.io'
+
     // Testem prefers this...
     ENV.baseURL = '/';
     ENV.locationType = 'none';
@@ -43,7 +45,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing';
+    // ENV.APP.rootElement = '#ember-staging';
   }
 
   if (environment === 'production') {
