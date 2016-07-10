@@ -33,7 +33,8 @@ export default Ember.Component.extend({
       // Nasty hack to make X button actually clickable
       Ember.run.debounce(this, function() {
         this.set('editing', false);
-        this.sendAction('onChange', this.get('updated'));
+        if (this.get('changed'))
+          this.sendAction('onChange', this.get('updated'));
       }, 10);
     },
 
