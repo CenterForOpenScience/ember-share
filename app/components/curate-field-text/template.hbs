@@ -3,6 +3,7 @@
     width: {{textWidth}};
   }
 </style>
+{{#if curate}}
 {{#if editing}}
     {{input type='text' class="set-width" value=updated key-up='submit'}}
     <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
@@ -14,4 +15,8 @@
     {{text}}
   {{/if}}
 </span>
+{{/if}}
+{{else}}
+    <span class='text-display'>{{text}}</span>
+
 {{/if}}

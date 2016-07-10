@@ -2,11 +2,14 @@
     {{#each displayList as |item|}}
         {{component listItem item=item edit=edit remove=(action 'remove')}}
     {{/each}}
-    {{#if edit}}
-        {{!TODO search for and add items}}
-        {{fa-icon 'times' click=(action 'cancel')}}
-    {{else}}
-        {{fa-icon 'magic' click=(action 'edit')}}
+    {{#if curate}}
+        {{#if edit}}
+            {{!TODO search for and add items}}
+            {{fa-icon 'times' click=(action 'cancel')}}
+        {{else}}
+            (<a href='' {{action 'edit'}}>edit</a>)
+            <!-- {{fa-icon 'magic' click=(action 'edit')}} -->
+        {{/if}}
     {{/if}}
 </div>
 {{#if edit}}
