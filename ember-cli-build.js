@@ -8,9 +8,10 @@ module.exports = function(defaults) {
           useScss: true
       },
       sassOptions: {
-          includePaths: [
-              'bower_components/bootstrap-daterangepicker'
-          ]
+        includePaths: [
+            './node_modules/osf-style/css',
+            'bower_components/bootstrap-daterangepicker',
+        ]
       }
   });
 

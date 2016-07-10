@@ -15,3 +15,33 @@
         }
     }
 }
+
+
+.title-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-size: 24px;
+    text-align: left;
+
+    position: relative;
+    padding: 30px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #E0EBF3;
+
+    text-align: left;
+
+    h1 {
+      margin-top: 0;
+      line-height: 1;
+      font-size: 40px;
+    }
+
+    p {
+      color: grey;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.4;
+      margin-bottom: 0px;
+    }
+}

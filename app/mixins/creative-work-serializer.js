@@ -5,6 +5,7 @@ export default Ember.Mixin.create(DS.EmbeddedRecordsMixin, {
     attrs: {
         tags: { deserialize: 'records' },
         subject: { deserialize: 'records' },
-        contributors: { deserialize: 'records' }
+        contributors: { deserialize: 'records' },
+        links: { deserialize: 'records' }
     }
 });

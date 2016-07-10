@@ -31,25 +31,31 @@ export default Ember.Component.extend({
             } else {
                 added.addObject(item);
             }
-            this.sendAction('onChange', added, removed);
+            this.sendAction('onChange', this.get('itemType'), added, removed);
         },
 
         remove(item) {
             let list = this.get('list');
             let added = this.get('added');
             let removed = this.get('removed');
-            if (list.contains(item)) {
+
+            if (list.contains(item))
                 removed.addObject(item);
-            } else {
-                added.removeObject(item);
-            }
-            this.sendAction('onChange', added, removed);
+            else
+                added.removeObject(item);   // TODO Make this not horrible
+
+            this.sendAction(
+              'onChange',
+              this.get('itemType'),
+              this.get('itemType') == 'person' ? added : added.map(x => x.person),
+              removed
+            );
         },
 
         cancel() {
+            this.set('edit', false);
             this.get('added').clear();
             this.get('removed').clear();
-            this.set('edit', false);
         },
 
         edit() {
@@ -57,24 +63,26 @@ export default Ember.Component.extend({
         },
 
         changeFilter(filter) {
-            var type = this.get('itemType');
-            var item = {};
+            let item;
 
             // TODO: make these models
-            if (type === 'person') {
+            if (this.get('itemType') === 'person') {
                 var name = filter._source.text;
                 item = {
-                    'person': {
-                        'givenName': name.substr(0, name.indexOf(' ')),
-                        'familyName': name.substr(name.indexOf(' ') + 1)
-                    }
+                  person: {
+                      '@type': 'people',
+                      '@id': filter._source['@id'],
+                      'givenName': name.substr(0, name.indexOf(' ')),
+                      'familyName': name.substr(name.indexOf(' ') + 1)
+                  }
                 };
             } else {
-                item = {
+                 item = {
+                    '@type': 'tag',
+                    '@id': filter._source['@id'],
                     'name': filter._source.text
                 };
             }
-
 
             this.send('add', item);
         },

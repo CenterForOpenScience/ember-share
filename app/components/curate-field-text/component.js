@@ -9,6 +9,10 @@ export default Ember.Component.extend({
     textWidth: null,
     updated: Ember.computed.reads('text'),
 
+    rows: function() {
+      return this.get('updated').split('\n').length;
+    }.property('updated'),
+
     changed: function() {
       return this.get('text') != this.get('updated');
     }.property('text', 'updated'),
@@ -20,9 +24,8 @@ export default Ember.Component.extend({
     click() {
       if (this.get('editing')) return;
       this.set('editing', true);
-      this.set('textWidth', (this.$('.text-display').width() + 10) + 'px');
       Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('input').focus();
+        this.$('textarea').focus();
       });
     },
 
@@ -40,11 +43,11 @@ export default Ember.Component.extend({
             this.sendAction('onChange', undefined);
         },
 
-        submit(text, event) {
+        submit(event) {
           if (event.keyCode == 27) // Esc
-            this.send('cancel');
-          if (event.keyCode == 13) // Enter
-            this.focusOut();
+            return !!this.send('cancel');
+          if (event.keyCode == 13 && event.shiftKey)
+            return !!this.focusOut();  // Enter + Shift
         }
     }
 });
