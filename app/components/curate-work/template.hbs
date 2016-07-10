@@ -1,11 +1,14 @@
+{{#if session.isAuthenticated}}
+<button class='btn btn-primary' style='float: right' {{action 'curateToggle'}}>Curate</button>
+{{/if}}
 <div class='row'>
+
     <div class='col-sm-9'>
         <div class='row'>
             <h3 class='title'>
                 {{curate-field-text text=work.title
                 onChange=(action 'fieldChanged' 'title') curate=curate}}
             </h3>
-            <button class='btn btn-primary' style='float: right' {{action 'curateToggle'}}>Curate</button>
         </div>
         <div class='row'>
             <div class='col-sm-6'>
