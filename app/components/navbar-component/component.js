@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     tagName: 'header',
@@ -16,7 +17,7 @@ export default Ember.Component.extend({
     },
     actions: {
         login(){
-            window.location = 'http://localhost:8000/accounts/login';
+            window.location = `${ENV.apiUrl}/accounts/login`;
             //window.location = ENV.apiUrl + '/accounts/login?redirect_uri=' + encodeURI(window.location + '/login');
         },
         logout(){
