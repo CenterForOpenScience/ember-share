@@ -1,7 +1,11 @@
 <div class='row'>
-    {{#each displayList as |item|}}
+<h3>{{field}}</h3>
+  <ul class="list-group">
+    <!-- <li class="list-group-item list-group-header">{{field}}</li> -->
+      {{#each displayList as |item|}}
         {{component listItem item=item edit=edit remove=(action 'remove')}}
-    {{/each}}
+      {{/each}}
+    </ul>
     {{#if edit}}
         {{!TODO search for and add items}}
         {{fa-icon 'times' click=(action 'cancel')}}
