@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     curate: false,
@@ -18,6 +19,11 @@ export default Ember.Component.extend({
     },
 
     changes: null,
+
+    changed: function() {
+      return this.get('relations').length > 0 || Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
+    }.property('changes', 'relations.[]'),
+
     previousChanges: Ember.computed('work', function() {
         //let id_ = this.get('work.id');
         //let type = this.get('work.type');
@@ -28,6 +34,7 @@ export default Ember.Component.extend({
     }),
     actions: {
         fieldChanged(field, newValue) {
+            this.propertyDidChange('changed');
             return this.set(`changes.${field}`, newValue);
         },
 
@@ -51,8 +58,19 @@ export default Ember.Component.extend({
             let changes = {
               '@graph': this.get('relations').concat(this.get('changes'))
             };
-            console.log(changes);
-            //TODO submit changes
+
+            Ember.$.ajax({
+              method: 'POST',
+              headers: {
+                'X-CSRFTOKEN': this.get('session.data.csrfToken')
+              },
+              xhrFields: {
+                withCredentials: true,
+              },
+              data: JSON.stringify(changes),
+              contentType: 'application/json',
+              url: `${ENV.apiUrl}/api/normalizeddata/`,
+            }).then(resp => console.log(resp));
         },
 
         curateToggle() {

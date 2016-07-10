@@ -28,7 +28,7 @@
           onChange=(action 'listChanged' 'tags')}}
       </div>
       <div class='row' style='padding-topL: 5px'>
-        <button class='btn btn-default pull-right' {{action 'submitChanges'}}>
+        <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
           Submit Changes
         </button>
       </div>
