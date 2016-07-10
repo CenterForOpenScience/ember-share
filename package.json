@@ -22,6 +22,7 @@
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "0.7.1",
     "ember-bootstrap": "0.8.0",
+    "ember-browserify": "1.1.10",
     "ember-cli": "2.5.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
@@ -52,6 +53,7 @@
     "loader.js": "^4.0.1"
   },
   "dependencies": {
+    "langs": "^1.0.2",
     "osf-style": "git+https://github.com/caneruguz/osf-style.git"
   }
 }

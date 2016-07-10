@@ -12,36 +12,44 @@ export default Ember.Component.extend({
 
     filters: [],
 
+    buildQueryFacet(selectedTerms) {
+        let queryFilter = null;
+        if (selectedTerms.length) {
+            queryFilter = {
+                terms: {}
+            };
+            // use unanalyzed field for exact match
+            queryFilter.terms[this.get('key') + '.raw'] = selectedTerms;
+        }
+        return queryFilter;
+    },
+
+    buildTypeaheadQuery(text) {
+        let type = this.get('options.type') || this.get('key');
+        return {
+            'filter': {'match': {'@type': type}},
+            'query': {
+                'match': {'text': text}
+            }
+        };
+    },
+
     actions: {
         changeFilter(filter) {
             this.set('filters', filter);
 
             let terms = filter.map(function(obj){
-               return obj._source.text;
+                return obj._source.text;
             });
             let key = this.get('key');
-            let queryFilter = null;
-            if (terms.length) {
-                queryFilter = {
-                    terms: {}
-                };
-                // use unanalyzed field for exact match
-                queryFilter.terms[key + '.raw'] = terms;
-            }
-            this.sendAction('onChange', key, queryFilter);
+            this.sendAction('onChange', key, this.buildQueryFacet(terms));
         },
 
         elasticSearch(term) {
             if (Ember.isBlank(term)) { return []; }
 
-            let type = this.get('options.type') || this.get('key');
 
-            var data = JSON.stringify({
-                'filter': {'match': {'@type': type}},
-                'query': {
-                    'match': {'text': term}
-                }
-            });
+            var data = JSON.stringify(this.buildTypeaheadQuery(term));
 
             const url = ENV.apiUrl + '/api/search/autocomplete/_search';
             return Ember.$.ajax({
