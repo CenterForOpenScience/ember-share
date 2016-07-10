@@ -1,11 +1,6 @@
-<style scoped>
-  .set-width {
-    width: {{textWidth}};
-  }
-</style>
 {{#if editing}}
-    {{input type='text' class="set-width" value=updated key-up='submit'}}
-    <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
+  {{textarea rows=rows class="form-control" keyDown=(action 'submit') value=updated}}
+  <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
 {{else}}
 <span class='text-display'>
   {{#if changed}}
