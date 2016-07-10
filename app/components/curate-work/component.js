@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    curate: false,
     store: Ember.inject.service(),
+    session: Ember.inject.service(),
     classNames: ['curate-work'],
 
     throughMap: {
@@ -50,8 +52,11 @@ export default Ember.Component.extend({
               '@graph': this.get('relations').concat(this.get('changes'))
             };
             console.log(changes);
-
             //TODO submit changes
+        },
+
+        curateToggle() {
+            this.set('curate', !this.get('curate'));
         }
     }
 });

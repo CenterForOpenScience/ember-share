@@ -1,12 +1,12 @@
 <div class="title-container">
-<div class="container">
-  <h1 class="title">
-    {{curate-field-text text=work.title onChange=(action 'fieldChanged' 'title')}}
-  </h1>
-  <p>
-  {{curate-field-text text=work.description onChange=(action 'fieldChanged' 'description')}}
-  </p>
-</div>
+  <div class="container">
+    <h1 class="title">
+      {{curate-field-text text=work.title onChange=(action 'fieldChanged' 'title')}}
+    </h1>
+    <p>
+      {{curate-field-text text=work.description onChange=(action 'fieldChanged' 'description')}}
+    </p>
+  </div>
 </div>
 
 
@@ -42,9 +42,11 @@
         {{change-widget obj=change}}
       {{/each}}
     </div>
-    <div class='col-sm-3'>
-      <h4>Potential Merges</h4>
-      {{merge-widget obj=work _type='abstractcreativework'}}
-    </div>
+    {{#if curate}}
+        <div class='col-sm-3'>
+            <h4>Potential Merges</h4>
+            {{merge-widget obj=work _type='abstractcreativework'}}
+        </div>
+    {{/if}}
   </div>
 </div>

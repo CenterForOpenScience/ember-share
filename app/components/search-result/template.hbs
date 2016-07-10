@@ -10,9 +10,9 @@
                 {{#if index}}
                  -
                 {{/if}}
-                <a {{action 'addFilter' contrib.familyName}}>
+                {{#link-to 'curate.person' contrib.id}}
                     {{contrib.familyName}}
-                </a>
+                {{/link-to}}
             {{/each}}
         </span>
     </div>
