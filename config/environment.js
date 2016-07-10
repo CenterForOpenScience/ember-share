@@ -22,10 +22,6 @@ module.exports = function(environment) {
   ENV.csrfCookie = 'csrftoken';
   ENV.apiUrl = 'http://localhost:8000';
 
-  if (environment === 'staging') {
-    ENV.apiUrl = 'https://share-staging.osf.io';
-  }
-
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
