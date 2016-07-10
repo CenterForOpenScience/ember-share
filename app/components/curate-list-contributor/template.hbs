@@ -1,10 +1,6 @@
-{{#if curate}}
-    {{item.person.familyName}}, {{item.person.givenName}}
-    {{#if edit}}
-        {{fa-icon 'trash' click=(action 'remove' item)}}
-    {{/if}}
-{{else}}
-    {{#link-to 'curate.person' item.person}}
-        {{item.person.familyName}}, {{item.person.givenName}}
-    {{/link-to}}
-{{/if}}
+{{#link-to 'curate.person' item.person}}
+    <div style='font-size: 150%'>{{item.person.familyName}}, {{item.person.givenName}}</div>
+{{/link-to}}
+<!-- {{#if edit}}
+    {{fa-icon 'trash' click=(action 'remove' item)}}
+{{/if}} -->
