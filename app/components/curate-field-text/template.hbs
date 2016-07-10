@@ -1,12 +1,22 @@
+<style scoped>
+  .set-width {
+    width: {{textWidth}};
+  }
+</style>
 {{#if curate}}
-    {{#if edit}}
-        <input type='text' value={{newText}} style={{inputStyle}} {{action 'change' on='change'}}>
-        {{fa-icon 'times' click=(action 'cancel')}}
-    {{else}}
-        <span class='text-display'>{{text}}</span>
-        (<a href='' {{action 'edit'}}>edit</a>)
-        <!-- {{fa-icon 'magic' click=(action 'edit')}} -->
-    {{/if}}
+{{#if editing}}
+    {{input type='text' class="set-width" value=updated key-up='submit'}}
+    <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
+{{else}}
+<span class='text-display'>
+  {{#if changed}}
+    <i>{{updated}}</i>
+  {{else}}
+    {{text}}
+  {{/if}}
+</span>
+{{/if}}
 {{else}}
     <span class='text-display'>{{text}}</span>
+
 {{/if}}
