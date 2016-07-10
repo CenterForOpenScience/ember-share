@@ -1,7 +1,7 @@
 <h4>
-    <a href="">
-        {{obj.title}}
-    </a>
+    {{#link-to "curate.work" obj.workType obj.id}}
+    {{obj.title}}
+    {{/link-to}}
 </h4>
 <div class="row">
     <div class="col-md-7">
@@ -30,6 +30,6 @@
     {{abbreviation}}
 </div><br>
 <div>
-  {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:9200/share/document/{{obj.id}}">Data</a>
+  {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
 </div>
 <hr>
