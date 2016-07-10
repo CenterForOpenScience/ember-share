@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container-fluid">
 <div class="navbar-header">
-  <a class="navbar-brand">
-    <img height='35px' width='auto' src='assets/images/nav_logo.png'>
-  </a>
+  {{#link-to 'index' class="navbar-brand"}}
+      <img height='35px' width='auto' src='assets/images/nav_logo.png'>
+  {{/link-to}}
 </div>
 <div class="navbar-collapse collapse navbar-right">
   <ul class="nav navbar-nav">
@@ -22,9 +22,9 @@
         {{/bs-dropdown-menu}}
       {{/bs-dropdown}}
     {{else}}
-      <li>
+      <form class="navbar-form navbar-left" role="search">
         <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
-      </li>
+        </form>
     {{/if}}
   </ul>
 </div>

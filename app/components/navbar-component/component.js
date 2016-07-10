@@ -3,7 +3,7 @@ import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     tagName: 'header',
-    classNames: ['navbar', 'navbar-static-top'],
+    classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],
     session: Ember.inject.service(),
     gravatarSrc: '',
     userName: '',
