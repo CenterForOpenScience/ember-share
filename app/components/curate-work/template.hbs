@@ -1,16 +1,23 @@
+<div class="title-container">
+<div class="container">
+  <h1 class="title">
+    {{curate-field-text text=work.title onChange=(action 'fieldChanged' 'title')}}
+  </h1>
+  <p>
+  {{curate-field-text text=work.description onChange=(action 'fieldChanged' 'description')}}
+  </p>
+</div>
+</div>
+
+
 <div class='row'>
     <div class='col-sm-9'>
-        <div class='row'>
-            <h3 class='title'>
-                {{curate-field-text text=work.title
-                onChange=(action 'fieldChanged' 'title')}}
-            </h3>
-        </div>
         <div class='row'>
             <div class='col-sm-6'>
                 {{curate-field-list list=work.contributors
                 listItem='curate-list-contributor'
                 itemType='person'
+                field='Contributors'
                 placeholder='Add a contributor'
                 onChange=(action 'listChanged' 'contributors')}}
             </div>
