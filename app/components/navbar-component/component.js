@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    tagName: 'header',
+    classNames: ['navbar', 'navbar-static-top'],
     session: Ember.inject.service(),
     gravatarSrc: '',
     userName: '',

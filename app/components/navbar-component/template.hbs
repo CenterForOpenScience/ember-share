@@ -1,5 +1,10 @@
-<div class='navbar'>
-    <img class='navbar-logo' height='35px' width='auto' src='assets/images/nav_logo.png'>
+<div class="container">
+  <div class="navbar-header">
+    <a class="navbar-brand">
+        <img height='35px' width='auto' src='assets/images/nav_logo.png'>
+      </a>
+  </div>
+
     {{#if session.isAuthenticated}}
         <span class="hello-text">Hello{{#if userName}}, {{userName}}{{/if}}! (<a {{action 'logout'}}>Logout</a>)</span>
         <img class='img-circle gravatar' src={{gravatarSrc}}>
