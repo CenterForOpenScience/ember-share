@@ -11,22 +11,27 @@
 
 
 <div class="container">
-      <div class='row'>
-          {{curate-field-list list=work.contributors
-          listItem='curate-list-contributor'
-          itemType='person'
-          field='Contributors'
-          placeholder='Add a contributor'
-          onChange=(action 'listChanged' 'contributors')}}
-      </div>
-      <div class='row'>
-          {{curate-field-list list=work.tags
-          listItem='curate-list-tag'
-          itemType='tag'
-          field='Tags'
-          placeholder='Add a tag'
-          onChange=(action 'listChanged' 'tags')}}
-      </div>
+      {{curate-field-list list=work.contributors
+      listItem='curate-list-contributor'
+      itemType='person'
+      field='Contributors'
+      placeholder='Add a contributor'
+      onChange=(action 'listChanged' 'contributors')}}
+
+      {{curate-field-list list=work.links row=true
+        listItem='curate-list-link'
+        itemType='link'
+        field='Links'
+        placeholder='Add a link'
+        onChange=(action 'listChanged' 'links')}}
+      {{curate-field-list list=work.tags
+
+      listItem='curate-list-tag'
+      field='Tags'
+      itemType='tag'
+      placeholder='Add a tag'
+      onChange=(action 'listChanged' 'tags')}}
+
       <div class='row' style='padding-topL: 5px'>
         <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
           Submit Changes
