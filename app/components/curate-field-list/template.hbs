@@ -1,19 +1,25 @@
+{{#if list}}
 <div class='row'>
-    {{#each displayList as |item|}}
-        {{component listItem item=item edit=edit remove=(action 'remove')}}
-    {{/each}}
-    {{#if curate}}
-        {{#if edit}}
-            {{!TODO search for and add items}}
-            {{fa-icon 'times' click=(action 'cancel')}}
+<h3>{{field}} {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} </h3>
+    <!-- <li class="list-group-item list-group-header">{{field}}</li> -->
+    <div class='row'>
+      {{#each displayList as |item|}}
+      {{#unless row}}
+        <div class='col-xs-3'>
+            {{component listItem item=item edit=edit remove=(action 'remove')}}
+        </div>
         {{else}}
-            (<a href='' {{action 'edit'}}>edit</a>)
-            <!-- {{fa-icon 'magic' click=(action 'edit')}} -->
-        {{/if}}
-    {{/if}}
+
+        <div>
+            {{component listItem item=item edit=edit remove=(action 'remove')}}
+        </div>
+        {{/unless}}
+      {{/each}}
+  </div>
 </div>
 {{#if edit}}
     <div class='row'>
+        <div class='col-xs-11' style='padding-top: 10px'>
         {{#power-select
             search=(action "elasticSearch")
             placeholder=placeholder
@@ -23,5 +29,15 @@
         }}
             {{option._source.text}}
         {{/power-select}}
+        </div>
+        <div class='col-xs-1'>
+        {{#if edit}}
+            {{!TODO search for and add items}}
+            <div style='font-size: 150%;'>
+                {{fa-icon 'times' click=(action 'cancel')}}
+            </div>
+        {{/if}}
+        </div>
     </div>
+{{/if}}
 {{/if}}

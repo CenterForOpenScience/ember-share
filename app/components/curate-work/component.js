@@ -1,13 +1,20 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    curate: false,
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     classNames: ['curate-work'],
-    curate: false,
+
+    throughMap: {
+      tag: 'throughtag',
+      person: 'contributor',
+    },
+
     init() {
         this._super(...arguments);
-        this.set('changes', Ember.Object.create());
+        this.set('changes', {});
+        this.set('relations', []);
     },
 
     changes: null,
@@ -21,19 +28,33 @@ export default Ember.Component.extend({
     }),
     actions: {
         fieldChanged(field, newValue) {
-            let changes = this.get('changes');
-            changes.set(field, newValue);
+            return this.set(`changes.${field}`, newValue);
         },
 
-        listChanged(field, addedItems, removedItems) {
-            //TODO
+        listChanged(field, modelType, addedItems, removedItems) {
+          let throughModels = addedItems.map(item => ({
+            '@id': `_:${Math.random().toString().substring(2)}`,
+            '@type': this.get('throughMap')[modelType],
+            [modelType]: {'@id': item['@id'], '@type': item['@type']},
+            'creative_work': {'@id': this.get('work.id'), '@type': this.get('work.type')},
+          }));
+
+          this.get('relations').addObjects(addedItems.concat(throughModels));
+
+          this.set(`changes.${field}`, throughModels.map(item => ({
+            '@id': item['@id'],
+            '@type': item['@type'],
+          })));
         },
 
         submitChanges() {
-            let changes = this.get('changes');
-
-            //TODO construct changeset, submit changes
+            let changes = {
+              '@graph': this.get('relations').concat(this.get('changes'))
+            };
+            console.log(changes);
+            //TODO submit changes
         },
+
         curateToggle() {
             this.set('curate', !this.get('curate'));
         }
