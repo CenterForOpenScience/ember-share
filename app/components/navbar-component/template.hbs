@@ -8,19 +8,20 @@
       <ul class="nav navbar-nav">
         <li>{{link-to 'Discover' 'discover' class='nav-link'}}</li>
         {{#if session.isAuthenticated}}
-            <li class="dropdown">
-                {{#bs-dropdown-toggle}}
-                    <span class="gravatar">
-                        <img class='img-circle gravatar' src={{gravatarSrc}}>
-                    </span>
-                    {{userName}}
-                    <i class="fa fa-caret-down"></i>
-                {{/bs-dropdown-toggle}}
-                {{#bs-dropdown-menu}}
-                    <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
-                    <li><a {{action 'logout'}}>Logout</a></li>
-                {{/bs-dropdown-menu}}
-            </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="gravatar">
+                <img class='img-circle gravatar' src={{gravatarSrc}}>
+              </span>
+              {{userName}}
+              <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
+              <li><input type="text" style="margin: 5px" value={{session.data.userData.token}}></li>
+              <li><a {{action 'logout'}}>Logout</a></li>
+            </ul>
+          </li>
         {{else}}
             <form class="navbar-form navbar-left" role="search">
                 <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
