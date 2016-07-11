@@ -1,35 +1,60 @@
 <h4>
     {{#link-to "curate.work" obj.workType obj.id}}
-    {{obj.title}}
+        {{obj.title}}
     {{/link-to}}
 </h4>
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-xs-7">
         <span class="pull-left" style="text-align: left">
-            {{#each obj.contributors as |contrib index|}}
+            {{#each contributors as |contrib index|}}
                 {{#if index}}
-                 -
+                    -
                 {{/if}}
                 {{#link-to 'curate.person' contrib.id}}
                     {{contrib.familyName}}
                 {{/link-to}}
             {{/each}}
+            {{#if extra_contributors}}
+                <span class="text-muted">+{{extra_contributors}}</span>
+            {{/if}}
         </span>
     </div>
-    <div class="col-md-5">
+    <div class="col-xs-5">
         <span class="pull-right" style="text-align: right">
-            {{#each obj.tags as |tag|}}
+            {{#each tags as |tag|}}
                 <span class='tag'>
                     {{tag}}
                 </span>
             {{/each}}
+            {{#if extra_tags}}
+                <span class="text-muted">+{{extra_tags}}</span>
+            {{/if}}
         </span>
     </div>
 </div><br>
 <div>
     {{abbreviation}}
+    {{#if abbreviated}}
+        <span class="text-muted">...</span>
+    {{/if}}
+</div><br>
+<div class="row">
+    <div class="col-xs-6">
+        {{#if obj.date_published}}
+            <span class="pull-left" style="text-align: left">
+                Date published: {{moment-format obj.date_published 'MM-DD-YYYY'}}
+            </span>
+        {{/if}}
+    </div>
+    <div class="col-xs-6">
+        {{#if obj.date_updated}}
+            <span class="pull-right" style="text-align: right">
+                Date updated: {{moment-format obj.date_updated 'MM-DD-YYYY'}}
+            </span>
+        {{/if}}
+    </div>
 </div><br>
 <div>
-  {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
+    {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
 </div>
 <hr>

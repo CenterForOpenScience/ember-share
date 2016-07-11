@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     classNames: ['curate-work'],
+    changes: null,
 
     throughMap: {
       tag: 'throughtag',
@@ -14,15 +15,30 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.set('changes', {});
+        this.set('changes', {
+          '@id': this.get('work.id'),
+          '@type': this.get('work._internalModel.modelName'),
+        });
+        this.set('toMerge', []);
         this.set('relations', []);
     },
 
-    changes: null,
-
     changed: function() {
-      return this.get('relations').length > 0 || Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
-    }.property('changes', 'relations.[]'),
+      return this.get('relations.length') > 0
+        || this.get('toMerge.length') > 0
+        || Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
+    }.property('changes', 'relations.[]', 'toMerge.[]'),
+
+    merges: function() {
+      if (this.get('toMerge.length') < 1) return [];
+
+      return [{
+        '@id': `_:${Math.random().toString().substring(2)}`,
+        '@type': 'MergeAction',
+        'into': {'@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName')},
+        'from': this.get('toMerge').map(obj => ({'@id': obj.get('id'), '@type': obj.get('_internalModel.modelName')})),
+      }];
+    }.property('toMerge.[]'),
 
     previousChanges: Ember.computed('work', function() {
         let id_ = this.get('work.id');
@@ -33,6 +49,10 @@ export default Ember.Component.extend({
         }});
     }),
     actions: {
+        merge(obj) {
+            this.get('toMerge').addObject(obj);
+        },
+
         fieldChanged(field, newValue) {
             this.propertyDidChange('changed');
             return this.set(`changes.${field}`, newValue);
@@ -43,7 +63,7 @@ export default Ember.Component.extend({
             '@id': `_:${Math.random().toString().substring(2)}`,
             '@type': this.get('throughMap')[modelType],
             [modelType]: {'@id': item['@id'], '@type': item['@type']},
-            'creative_work': {'@id': this.get('work.id'), '@type': this.get('work.type')},
+            'creative_work': {'@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName')},
           }));
 
           this.get('relations').addObjects(addedItems.concat(throughModels));
@@ -55,8 +75,16 @@ export default Ember.Component.extend({
         },
 
         submitChanges() {
+            console.log(this.get('relations')
+                  .concat(this.get('changes'))
+                  .concat(this.get('merges')));
             let changes = {
-              '@graph': this.get('relations').concat(this.get('changes'))
+              'normalized_data': {
+                '@graph': this.get('relations')
+                  .concat(this.get('changes'))
+                  .concat(this.get('merges'))
+                  .filter(obj => Object.keys(obj).length > 1)
+              }
             };
 
             Ember.$.ajax({

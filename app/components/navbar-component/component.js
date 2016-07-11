@@ -3,7 +3,7 @@ import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     tagName: 'header',
-    classNames: ['navbar', 'navbar-static-top'],
+    classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],
     session: Ember.inject.service(),
     gravatarSrc: '',
     userName: '',
@@ -13,7 +13,7 @@ export default Ember.Component.extend({
         var userData = this.get('session.data.userData');
         if (userData) {
             this.set('gravatarSrc', userData.gravatar + '&s=25');
-            this.set('userName', userData.first_name);
+            this.set('userName', `${userData.first_name} ${userData.last_name}`);
         }
     },
     actions: {

@@ -11,24 +11,26 @@ export default Ember.Component.extend({
         return langs.names();
     }),
 
-    buildQueryFacet(languageName) {
+    buildQueryFacet(languageNames) {
         let queryFilter = null;
-        if (languageName) {
-            let languageCode = langs.where('name', languageName)['3'];
+        if (languageNames.length) {
+            let languageCodes = languageNames.map((lang) => {
+                return langs.where('name', lang)['3'];
+            });
             queryFilter = {
-                term: {}
+                terms: {}
             };
             // use unanalyzed field for exact match
-            queryFilter.term[this.get('key') + '.raw'] = languageCode;
+            queryFilter.terms[this.get('key') + '.raw'] = languageCodes;
         }
         return queryFilter;
     },
 
     actions: {
-        changeFilter(languageName) {
-            this.set('selected', languageName);
+        changeFilter(languageNames) {
+            this.set('selected', languageNames);
             let key = this.get('key');
-            this.sendAction('onChange', key, this.buildQueryFacet(languageName));
+            this.sendAction('onChange', key, this.buildQueryFacet(languageNames));
         }
     }
 });
