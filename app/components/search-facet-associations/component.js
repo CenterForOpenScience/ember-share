@@ -22,7 +22,7 @@ export default TypeaheadComponent.extend({
     buildTypeaheadQuery(text) {
         let types = ['funder', 'organization', 'publisher', 'institution'];
         return {
-            'filter': {'match': {'@type': types}},
+            'filter': {'terms': {'@type': types}},
             'query': {
                 'match': {'text': text}
             }
