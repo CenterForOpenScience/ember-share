@@ -18,14 +18,7 @@
       placeholder='Add a contributor'
       onChange=(action 'listChanged' 'contributors')}}
 
-      {{curate-field-list list=work.links row=true
-        listItem='curate-list-link'
-        itemType='link'
-        field='Links'
-        placeholder='Add a link'
-        onChange=(action 'listChanged' 'links')}}
       {{curate-field-list list=work.tags
-
       listItem='curate-list-tag'
       field='Tags'
       itemType='tag'
@@ -37,25 +30,29 @@
           Submit Changes
         </button>
       </div>
-      <div class='row'>
+      <div class="row">
+        <div class="col-xs-12">
           <h3>Links</h3>
-          {{#each work.links as |item|}}
-            <a href='{{item.url}}' style='font-size: 150%'>{{item.url}}</a>
-          {{/each}}
+        </div>
       </div>
-      <div class='row'>
+      {{#quad-column objects=work.links as |item|}}
+        <a href='{{item.url}}' style='font-size: 150%'>{{item.url}}</a>
+      {{/quad-column}}
+      <div class="row">
+        <div class="col-xs-12">
           <h3>Extra</h3>
           {{json-pretty
               obj=work.extra
               shouldHighlight=true
           }}
+        </div>
       </div>
       {{#if previousChanges}}
       <div class='row'>
-      <h3> Previous Changes: </h3>
-      {{#each previousChanges as |change|}}
-        {{change-widget obj=change}}
-      {{/each}}
+        <h3> Previous Changes: </h3>
+        {{#each previousChanges as |change|}}
+          {{change-widget obj=change}}
+        {{/each}}
       </div>
       {{/if}}
 

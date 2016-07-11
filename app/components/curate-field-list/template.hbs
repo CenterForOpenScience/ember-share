@@ -4,19 +4,10 @@
     <h3>{{field}} {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} </h3>
   </div>
 </div>
-<div class="row">
-      {{#each displayList as |item|}}
-      {{#unless row}}
-        <div class='col-xs-3'>
-            {{component listItem item=item edit=edit remove=(action 'remove')}}
-        </div>
-        {{else}}
 
-        <div>
-            {{component listItem item=item edit=edit remove=(action 'remove')}}
-        </div>
-        {{/unless}}
-      {{/each}}
+{{#quad-column objects=displayList as |item|}}
+    {{component listItem item=item edit=edit remove=(action 'remove')}}
+{{/quad-column}}
 {{#if edit}}
         <div class='col-xs-11' style='padding-top: 10px'>
         {{#power-select
@@ -38,5 +29,4 @@
         {{/if}}
         </div>
 {{/if}}
-</div>
 {{/if}}

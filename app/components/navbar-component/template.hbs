@@ -10,10 +10,10 @@
     {{#if session.isAuthenticated}}
       {{#bs-dropdown tagName="li"}}
         {{#bs-dropdown-toggle}}
-          {{userName}}
           <span class="gravatar">
             <img class='img-circle gravatar' src={{gravatarSrc}}>
           </span>
+          {{userName}}
           <i class="fa fa-caret-down"></i>
         {{/bs-dropdown-toggle}}
         {{#bs-dropdown-menu}}
