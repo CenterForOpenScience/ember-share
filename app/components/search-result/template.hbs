@@ -1,6 +1,6 @@
 <h4>
     {{#link-to "curate.work" obj.workType obj.id}}
-    {{obj.title}}
+        {{obj.title}}
     {{/link-to}}
 </h4>
 <div class="row">
@@ -8,7 +8,7 @@
         <span class="pull-left" style="text-align: left">
             {{#each contributors as |contrib index|}}
                 {{#if index}}
-                 -
+                    -
                 {{/if}}
                 {{#link-to 'curate.person' contrib.id}}
                     {{contrib.familyName}}
@@ -40,17 +40,21 @@
 </div><br>
 <div class="row">
     <div class="col-xs-6">
-        <span class="pull-left" style="text-align: left">
-            Date published: {{moment-format obj.date_published 'MM-DD-YYYY'}}
-        </span>
+        {{#if obj.date_published}}
+            <span class="pull-left" style="text-align: left">
+                Date published: {{moment-format obj.date_published 'MM-DD-YYYY'}}
+            </span>
+        {{/if}}
     </div>
     <div class="col-xs-6">
-        <span class="pull-right" style="text-align: right">
-            Date updated: {{moment-format obj.date_updated 'MM-DD-YYYY'}}
-        </span>
+        {{#if obj.date_updated}}
+            <span class="pull-right" style="text-align: right">
+                Date updated: {{moment-format obj.date_updated 'MM-DD-YYYY'}}
+            </span>
+        {{/if}}
     </div>
 </div><br>
 <div>
-  {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
+    {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
 </div>
 <hr>
