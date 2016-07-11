@@ -58,8 +58,7 @@
       {{/each}}
       </div>
       {{/if}}
-    <div class='row'>
-      <h3>Potential Merges</h3>
-      {{merge-widget obj=work _type='abstractcreativework'}}
-    </div>
+
+      <h4>Potential Merges</h4>
+      {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
 </div>
