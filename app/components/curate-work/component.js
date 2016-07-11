@@ -101,8 +101,5 @@ export default Ember.Component.extend({
             }).then(resp => console.log(resp));
         },
 
-        curateToggle() {
-            this.set('curate', !this.get('curate'));
-        }
     }
 });
