@@ -43,6 +43,7 @@ export default ApplicationController.extend({
         let queryString = Ember.$.param(query);
         let queryBody = JSON.stringify(this.get('queryBody'));
         const url = buildElasticCall(queryString);
+        this.set('loading', true);
         return Ember.$.ajax({
             'url': url,
             'crossDomain': true,
