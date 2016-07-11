@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     changes: null,
 
     throughMap: {
-      tag: 'throughtag',
+      tag: 'throughtags',
       person: 'contributor',
     },
 
