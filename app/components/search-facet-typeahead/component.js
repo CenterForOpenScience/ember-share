@@ -12,14 +12,20 @@ export default Ember.Component.extend({
 
     filters: [],
 
-    buildQueryFacet(selectedTerms) {
+    buildQueryFacet(selected) {
         let queryFilter = null;
-        if (selectedTerms.length) {
+        if (selected.length) {
+            let key = this.get('options.queryKey') || this.get('key');
+            let useId = this.get('options.useId');
+            let terms = selected.map(function(obj){
+                return obj._source[ useId ? '@id' : 'text' ];
+            });
+            let termKey = useId ? `${key}.@id` : `${key}.raw`;
+
             queryFilter = {
                 terms: {}
             };
-            // use unanalyzed field for exact match
-            queryFilter.terms[this.get('key') + '.raw'] = selectedTerms;
+            queryFilter.terms[termKey] = terms;
         }
         return queryFilter;
     },
@@ -45,12 +51,7 @@ export default Ember.Component.extend({
     actions: {
         changeFilter(filter) {
             this.set('filters', filter);
-
-            let terms = filter.map(function(obj){
-                return obj._source.text;
-            });
-            let key = this.get('key');
-            this.sendAction('onChange', key, this.buildQueryFacet(terms));
+            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(filter));
         },
 
         elasticSearch(term) {
