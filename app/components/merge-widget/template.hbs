@@ -50,7 +50,7 @@
     {{/each}}
     {{#bs-modal-footer as |footer|}}
         {{#bs-button action=(action "close" target=footer)}}Cancel{{/bs-button}}
-        {{#bs-button action=(action "merge") type="success"}}Yeah!{{/bs-button}}
+        {{#bs-button action=(action "onMerge") type="success"}}Yeah!{{/bs-button}}
     {{/bs-modal-footer}}
     {{else}}
     Loading ...

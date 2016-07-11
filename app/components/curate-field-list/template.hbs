@@ -1,8 +1,10 @@
 {{#if list}}
-<div class='row'>
-<h3>{{field}} {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} </h3>
-    <!-- <li class="list-group-item list-group-header">{{field}}</li> -->
-    <div class='row'>
+<div class="row">
+  <div class="col-xs-12">
+    <h3>{{field}} {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} </h3>
+  </div>
+</div>
+<div class="row">
       {{#each displayList as |item|}}
       {{#unless row}}
         <div class='col-xs-3'>
@@ -15,10 +17,7 @@
         </div>
         {{/unless}}
       {{/each}}
-  </div>
-</div>
 {{#if edit}}
-    <div class='row'>
         <div class='col-xs-11' style='padding-top: 10px'>
         {{#power-select
             search=(action "elasticSearch")
@@ -38,6 +37,6 @@
             </div>
         {{/if}}
         </div>
-    </div>
 {{/if}}
+</div>
 {{/if}}

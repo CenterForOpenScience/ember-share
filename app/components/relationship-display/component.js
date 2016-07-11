@@ -17,6 +17,6 @@ export default Ember.Component.extend({
         if (rel === 'awards') {
             return relation.map(item => item.get('award')).join('-');
         }
-        return relation.map(item => item.get('name').join('-'));
+        return relation.map(item => item.get('name')).join('-');
     })
 });

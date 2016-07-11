@@ -80,9 +80,9 @@ export default Ember.Component.extend({
             })
             this.set('openModal', true);
         },
-        merge() {
-            //chris pls
+        onMerge() {
             this.set('openModal', false);
+            this.sendAction('onMerge', this.get('obj'));
         }
     }
 });
