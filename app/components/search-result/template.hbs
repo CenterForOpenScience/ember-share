@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-7">
         <span class="pull-left" style="text-align: left">
-            {{#each obj.contributors as |contrib index|}}
+            {{#each contributors as |contrib index|}}
                 {{#if index}}
                  -
                 {{/if}}
@@ -14,20 +14,29 @@
                     {{contrib.familyName}}
                 {{/link-to}}
             {{/each}}
+            {{#if extra_contributors}}
+                <span class="text-muted">+{{extra_contributors}}</span>
+            {{/if}}
         </span>
     </div>
     <div class="col-md-5">
         <span class="pull-right" style="text-align: right">
-            {{#each obj.tags as |tag|}}
+            {{#each tags as |tag|}}
                 <span class='tag'>
                     {{tag}}
                 </span>
             {{/each}}
+            {{#if extra_tags}}
+                <span class="text-muted">+{{extra_tags}}</span>
+            {{/if}}
         </span>
     </div>
 </div><br>
 <div>
     {{abbreviation}}
+    {{#if abbreviated}}
+        <span class="text-muted">...</span>
+    {{/if}}
 </div><br>
 <div>
   {{#link-to "curate.work" obj.workType obj.id}}Curate{{/link-to}} | <a href="http://localhost:8000/api/{{obj.workType}}/{{obj.id}}">Data</a>
