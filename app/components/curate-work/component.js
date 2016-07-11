@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     changes: null,
 
     throughMap: {
-      tag: 'throughtag',
+      tag: 'throughtags',
       person: 'contributor',
     },
 
@@ -101,8 +101,5 @@ export default Ember.Component.extend({
             }).then(resp => console.log(resp));
         },
 
-        curateToggle() {
-            this.set('curate', !this.get('curate'));
-        }
     }
 });

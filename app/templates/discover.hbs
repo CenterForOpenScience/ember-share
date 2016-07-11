@@ -62,16 +62,22 @@
                 )
             }}
         </div>
+
         <div class='col-xs-9'>
+          {{#each results as |obj|}}
+            {{search-result obj=obj}}
+          {{/each}}
+
+          <div class="text-center">
             {{#if loading}}
-                {{fa-icon 'spinner' pulse=true size=5}}
+              {{fa-icon 'spinner' spin=true size=3}}
             {{else}}
-                {{#each results as |obj|}}
-                    {{search-result obj=obj}}
-                {{/each}}
-                <br>
-                <button {{action 'next'}}> More </button>
+              <button class="btn btn-default" {{action 'next'}}> More </button>
             {{/if}}
+          </div>
         </div>
     </div>
+
+    <br>
+
 </div>

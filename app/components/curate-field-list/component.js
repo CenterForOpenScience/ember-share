@@ -26,12 +26,23 @@ export default Ember.Component.extend({
             let list = this.get('list');
             let added = this.get('added');
             let removed = this.get('removed');
-            if (list.contains(item)) {
+
+            if (list.contains(item))
                 removed.removeObject(item);
-            } else {
+            else
                 added.addObject(item);
-            }
-            this.sendAction('onChange', this.get('itemType'), added, removed);
+
+            this.sendAction(
+              'onChange',
+              this.get('itemType'),
+              this.get('itemType') !== 'person' ? added : added.map(x => ({
+                '@type': 'person',
+                '@id': x.person['@id'],
+                'given_name': x.person.givenName,
+                'family_name': x.person.familyName,
+              })),
+              removed
+            );
         },
 
         remove(item) {
@@ -70,10 +81,10 @@ export default Ember.Component.extend({
                 var name = filter._source.text;
                 item = {
                   person: {
-                      '@type': 'people',
+                      '@type': 'person',
                       '@id': filter._source['@id'],
                       'givenName': name.substr(0, name.indexOf(' ')),
-                      'familyName': name.substr(name.indexOf(' ') + 1)
+                      'familyName': name.substr(name.indexOf(' ') + 1),
                   }
                 };
             } else {

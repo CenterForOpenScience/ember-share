@@ -6,7 +6,11 @@
     {{#if changed}}
       <i>{{updated}}</i>
     {{else}}
-      {{text}}
+        {{#if text}}
+            {{text}}
+        {{else}}
+            <i>Add information</i>
+        {{/if}}
     {{/if}}
   </span>
 {{/if}}
