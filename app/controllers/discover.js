@@ -38,6 +38,21 @@ export default ApplicationController.extend({
         return query;
     },
 
+    queryBody: Ember.computed('elasticFilter', 'elasticAggregations', function() {
+        return {
+            'filter': this.get('elasticFilter'),
+            'aggregations': this.get('elasticAggregations')
+        };
+    }),
+
+    elasticAggregations: Ember.computed(function() {
+        return {
+            "sources" : {
+                "terms" : { "field" : "sources" }
+            }
+        };
+    }),
+
     loadPage(query=null) {
         query = query || this.searchQuery();
         let queryString = Ember.$.param(query);
@@ -67,6 +82,7 @@ export default ApplicationController.extend({
                 return source;
             });
             Ember.run(() => {
+                this.set('aggregations', json.aggregations);
                 this.set('loading', false);
                 this.get('results').addObjects(results);
             });
@@ -95,8 +111,8 @@ export default ApplicationController.extend({
         search() {
             this.search();
         },
-        queryChanged(queryBody) {
-            this.set('queryBody', queryBody);
+        filtersChanged(filter) {
+            this.set('elasticFilter', filter);
             this.search();
         },
         next() {

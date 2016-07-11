@@ -50,7 +50,7 @@
     <hr>
     <div class="row">
         <div class='col-xs-3'>
-            {{faceted-search onChange='queryChanged' facets=(hash
+            {{faceted-search onChange='filtersChanged' facets=(hash
                 date=(hash title='Date' component='search-facet-daterange')
                 type=(hash title='Type' component='search-facet-worktype')
                 tags=(hash title='Subject/Tag' type='tag' component='search-facet-typeahead')
@@ -64,6 +64,9 @@
         </div>
 
         <div class='col-xs-9'>
+            {{#if aggregations}}
+                {{json-pretty obj=aggregations }}
+            {{/if}}
           {{#each results as |obj|}}
             {{search-result obj=obj}}
           {{/each}}

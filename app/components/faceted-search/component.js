@@ -40,18 +40,16 @@ export default Ember.Component.extend({
                 }
             }
 
-            let query = null;
+            let elasticFilter = null;
             if (filters.length) {
-                query = {
-                    filter: {
-                        bool: {
-                            filter: filters
-                        }
+                elasticFilter = {
+                    bool: {
+                        filter: filters
                     }
                 };
             }
 
-            this.sendAction('onChange', query);
+            this.sendAction('onChange', elasticFilter);
         }
     }
 });
