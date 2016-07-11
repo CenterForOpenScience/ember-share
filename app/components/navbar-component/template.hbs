@@ -1,31 +1,31 @@
 <div class="container-fluid">
-<div class="navbar-header">
-  {{#link-to 'index' class="navbar-brand"}}
-      <img height='35px' width='auto' src='assets/images/nav_logo.png'>
-  {{/link-to}}
-</div>
-<div class="navbar-collapse collapse navbar-right">
-  <ul class="nav navbar-nav">
-    <li>{{link-to 'Discover' 'discover' class='nav-link'}}</li>
-    {{#if session.isAuthenticated}}
-      {{#bs-dropdown tagName="li"}}
-        {{#bs-dropdown-toggle}}
-          <span class="gravatar">
-            <img class='img-circle gravatar' src={{gravatarSrc}}>
-          </span>
-          {{userName}}
-          <i class="fa fa-caret-down"></i>
-        {{/bs-dropdown-toggle}}
-        {{#bs-dropdown-menu}}
-          <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
-          <li><a {{action 'logout'}}>Logout</a></li>
-        {{/bs-dropdown-menu}}
-      {{/bs-dropdown}}
-    {{else}}
-      <form class="navbar-form navbar-left" role="search">
-        <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
-        </form>
-    {{/if}}
-  </ul>
-</div>
+  <div class="navbar-header">
+    {{#link-to 'index' class="navbar-brand"}}
+        <img height='35px' width='auto' src='assets/images/nav_logo.png'>
+    {{/link-to}}
+  </div>
+  <div class="navbar-collapse collapse navbar-right">
+      <ul class="nav navbar-nav">
+        <li>{{link-to 'Discover' 'discover' class='nav-link'}}</li>
+        {{#if session.isAuthenticated}}
+            <li class="dropdown">
+                {{#bs-dropdown-toggle}}
+                    <span class="gravatar">
+                        <img class='img-circle gravatar' src={{gravatarSrc}}>
+                    </span>
+                    {{userName}}
+                    <i class="fa fa-caret-down"></i>
+                {{/bs-dropdown-toggle}}
+                {{#bs-dropdown-menu}}
+                    <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
+                    <li><a {{action 'logout'}}>Logout</a></li>
+                {{/bs-dropdown-menu}}
+            </li>
+        {{else}}
+            <form class="navbar-form navbar-left" role="search">
+                <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
+            </form>
+        {{/if}}
+      </ul>
+  </div>
 </div>
