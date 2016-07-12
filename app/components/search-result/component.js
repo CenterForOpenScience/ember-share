@@ -33,8 +33,8 @@ export default Ember.Component.extend({
         return tags;
     }),
     actions: {
-        addFilter(filter) {
-            this.sendAction('addFilter', filter);
+        addFilter(type, filter) {
+            this.sendAction('addFilter', type, filter);
         }
     }
 });

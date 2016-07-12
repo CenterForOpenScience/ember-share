@@ -81,11 +81,13 @@
         onChange=(action 'listChanged' 'identifiers')}} -->
         {{/if}}
     </div>
-    <div class='row'>
-    <button class='btn btn-default' {{action 'submitChanges'}}>
-        Submit Changes
-    </button>
-    </div>
+    {{#if session.isAuthenticated}}
+        <div class='row'>
+        <button class='btn btn-default' {{action 'submitChanges'}}>
+            Submit Changes
+        </button>
+        </div>
+    {{/if}}
 </div>
 <div class='container'>
     <h3>Potential Merges</h3>

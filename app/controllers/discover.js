@@ -81,6 +81,9 @@ export default ApplicationController.extend({
     },
 
     actions: {
+        addFilter(type, filter) {
+
+        },
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
