@@ -40,16 +40,7 @@ export default Ember.Component.extend({
                 }
             }
 
-            let elasticFilter = undefined;
-            if (filters.length) {
-                elasticFilter = {
-                    bool: {
-                        filter: filters
-                    }
-                };
-            }
-
-            this.sendAction('onChange', elasticFilter);
+            this.sendAction('onChange', filters);
         }
     }
 });

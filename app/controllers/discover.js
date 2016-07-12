@@ -38,9 +38,18 @@ export default ApplicationController.extend({
         return query;
     },
 
-    queryBody: Ember.computed('elasticFilter', 'elasticAggregations', function() {
+    queryBody: Ember.computed('searchString', 'elasticFilter', 'elasticAggregations', function() {
         return {
-            'query': this.get('elasticFilter'),
+            'query': {
+                'bool': {
+                    'must': {
+                        'query_string' : {
+                            'query': this.get('searchString') || '*'
+                        },
+                    },
+                    'filter': this.get('elasticFilter')
+                }
+            },
             'aggregations': this.get('elasticAggregations')
         };
     }),
