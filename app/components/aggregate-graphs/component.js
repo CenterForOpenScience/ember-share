@@ -13,12 +13,15 @@ export default Ember.Component.extend({
         let chart = c3.generate({
             data: {
                 columns: data,
-                type: 'donut'
+                type: 'donut',
+                onclick: (d) => {
+                    this.sendAction('onClick', key, d.id);
+                }
             },
             bindto: element,
             donut: {
                 title: key
-            }
+            },
         });
 
         let charts = this.get('charts');

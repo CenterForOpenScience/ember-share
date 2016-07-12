@@ -46,6 +46,18 @@ export default Ember.Component.extend({
         });
     },
 
+    queryUpdated: Ember.observer('query', function() {
+        let query = this.get('query');
+        if (query) {
+            let key = this.get('key');
+            let start = moment(query.range[key].gte);
+            let end = moment(query.range[key].lte);
+            let picker = this.$('.date-range').data('daterangepicker');
+            picker.setStartDate(start);
+            picker.setEndDate(end);
+        }
+    }),
+
     updateQuery(start, end) {
         let key = this.get('key');
         let queryFilter = { range: {} };

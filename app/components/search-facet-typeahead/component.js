@@ -50,6 +50,7 @@ export default Ember.Component.extend({
 
     actions: {
         changeFilter(filter) {
+            debugger;
             this.set('filters', filter);
             this.sendAction('onChange', this.get('key'), this.buildQueryFacet(filter));
         },

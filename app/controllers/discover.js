@@ -20,6 +20,8 @@ export default ApplicationController.extend({
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
+        this.set('facetFilters', Ember.Object.create());
+
         let query = this.searchQuery();
         // TODO Load all previous pages when hitting a page with page > 1
         // if (this.get('page') != 1) {
@@ -38,8 +40,21 @@ export default ApplicationController.extend({
         return query;
     },
 
-    queryBody: Ember.computed('searchString', 'elasticFilter', 'elasticAggregations', function() {
-        return {
+    getQueryBody() {
+        let facetFilters = this.get('facetFilters');
+        let filters = [];
+        for (let k of Object.keys(facetFilters)) {
+            let filter = facetFilters[k];
+            if (filter) {
+                if (Ember.$.isArray(filter)) {
+                    filters = filters.concat(filter);
+                } else {
+                    filters.push(filter);
+                }
+            }
+        }
+
+        let queryBody = {
             'query': {
                 'bool': {
                     'must': {
@@ -47,12 +62,13 @@ export default ApplicationController.extend({
                             'query': this.get('searchString') || '*'
                         },
                     },
-                    'filter': this.get('elasticFilter')
+                    'filter': filters
                 }
             },
             'aggregations': this.get('elasticAggregations')
         };
-    }),
+        return this.set('queryBody', queryBody);
+    },
 
     elasticAggregations: Ember.computed(function() {
         return {
@@ -68,7 +84,7 @@ export default ApplicationController.extend({
     loadPage(query=null) {
         query = query || this.searchQuery();
         let queryString = Ember.$.param(query);
-        let queryBody = JSON.stringify(this.get('queryBody'));
+        let queryBody = JSON.stringify(this.getQueryBody());
         const url = buildElasticCall(queryString);
         this.set('loading', true);
         return Ember.$.ajax({
@@ -108,6 +124,21 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
+    facets: Ember.computed(function() {
+        return [
+            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
+            { key: 'publisher', title: 'Publisher', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
+            { key: 'funder', title: 'Funder', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
+            { key: 'institution', title: 'Institution', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
+            { key: 'organization', title: 'Organization', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
+            { key: 'language', title: 'Language', component: 'search-facet-language' },
+            { key: 'contributor', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
+            { key: 'source', title: 'Source', component: 'search-facet-source' }
+        ];
+    }),
+
     actions: {
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
@@ -123,8 +154,8 @@ export default ApplicationController.extend({
         search() {
             this.search();
         },
-        filtersChanged(filter) {
-            this.set('elasticFilter', filter);
+        filtersChanged(facetFilters) {
+            this.set('facetFilters', facetFilters);
             this.search();
         },
         next() {
@@ -142,6 +173,8 @@ export default ApplicationController.extend({
             }
             this.decrementProperty('page', 1);
             this.loadPage();
+        },
+        clickGraph(key, id) {
         }
     }
 });
