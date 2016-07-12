@@ -8,12 +8,35 @@ export default Ember.Component.extend({
         this.set('charts', {});
     },
 
+    //var chart = c3.generate({
+    //bindto: '#chart',
+    //data: {
+    //  columns: [
+    //    ['data1', 30, 200, 100, 400, 150, 250],
+    //    ['data2', 50, 20, 10, 40, 15, 25]
+    //  ]
+    //})
+
     initGraph(key, data) {
         let element = this.$(`.${key}-graph`).get(0);
+	//let chart = c3.generate({
+	//    bindto: '#chart',
+	//    data: {
+	//	columns: [
+	//	    ['data1', 30, 200, 100, 400, 150, 250],
+	//	    ['data2', 50, 20, 10, 40, 15, 25]
+	//	]
+	//    }
+	    //data: {
+	//	columns:[['data1',data]]
+		  //['data1', 30, 200, 100, 400, 150, 250],
+		  //['data2', 50, 20, 10, 40, 15, 25]
+		//]
+	//    }
         let chart = c3.generate({
             data: {
                 columns: data,
-                type: 'donut'
+                type: 'donut' 
             },
             bindto: element,
             donut: {
@@ -31,7 +54,10 @@ export default Ember.Component.extend({
         let keys = Object.keys(aggregations);
         for(let key of keys) {
             let data = aggregations[key].buckets;
+	    //document.write(data.toString());
+	    //data = data.map(({key, doc_count}) => doc_count);
             data = data.map(({key, doc_count}) => [key, doc_count]);
+	    //document.write(data.toString());
             let chart = charts[key];
             if (chart) {
                 chart.load({

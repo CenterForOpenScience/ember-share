@@ -41,12 +41,33 @@ export default ApplicationController.extend({
     queryBody: Ember.computed('elasticFilter', 'elasticAggregations', function() {
         return {
             'query': this.get('elasticFilter'),
-            'aggregations': this.get('elasticAggregations')
+            'aggregations': this.get('elasticDateAggregations')
         };
     }),
 
     elasticAggregations: Ember.computed(function() {
         return {
+            "providers" : {
+                "terms" : { "field" : "sources" }
+            },
+            "types" : {
+                "terms" : { "field" : "@type" }
+            },
+        };
+    }),
+
+    elasticDateAggregations: Ember.computed(function() {
+        return {
+	    "range": {
+		"date_range" : { "field": "date",
+				 "ranges": [
+				     { "from": "2014-01-01", "to": "2014-06-30" },
+				     { "from": "2014-07-01", "to": "2014-12-31" },
+				     { "from": "2015-01-01", "to": "2015-06-30" },
+				     { "from": "2015-07-01", "to": "2015-12-31" }
+				 ]
+			       }
+            },
             "providers" : {
                 "terms" : { "field" : "sources" }
             },
