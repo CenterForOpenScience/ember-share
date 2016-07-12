@@ -40,7 +40,7 @@ export default Ember.Component.extend({
                 }
             }
 
-            let elasticFilter = null;
+            let elasticFilter = undefined;
             if (filters.length) {
                 elasticFilter = {
                     bool: {

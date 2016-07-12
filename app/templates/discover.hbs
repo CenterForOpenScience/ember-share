@@ -48,6 +48,10 @@
         </div>
     {{/bs-collapse}}
     <hr>
+    <div class='row'>
+        {{aggregate-graphs aggregations=aggregations}}
+        {{!onClick=(action 'clickGraph')}}
+    </div>
     <div class="row">
         <div class='col-xs-3'>
             {{faceted-search onChange='filtersChanged' facets=(hash
@@ -64,9 +68,6 @@
         </div>
 
         <div class='col-xs-9'>
-            {{#if aggregations}}
-                {{json-pretty obj=aggregations }}
-            {{/if}}
           {{#each results as |obj|}}
             {{search-result obj=obj}}
           {{/each}}

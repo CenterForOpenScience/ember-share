@@ -40,16 +40,19 @@ export default ApplicationController.extend({
 
     queryBody: Ember.computed('elasticFilter', 'elasticAggregations', function() {
         return {
-            'filter': this.get('elasticFilter'),
+            'query': this.get('elasticFilter'),
             'aggregations': this.get('elasticAggregations')
         };
     }),
 
     elasticAggregations: Ember.computed(function() {
         return {
-            "sources" : {
+            "providers" : {
                 "terms" : { "field" : "sources" }
-            }
+            },
+            "types" : {
+                "terms" : { "field" : "@type" }
+            },
         };
     }),
 
