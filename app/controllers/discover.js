@@ -72,12 +72,38 @@ export default ApplicationController.extend({
 
     elasticAggregations: Ember.computed(function() {
         return {
-            "providers" : {
+            "sources" : {
                 "terms" : { "field" : "sources" }
             },
             "types" : {
                 "terms" : { "field" : "@type" }
             },
+            "last_3_months" : {
+                "filter": {
+                    "range": {
+                        "date": {
+                            "gte": "now-3M",
+                            "lte": "now"
+                        }
+                    }
+                },
+                "aggregations": {
+                    "results_by_date": {
+                        "date_histogram" : {
+                            "field" : "date",
+                            "interval" : "week"
+                        }
+                    }
+                }
+            },
+            /*
+            "typesHistogram" : {
+                "date_histogram" : {
+                    "field" : "date",
+                    "interval" : "week"
+                }
+            },
+            */
         };
     }),
 
@@ -127,15 +153,15 @@ export default ApplicationController.extend({
     facets: Ember.computed(function() {
         return [
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'types', title: 'Type', component: 'search-facet-worktype' },
             { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
             { key: 'publisher', title: 'Publisher', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
             { key: 'funder', title: 'Funder', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
             { key: 'institution', title: 'Institution', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
             { key: 'organization', title: 'Organization', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributor', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
-            { key: 'source', title: 'Source', component: 'search-facet-source' }
+            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
+            { key: 'sources', title: 'Source', component: 'search-facet-source' }
         ];
     }),
 
@@ -174,7 +200,40 @@ export default ApplicationController.extend({
             this.decrementProperty('page', 1);
             this.loadPage();
         },
-        clickGraph(key, id) {
+        clickGraph(key, data) {
+            // TODO generate elasticsearch queries in only one place, not both
+            // here and in the search-facet-* components
+            let queryFilter = null;
+            if (key === 'sources') {
+                queryFilter = {
+                    terms: {}
+                };
+                queryFilter.terms[key] = [data];
+            } else if (key === 'types') {
+                queryFilter = {
+                    term: {
+                        '@type.raw': data
+                    }
+                };
+            } else if (key === 'date') {
+                queryFilter = {
+                    range: {
+                        date: {
+                            gte: data.start,
+                            lte: data.end
+                        }
+                    }
+                };
+            }
+            if (queryFilter) {
+                let facetFilters = this.get('facetFilters');
+                facetFilters.set(key, queryFilter);
+                this.search();
+            }
+        },
+        clearFilters() {
+            this.set('facetFilters', {});
+            this.search();
         }
     }
 });

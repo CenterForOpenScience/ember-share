@@ -1,8 +1,18 @@
-<div class='col-xs-6'>
-    <div class='providers-graph'>
+<div class='field-select'>
+    {{#power-select
+        options=fieldOptions
+        selected=selectedField
+        onchange=(action 'changeField')
+        as |field|}}
+        {{field}}
+    {{/power-select}}
+</div>
+
+<div class='col-xs-4'>
+    <div class='donut'>
     </div>
 </div>
-<div class='col-xs-6'>
-    <div class='types-graph'>
+<div class='col-xs-8'>
+    <div class='histogram'>
     </div>
 </div>

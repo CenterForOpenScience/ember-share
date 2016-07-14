@@ -20,13 +20,19 @@ export default TypeaheadComponent.extend({
         });
     },
 
+    selected: Ember.computed('query', function() {
+        let queryFilter = this.get('query');
+        if (queryFilter) {
+            return queryFilter.terms[this.get('key')]
+        }
+    }),
+
     buildQueryFacet(selectedTerms) {
         let queryFilter = null;
         if (selectedTerms.length) {
             queryFilter = {
                 terms: {}
             };
-            // use unanalyzed field for exact match
             queryFilter.terms[this.get('key')] = selectedTerms;
         }
         return queryFilter;
@@ -45,7 +51,6 @@ export default TypeaheadComponent.extend({
     
     actions: {
         changeFilter(selected) {
-            this.set('selected', selected);
             let key = this.get('key');
             this.sendAction('onChange', key, this.buildQueryFacet(selected));
         }
