@@ -72,18 +72,12 @@ export default ApplicationController.extend({
     },
 
     elasticAggregations: Ember.computed(function() {
-        return {
-            "sources" : {
-                "terms" : { "field" : "sources" }
-            },
-            "types" : {
-                "terms" : { "field" : "@type" }
-            },
+        let histogramAgg = {
             "last_3_months" : {
                 "filter": {
                     "range": {
                         "date": {
-                            "gte": "now-3M",
+                            "gte": "now-12w",
                             "lte": "now"
                         }
                     }
@@ -92,19 +86,25 @@ export default ApplicationController.extend({
                     "results_by_date": {
                         "date_histogram" : {
                             "field" : "date",
-                            "interval" : "week"
+                            "interval" : "week",
+                            "extended_bounds": {
+                                "min": "now-12w",
+                                "max": "now"
+                            }
                         }
                     }
                 }
+            }
+        };
+        return {
+            "sources" : {
+                "terms" : { "field" : "sources" },
+                "aggregations": histogramAgg
             },
-            /*
-            "typesHistogram" : {
-                "date_histogram" : {
-                    "field" : "date",
-                    "interval" : "week"
-                }
-            },
-            */
+            "types" : {
+                "terms" : { "field" : "@type" },
+                "aggregations": histogramAgg
+            }
         };
     }),
 

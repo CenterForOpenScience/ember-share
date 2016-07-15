@@ -4,50 +4,91 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.set('charts', {});
         this.set('fieldOptions', ['sources', 'types']);
         this.set('selectedField', 'sources');
     },
 
-    makeDonut(title, data) {
-        let element = this.$(`.donut`).get(0);
-        let donut = c3.generate({
-            data: {
+    updateDonut(title, data) {
+        let donutData = data.map(({key, doc_count}) => [key, doc_count]);
+        let donut = this.get('donut');
+        if (!donut) {
+            let element = this.$(`.donut`).get(0);
+            donut = c3.generate({
+                data: {
+                    columns: donutData,
+                    type: 'donut',
+                    onclick: (d) => {
+                        this.clickDonut(d);
+                    }
+                },
+                bindto: element,
+                donut: { title },
+            });
+            this.set('donut', donut);
+        } else {
+            donut.load({
                 columns: data,
-                type: 'donut',
-                onclick: (d) => {
-                    this.clickDonut(d);
-                }
-            },
-            bindto: element,
-            donut: { title },
-        });
-        this.set('donut', donut);
+                unload: true
+            });
+        }
     },
 
-    makeHistogram(dates, counts) {
-        let element = this.$(`.histogram`).get(0);
-        let histogram = c3.generate({
-            data: {
-                x: 'dates',
-                columns: [dates, counts],
-                onclick: (d) => {
-                    this.clickHistogram(d);
-                }
-            },
-            bindto: element,
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    /*
-                    tick: {
-                        format: '%Y-%m-%d'
-                    }
-                    */
-                }
+    updateHistogram(field, data) {
+        let keys = data.mapBy('key');
+        let dates = null;
+        let histogramData = data.map((bucket) => {
+            let dateBuckets = bucket.last_3_months.results_by_date.buckets;
+            if (!dates) {
+                dates = dateBuckets.mapBy('key');
+                dates.unshift('dates');
             }
+            let cumulativeCounts = dateBuckets.reduce((prev, curr) => {
+                let count = curr.doc_count;
+                if (prev.length) {
+                    count += prev[prev.length - 1];
+                }
+                prev.push(count);
+                return prev;
+            }, []);
+            cumulativeCounts.unshift(bucket.key);
+            return cumulativeCounts;
         });
-        this.set('histogram', histogram);
+        let types = {};
+        keys.forEach((k) => types[k] = 'area-spline');
+        let histogram = this.get('histogram');
+        if (!histogram) {
+            let element = this.$(`.histogram`).get(0);
+            histogram = c3.generate({
+                data: {
+                    x: 'dates',
+                    columns: [dates, ...histogramData],
+                    groups: [keys],
+                    types,
+                    onclick: (d) => {
+                        this.clickHistogram(d);
+                    }
+                },
+                bindto: element,
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        /*
+                        tick: {
+                            format: '%Y-%m-%d'
+                        }
+                        */
+                    }
+                }
+            });
+            this.set('histogram', histogram);
+        } else {
+            histogram.load({
+                    columns: [dates, ...histogramData],
+                    groups: [keys],
+                    types,
+                    unload: true
+            });
+        }
     },
 
     clickDonut(data) {
@@ -58,35 +99,12 @@ export default Ember.Component.extend({
     },
 
     dataChanged: Ember.observer('aggregations', 'selectedField', function() {
+        let field = this.get('selectedField');
         let aggregations = this.get('aggregations');
+        let data = aggregations[this.get('selectedField')].buckets;
 
-        let donutData = aggregations[this.get('selectedField')].buckets;
-        donutData = donutData.map(({key, doc_count}) => [key, doc_count]);
-        let donut = this.get('donut');
-        if (donut) {
-            donut.load({
-                columns: donutData,
-                unload: true
-            });
-        } else {
-            this.makeDonut(this.get('selectedField'), donutData);
-        }
-
-        let histogramData = aggregations.last_3_months.results_by_date.buckets;
-        let dates = histogramData.mapBy('key').map(d => moment(d).format('Y-MM-DD'));
-        dates.unshift('dates');
-        let counts = histogramData.mapBy('doc_count');
-        counts.unshift('results');
-        let histogram = this.get('histogram');
-        if (histogram) {
-            histogram.load({
-                columns: [dates, counts],
-                unload: true
-            });
-        } else {
-            this.makeHistogram(dates, counts);
-        }
-        
+        this.updateDonut(field, data);
+        this.updateHistogram(field, data);
     }),
 
     actions: {
