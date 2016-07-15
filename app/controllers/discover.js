@@ -153,12 +153,12 @@ export default ApplicationController.extend({
     facets: Ember.computed(function() {
         return [
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'types', title: 'Type', component: 'search-facet-worktype' },
+            { key: '@type', title: 'Type', component: 'search-facet-worktype' },
             { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
-            { key: 'publisher', title: 'Publisher', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
-            { key: 'funder', title: 'Funder', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
-            { key: 'institution', title: 'Institution', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
-            { key: 'organization', title: 'Organization', queryKey: 'associations', useId: 'true', component: 'search-facet-typeahead' },
+            { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
+            { key: 'funder', title: 'Funder', component: 'search-facet-association' },
+            { key: 'institution', title: 'Institution', component: 'search-facet-association' },
+            { key: 'organization', title: 'Organization', component: 'search-facet-association' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
             { key: 'sources', title: 'Source', component: 'search-facet-source' }

@@ -8,7 +8,7 @@
             {{component facet.component
             key=facet.key
             options=facet
-            query=(get filters facet.key)
+            filter=(get filters facet.key)
             onChange=(action 'facetChanged')}}
         </div>
     </div>

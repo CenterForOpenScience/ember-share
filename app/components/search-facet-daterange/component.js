@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import moment from 'moment';
+import { dateRangeFilter, invertDateRangeFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     init() {
         this._super(...arguments);
-        this.set('pickerValue', 'All time');
+        this.noFilter();
     },
 
     didInsertElement() {
@@ -35,7 +36,7 @@ export default Ember.Component.extend({
                 } else {
                     this.set('pickerValue', picker.chosenLabel);
                 }
-                this.updateQuery(start, end);
+                this.updateFilter(start, end);
             });
         });
 
@@ -46,31 +47,33 @@ export default Ember.Component.extend({
         });
     },
 
-    queryUpdated: Ember.observer('query', function() {
-        let query = this.get('query');
-        if (query) {
+    filterUpdated: Ember.observer('filter', function() {
+        let filter = this.get('filter');
+        if (filter) {
             let key = this.get('key');
-            let start = moment(query.range[key].gte);
-            let end = moment(query.range[key].lte);
+            let { start, end } = invertDateRangeFilter(key, filter);
             let picker = this.$('.date-range').data('daterangepicker');
             picker.setStartDate(start);
             picker.setEndDate(end);
+        } else {
+            this.noFilter();
         }
     }),
 
-    updateQuery(start, end) {
+    updateFilter(start, end) {
         let key = this.get('key');
-        let queryFilter = { range: {} };
-        queryFilter.range[key] = {
-            gte: start.format(),
-            lte: end.format()
-        };
-        this.sendAction('onChange', key, queryFilter);
+        let filter = dateRangeFilter(key, start, end);
+        this.sendAction('onChange', key, filter);
+    },
+
+    noFilter() {
+        // TODO also reset datepicker to its default?
+        this.set('pickerValue', 'All time');
     },
 
     actions: {
         clear() {
-            this.set('pickerValue', 'All time');
+            this.noFilter();
             this.sendAction('onChange', this.get('key'), null);
         }
     }

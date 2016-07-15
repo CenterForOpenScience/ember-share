@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
+import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     init() {
@@ -10,24 +11,13 @@ export default Ember.Component.extend({
         return 'Add ' + this.get('options.title') + ' filter';
     }),
 
-    filters: [],
+    selected: Ember.computed('key', 'filter', function() {
+        return invertTermsFilter(this.get('key'), this.get('filter'));
+    }),
 
     buildQueryFacet(selected) {
-        let queryFilter = null;
-        if (selected.length) {
-            let key = this.get('options.queryKey') || this.get('key');
-            let useId = this.get('options.useId');
-            let terms = selected.map(function(obj){
-                return obj._source[ useId ? '@id' : 'text' ];
-            });
-            let termKey = useId ? `${key}.@id` : `${key}.raw`;
-
-            queryFilter = {
-                terms: {}
-            };
-            queryFilter.terms[termKey] = terms;
-        }
-        return queryFilter;
+        let key = this.get('options.queryKey') || this.get('key');
+        return termsFilter(key, selected);
     },
 
     typeaheadQueryUrl() {
@@ -45,14 +35,14 @@ export default Ember.Component.extend({
     },
 
     handleTypeaheadResponse(response) {
-        return response.hits.hits;
+        return response.hits.hits.map(function(obj){
+            return obj._source.text;
+        });
     },
 
     actions: {
-        changeFilter(filter) {
-            debugger;
-            this.set('filters', filter);
-            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(filter));
+        changeFilter(selected) {
+            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(selected));
         },
 
         elasticSearch(term) {
