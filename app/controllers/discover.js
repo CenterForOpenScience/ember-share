@@ -2,6 +2,7 @@ import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
+import { termsFilter, dateRangeFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
     queryParams: ['page', 'searchString'],
@@ -203,31 +204,17 @@ export default ApplicationController.extend({
         clickGraph(key, data) {
             // TODO generate elasticsearch queries in only one place, not both
             // here and in the search-facet-* components
-            let queryFilter = null;
+            let filter = null;
             if (key === 'sources') {
-                queryFilter = {
-                    terms: {}
-                };
-                queryFilter.terms[key] = [data];
+                filter = termsFilter(key, [data], false);
             } else if (key === 'types') {
-                queryFilter = {
-                    term: {
-                        '@type.raw': data
-                    }
-                };
+                filter = termsFilter('@type', [data]);
             } else if (key === 'date') {
-                queryFilter = {
-                    range: {
-                        date: {
-                            gte: data.start,
-                            lte: data.end
-                        }
-                    }
-                };
+                filter = dateRangeFilter(key, data.start, data.end);
             }
-            if (queryFilter) {
+            if (filter) {
                 let facetFilters = this.get('facetFilters');
-                facetFilters.set(key, queryFilter);
+                facetFilters.set(key, filter);
                 this.search();
             }
         },
