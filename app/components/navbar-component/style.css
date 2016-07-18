@@ -1,52 +1,135 @@
 .navbar {
     min-height: 50px;
     margin-bottom: 25px;
-    background-color: #204762;
+    background-color: #214762;
+    background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
+    border-radius: 0 ;
 }
 
-.gravatar {
+.share {
+  color: white ;
+  font-size: 18px ;
+  font-family: "Open Sans" , "Helvetica Neue" , sans-serif ;
+  -webkit-font-smoothing: antialiased;
+  padding-left: 10px;
+  line-height: 45px ;
+}
+
+.share:hover {
+  text-decoration: none;
+  color: #E0EBF3;
+  cursor: pointer;
+}
+
+.btn-group {
     float: right;
-    margin-top: 5px;
+}
+
+.btn-group.open {
+  background-color: #080808 ;
+}
+
+
+.gravatar {
+    float: left;
+    margin-top: 7px;
+    margin-bottom: 5px;
     margin-left: 5px;
-    height: 35px;
-    margin-left: 5px;
+    margin-right: 5px ;
+    height: 27px;
     width: auto;
 }
 
 .hello-text {
     float: right;
-    margin: 5px;
-    margin-top: 15px;
-    color: white;
+    background-color: transparent ;
+    border: none ;
+    font-size: 14px ;
+    height: 50px ;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+
+    :hover {
+      color: #E0EBF3 ;
+    }
 }
+
+.username {
+  color: white ;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 40px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  text-decoration: none ;
+}
+
+.caret {
+  color: white ;
+  margin-bottom: auto;
+}
+
 .log-button {
     float: right;
     min-height: 50px;
 }
 
 .navbar-logo {
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: 5px;
     float: left;
-    height: 35px;
-    width: auto;
+    height: 25px;
 }
 
 .nav-link {
     float: right;
     color: white;
-    padding: 5px;
-    position: relative;
+    font-size: 14px;
+    padding-right: 15px;
+    padding-left: 15px ;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none ;
     display: block;
-    font-size: 110%;
-    padding-top: 14px;
-    padding-right: 10px;
 }
 
 .nav-link:hover {
     color: #E0EBF3;
 }
 
-.nav-link .selected {
-    background-color: #333333;
+.active {
+    background-color: #080808;
+}
+
+.dropdown-menu {
+  margin-top: 0 !important ;
+  border-top: 0 !important ;
+  padding-top: 0 !important ;
+  background-color: #080808 ;
+  border-radius: 0 ;
+
+  > li > a {
+    display: block;
+    padding: 3px 20px ;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.8 ;
+    white-space: nowrap;
+    color: white ;
+    font-family: 'Open Sans' , sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  > li :hover {
+    background-color: #303030;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#303030), to(#080808));
+    color: #E0EBF3;
+    cursor: pointer;
+  }
+}
+
+:focus {
+  outline-width: 0 !important;
 }

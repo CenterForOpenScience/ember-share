@@ -9,7 +9,7 @@ export default Ember.Component.extend({
         var userData = this.get('session.data.userData');
         if (userData) {
             this.set('gravatarSrc', userData.gravatar);
-            this.set('userName', userData.first_name);
+            this.set('userName', userData.first_name + " " + userData.last_name);
         }
     },
     actions: {
