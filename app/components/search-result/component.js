@@ -4,7 +4,7 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     abbreviated: false,
-    abbreviation: Ember.computed('obj.description_nohtml', function(){
+    abbreviation: Ember.computed('obj.description', function(){
         let desc = this.get('obj.description');
         if (desc && desc.length > 350) {
             this.set('abbreviated', true);
