@@ -7,7 +7,12 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['curate-work'],
     changes: null,
-
+    loadPlugin: function() {
+    // Use run loop if you need to setup the DOM first
+        Ember.run.scheduleOnce('afterRender', this, function() {
+          Ember.$.getScript('https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+        });
+    }.on('init'),
     throughMap: {
       tag: 'throughtags',
       person: 'contributor',

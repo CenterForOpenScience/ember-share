@@ -1,20 +1,16 @@
 import Ember from 'ember';
 import layout from './template';
 
-var htmlSafe = Ember.String.htmlSafe;
-
 export default Ember.Component.extend({
     layout,
     abbreviated: false,
-    abbreviation: Ember.computed('obj.description', function(){
-        var doc = document.implementation.createHTMLDocument();
+    abbreviation: Ember.computed('obj.description_nohtml', function(){
         let desc = this.get('obj.description');
-        doc.body.innerHTML = desc;
         if (desc && desc.length > 350) {
             this.set('abbreviated', true);
-            return htmlSafe(doc.body.innerHTML.substring(0, 350));
+            return desc.substring(0, 350);
         }
-        return htmlSafe(doc.body.innerHTML);
+        return desc;
     }),
     extra_contributors: null,
     contributors: Ember.computed('obj.contributors', function() {

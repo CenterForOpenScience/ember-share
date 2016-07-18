@@ -16,6 +16,12 @@ export default ApplicationController.extend({
 
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
+    loadPlugin: function() {
+    // Use run loop if you need to setup the DOM first
+        Ember.run.scheduleOnce('afterRender', this, function() {
+          Ember.$.getScript('https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+        });
+    }.on('init'),
 
     init() {
         //TODO Sort initial results on date_modified
@@ -28,6 +34,7 @@ export default ApplicationController.extend({
         // }
         this.loadPage(query);
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
+
     },
 
     searchQuery() {
