@@ -30,12 +30,6 @@ export default Ember.Component.extend({
             Ember.run(() => {
                 let start = picker.startDate;
                 let end = picker.endDate;
-                if (picker.chosenLabel === 'Custom Range') {
-                    let format = 'Y-MM-DD';
-                    this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
-                } else {
-                    this.set('pickerValue', picker.chosenLabel);
-                }
                 this.updateFilter(start, end);
             });
         });
@@ -55,6 +49,12 @@ export default Ember.Component.extend({
             let picker = this.$('.date-range').data('daterangepicker');
             picker.setStartDate(start);
             picker.setEndDate(end);
+            if (picker.chosenLabel === 'Custom Range') {
+                let format = 'Y-MM-DD';
+                this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
+            } else {
+                this.set('pickerValue', picker.chosenLabel);
+            }
         } else {
             this.noFilter();
         }

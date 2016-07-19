@@ -49,7 +49,10 @@
     {{/bs-collapse}}
     <hr>
     <div class='row'>
-        {{aggregate-graphs aggregations=aggregations onClick=(action 'clickGraph')}}
+        {{aggregate-graphs aggregations=aggregations
+        setTermFilter=(action 'setTermFilter')
+        setDateFilter=(action 'setDateFilter')
+        }}
     </div>
     <div class="row">
         <div class='col-xs-3'>

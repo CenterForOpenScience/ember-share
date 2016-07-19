@@ -170,6 +170,7 @@ export default ApplicationController.extend({
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
+
         typing(val, event) {
             // Ignore all keycodes that do not result in the value changing
             // 8 == Backspace, 32 == Space
@@ -178,13 +179,16 @@ export default ApplicationController.extend({
             }
             this.search();
         },
+
         search() {
             this.search();
         },
+
         filtersChanged(facetFilters) {
             this.set('facetFilters', facetFilters);
             this.search();
         },
+
         next() {
             // If we don't have full pages then we've hit the end of our search
             if (this.get('results.length') % this.get('size') !== 0) {
@@ -193,6 +197,7 @@ export default ApplicationController.extend({
             this.incrementProperty('page', 1);
             this.loadPage();
         },
+
         prev() {
             // No negative pages
             if (this.get('page') < 1) {
@@ -201,16 +206,14 @@ export default ApplicationController.extend({
             this.decrementProperty('page', 1);
             this.loadPage();
         },
-        clickGraph(key, data) {
-            // TODO generate elasticsearch queries in only one place, not both
-            // here and in the search-facet-* components
+
+        setTermFilter(field, term) {
             let filter = null;
-            if (key === 'sources') {
-                filter = termsFilter(key, [data], false);
-            } else if (key === 'types') {
-                filter = termsFilter('@type', [data]);
-            } else if (key === 'date') {
-                filter = dateRangeFilter(key, data.start, data.end);
+            // HACK This logic could be more generic.
+            if (field === 'sources') {
+                filter = termsFilter(field, [term], false);
+            } else if (field === 'types') {
+                filter = termsFilter('@type', [term]);
             }
             if (filter) {
                 let facetFilters = this.get('facetFilters');
@@ -218,8 +221,17 @@ export default ApplicationController.extend({
                 this.search();
             }
         },
+
+        setDateFilter(start, end) {
+            let key = 'date';
+            let filter = dateRangeFilter(key, start, end);
+            let facetFilters = this.get('facetFilters');
+            facetFilters.set(key, filter);
+            this.search();
+        },
+
         clearFilters() {
-            this.set('facetFilters', {});
+            this.set('facetFilters', Ember.Object.create());
             this.search();
         }
     }
