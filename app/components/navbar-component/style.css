@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+a:-webkit-any-link {
+  text-decoration: none !important;
+}
+
 .btn-group {
     float: right;
 }
