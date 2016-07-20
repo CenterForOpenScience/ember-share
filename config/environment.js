@@ -19,7 +19,9 @@ module.exports = function(environment) {
     }
   };
   //this needs to go in an actual env at some point
-  ENV.apiUrl = 'http://localhost:8000'
+  ENV.csrfCookie = 'csrftoken';
+  ENV.apiUrl = 'http://localhost:8000';
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -28,16 +30,17 @@ module.exports = function(environment) {
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
 
-  if (environment === 'test') {
+  if (environment === 'staging') {
+    ENV.apiUrl = 'https://staging-share.osf.io'
+
     // Testem prefers this...
     ENV.baseURL = '/';
-    ENV.locationType = 'none';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing';
+    // ENV.APP.rootElement = '#ember-staging';
   }
 
   if (environment === 'production') {

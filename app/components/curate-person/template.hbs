@@ -1,59 +1,96 @@
-<h3 class='title'>
-    Curate Person
-</h3>
-<div class='col-sm-6'>
-    <div>
-        <label>Family name</label>
-        {{curate-field-text text=person.familyName
-        onChange=(action 'fieldChanged' 'familyName')}}
-    </div>
-    <div>
-        <label>Given name</label>
-        {{curate-field-text text=person.givenName
-        onChange=(action 'fieldChanged' 'givenName')}}
-    </div>
-    <div>
-        <label>Additional name</label>
-        {{curate-field-text text=person.additionalName
-        onChange=(action 'fieldChanged' 'additionalName')}}
-    </div>
-    <div>
-        <label>Suffix</label>
-        {{curate-field-text text=person.suffix
-        onChange=(action 'fieldChanged' 'suffix')}}
-    </div>
-    <div>
-        <label>Location</label>
-        {{curate-field-text text=person.location
-        onChange=(action 'fieldChanged' 'location')}}
-    </div>
-    <div>
-        <label>URL</label>
-        {{curate-field-text text=person.url
-        onChange=(action 'fieldChanged' 'url')}}
+<div class='title-container'>
+    <div class='container'>
+        <div class='row'>
+        <div class='col-xs-6'>
+            {{curate-field-text text=person.familyName
+            onChange=(action 'fieldChanged' 'familyName') }}
+            <p>Family name</p>
+        </div>
+        <div class='col-xs-6'>
+            {{curate-field-text text=person.givenName
+            onChange=(action 'fieldChanged' 'givenName')}}
+            <p>Given name</p>
+        </div>
+        </div>
     </div>
 </div>
-<div class='col-sm-6'>
-    <div>
-        <h4>Emails</h4>
-        {{curate-field-list list=person.emails
-        listItem='curate-list-email'
-        onChange=(action 'listChanged' 'emails')}}
+
+<div class='body-container' style='padding-top:15px'>
+<div class='container'>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Additional name</label>
+            {{curate-field-text text=person.additionalName
+            onChange=(action 'fieldChanged' 'additionalName')}}
+        {{else}}
+            {{#if person.additionalName}}
+                <label>Additional name</label>
+                {{person.additionalName}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Suffix</label>
+            {{curate-field-text text=person.suffix
+            onChange=(action 'fieldChanged' 'suffix')}}
+        {{else}}
+            {{#if person.additionalName}}
+                <label>Suffix</label>
+                {{person.suffix}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Location</label>
+            {{curate-field-text text=person.location
+            onChange=(action 'fieldChanged' 'location')}}
+        {{else}}
+            {{#if person.location}}
+                <label>Location</label>
+                {{person.location}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>URL</label>
+            {{curate-field-text text=person.url
+            onChange=(action 'fieldChanged' 'url')}}
+        {{else}}
+            {{#if person.url}}
+                <label>URL</label>
+                {{person.url}}
+            {{/if}}
+        {{/if}}
     </div>
     <div>
+        {{#if person.affiliations}}
         <h4>Affiliations</h4>
         {{curate-field-list list=person.affiliations
         listItem='curate-list-affiliation'
         onChange=(action 'listChanged' 'affiliations')}}
+        {{/if}}
     </div>
     <div>
+        {{#if person.identifiers}}
         <h4>Identifiers</h4>
-        {{curate-field-list list=person.identifiers
+        <!-- {{curate-field-list list=person.identifiers
         listItem='curate-list-identifier'
-        onChange=(action 'listChanged' 'identifiers')}}
+        onChange=(action 'listChanged' 'identifiers')}} -->
+        {{/if}}
     </div>
+    {{#if session.isAuthenticated}}
+        <div class='row'>
+        <button class='btn btn-default' {{action 'submitChanges'}}>
+            Submit Changes
+        </button>
+        </div>
+    {{/if}}
 </div>
-
-<button class='btn btn-default' {{action 'submitChanges'}}>
-    Submit Changes
-</button>
+<div class='container'>
+    <h3>Potential Merges</h3>
+    {{merge-widget obj=person _type='person'}}
+</div>
+</div>

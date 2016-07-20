@@ -1,9 +1,32 @@
-{{#each displayList as |item|}}
+{{#if list}}
+<div class="row">
+  <div class="col-xs-12">
+    <h3>{{field}} {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} </h3>
+  </div>
+</div>
+
+{{#quad-column objects=displayList as |item|}}
     {{component listItem item=item edit=edit remove=(action 'remove')}}
-{{/each}}
+{{/quad-column}}
 {{#if edit}}
-    {{!TODO search for and add items}}
-    {{fa-icon 'times' click=(action 'cancel')}}
-{{else}}
-    {{fa-icon 'magic' click=(action 'edit')}}
+        <div class='col-xs-11' style='padding-top: 10px'>
+        {{#power-select
+            search=(action "elasticSearch")
+            placeholder=placeholder
+            selected=selected
+            onchange=(action "changeFilter")
+            as |option|
+        }}
+            {{option._source.text}}
+        {{/power-select}}
+        </div>
+        <div class='col-xs-1'>
+        {{#if edit}}
+            {{!TODO search for and add items}}
+            <div style='font-size: 150%;'>
+                {{fa-icon 'times' click=(action 'cancel')}}
+            </div>
+        {{/if}}
+        </div>
+{{/if}}
 {{/if}}

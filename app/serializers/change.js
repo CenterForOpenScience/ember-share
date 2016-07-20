@@ -1,7 +1,7 @@
-import JSONLDToAPISerializer from './json-ld-to-api-serializer';
+import ApplicationSerializer from './application';
 
-export default JSONLDToAPISerializer.extend({
-    normalizeResponse(_, __, data, ___, ____){
-        return this._super(_, __, data, ___, ____, 'change');
+export default ApplicationSerializer.extend({
+    normalize(_, __) {
+        return this._super(_, __, 'change');
     }
 });

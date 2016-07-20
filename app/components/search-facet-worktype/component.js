@@ -1,16 +1,28 @@
 import Ember from 'ember';
 
+// HACK hardcoded field
+const FIELD = '@type.raw';
+
 export default Ember.Component.extend({
     selectedType: Ember.computed('query', function() {
-        let query = this.get('query');
-        let key = '@type'; // this.get('key')
-        return query ? query.get(key) : undefined;
+        let filter = this.get('query');
+        if (filter && filter.term) {
+            return filter.term[FIELD];
+        }
+        return null;
     }),
 
     actions: {
         change(type) {
-            let key = '@type'; // this.get('key')
-            this.sendAction('onChange', key, type);
+            let key = this.get('key');
+            let filter = null;
+            if (type) {
+                filter = {
+                    term: {}
+                };
+                filter.term[FIELD] = type;
+            }
+            this.sendAction('onChange', key, filter);
         }
     }
 });

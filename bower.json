@@ -9,6 +9,8 @@
     "Faker": "~3.1.0",
     "bootstrap-sass": "^3.3.6",
     "font-awesome": "~4.5.0",
-    "components-font-awesome": "^4.6.3"
+    "components-font-awesome": "^4.6.3",
+    "bootstrap": "~3.3.5",
+    "bootstrap-daterangepicker": "^2.1.23"
   }
 }

@@ -1,7 +1,16 @@
-{{#if edit}}
-    <input type='text' value={{newText}} style={{inputStyle}} {{action 'change' on='change'}}>
-    {{fa-icon 'times' click=(action 'cancel')}}
+{{#if editing}}
+  {{textarea rows=rows class="form-control" keyDown=(action 'submit') value=updated}}
+  <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
 {{else}}
-    <span class='text-display'>{{text}}</span>
-    {{fa-icon 'magic' click=(action 'edit')}}
+  <span class='text-display'>
+    {{#if changed}}
+      <i>{{updated}}</i>
+    {{else}}
+        {{#if text}}
+            {{text}}
+        {{else}}
+            <i>Add information</i>
+        {{/if}}
+    {{/if}}
+  </span>
 {{/if}}

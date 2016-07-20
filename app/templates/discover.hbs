@@ -1,47 +1,83 @@
-<div>
-    <img height="20%" width="20%" style="display:block; margin-left:auto; margin-right:auto" src='assets/images/main_logo.png'>
-</div>
 <div class="container">
-<div class="row">
-    <div class="col-xs-8 col-xs-offset-2">
-        <div class="row">
-            <div class="col-xs-11">
-              {{input class="form-control" value=searchString key-up='typing'}}
-            </div>
-            <div class="col-xs-1">
-                <a style="margin-left: -20px" href="" {{action 'search' searchString query}}>
-                    <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
-                </a>
+    <div>
+        <img height="20%" width="20%" style="display:block; margin-left:auto; margin-right:auto" src='assets/images/main_logo.png'>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="row">
+                <div class="col-xs-11">
+                  {{input class="form-control" value=searchString key-up='typing'}}
+                </div>
+                <div class="col-xs-1">
+                    <a style="margin-left: -20px" href="" {{action 'search'}}>
+                        <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div></div>
-<div style="text-align: center; font-size:75%; margin-top:15px">
-    <i>Your query API call: <a href={{queryString}}>{{queryString}}</a></i>
-</div>
-<hr>
-<div class="row">
-<div class='col-xs-3'>
-{{faceted-search onChange='queryChanged' facets=(hash
-    date=(hash title='Date' component='search-facet-daterange')
-    type=(hash title='Type' component='search-facet-worktype')
-    tag=(hash title='Subject/Tag' component='search-facet-typeahead')
-    publisher=(hash title='Publisher' component='search-facet-typeahead')
-    language=(hash title='Language' component='search-facet-typeahead')
-    association=(hash title='Association' component='search-facet-typeahead')
-    source=(hash title='Source' component='search-facet-typeahead')
-    )
-}}
-</div>
-<div class='col-xs-9'>
-{{#if loading}}
-    LOADING
-{{else}}
-    {{#each results as |obj|}}
-        {{search-result obj=obj}}
-    {{/each}}
+    <div style="text-align: center; font-size:75%; margin-top:15px">
+        <i>Your query API call: <a href={{displayQueryBaseString}}>{{displayQueryBaseString}}</a></i>
+    </div>
+    {{#if queryBody}}
+        <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
+            <i>
+                <a{{action 'toggleCollapsedQueryBody'}}>
+                    View query body
+                    {{#if collapsedQueryBody}}
+                        {{fa-icon 'caret-up'}}
+                    {{else}}
+                        {{fa-icon 'caret-down'}}
+                    {{/if}}
+                </a>
+            </i>
+        </div>
+    {{/if}}
+    {{#bs-collapse collapsed=collapsedQueryBody}}
+        <div id="queryBody" class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <div class="row">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        {{json-pretty
+                            obj=queryBody
+                            shouldHighlight=true
+                        }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/bs-collapse}}
+    <hr>
+    <div class="row">
+        <div class='col-xs-3'>
+            {{faceted-search onChange='queryChanged' facets=(hash
+                date=(hash title='Date' component='search-facet-daterange')
+                type=(hash title='Type' component='search-facet-worktype')
+                tags=(hash title='Subject/Tag' type='tag' component='search-facet-typeahead')
+                publisher=(hash title='Publisher' queryKey='associations' useId=true component='search-facet-typeahead')
+                language=(hash title='Language' component='search-facet-language')
+                associations=(hash title='Association' component='search-facet-associations')
+                contributors=(hash title='Contributor' type='person' useId=true component='search-facet-typeahead')
+                sources=(hash title='Source' component='search-facet-source')
+                )
+            }}
+        </div>
+
+        <div class='col-xs-9'>
+          {{#each results as |obj|}}
+            {{search-result obj=obj}}
+          {{/each}}
+
+          <div class="text-center">
+            {{#if loading}}
+              {{fa-icon 'spinner' spin=true size=3}}
+            {{else}}
+              <button class="btn btn-default" {{action 'next'}}> More </button>
+            {{/if}}
+          </div>
+        </div>
+    </div>
+
     <br>
-    <button {{action 'next'}}> More </button>
-{{/if}}
-</div>
+
 </div>

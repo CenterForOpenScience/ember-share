@@ -1,12 +1,6 @@
-{{#power-select
-    options=dateRanges
-    searchEnabled=false 
-    selected=selectedRange
-    onchange=(action 'selectRange')
-    as |range|}}
-    {{#if range.chosen}}
-        {{range.start}} - {{range.end}}
-    {{else}}
-        {{range.name}}
-    {{/if}}
-{{/power-select}}
+<!--input type='text' class='date-range' value={{pickerValue}}-->
+<div class='date-range'>
+    {{fa-icon 'calendar'}}
+    {{pickerValue}}
+    {{fa-icon 'caret-down' class='pull-right'}}
+</div>

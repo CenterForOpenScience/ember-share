@@ -1,0 +1,9 @@
+{{#each segments as |sublist|}}
+  <div class="row">
+    {{#each sublist as |obj|}}
+      <div class="col-xs-3">
+        {{yield obj}}
+      </div>
+    {{/each}}
+  </div>
+{{/each}}

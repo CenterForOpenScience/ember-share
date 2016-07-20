@@ -20,14 +20,37 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     init() {
         this._super(...arguments);
+        this.set('queryFacets', Ember.Object.create());
     },
 
     actions: {
-        facetChanged(key, value) {
-            let query = this.get('query') || Ember.Object.create();
-            query.set(key, value);
-            this.set('query', query);
-            this.set('stringifiedQuery', JSON.stringify(query));
+        facetChanged(key, facet) {
+            let facets = this.get('queryFacets');
+            facets.set(key, facet);
+
+            let filters = [];
+            for (let k of Object.keys(facets)) {
+                let filter = facets[k];
+                if (filter) {
+                    if (Ember.$.isArray(filter)) {
+                        filters = filters.concat(filter);
+                    } else {
+                        filters.push(filter);
+                    }
+                }
+            }
+
+            let query = null;
+            if (filters.length) {
+                query = {
+                    filter: {
+                        bool: {
+                            filter: filters
+                        }
+                    }
+                };
+            }
+
             this.sendAction('onChange', query);
         }
     }
