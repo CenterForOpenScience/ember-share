@@ -1,6 +1,5 @@
-.navbar {
+.navbar-inverse{
     min-height: 50px;
-    margin-bottom: 25px;
     background-color: #214762;
     background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
     border-radius: 0 ;
@@ -16,7 +15,7 @@
 }
 
 .share:hover {
-  text-decoration: none;
+  text-decoration: none !important;
   color: #E0EBF3;
   cursor: pointer;
 }
