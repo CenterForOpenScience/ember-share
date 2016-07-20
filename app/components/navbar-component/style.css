@@ -12,6 +12,11 @@
   -webkit-font-smoothing: antialiased;
   padding-left: 10px;
   line-height: 45px ;
+  background-color: transparent ;
+}
+
+.share.active {
+  background-color: transparent !important ;
 }
 
 .share:hover {
@@ -102,7 +107,7 @@ a:-webkit-any-link {
     color: #E0EBF3;
 }
 
-.active {
+.nav-link.active {
     background-color: #080808;
 }
 
