@@ -1,7 +1,6 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-    environment = 'staging';
   var ENV = {
     modulePrefix: 'ember-share',
     environment: environment,
