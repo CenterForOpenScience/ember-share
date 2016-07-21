@@ -15,6 +15,7 @@ Router.map(function() {
   this.route('profile');
   this.route('support');
   this.route('settings');
+  this.route('sources');
 });
 
 export default Router;
