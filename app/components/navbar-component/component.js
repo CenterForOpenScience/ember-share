@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     },
     actions: {
         login(){
-            window.location = `${ENV.apiUrl}/accounts/login`;
+            window.location = `${ENV.apiUrl}/accounts/login/`;
         },
         logout(){
             this.get('session').invalidate();
