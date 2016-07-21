@@ -1,0 +1,16 @@
+.provider-filter {
+    background-color: #f5f5f5;
+    border-radius: 2px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+a.provider-filter {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-right: 4.5px;
+    padding-left: 4.5px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}

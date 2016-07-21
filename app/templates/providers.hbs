@@ -22,9 +22,16 @@
             {{numberOfProviders}} Content Providers
         </div>
     </div>
+    <br>
     <div class="row">
-        {{#each providers as |provider|}}
-            {{provider-block provider=provider}}
+        {{#each providers as |provider index|}}
+            {{#if (modIf index 2)}}
+                <div class="row">
+                    {{provider-block provider=provider}}
+                </div>
+            {{else}}
+                {{provider-block provider=provider}}
+            {{/if}}
         {{/each}}
     </div>
 
