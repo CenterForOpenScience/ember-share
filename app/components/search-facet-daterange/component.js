@@ -19,7 +19,6 @@ export default Ember.Component.extend({
         };
 
         let picker = this.$('.date-range');
-        let initialRange = dateRanges['Past week'];
         picker.daterangepicker({
             ranges: dateRanges,
             autoUpdateInput: false,
@@ -67,7 +66,6 @@ export default Ember.Component.extend({
     },
 
     noFilter() {
-        // TODO also reset datepicker to its default?
         this.set('pickerValue', 'All time');
     },
 
