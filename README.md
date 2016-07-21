@@ -1,5 +1,7 @@
 # Ember-share
 
+[![Gitter](https://badges.gitter.im/CenterForOpenScience/SHARE.svg)](https://gitter.im/CenterForOpenScience/SHARE?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 A web interface for [SHARE](https://github.com/CenterForOpenScience/SHARE).
 
 ## Installation

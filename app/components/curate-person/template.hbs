@@ -1,38 +1,69 @@
 <div class='title-container'>
     <div class='container'>
-        <div>
-            <label>Family name</label>
+        <div class='row'>
+        <div class='col-xs-6'>
             {{curate-field-text text=person.familyName
             onChange=(action 'fieldChanged' 'familyName') }}
+            <p>Family name</p>
         </div>
-        <div>
-            <label>Given name</label>
+        <div class='col-xs-6'>
             {{curate-field-text text=person.givenName
             onChange=(action 'fieldChanged' 'givenName')}}
+            <p>Given name</p>
         </div>
-        <div>
-            <label>Additional name</label>
-            {{curate-field-text text=person.additionalName
-            onChange=(action 'fieldChanged' 'additionalName')}}
-        </div>
-        <div>
-            <label>Suffix</label>
-            {{curate-field-text text=person.suffix
-            onChange=(action 'fieldChanged' 'suffix')}}
         </div>
     </div>
 </div>
-<div class='body-container'>
+
+<div class='body-container' style='padding-top:15px'>
 <div class='container'>
-    <div>
-        <label>Location</label>
-        {{curate-field-text text=person.location
-        onChange=(action 'fieldChanged' 'location')}}
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Additional name</label>
+            {{curate-field-text text=person.additionalName
+            onChange=(action 'fieldChanged' 'additionalName')}}
+        {{else}}
+            {{#if person.additionalName}}
+                <label>Additional name</label>
+                {{person.additionalName}}
+            {{/if}}
+        {{/if}}
     </div>
-    <div>
-        <label>URL</label>
-        {{curate-field-text text=person.url
-        onChange=(action 'fieldChanged' 'url')}}
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Suffix</label>
+            {{curate-field-text text=person.suffix
+            onChange=(action 'fieldChanged' 'suffix')}}
+        {{else}}
+            {{#if person.additionalName}}
+                <label>Suffix</label>
+                {{person.suffix}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>Location</label>
+            {{curate-field-text text=person.location
+            onChange=(action 'fieldChanged' 'location')}}
+        {{else}}
+            {{#if person.location}}
+                <label>Location</label>
+                {{person.location}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class='row'>
+        {{#if session.isAuthenticated}}
+            <label>URL</label>
+            {{curate-field-text text=person.url
+            onChange=(action 'fieldChanged' 'url')}}
+        {{else}}
+            {{#if person.url}}
+                <label>URL</label>
+                {{person.url}}
+            {{/if}}
+        {{/if}}
     </div>
     <div>
         {{#if person.affiliations}}
@@ -50,11 +81,13 @@
         onChange=(action 'listChanged' 'identifiers')}} -->
         {{/if}}
     </div>
-    <div class='row'>
-    <button class='btn btn-default' {{action 'submitChanges'}}>
-        Submit Changes
-    </button>
-    </div>
+    {{#if session.isAuthenticated}}
+        <div class='row'>
+        <button class='btn btn-default' {{action 'submitChanges'}}>
+            Submit Changes
+        </button>
+        </div>
+    {{/if}}
 </div>
 <div class='container'>
     <h3>Potential Merges</h3>
