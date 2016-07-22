@@ -12,6 +12,12 @@ export default Ember.Component.extend({
         this.set('relations', Ember.A());
         return ret;
     },
+    loadPlugin: function() {
+    // Use run loop if you need to setup the DOM first
+        Ember.run.scheduleOnce('afterRender', this, function() {
+          Ember.$.getScript('https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+        });
+    }.on('init'),
 
     toMerge: null,
     relations: null,
