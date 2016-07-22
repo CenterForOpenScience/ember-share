@@ -18,7 +18,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
-              <li><input type="text" style="margin: 5px" value={{session.data.userData.token}}></li>
+              <li><input type="text" style="margin: 5px" value={{session.data.authenticated.user.token}}></li>
               <li><a {{action 'logout'}}>Logout</a></li>
             </ul>
           </li>
