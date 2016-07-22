@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import buildElasticCall from '../utils/build-elastic-call';
+import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
     numberOfProviders: 0,
     providers: [],
     numberOfEvents: 0,
     eventsLastUpdated: Date().toString(),
+    placeholder: 'search providers',
 
     init() {
         //TODO Sort initial results on date_modified
@@ -47,4 +48,47 @@ export default Ember.Controller.extend({
             });
         });
     },
+    selected: Ember.computed('key', 'filter', function() {
+        return invertTermsFilter(this.get('key'), this.get('filter'));
+    }),
+
+    typeaheadQueryUrl() {
+        return ENV.apiUrl + '/api/search/autocomplete/_search';
+    },
+
+    buildTypeaheadQuery(text) {
+        return {
+            'filter': {'match': {'@type': 'provider'}},
+            'query': {
+                'match': {'text': text}
+            }
+        };
+    },
+
+    handleTypeaheadResponse(response) {
+        return response.hits.hits.map(function(obj){
+            return obj._source.text;
+        });
+    },
+    actions: {
+        changeFilter(selected) {
+            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(selected));
+        },
+
+        elasticSearch(term) {
+            if (Ember.isBlank(term)) { return []; }
+
+            var data = JSON.stringify(this.buildTypeaheadQuery(term));
+
+            return Ember.$.ajax({
+                'url': this.typeaheadQueryUrl(),
+                'crossDomain': true,
+                'type': 'POST',
+                'contentType': 'application/json',
+                'data': data
+            }).then((json) => {
+                return this.handleTypeaheadResponse(json);
+            });
+        }
+    }
 });

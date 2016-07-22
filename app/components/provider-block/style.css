@@ -14,3 +14,9 @@ a.provider-filter {
     text-decoration: none;
     color: inherit;
 }
+
+.provider-favicon {
+    height: 16px;
+    width: 16px;
+    padding-right: 4px;
+}
