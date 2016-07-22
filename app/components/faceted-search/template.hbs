@@ -1,15 +1,15 @@
 
-{{#each-in facets as |key facet|}}
+{{#each facets as |facet|}}
     <div class='panel panel-default'>
         <div class='panel-heading'>
             {{facet.title}}
         </div>
         <div class='panel-body'>
             {{component facet.component
-            key=key
+            key=facet.key
             options=facet
-            query=(get queryFacets key)
+            filter=(get filters facet.key)
             onChange=(action 'facetChanged')}}
         </div>
     </div>
-{{/each-in}}
+{{/each}}
