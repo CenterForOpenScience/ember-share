@@ -2,6 +2,7 @@ import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
+//import ENV from '../../config/environment';
 
 export default ApplicationController.extend({
     queryParams: ['page', 'searchString'],
@@ -13,7 +14,13 @@ export default ApplicationController.extend({
         return buildElasticCall(Ember.$.param(this.searchQuery()));
     }),
     collapsedQueryBody: true,
-
+    atomFeed: Ember.computed( function() {
+        var jsonQuery = this.get('queryBody');
+        var urlQuery = this.searchQuery();
+        var baseUrl = 'http://localhost:8000/api/atom/?';
+        var url = baseUrl + (jsonQuery ? 'jsonQuery=' + JSON.stringify(jsonQuery) + '&' : '') + (urlQuery ? 'urlQuery=' + JSON.stringify(urlQuery) : '');
+        return url
+    }),
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
 
