@@ -15,7 +15,7 @@ export default BaseAuthenticator.extend({
 
     restore() {
         return Ember.$.ajax({
-            url: `${ENV.apiUrl}/api/user_info`,
+            url: `${ENV.apiUrl}/api/userinfo`,
             crossDomain: true,
             xhrFields: {withCredentials: true}
         }).then(response => {
@@ -25,7 +25,7 @@ export default BaseAuthenticator.extend({
     },
     authenticate() {
         return Ember.$.ajax({
-            url: `${ENV.apiUrl}/api/user_info`,
+            url: `${ENV.apiUrl}/api/userinfo`,
             crossDomain: true,
             xhrFields: {withCredentials: true}
         }).then(response => {
@@ -36,7 +36,7 @@ export default BaseAuthenticator.extend({
     invalidate() {
         //implement django-side logout
         return Ember.$.ajax({
-            url: `${ENV.apiUrl}/api/user_info`,
+            url: `${ENV.apiUrl}/api/userinfo`,
             crossDomain: true,
             xhrFields: {withCredentials: true}
         }).then(() => '');
