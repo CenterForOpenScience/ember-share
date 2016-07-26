@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
 import TypeaheadComponent from '../search-facet-typeahead/component';
+import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default TypeaheadComponent.extend({
     init() {
@@ -20,16 +21,12 @@ export default TypeaheadComponent.extend({
         });
     },
 
+    selected: Ember.computed('filter', function() {
+        return invertTermsFilter(this.get('key'), this.get('filter'));
+    }),
+
     buildQueryFacet(selectedTerms) {
-        let queryFilter = null;
-        if (selectedTerms.length) {
-            queryFilter = {
-                terms: {}
-            };
-            // use unanalyzed field for exact match
-            queryFilter.terms[this.get('key')] = selectedTerms;
-        }
-        return queryFilter;
+        return termsFilter(this.get('key'), selectedTerms, false);
     },
 
     sourcesQuery() {
@@ -45,7 +42,6 @@ export default TypeaheadComponent.extend({
     
     actions: {
         changeFilter(selected) {
-            this.set('selected', selected);
             let key = this.get('key');
             this.sendAction('onChange', key, this.buildQueryFacet(selected));
         }

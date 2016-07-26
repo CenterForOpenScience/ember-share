@@ -3,6 +3,8 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from 'ember-share/config/environment';
+import { termsFilter, dateRangeFilter } from '../utils/elastic-query';
+
 
 export default ApplicationController.extend({
     queryParams: ['page', 'searchString'],
@@ -27,6 +29,8 @@ export default ApplicationController.extend({
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
+        this.set('facetFilters', Ember.Object.create());
+
         let query = this.searchQuery();
         // TODO Load all previous pages when hitting a page with page > 1
         // if (this.get('page') != 1) {
@@ -45,10 +49,77 @@ export default ApplicationController.extend({
         return query;
     },
 
+    getQueryBody() {
+        let facetFilters = this.get('facetFilters');
+        let filters = [];
+        for (let k of Object.keys(facetFilters)) {
+            let filter = facetFilters[k];
+            if (filter) {
+                if (Ember.$.isArray(filter)) {
+                    filters = filters.concat(filter);
+                } else {
+                    filters.push(filter);
+                }
+            }
+        }
+
+        let queryBody = {
+            'query': {
+                'bool': {
+                    'must': {
+                        'query_string' : {
+                            'query': this.get('searchString') || '*'
+                        },
+                    },
+                    'filter': filters
+                }
+            },
+            'aggregations': this.get('elasticAggregations')
+        };
+        return this.set('queryBody', queryBody);
+    },
+
+    elasticAggregations: Ember.computed(function() {
+        let histogramAgg = {
+            "last_3_months" : {
+                "filter": {
+                    "range": {
+                        "date": {
+                            "gte": "now-12w",
+                            "lte": "now"
+                        }
+                    }
+                },
+                "aggregations": {
+                    "results_by_date": {
+                        "date_histogram" : {
+                            "field" : "date",
+                            "interval" : "week",
+                            "extended_bounds": {
+                                "min": "now-12w",
+                                "max": "now"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        return {
+            "sources" : {
+                "terms" : { "field" : "sources" },
+                "aggregations": histogramAgg
+            },
+            "types" : {
+                "terms" : { "field" : "@type" },
+                "aggregations": histogramAgg
+            }
+        };
+    }),
+
     loadPage(query=null) {
         query = query || this.searchQuery();
         let queryString = Ember.$.param(query);
-        let queryBody = JSON.stringify(this.get('queryBody'));
+        let queryBody = JSON.stringify(this.getQueryBody());
         const url = buildElasticCall(queryString);
         this.set('loading', true);
         return Ember.$.ajax({
@@ -74,6 +145,7 @@ export default ApplicationController.extend({
                 return source;
             });
             Ember.run(() => {
+                this.set('aggregations', json.aggregations);
                 this.set('loading', false);
                 this.get('results').addObjects(results);
             });
@@ -87,6 +159,21 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
+    facets: Ember.computed(function() {
+        return [
+            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: '@type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
+            { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
+            { key: 'funder', title: 'Funder', component: 'search-facet-association' },
+            { key: 'institution', title: 'Institution', component: 'search-facet-association' },
+            { key: 'organization', title: 'Organization', component: 'search-facet-association' },
+            { key: 'language', title: 'Language', component: 'search-facet-language' },
+            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
+            { key: 'sources', title: 'Source', component: 'search-facet-source' }
+        ];
+    }),
+
     actions: {
         addFilter() {
 
@@ -94,6 +181,7 @@ export default ApplicationController.extend({
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
+
         typing(val, event) {
             // Ignore all keycodes that do not result in the value changing
             // 8 == Backspace, 32 == Space
@@ -102,13 +190,16 @@ export default ApplicationController.extend({
             }
             this.search();
         },
+
         search() {
             this.search();
         },
-        queryChanged(queryBody) {
-            this.set('queryBody', queryBody);
+
+        filtersChanged(facetFilters) {
+            this.set('facetFilters', facetFilters);
             this.search();
         },
+
         next() {
             // If we don't have full pages then we've hit the end of our search
             if (this.get('results.length') % this.get('size') !== 0) {
@@ -117,6 +208,7 @@ export default ApplicationController.extend({
             this.incrementProperty('page', 1);
             this.loadPage();
         },
+
         prev() {
             // No negative pages
             if (this.get('page') < 1) {
@@ -124,6 +216,34 @@ export default ApplicationController.extend({
             }
             this.decrementProperty('page', 1);
             this.loadPage();
+        },
+
+        setTermFilter(field, term) {
+            let filter = null;
+            // HACK This logic could be more generic.
+            if (field === 'sources') {
+                filter = termsFilter(field, [term], false);
+            } else if (field === 'types') {
+                filter = termsFilter('@type', [term]);
+            }
+            if (filter) {
+                let facetFilters = this.get('facetFilters');
+                facetFilters.set(key, filter);
+                this.search();
+            }
+        },
+
+        setDateFilter(start, end) {
+            let key = 'date';
+            let filter = dateRangeFilter(key, start, end);
+            let facetFilters = this.get('facetFilters');
+            facetFilters.set(key, filter);
+            this.search();
+        },
+
+        clearFilters() {
+            this.set('facetFilters', Ember.Object.create());
+            this.search();
         }
     }
 });

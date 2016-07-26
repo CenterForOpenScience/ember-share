@@ -53,19 +53,18 @@
         </div>
     {{/bs-collapse}}
     <hr>
+    <div class='row'>
+        {{aggregate-graphs aggregations=aggregations
+        setTermFilter=(action 'setTermFilter')
+        setDateFilter=(action 'setDateFilter')
+        }}
+    </div>
     <div class="row">
         <div class='col-xs-3'>
-            {{faceted-search onChange='queryChanged' facets=(hash
-                date=(hash title='Date' component='search-facet-daterange')
-                type=(hash title='Type' component='search-facet-worktype')
-                tags=(hash title='Subject/Tag' type='tag' component='search-facet-typeahead')
-                publisher=(hash title='Publisher' queryKey='associations' useId=true component='search-facet-typeahead')
-                language=(hash title='Language' component='search-facet-language')
-                associations=(hash title='Association' component='search-facet-associations')
-                contributors=(hash title='Contributor' type='person' useId=true component='search-facet-typeahead')
-                sources=(hash title='Source' component='search-facet-source')
-                )
-            }}
+            <button {{action 'clearFilters'}} class='btn btn-default'>
+                Clear filters
+            </button>
+            {{faceted-search onChange='filtersChanged' filters=facetFilters facets=facets}}
         </div>
 
         <div class='col-xs-9'>

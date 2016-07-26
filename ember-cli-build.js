@@ -11,6 +11,7 @@ module.exports = function(defaults) {
         includePaths: [
             './node_modules/osf-style/css',
             'bower_components/bootstrap-daterangepicker',
+            'bower_components/c3',
         ]
       }
   });
@@ -29,6 +30,8 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   app.import('bower_components/bootstrap-daterangepicker/daterangepicker.js');
+  app.import('bower_components/d3/d3.js');
+  app.import('bower_components/c3/c3.js');
 
   return app.toTree();
 };
