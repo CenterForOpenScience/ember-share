@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('profile');
   this.route('support');
   this.route('settings');
+  this.route('boxes');
 });
 
 export default Router;

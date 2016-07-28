@@ -1,0 +1,123 @@
+<div class='jumbo' style="
+    max-height: 1200px ;
+    background-color: rgb(197, 214, 230);
+    padding-bottom: 40px ;
+    background: url('/assets/images/bg6.jpg');
+    background-size: cover ;
+    ">
+  <div>
+    <img height="20%" width="20%"
+      style="display:block; margin-left:auto; margin-right:auto"
+      src='assets/images/main_logo.png'>
+  </div>
+
+  <div class="container">
+    <div class="row" style="display: flex ; justify-content: center ;">
+      <div class="col-xs-offset-1 col-xs-10" >
+        {{input class="form-control" width='100%' value=searchString key-up='typing' placeholder='Search . . . ' }}
+      </div>
+      <div class="col-xs-1">
+        <a href="" {{action 'search'}}>
+          <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" style="padding-top: 40px; display: flex ; justify-content: center ; flex-wrap: wrap ;">
+    <div class="tile" style=" margin: 1% ;">
+      {{homepage-button-box type='publication' label='PUBLICATIONS' icon='fa fa-book'}}
+    </div>
+    <div class="tile" style=" margin: 1% ;">
+      {{homepage-button-box type='preprint' label='PREPRINTS' icon='fa fa-file-text'}}
+    </div>
+    <div class="tile" style=" margin: 1% ;">
+      {{homepage-button-box type='providers' label='PROVIDERS' icon='fa fa-university'}}
+    </div>
+  </div>
+
+</div>
+
+<div class="info" style="
+    background-color: white ;
+    min-height: 200px ;
+    padding-top: 25px ;
+    background-size: cover ;
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif ;">
+
+    <div class="container" style="display: flex ; justify-content: center ;">
+      <span>
+        <br>
+        The
+        <a href="https://github.com/CenterForOpenScience/SHARE">SHARE infrastructure</a>
+         was developed by the
+         <a href="http://www.arl.org/">Association of Research Libraries</a>, the
+         <a href="http://www.aau.edu/">Association of American Universities</a>, the
+         <a href="http://www.aplu.org/">Association of Public and Land-grant Universities</a>, and the
+         <a href="http://cos.io/">Center for Open Science</a>. SHARE is funded by the
+         <a href="http://www.imls.gov/">Institute of Museum and Library Services</a> and the
+         <a href="http://www.sloan.org/">Alfred P. Sloan Foundation</a>.
+        <br>
+        <br>
+        For more information about the organization, go to
+        <a href="http://share-research.org">share-research.org</a>. For more information about the project, including
+        <a href="https://osf.io/yg3xj/">presentations</a>,
+        <a href="https://osf.io/wur56/wiki/home/">developer docs</a>, and
+        <a href="https://osf.io/68ymx/">working group details</a>check out
+         <a href="https://osf.io/t3j94">SHARE on the OSF</a>.
+      </span>
+    </div>
+
+</div>
+
+<div class='provider' style="
+    background-color: #34495E ;
+    min-height: 400px ;
+    padding-top: 25px ;
+    background: url('/assets/images/bg7.jpg');
+    background-size: cover ;">
+
+  <div class="container">
+
+    <div class="row" >
+      <h3
+        style="color: rgb(224, 235, 243) ;
+        font-family: 'Yanone Kaffeesatz' , sans-serif;
+        font-weight: bold ;
+        font-size: 40px ;
+        -webkit-font-smoothing: antialiased ;
+        display: flex ;
+        justify-content: center ;">
+        Become a SHARE Provider
+      </h3>
+    </div>
+
+    <div class="row" style="display: flex ; justify-content: center ; flex-wrap: wrap ;">
+      <div class="tile" style="margin: 25px ; ">
+        {{footer-boxes type='provider' label='Provider Registration' icon='fa fa-map' description="Include your organization's publications, data, repository holdings, or other research."}}
+      </div>
+      <div class="tile" style="margin: 25px ;">
+        {{footer-boxes type='api' label='API Usage' icon='fa fa-database' description='Search all SHARE data, post to SHARE, and get metrics on the SHARE providers.'}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer" style="
+    background-color: #dce6ef ;
+    min-height: 40px ;
+    padding: 10px ;
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif ;
+    background-size: cover ;">
+  <div class="col-md-12" style="display: flex ; justify-content: center ;">
+    <p>
+      Copyright © 2011-2016
+      <a href="http://centerforopenscience.org/?_ga=1.81415315.524376919.1464115365">Center for Open Science</a>
+      |
+      <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms of Use</a>
+      |
+      <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>
+    </p>
+  </div>
+</div>
