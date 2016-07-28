@@ -42,7 +42,6 @@ export default BaseAuthenticator.extend({
     },
 
     invalidate() {
-        //TODO implement django-side logout
         return Ember.$.ajax({
             method: 'POST',
             url: `${ENV.apiUrl}/accounts/logout/`,

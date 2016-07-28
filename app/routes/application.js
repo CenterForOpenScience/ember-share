@@ -7,7 +7,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     beforeModel() {
         let session = this.get('session');
         if (!session.get('isAuthenticated')) {
-            session.authenticate('authenticator:share', false).catch(() => {});
+            session.authenticate('authenticator:osf-token', false).catch(() => {});
         }
     }
 });

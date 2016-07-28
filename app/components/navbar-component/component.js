@@ -22,7 +22,7 @@ export default Ember.Component.extend({
 
     actions: {
         login(){
-            this.get('session').authenticate('authenticator:share');
+            this.get('session').authenticate('authenticator:osf-token');
         },
 
         logout(){
