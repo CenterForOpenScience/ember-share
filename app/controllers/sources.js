@@ -1,33 +1,14 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import { invertTermsFilter } from 'ember-share/utils/elastic-query';
+import { invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
-    numberOfProviders: 0,
-    providers: [],
+    numberOfSources: 0,
+    sources: [],
     numberOfEvents: 0,
-    providersLastUpdated: Date().toString(),
-    placeholder: 'search providers',
-    provider_selected: '',
-    query: Ember.computed( function(provider_selected){
-        return { "bool": {
-                    "must": {
-                        "query_string": {
-                            "query": "*"
-                        }
-                    },
-                    "filter": [
-                        {
-                            "terms": {
-                                "providers": [
-                                    provider_selected
-                                ]
-                            }
-                        }
-                    ]
-                }
-            };
-    }),
+    sourcesLastUpdated: Date().toString(),
+    placeholder: 'search aggregated sources',
+    source_selected: '',
 
     init() {
         this._super(...arguments);
@@ -44,9 +25,9 @@ export default Ember.Controller.extend({
             'type': 'GET',
             'contentType': 'application/json',
         }).then((json) => {
-            this.set('numberOfProviders', json.count);
+            this.set('numberOfSources', json.count);
 
-            this.get('providers').addObjects(json.results);
+            this.get('sources').addObjects(json.results);
 
             if (json.next) {
                 return this.loadPage(json.next);
@@ -74,13 +55,14 @@ export default Ember.Controller.extend({
     },
 
     handleTypeaheadResponse(response) {
-        return response.hits.hits.map(function(obj){
+        let textList = response.hits.hits.map(function(obj){
             return obj._source.text;
         });
+        return getUniqueList(textList);
     },
     actions: {
         changeFilter(selected) {
-            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(selected));
+            this.transitionToRoute('discover', { queryParams: { sources: selected }});
         },
 
         elasticSearch(term) {

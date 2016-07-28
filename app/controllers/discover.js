@@ -3,7 +3,7 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter, invertTermsFilter, invertDateRangeFilter } from '../utils/elastic-query';
+import { termsFilter, dateRangeFilter, invertTermsFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
     filterQueryParams: ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
@@ -16,7 +16,6 @@ export default ApplicationController.extend({
     size: 10,
     query: {},
     searchString: '',
-    tags: '',
     displayQueryBaseString: Ember.computed( function() {
         return buildElasticCall(Ember.$.param(this.searchQuery()));
     }),

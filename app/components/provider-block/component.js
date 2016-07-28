@@ -3,6 +3,6 @@ import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     favicon: Ember.computed( function() {
-        return ENV.apiUrl + '/static/' + this.get('provider').provider_name + '/img/favicon.ico';
+        return ENV.apiUrl + '/static/' + this.get('source').provider_name + '/img/favicon.ico';
     })
 });
