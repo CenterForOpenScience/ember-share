@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  
+  didRender(){
+    $(".infoBox").parent().css({  "outline": "0"});
+
+  },
     tagName: 'button',
     classNames: ['btn', 'btn-default', 'btn-sm'],
     classNameBindings: ['selected:active'],
