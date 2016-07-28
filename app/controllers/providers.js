@@ -1,34 +1,42 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
+import { invertTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
     numberOfProviders: 0,
     providers: [],
     numberOfEvents: 0,
-    eventsLastUpdated: Date().toString(),
+    providersLastUpdated: Date().toString(),
     placeholder: 'search providers',
+    provider_selected: '',
+    query: Ember.computed( function(provider_selected){
+        return { "bool": {
+                    "must": {
+                        "query_string": {
+                            "query": "*"
+                        }
+                    },
+                    "filter": [
+                        {
+                            "terms": {
+                                "providers": [
+                                    provider_selected
+                                ]
+                            }
+                        }
+                    ]
+                }
+            };
+    }),
 
     init() {
-        //TODO Sort initial results on date_modified
         this._super(...arguments);
         this.loadPage();
-        this.loadEventCount();
         // this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
-    loadEventCount(){
-        var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
-        return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
-        }).then((json) => {
-            this.set('numberOfEvents', json.count);
-        });
-    },
+
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/api/providers/';
+        url = url || ENV.apiUrl + '/api/providers/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
             'url': url,

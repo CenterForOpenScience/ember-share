@@ -2,14 +2,21 @@ import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
-import { termsFilter, dateRangeFilter } from '../utils/elastic-query';
+import ENV from '../config/environment';
+import { termsFilter, dateRangeFilter, invertTermsFilter, invertDateRangeFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
-    queryParams: ['page', 'searchString'],
+    filterQueryParams: ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
+    queryParams:  Ember.computed(function() {
+        let allParams = ['page', 'searchString', 'start', 'end'];
+        allParams.push(...this.get('filterQueryParams'));
+        return allParams;
+    }),
     page: 1,
     size: 10,
     query: {},
     searchString: '',
+    tags: '',
     displayQueryBaseString: Ember.computed( function() {
         return buildElasticCall(Ember.$.param(this.searchQuery()));
     }),
@@ -17,28 +24,37 @@ export default ApplicationController.extend({
 
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
+    eventsLastUpdated: Date().toString(),
 
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
         this.set('facetFilters', Ember.Object.create());
-
-        let query = this.searchQuery();
         // TODO Load all previous pages when hitting a page with page > 1
         // if (this.get('page') != 1) {
         //   query.from = 0;
         //   query.size = this.get('page') * this.get('size');
         // }
-        this.loadPage(query);
+        this.loadEventCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
-
     searchQuery() {
         let query = {
             q: this.get('searchString') || '*',  // Default to everything
             from: (this.get('page') - 1) * this.get('size')
         };
         return query;
+    },
+    loadEventCount(){
+        var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
+        return Ember.$.ajax({
+            'url': url,
+            'crossDomain': true,
+            'type': 'GET',
+            'contentType': 'application/json',
+        }).then((json) => {
+            this.set('numberOfEvents', json.count);
+        });
     },
 
     getQueryBody() {
@@ -151,6 +167,26 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
+    addFilters() {
+        var filters = this.get('facetFilters');
+        let params = this.get('filterQueryParams');
+        for (var param in params) {
+            let key = params[param];
+            if (params.indexOf(key) > -1) {
+                let filterValue = this.get(key);
+                if (filterValue) {
+                    let filter = termsFilter(key, filterValue.split(','));
+                    filters.set(key, filter);
+                }
+            }
+        }
+        if (this.get('start') && this.get('end')) {
+            let filter = dateRangeFilter('date', this.get('start'), this.get('end'));
+            filters.set('date', filter);
+        }
+        this.send('filtersChanged', filters);
+    },
+
     facets: Ember.computed(function() {
         return [
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
@@ -162,14 +198,11 @@ export default ApplicationController.extend({
             { key: 'organization', title: 'Organization', component: 'search-facet-association' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
-            { key: 'sources', title: 'Source', component: 'search-facet-source' }
+            { key: 'sources', title: 'Source', type: 'provider', component: 'search-facet-typeahead' }
         ];
     }),
 
     actions: {
-        addFilter(type, filter) {
-
-        },
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
@@ -188,7 +221,21 @@ export default ApplicationController.extend({
         },
 
         filtersChanged(facetFilters) {
+            var self = this;
             this.set('facetFilters', facetFilters);
+            Object.keys(facetFilters).forEach(function(key) {
+                if (key === 'date') {
+                    if (this[key]) {
+                        self.set('start', this[key].range.date.gte);
+                        self.set('end', this[key].range.date.lte);
+                    } else {
+                        self.set('start', '');
+                        self.set('end', '');
+                    }
+                } else {
+                    self.set(key, invertTermsFilter(key, this[key]));
+                }
+            }, facetFilters);
             this.search();
         },
 
@@ -220,7 +267,7 @@ export default ApplicationController.extend({
             }
             if (filter) {
                 let facetFilters = this.get('facetFilters');
-                facetFilters.set(key, filter);
+                facetFilters.set(field, filter);
                 this.search();
             }
         },
@@ -235,6 +282,15 @@ export default ApplicationController.extend({
 
         clearFilters() {
             this.set('facetFilters', Ember.Object.create());
+            let params = this.get('filterQueryParams');
+            for (var param in params) {
+                let key = params[param];
+                if (params.indexOf(key) > -1) {
+                    this.set(key, '');
+                }
+            }
+            this.set('start', '');
+            this.set('end', '');
             this.search();
         }
     }

@@ -58,9 +58,18 @@ function invertTermsFilter(field, filter) {
     }
 }
 
+function uniqueFilter(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+function getUniqueList(data) {
+    return data.filter( uniqueFilter );
+}
+
 export {
     dateRangeFilter,
     invertDateRangeFilter,
     termsFilter,
-    invertTermsFilter
+    invertTermsFilter,
+    getUniqueList
 };

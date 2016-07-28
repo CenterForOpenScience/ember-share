@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
+import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     init() {
@@ -15,9 +15,16 @@ export default Ember.Component.extend({
         return invertTermsFilter(this.get('key'), this.get('filter'));
     }),
 
-    buildQueryFacet(selected) {
+    buildQueryObject(selected) {
         let key = this.get('options.queryKey') || this.get('key');
-        return termsFilter(key, selected);
+        return {key: key, selected: selected, param2: true, filterType: termsFilter};
+    },
+
+    handleTypeaheadResponse(response) {
+        let textList = response.hits.hits.map(function(obj){
+            return obj._source.text;
+        });
+        return getUniqueList(textList);
     },
 
     typeaheadQueryUrl() {
@@ -34,15 +41,9 @@ export default Ember.Component.extend({
         };
     },
 
-    handleTypeaheadResponse(response) {
-        return response.hits.hits.map(function(obj){
-            return obj._source.text;
-        });
-    },
-
     actions: {
         changeFilter(selected) {
-            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(selected));
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(selected));
         },
 
         elasticSearch(term) {

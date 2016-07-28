@@ -12,13 +12,13 @@ export default TypeaheadComponent.extend({
         return [];
     }),
 
-    buildQueryFacet(selected) {
+    buildQueryObject(selected) {
         // TODO make associations a nested object in elasticsearch, use a nested
         // query to do this properly
         let key = this.get('options.type') || this.get('key');
-        let nameFilter = termsFilter('associations.name', selected);
+        let nameFilter = {key: 'associations.name', selected: selected, param2: true, filterType: termsFilter};
         if (nameFilter) {
-            let typeFilter = termsFilter('associations.@type', [key]);
+            let typeFilter = {key: 'associations.@type', selected: [key], param2: true, filterType: termsFilter};
             return [typeFilter, nameFilter];
         }
         return null;
