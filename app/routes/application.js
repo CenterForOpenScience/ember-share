@@ -7,7 +7,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     beforeModel() {
         let session = this.get('session');
         if (!session.get('isAuthenticated')) {
-            //TODO trigger restore? Or maybe that's done automatically...
+            session.authenticate('authenticator:share', false).catch(() => {});
         }
     }
 });

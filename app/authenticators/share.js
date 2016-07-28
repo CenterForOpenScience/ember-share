@@ -14,29 +14,23 @@ export default BaseAuthenticator.extend({
     },
 
     restore() {
-        return this.getUserInfo().then(response => {
-            if (!response || !response.token) {
-                throw 'not logged in';
-            } else {
-                return { user: response };
-                //this.get('session').set('data.csrfToken', this.csrfToken());
-            }
-        });
+        return this.authenticate(false);
     },
 
-    authenticate() {
-        // TODO getUserInfo, check whether it's valid
-        // if yes: save info and resolve promise
-        // if no: redirect to /accounts/login?
-        return this.getUserInfo().then(response => {
-            if (!response || !response.token) {
-                window.location = `${ENV.apiUrl}/accounts/login/`;
-                // TODO is this throw necessary?
-                throw 'not logged in';
-            } else {
-                return { user: response };
-                //this.get('session').set('data.csrfToken', this.csrfToken());
-            }
+    authenticate(redirectToLogin = true) {
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            this.getUserInfo().then(response => {
+                if (!response || !response.token) {
+                    if (redirectToLogin) {
+                        window.location = `${ENV.apiUrl}/accounts/login/`;
+                        return;
+                    } 
+                    reject('not logged in');
+                } else {
+                    resolve( { user: response } );
+                    //this.get('session').set('data.csrfToken', this.csrfToken());
+                }
+            });
         });
     },
 

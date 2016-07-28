@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ember-share',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/share/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
