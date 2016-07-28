@@ -75,7 +75,7 @@ export default Ember.Component.extend({
             Ember.$.ajax({
               method: 'POST',
               headers: {
-                'X-CSRFTOKEN': this.get('session.data.csrfToken')
+                'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken')
               },
               xhrFields: {
                 withCredentials: true,
