@@ -10,32 +10,33 @@ export default Ember.Component.extend({
     updated: Ember.computed.reads('text'),
 
     rows: function() {
-      return this.get('updated').split('\n').length;
+        return this.get('updated').split('\n').length;
     }.property('updated'),
 
     changed: function() {
-      return this.get('text') != this.get('updated');
+        return this.get('text') !== this.get('updated');
     }.property('text', 'updated'),
 
     editable: function() {
-      return !this.get('editing')
+        return !this.get('editing');
     }.property('editing'),
 
     click() {
-      if (this.get('editing')) return;
-      this.set('editing', true);
-      Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('textarea').focus();
-      });
+        if (this.get('editing')) { return; }
+        this.set('editing', true);
+        Ember.run.scheduleOnce('afterRender', this, function() {
+            this.$('textarea').focus();
+        });
     },
 
     focusOut() {
-      // Nasty hack to make X button actually clickable
-      Ember.run.debounce(this, function() {
-        this.set('editing', false);
-        if (this.get('changed'))
-          this.sendAction('onChange', this.get('updated'));
-      }, 10);
+        // Nasty hack to make X button actually clickable
+        Ember.run.debounce(this, function() {
+            this.set('editing', false);
+            if (this.get('changed')) {
+                this.sendAction('onChange', this.get('updated'));
+            }
+        }, 10);
     },
 
     actions: {
@@ -45,10 +46,12 @@ export default Ember.Component.extend({
         },
 
         submit(event) {
-          if (event.keyCode == 27) // Esc
-            return !!this.send('cancel');
-          if (event.keyCode == 13 && event.shiftKey)
-            return !!this.focusOut();  // Enter + Shift
+            if (event.keyCode === 27) {
+                return !!this.send('cancel'); // Esc
+            }
+            if (event.keyCode === 13 && event.shiftKey) {
+                return !!this.focusOut();  // Enter + Shift
+            }
         }
     }
 });

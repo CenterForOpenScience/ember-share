@@ -27,10 +27,12 @@ export default Ember.Component.extend({
             let added = this.get('added');
             let removed = this.get('removed');
 
-            if (list.contains(item))
+            if (list.contains(item)) {
                 removed.removeObject(item);
-            else
+            }
+            else {
                 added.addObject(item);
+            }
 
             this.sendAction(
               'onChange',
@@ -50,15 +52,17 @@ export default Ember.Component.extend({
             let added = this.get('added');
             let removed = this.get('removed');
 
-            if (list.contains(item))
+            if (list.contains(item)) {
                 removed.addObject(item);
-            else
+            }
+            else {
                 added.removeObject(item);   // TODO Make this not horrible
+            }
 
             this.sendAction(
               'onChange',
               this.get('itemType'),
-              this.get('itemType') == 'person' ? added : added.map(x => x.person),
+              this.get('itemType') === 'person' ? added : added.map(x => x.person),
               removed
             );
         },

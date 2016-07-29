@@ -13,7 +13,7 @@ export default Ember.Component.extend({
         }
         if (rel === 'contributors') {
             return relation.map(item => item.get('person.familyName') + ',' + item.get('person.givenName')).join('-');
-        };
+        }
         if (rel === 'awards') {
             return relation.map(item => item.get('award')).join('-');
         }
