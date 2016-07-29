@@ -77,7 +77,7 @@ export default Ember.Component.extend({
         compare(obj) {
             this.get('store').findRecord(obj['@type'] || obj._type, obj._id).then(model => {
                 this.set('compareTo', model);
-            })
+            });
             this.set('openModal', true);
         },
         onMerge() {

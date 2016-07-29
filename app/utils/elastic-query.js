@@ -63,4 +63,4 @@ export {
     invertDateRangeFilter,
     termsFilter,
     invertTermsFilter
-}
+};

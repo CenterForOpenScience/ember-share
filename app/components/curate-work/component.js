@@ -24,13 +24,13 @@ export default Ember.Component.extend({
     },
 
     changed: function() {
-      return this.get('relations.length') > 0
-        || this.get('toMerge.length') > 0
-        || Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
+      return this.get('relations.length') > 0 ||
+          this.get('toMerge.length') > 0 ||
+          Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
     }.property('changes', 'relations.[]', 'toMerge.[]'),
 
     merges: function() {
-      if (this.get('toMerge.length') < 1) return [];
+      if (this.get('toMerge.length') < 1) { return []; }
 
       return [{
         '@id': `_:${Math.random().toString().substring(2)}`,
