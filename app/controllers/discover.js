@@ -6,7 +6,7 @@ import ENV from '../config/environment';
 import { termsFilter, associationTermsFilter, personTermsFilter, dateRangeFilter, invertTermsFilter, invertAssociationTermsFilter, invertPersonTermsFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
-    filterQueryParams: ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
+    filterQueryParams: ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
     associationFilters: ['publisher', 'funder', 'institution', 'organization'],
     queryParams:  Ember.computed(function() {
         let allParams = ['page', 'searchString', 'start', 'end'];
@@ -17,6 +17,17 @@ export default ApplicationController.extend({
     size: 10,
     query: {},
     searchString: '',
+    tags: '',
+    sources: '',
+    publisher: '',
+    funder: '',
+    institution: '',
+    organization: '',
+    language: '',
+    contributors: '',
+    start: '',
+    end: '',
+    type: '',
     displayQueryBaseString: Ember.computed( function() {
         return buildElasticCall(Ember.$.param(this.searchQuery()));
     }),
@@ -183,6 +194,8 @@ export default ApplicationController.extend({
                         filter = personTermsFilter(key, filterValue.split(','));
                     } else if (key === 'sources') {
                         filter = termsFilter(key, filterValue.split(','), false);
+                    } else if (key === 'type') {
+                        filter = termsFilter('@type', filterValue.split(','));
                     } else {
                         filter = termsFilter(key, filterValue.split(','));
                     }
@@ -242,6 +255,8 @@ export default ApplicationController.extend({
                         self.set('start', '');
                         self.set('end', '');
                     }
+                } else if (key === '@type') {
+                    self.set('type', invertTermsFilter(key, this[key]));
                 } else {
                     if (self.get('associationFilters').indexOf(key) > -1) {
                         self.set(key, invertAssociationTermsFilter(key, this[key]));
@@ -307,6 +322,7 @@ export default ApplicationController.extend({
             }
             this.set('start', '');
             this.set('end', '');
+            this.set('type', '');
             this.search();
         }
     }

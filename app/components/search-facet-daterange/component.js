@@ -3,6 +3,7 @@ import moment from 'moment';
 import { dateRangeFilter, invertDateRangeFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
+
     init() {
         this._super(...arguments);
     },
@@ -37,7 +38,11 @@ export default Ember.Component.extend({
                 this.send('clear');
             });
         });
-        this.filterUpdated();
+
+        Ember.run.scheduleOnce('actions', this, function() {
+            this.filterUpdated();
+        });
+
     },
 
     filterUpdated: Ember.observer('filter', function() {
