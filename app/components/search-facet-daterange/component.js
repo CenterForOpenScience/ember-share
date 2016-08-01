@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import moment from 'moment';
+import { dateRangeFilter, invertDateRangeFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     init() {
         this._super(...arguments);
-        this.set('pickerValue', 'All time');
+        this.noFilter();
     },
 
     didInsertElement() {
@@ -18,7 +19,6 @@ export default Ember.Component.extend({
         };
 
         let picker = this.$('.date-range');
-        let initialRange = dateRanges['Past week'];
         picker.daterangepicker({
             ranges: dateRanges,
             autoUpdateInput: false,
@@ -29,13 +29,7 @@ export default Ember.Component.extend({
             Ember.run(() => {
                 let start = picker.startDate;
                 let end = picker.endDate;
-                if (picker.chosenLabel === 'Custom Range') {
-                    let format = 'Y-MM-DD';
-                    this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
-                } else {
-                    this.set('pickerValue', picker.chosenLabel);
-                }
-                this.updateQuery(start, end);
+                this.updateFilter(start, end);
             });
         });
 
@@ -46,19 +40,38 @@ export default Ember.Component.extend({
         });
     },
 
-    updateQuery(start, end) {
+    filterUpdated: Ember.observer('filter', function() {
+        let filter = this.get('filter');
+        if (filter) {
+            let key = this.get('key');
+            let { start, end } = invertDateRangeFilter(key, filter);
+            let picker = this.$('.date-range').data('daterangepicker');
+            picker.setStartDate(start);
+            picker.setEndDate(end);
+            if (picker.chosenLabel === 'Custom Range') {
+                let format = 'Y-MM-DD';
+                this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
+            } else {
+                this.set('pickerValue', picker.chosenLabel);
+            }
+        } else {
+            this.noFilter();
+        }
+    }),
+
+    updateFilter(start, end) {
         let key = this.get('key');
-        let queryFilter = { range: {} };
-        queryFilter.range[key] = {
-            gte: start.format(),
-            lte: end.format()
-        };
-        this.sendAction('onChange', key, queryFilter);
+        let filter = dateRangeFilter(key, start, end);
+        this.sendAction('onChange', key, filter);
+    },
+
+    noFilter() {
+        this.set('pickerValue', 'All time');
     },
 
     actions: {
         clear() {
-            this.set('pickerValue', 'All time');
+            this.noFilter();
             this.sendAction('onChange', this.get('key'), null);
         }
     }

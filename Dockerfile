@@ -12,6 +12,9 @@ RUN ./node_modules/bower/bin/bower install --allow-root --config.interactive=fal
 
 COPY ./ /code/
 
+ARG GIT_COMMIT=
+ENV GIT_COMMIT ${GIT_COMMIT}
+
 ARG APP_ENV=production
 ENV APP_ENV ${APP_ENV}
 RUN ./node_modules/ember-cli/bin/ember build --env ${APP_ENV}

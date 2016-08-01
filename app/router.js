@@ -12,7 +12,6 @@ Router.map(function() {
   });
   this.route('changes');
   this.route('discover');
-  this.route('login');
   this.route('profile');
   this.route('support');
   this.route('settings');

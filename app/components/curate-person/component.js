@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     changes: null,
 
     merges: function() {
-      if (this.get('toMerge.length') < 1) return [];
+      if (this.get('toMerge.length') < 1) { return []; }
 
       return [{
         '@id': `_:${Math.random().toString().substring(2)}`,
@@ -29,9 +29,9 @@ export default Ember.Component.extend({
     }.property('toMerge.[]'),
 
     changed: function() {
-      return this.get('relations.length') > 0
-        || this.get('toMerge.length') > 0
-        || Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
+      return this.get('relations.length') > 0 ||
+          this.get('toMerge.length') > 0 ||
+          Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
     }.property('changes', 'relations.[]', 'toMerge.[]'),
 
     actions: {
@@ -75,7 +75,7 @@ export default Ember.Component.extend({
             Ember.$.ajax({
               method: 'POST',
               headers: {
-                'X-CSRFTOKEN': this.get('session.data.csrfToken')
+                'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken')
               },
               xhrFields: {
                 withCredentials: true,

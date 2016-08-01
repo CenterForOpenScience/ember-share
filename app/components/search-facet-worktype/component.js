@@ -1,27 +1,15 @@
 import Ember from 'ember';
-
-// HACK hardcoded field
-const FIELD = '@type.raw';
+import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
-    selectedType: Ember.computed('query', function() {
-        let filter = this.get('query');
-        if (filter && filter.term) {
-            return filter.term[FIELD];
-        }
-        return null;
+    selected: Ember.computed('filter', function() {
+        return invertTermsFilter(this.get('key'), this.get('filter'));
     }),
 
     actions: {
         change(type) {
             let key = this.get('key');
-            let filter = null;
-            if (type) {
-                filter = {
-                    term: {}
-                };
-                filter.term[FIELD] = type;
-            }
+            let filter = termsFilter(key, type ? [type] : null);
             this.sendAction('onChange', key, filter);
         }
     }

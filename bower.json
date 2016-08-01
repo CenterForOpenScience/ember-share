@@ -11,6 +11,8 @@
     "font-awesome": "~4.5.0",
     "components-font-awesome": "^4.6.3",
     "bootstrap": "~3.3.5",
-    "bootstrap-daterangepicker": "^2.1.23"
+    "bootstrap-daterangepicker": "^2.1.23",
+    "c3": "^0.4.11",
+    "d3": "~3.5.0"
   }
 }
