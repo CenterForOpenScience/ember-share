@@ -8,12 +8,12 @@ export default Ember.Controller.extend({
     numberOfEvents: 0,
     sourcesLastUpdated: Date().toString(),
     placeholder: 'search aggregated sources',
+    loading: true,
     source_selected: '',
 
     init() {
         this._super(...arguments);
         this.loadPage();
-        // this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
     loadPage(url=null) {
@@ -26,7 +26,6 @@ export default Ember.Controller.extend({
             'contentType': 'application/json',
         }).then((json) => {
             this.set('numberOfSources', json.count);
-
             this.get('sources').addObjects(json.results);
 
             if (json.next) {
