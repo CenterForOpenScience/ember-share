@@ -3,10 +3,11 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter, invertTermsFilter } from '../utils/elastic-query';
+import { termsFilter, associationTermsFilter, personTermsFilter, dateRangeFilter, invertTermsFilter, invertAssociationTermsFilter, invertPersonTermsFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
     filterQueryParams: ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
+    associationFilters: ['publisher', 'funder', 'institution', 'organization'],
     queryParams:  Ember.computed(function() {
         let allParams = ['page', 'searchString', 'start', 'end'];
         allParams.push(...this.get('filterQueryParams'));
@@ -169,12 +170,22 @@ export default ApplicationController.extend({
     addFilters() {
         var filters = this.get('facetFilters');
         let params = this.get('filterQueryParams');
+        let associations = this.get('associationFilters');
         for (var param in params) {
             let key = params[param];
             if (params.indexOf(key) > -1) {
                 let filterValue = this.get(key);
                 if (filterValue) {
-                    let filter = termsFilter(key, filterValue.split(','));
+                    let filter = {};
+                    if (associations.indexOf(key) > -1) {
+                        filter = associationTermsFilter(key, filterValue.split(','));
+                    } else if (key === 'contributors') {
+                        filter = personTermsFilter(key, filterValue.split(','));
+                    } else if (key === 'sources') {
+                        filter = termsFilter(key, filterValue.split(','), false);
+                    } else {
+                        filter = termsFilter(key, filterValue.split(','));
+                    }
                     filters.set(key, filter);
                 }
             }
@@ -190,14 +201,14 @@ export default ApplicationController.extend({
         return [
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: '@type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
             { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
             { key: 'funder', title: 'Funder', component: 'search-facet-association' },
             { key: 'institution', title: 'Institution', component: 'search-facet-association' },
             { key: 'organization', title: 'Organization', component: 'search-facet-association' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
-            { key: 'sources', title: 'Source', type: 'provider', component: 'search-facet-typeahead' }
+            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
+            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-typeahead', raw: false }
         ];
     }),
 
@@ -232,7 +243,13 @@ export default ApplicationController.extend({
                         self.set('end', '');
                     }
                 } else {
-                    self.set(key, invertTermsFilter(key, this[key]));
+                    if (self.get('associationFilters').indexOf(key) > -1) {
+                        self.set(key, invertAssociationTermsFilter(key, this[key]));
+                    } else if (key === 'contributors') {
+                        self.set(key, invertPersonTermsFilter(key, this[key]));
+                    } else {
+                        self.set(key, invertTermsFilter(key, this[key]));
+                    }
                 }
             }, facetFilters);
             this.search();

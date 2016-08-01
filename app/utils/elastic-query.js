@@ -49,6 +49,16 @@ function termsFilter(field, terms, raw = true) {
     }
 }
 
+function associationTermsFilter(field, terms, raw = true) {
+    field = field + 's.name';
+    return termsFilter(field, terms, raw);
+}
+
+function personTermsFilter(field, terms, raw = true) {
+    field = field + '.name';
+    return termsFilter(field, terms, raw);
+}
+
 function invertTermsFilter(field, filter) {
     if (filter) {
         let terms = filter.terms[field] || filter.terms[field + '.raw'];
@@ -56,6 +66,16 @@ function invertTermsFilter(field, filter) {
     } else {
         return [];
     }
+}
+
+function invertAssociationTermsFilter(field, filter) {
+    field = field + 's.name';
+    return invertTermsFilter(field, filter);
+}
+
+function invertPersonTermsFilter(field, filter) {
+    field = field + '.name';
+    return invertTermsFilter(field, filter);
 }
 
 function uniqueFilter(value, index, self) {
@@ -70,6 +90,10 @@ export {
     dateRangeFilter,
     invertDateRangeFilter,
     termsFilter,
+    associationTermsFilter,
+    personTermsFilter,
     invertTermsFilter,
+    invertAssociationTermsFilter,
+    invertPersonTermsFilter,
     getUniqueList
 };

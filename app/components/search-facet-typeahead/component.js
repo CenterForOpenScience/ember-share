@@ -17,26 +17,33 @@ export default Ember.Component.extend({
 
     buildQueryObject(selected) {
         let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: true, filterType: termsFilter};
+        return {key: key, selected: selected, param2: this.get('options.raw'), filterType: termsFilter};
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.hits.hits.map(function(obj){
-            return obj._source.text;
+        let textList = response.suggestions[0].options.map(function(obj){
+            return obj.payload.name;
         });
         return getUniqueList(textList);
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/api/search/autocomplete/_search';
+        return ENV.apiUrl + '/api/search/_suggest';
     },
 
     buildTypeaheadQuery(text) {
         let type = this.get('options.type') || this.get('key');
         return {
-            'filter': {'match': {'@type': type}},
-            'query': {
-                'match': {'text': text}
+            "suggestions": {
+                "text": text,
+                "completion": {
+                    "field": "suggest",
+                    "size": 10,
+                    "fuzzy": true,
+                    "context": {
+                        "@type": type
+                    }
+                }
             }
         };
     },
