@@ -63,7 +63,7 @@
 
         <div class='col-xs-9'>
           {{#each results as |obj|}}
-            {{search-result obj=obj}}
+            {{search-result addFilter='addFilter' obj=obj}}
           {{/each}}
 
           <div class="text-center">

@@ -226,6 +226,14 @@ export default ApplicationController.extend({
     }),
 
     actions: {
+        addFilter(type, filterValue) {
+            let filters = this.get('facetFilters');
+            let currentFilter = this.get(type);
+            let filter = termsFilter(type, Array.prototype.concat([filterValue], currentFilter));
+            filters.set(type, filter);
+            this.send('filtersChanged', filters);
+        },
+
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
