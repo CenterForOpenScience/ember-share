@@ -1,3 +1,4 @@
+
 @import 'bootstrap';
 @import 'font-awesome';
 @import 'ember-power-select';
@@ -7,3 +8,92 @@
 @import 'pod-styles';
 @import 'daterangepicker.scss';
 @import 'c3';
+
+
+/* Index Style */
+
+.index-jumbo {
+  max-height: 1200px ;
+  background-color: rgb(197, 214, 230);
+  padding-bottom: 40px ;
+}
+
+.index-background {
+  display: block ;
+  margin-left: auto ;
+  margin-right: auto ;
+  height: 20% ;
+  width: 20% ;
+}
+
+#index-row {
+  display: flex ;
+  justify-content: center ;
+}
+
+#index-tile-row {
+  display: flex ;
+  justify-content: center ;
+  padding-top: 40px;
+  flex-wrap: wrap ;
+}
+
+.form-control {
+  font-family: 'Open Sans' , sans-serif ;
+  font-size: 12px ;
+  width: 100% ;
+}
+
+.index-advanced {
+  font-family: 'Open Sans' , sans-serif ;
+  font-size: 12px ;
+}
+
+.index-tile {
+  margin :1% ;
+}
+
+.index-info {
+  background-color: white ;
+  min-height: 200px ;
+  padding-top: 25px ;
+  background-size: cover ;
+  font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif ;
+}
+
+.index-provider {
+  min-height: 400px ;
+  padding-top: 25px ;
+}
+
+.index-provider-title {
+  color: rgb(224, 235, 243) ;
+  font-family: 'Yanone Kaffeesatz' , sans-serif;
+  font-weight: bold ;
+  font-size: 40px ;
+  -webkit-font-smoothing: antialiased ;
+  display: flex ;
+  justify-content: center ;
+}
+
+#index-provider-tile {
+  display: flex ;
+  justify-content: center ;
+  flex-wrap: wrap ;
+}
+
+.index-tile {
+  margin: 25px ;
+}
+
+.index-footer {
+  background-color: #dce6ef ;
+  min-height: 40px ;
+  padding: 10px ;
+  font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif ;
+}
+
+#index-copyright {
+  display: flex ;
+  justify-content: center ;
+}
