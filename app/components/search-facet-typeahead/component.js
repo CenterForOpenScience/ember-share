@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
+import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     init() {
@@ -15,34 +15,42 @@ export default Ember.Component.extend({
         return invertTermsFilter(this.get('key'), this.get('filter'));
     }),
 
-    buildQueryFacet(selected) {
+    buildQueryObject(selected) {
         let key = this.get('options.queryKey') || this.get('key');
-        return termsFilter(key, selected);
+        return {key: key, selected: selected, param2: this.get('options.raw'), filterType: termsFilter};
+    },
+
+    handleTypeaheadResponse(response) {
+        let textList = response.suggestions[0].options.map(function(obj){
+            return obj.payload.name;
+        });
+        return getUniqueList(textList);
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/api/search/autocomplete/_search';
+        return ENV.apiUrl + '/api/search/_suggest';
     },
 
     buildTypeaheadQuery(text) {
         let type = this.get('options.type') || this.get('key');
         return {
-            'filter': {'match': {'@type': type}},
-            'query': {
-                'match': {'text': text}
+            "suggestions": {
+                "text": text,
+                "completion": {
+                    "field": "suggest",
+                    "size": 10,
+                    "fuzzy": true,
+                    "context": {
+                        "@type": type
+                    }
+                }
             }
         };
     },
 
-    handleTypeaheadResponse(response) {
-        return response.hits.hits.map(function(obj){
-            return obj._source.text;
-        });
-    },
-
     actions: {
         changeFilter(selected) {
-            this.sendAction('onChange', this.get('key'), this.buildQueryFacet(selected));
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(selected));
         },
 
         elasticSearch(term) {

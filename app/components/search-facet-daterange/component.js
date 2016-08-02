@@ -3,9 +3,9 @@ import moment from 'moment';
 import { dateRangeFilter, invertDateRangeFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
+
     init() {
         this._super(...arguments);
-        this.noFilter();
     },
 
     didInsertElement() {
@@ -38,6 +38,11 @@ export default Ember.Component.extend({
                 this.send('clear');
             });
         });
+
+        Ember.run.scheduleOnce('actions', this, function() {
+            this.filterUpdated();
+        });
+
     },
 
     filterUpdated: Ember.observer('filter', function() {
@@ -48,21 +53,25 @@ export default Ember.Component.extend({
             let picker = this.$('.date-range').data('daterangepicker');
             picker.setStartDate(start);
             picker.setEndDate(end);
-            if (picker.chosenLabel === 'Custom Range') {
+            if (picker.chosenLabel && picker.chosenLabel !== 'Custom Range') {
+                this.set('pickerValue', picker.chosenLabel);
+            } else  {
                 let format = 'Y-MM-DD';
                 this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
-            } else {
-                this.set('pickerValue', picker.chosenLabel);
             }
         } else {
             this.noFilter();
         }
     }),
 
+    buildQueryObject(start, end) {
+        let key = this.get('options.queryKey') || this.get('key');
+        return {key: key, selected: start, param2: end, filterType: dateRangeFilter};
+    },
+
     updateFilter(start, end) {
         let key = this.get('key');
-        let filter = dateRangeFilter(key, start, end);
-        this.sendAction('onChange', key, filter);
+        this.sendAction('onChange', key, this.buildQueryObject(start, end));
     },
 
     noFilter() {
@@ -72,7 +81,7 @@ export default Ember.Component.extend({
     actions: {
         clear() {
             this.noFilter();
-            this.sendAction('onChange', this.get('key'), null);
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null));
         }
     }
 });

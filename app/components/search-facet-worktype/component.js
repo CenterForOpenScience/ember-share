@@ -6,11 +6,15 @@ export default Ember.Component.extend({
         return invertTermsFilter(this.get('key'), this.get('filter'));
     }),
 
+    buildQueryObject(selected) {
+        let key = this.get('options.queryKey') || this.get('key');
+        return {key: key, selected: selected, param2: true, filterType: termsFilter};
+    },
+
     actions: {
         change(type) {
             let key = this.get('key');
-            let filter = termsFilter(key, type ? [type] : null);
-            this.sendAction('onChange', key, filter);
+            this.sendAction('onChange', key, this.buildQueryObject(type ? [type] : null));
         }
     }
 });
