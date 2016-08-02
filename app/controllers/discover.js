@@ -2,44 +2,68 @@ import _ from 'lodash/lodash';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
-import { termsFilter, dateRangeFilter } from '../utils/elastic-query';
+import ENV from '../config/environment';
+import { termsFilter, associationTermsFilter, personTermsFilter, dateRangeFilter, invertTermsFilter, invertAssociationTermsFilter, invertPersonTermsFilter } from '../utils/elastic-query';
 
 export default ApplicationController.extend({
-    queryParams: ['page', 'searchString'],
+    filterQueryParams: ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
+    associationFilters: ['publisher', 'funder', 'institution', 'organization'],
+    queryParams:  Ember.computed(function() {
+        let allParams = ['searchString', 'start', 'end'];
+        allParams.push(...this.get('filterQueryParams'));
+        return allParams;
+    }),
+
     page: 1,
     size: 10,
     query: {},
     searchString: '',
-    displayQueryBaseString: Ember.computed( function() {
-        return buildElasticCall(Ember.$.param(this.searchQuery()));
-    }),
+    tags: '',
+    sources: '',
+    publisher: '',
+    funder: '',
+    institution: '',
+    organization: '',
+    language: '',
+    contributors: '',
+    start: '',
+    end: '',
+    type: '',
+
     collapsedQueryBody: true,
 
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
+    eventsLastUpdated: Date().toString(),
 
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
         this.set('facetFilters', Ember.Object.create());
-
-        let query = this.searchQuery();
         // TODO Load all previous pages when hitting a page with page > 1
         // if (this.get('page') != 1) {
         //   query.from = 0;
         //   query.size = this.get('page') * this.get('size');
         // }
-        this.loadPage(query);
+        this.loadEventCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
-    searchQuery() {
-        let query = {
-            q: this.get('searchString') || '*',  // Default to everything
-            from: (this.get('page') - 1) * this.get('size')
-        };
-        return query;
+    loadEventCount(){
+        var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
+        return Ember.$.ajax({
+            'url': url,
+            'crossDomain': true,
+            'type': 'GET',
+            'contentType': 'application/json',
+        }).then((json) => {
+            this.set('numberOfEvents', json.count);
+        });
     },
+
+    searchUrl: Ember.computed(function() {
+        return buildElasticCall();
+    }),
 
     getQueryBody() {
         let facetFilters = this.get('facetFilters');
@@ -55,19 +79,24 @@ export default ApplicationController.extend({
             }
         }
 
-        let queryBody = {
-            'query': {
-                'bool': {
-                    'must': {
-                        'query_string' : {
-                            'query': this.get('searchString') || '*'
-                        },
+        let query = {
+            'bool': {
+                'must': {
+                    'query_string' : {
+                        'query': this.get('searchString') || '*'
                     },
-                    'filter': filters
-                }
-            },
-            'aggregations': this.get('elasticAggregations')
+                },
+                'filter': filters
+            }
         };
+
+        let queryBody = {
+            query,
+            from: (this.get('page') - 1) * this.get('size'),
+            aggregations: this.get('elasticAggregations')
+        };
+
+        this.set('displayQueryBody', { query } );
         return this.set('queryBody', queryBody);
     },
 
@@ -108,14 +137,11 @@ export default ApplicationController.extend({
         };
     }),
 
-    loadPage(query=null) {
-        query = query || this.searchQuery();
-        let queryString = Ember.$.param(query);
+    loadPage() {
         let queryBody = JSON.stringify(this.getQueryBody());
-        const url = buildElasticCall(queryString);
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': url,
+            'url': this.get('searchUrl'),
             'crossDomain': true,
             'type': 'POST',
             'contentType': 'application/json',
@@ -151,25 +177,63 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
+    addFilters() {
+        var filters = this.get('facetFilters');
+        let params = this.get('filterQueryParams');
+        let associations = this.get('associationFilters');
+        for (var param in params) {
+            let key = params[param];
+            if (params.indexOf(key) > -1) {
+                let filterValue = this.get(key);
+                if (filterValue) {
+                    let filter = {};
+                    if (associations.indexOf(key) > -1) {
+                        filter = associationTermsFilter(key, filterValue.split(','));
+                    } else if (key === 'contributors') {
+                        filter = personTermsFilter(key, filterValue.split(','));
+                    } else if (key === 'sources') {
+                        filter = termsFilter(key, filterValue.split(','), false);
+                    } else if (key === 'type') {
+                        filter = termsFilter('@type', filterValue.split(','));
+                    } else {
+                        filter = termsFilter(key, filterValue.split(','));
+                    }
+                    filters.set(key, filter);
+                }
+            }
+        }
+        if (this.get('start') && this.get('end')) {
+            let filter = dateRangeFilter('date', this.get('start'), this.get('end'));
+            filters.set('date', filter);
+        }
+        this.send('filtersChanged', filters);
+    },
+
     facets: Ember.computed(function() {
         return [
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: '@type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
             { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
             { key: 'funder', title: 'Funder', component: 'search-facet-association' },
             { key: 'institution', title: 'Institution', component: 'search-facet-association' },
             { key: 'organization', title: 'Organization', component: 'search-facet-association' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-typeahead' },
-            { key: 'sources', title: 'Source', component: 'search-facet-source' }
+            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
+            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-typeahead', raw: false }
         ];
     }),
 
     actions: {
-        addFilter(type, filter) {
-
+        addFilter(type, filterValue) {
+            let filters = this.get('facetFilters');
+            let currentFilter = this.get(type);
+            let value = currentFilter.indexOf(filterValue) > -1 ? [] : [filterValue];
+            let filter = termsFilter(type, Array.prototype.concat(value, currentFilter));
+            filters.set(type, filter);
+            this.send('filtersChanged', filters);
         },
+
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
         },
@@ -188,7 +252,29 @@ export default ApplicationController.extend({
         },
 
         filtersChanged(facetFilters) {
+            var self = this;
             this.set('facetFilters', facetFilters);
+            Object.keys(facetFilters).forEach(function(key) {
+                if (key === 'date') {
+                    if (this[key]) {
+                        self.set('start', this[key].range.date.gte);
+                        self.set('end', this[key].range.date.lte);
+                    } else {
+                        self.set('start', '');
+                        self.set('end', '');
+                    }
+                } else if (key === '@type') {
+                    self.set('type', invertTermsFilter(key, this[key]));
+                } else {
+                    if (self.get('associationFilters').indexOf(key) > -1) {
+                        self.set(key, invertAssociationTermsFilter(key, this[key]));
+                    } else if (key === 'contributors') {
+                        self.set(key, invertPersonTermsFilter(key, this[key]));
+                    } else {
+                        self.set(key, invertTermsFilter(key, this[key]));
+                    }
+                }
+            }, facetFilters);
             this.search();
         },
 
@@ -220,7 +306,7 @@ export default ApplicationController.extend({
             }
             if (filter) {
                 let facetFilters = this.get('facetFilters');
-                facetFilters.set(key, filter);
+                facetFilters.set(field, filter);
                 this.search();
             }
         },
@@ -235,6 +321,16 @@ export default ApplicationController.extend({
 
         clearFilters() {
             this.set('facetFilters', Ember.Object.create());
+            let params = this.get('filterQueryParams');
+            for (var param in params) {
+                let key = params[param];
+                if (params.indexOf(key) > -1) {
+                    this.set(key, '');
+                }
+            }
+            this.set('start', '');
+            this.set('end', '');
+            this.set('type', '');
             this.search();
         }
     }

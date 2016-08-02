@@ -1,0 +1,7 @@
+<div class="col-xs-6">
+    <div class="provider-filter">
+        {{#link-to "discover" (query-params sources=source.long_title) class="provider-filter"}}
+            <img class="provider-favicon" src={{favicon}}>{{source.long_title}}
+        {{/link-to}}
+    </div>
+</div>

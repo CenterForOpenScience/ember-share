@@ -12,22 +12,26 @@ export default Ember.Component.extend({
         return langs.names();
     }),
 
-    buildFilter(languageNames) {
-        let languageCodes = languageNames.map((lang) => {
-            return langs.where('name', lang)['3'];
+    buildQueryObject(selected) {
+        let key = this.get('options.queryKey') || this.get('key');
+        let languageCodes = selected.map((lang) => {
+            return langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
         });
-        return termsFilter(this.get('key'), languageCodes);
+        return {key: key, selected: languageCodes, param2: true, filterType: termsFilter};
     },
 
     selected: Ember.computed('key', 'filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
+        let languageCodes = invertTermsFilter(this.get('key'), this.get('filter'));
+        let languageNames = languageCodes.map((lang) => {
+            return langs.where('3', lang)['name'];
+        });
+        return languageNames;
     }),
 
     actions: {
         changeFilter(languageNames) {
             let key = this.get('key');
-            let filter = this.buildFilter(languageNames);
-            this.sendAction('onChange', key, filter);
+            this.sendAction('onChange', key, this.buildQueryObject(languageNames));
         }
     }
 });

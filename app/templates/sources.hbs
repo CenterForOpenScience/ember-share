@@ -1,0 +1,46 @@
+<div class="container">
+    {{search-header}}
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="row">
+                <div class="col-xs-11">
+                    {{#power-select-multiple
+                        search=(action "elasticSearch")
+                        placeholder=placeholder
+                        selected=selected
+                        onchange=(action "changeFilter")
+                        as |option|
+                    }}
+                        {{option}}
+                    {{/power-select-multiple}}
+                </div>
+                <div class="col-xs-1">
+                    <a style="margin-left: -20px" href="">
+                        <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-muted text-center"><small>{{numberOfSources}} aggregated sources as of {{moment-format sourcesLastUpdated 'ddd MMM DD YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small></div>
+    <hr>
+    <br>
+    {{#if loading}}
+        <div class="text-center">
+            {{fa-icon 'spinner' spin=true size=3}}
+        </div>
+    {{else}}
+        <div class="row">
+            {{#each sources as |source index|}}
+                {{#if (modIf index 2)}}
+                    <div class="row">
+                        {{provider-block source=source}}
+                    </div>
+                {{else}}
+                    {{provider-block source=source}}
+                {{/if}}
+            {{/each}}
+        </div>
+    {{/if}}
+    <br>
+</div>

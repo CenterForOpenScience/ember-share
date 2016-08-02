@@ -1,7 +1,5 @@
 <div class="container">
-    <div>
-        <img height="20%" width="20%" style="display:block; margin-left:auto; margin-right:auto" src='assets/images/main_logo.png'>
-    </div>
+    {{search-header}}
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
             <div class="row">
@@ -16,9 +14,7 @@
             </div>
         </div>
     </div>
-    <div style="text-align: center; font-size:75%; margin-top:15px">
-        <i>Your query API call: <a href={{displayQueryBaseString}}>{{displayQueryBaseString}}</a></i>
-    </div>
+    <div class="text-muted text-center"><small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'ddd MMM DD YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small></div>
     {{#if queryBody}}
         <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
@@ -37,9 +33,12 @@
         <div id="queryBody" class="row">
             <div class="col-xs-8 col-xs-offset-2">
                 <div class="row">
+                    <div style="text-align: center; font-size:75%; margin-top:15px">
+                        <i>Search API: <a href={{searchUrl}}>{{searchUrl}}</a></i>
+                    </div>
                     <div class="col-xs-8 col-xs-offset-2">
                         {{json-pretty
-                            obj=queryBody
+                            obj=displayQueryBody
                             shouldHighlight=true
                         }}
                     </div>
@@ -64,12 +63,12 @@
 
         <div class='col-xs-9'>
           {{#each results as |obj|}}
-            {{search-result obj=obj}}
+            {{search-result addFilter='addFilter' obj=obj}}
           {{/each}}
 
           <div class="text-center">
             {{#if loading}}
-              {{fa-icon 'spinner' spin=true size=3}}
+              {{fa-icon 'spinner' pulse=true size=3}}
             {{else}}
               <button class="btn btn-default" {{action 'next'}}> More </button>
             {{/if}}

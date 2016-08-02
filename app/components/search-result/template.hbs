@@ -22,7 +22,7 @@
     <div class="col-xs-5">
         <div class="pull-right" style="text-align: right">
             {{#each tags as |tag|}}
-                <a class='label label-info' {{action 'addFilter' 'tag' tag}}>
+                <a class='label label-info' {{action 'addFilter' 'tags' tag}}>
                     {{tag}}
                 </a>
             {{/each}}
