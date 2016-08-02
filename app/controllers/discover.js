@@ -80,15 +80,18 @@ export default ApplicationController.extend({
         }
 
         let query = {
-            'bool': {
-                'must': {
-                    'query_string' : {
-                        'query': this.get('searchString') || '*'
-                    },
-                },
-                'filter': filters
+            'query_string' : {
+                'query': this.get('searchString') || '*'
             }
         };
+        if (filters.length) {
+            query = {
+                'bool': {
+                    'must': query,
+                    'filter': filters
+                }
+            };
+        }
 
         let queryBody = {
             query,
@@ -222,6 +225,12 @@ export default ApplicationController.extend({
             { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
             { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-typeahead', raw: false }
         ];
+    }),
+
+    atomFeedUrl: Ember.computed('queryBody', function() {
+        let query = this.get('queryBody.query');
+        let encodedQuery = encodeURIComponent(JSON.stringify(query));
+        return `${ENV.apiUrl}/api/atom/?elasticQuery=${encodedQuery}`;
     }),
 
     actions: {
