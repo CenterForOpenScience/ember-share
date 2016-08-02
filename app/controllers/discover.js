@@ -9,10 +9,11 @@ export default ApplicationController.extend({
     filterQueryParams: ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
     associationFilters: ['publisher', 'funder', 'institution', 'organization'],
     queryParams:  Ember.computed(function() {
-        let allParams = ['page', 'searchString', 'start', 'end'];
+        let allParams = ['searchString', 'start', 'end'];
         allParams.push(...this.get('filterQueryParams'));
         return allParams;
     }),
+
     page: 1,
     size: 10,
     query: {},
@@ -28,9 +29,7 @@ export default ApplicationController.extend({
     start: '',
     end: '',
     type: '',
-    displayQueryBaseString: Ember.computed( function() {
-        return buildElasticCall(Ember.$.param(this.searchQuery()));
-    }),
+
     collapsedQueryBody: true,
 
     results: Ember.ArrayProxy.create({content: []}),
@@ -49,13 +48,7 @@ export default ApplicationController.extend({
         this.loadEventCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
-    searchQuery() {
-        let query = {
-            q: this.get('searchString') || '*',  // Default to everything
-            from: (this.get('page') - 1) * this.get('size')
-        };
-        return query;
-    },
+
     loadEventCount(){
         var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
         return Ember.$.ajax({
@@ -67,6 +60,10 @@ export default ApplicationController.extend({
             this.set('numberOfEvents', json.count);
         });
     },
+
+    searchUrl: Ember.computed(function() {
+        return buildElasticCall();
+    }),
 
     getQueryBody() {
         let facetFilters = this.get('facetFilters');
@@ -82,19 +79,24 @@ export default ApplicationController.extend({
             }
         }
 
-        let queryBody = {
-            'query': {
-                'bool': {
-                    'must': {
-                        'query_string' : {
-                            'query': this.get('searchString') || '*'
-                        },
+        let query = {
+            'bool': {
+                'must': {
+                    'query_string' : {
+                        'query': this.get('searchString') || '*'
                     },
-                    'filter': filters
-                }
-            },
-            'aggregations': this.get('elasticAggregations')
+                },
+                'filter': filters
+            }
         };
+
+        let queryBody = {
+            query,
+            from: (this.get('page') - 1) * this.get('size'),
+            aggregations: this.get('elasticAggregations')
+        };
+
+        this.set('displayQueryBody', { query } );
         return this.set('queryBody', queryBody);
     },
 
@@ -135,14 +137,11 @@ export default ApplicationController.extend({
         };
     }),
 
-    loadPage(query=null) {
-        query = query || this.searchQuery();
-        let queryString = Ember.$.param(query);
+    loadPage() {
         let queryBody = JSON.stringify(this.getQueryBody());
-        const url = buildElasticCall(queryString);
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': url,
+            'url': this.get('searchUrl'),
             'crossDomain': true,
             'type': 'POST',
             'contentType': 'application/json',
