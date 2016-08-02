@@ -37,6 +37,7 @@ export default Ember.Component.extend({
                     this.send('clickDonut', d);
                 }
             },
+            legend: { show: false },
             donut: { title },
         });
         this.set('donut', donut);
@@ -102,6 +103,9 @@ export default Ember.Component.extend({
             },
             tooltip: {
                 grouped: false
+            },
+            legend: {
+                show: false
             }
         });
         this.set('histogram', histogram);
