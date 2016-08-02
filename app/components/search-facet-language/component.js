@@ -21,7 +21,11 @@ export default Ember.Component.extend({
     },
 
     selected: Ember.computed('key', 'filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
+        let languageCodes = invertTermsFilter(this.get('key'), this.get('filter'));
+        let languageNames = languageCodes.map((lang) => {
+            return langs.where('3', lang)['name'];
+        });
+        return languageNames;
     }),
 
     actions: {

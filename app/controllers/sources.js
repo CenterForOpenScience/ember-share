@@ -41,21 +41,28 @@ export default Ember.Controller.extend({
     }),
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/api/search/autocomplete/_search';
+        return ENV.apiUrl + '/api/search/_suggest';
     },
 
     buildTypeaheadQuery(text) {
         return {
-            'filter': {'match': {'@type': 'provider'}},
-            'query': {
-                'match': {'text': text}
+            "suggestions": {
+                "text": text,
+                "completion": {
+                    "field": "suggest",
+                    "size": 10,
+                    "fuzzy": true,
+                    "context": {
+                        "@type": "source"
+                    }
+                }
             }
         };
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.hits.hits.map(function(obj){
-            return obj._source.text;
+        let textList = response.suggestions[0].options.map(function(obj){
+            return obj.payload.name;
         });
         return getUniqueList(textList);
     },
