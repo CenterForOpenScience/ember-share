@@ -228,7 +228,8 @@ export default ApplicationController.extend({
         addFilter(type, filterValue) {
             let filters = this.get('facetFilters');
             let currentFilter = this.get(type);
-            let filter = termsFilter(type, Array.prototype.concat([filterValue], currentFilter));
+            let value = currentFilter.indexOf(filterValue) > -1 ? [] : [filterValue];
+            let filter = termsFilter(type, Array.prototype.concat(value, currentFilter));
             filters.set(type, filter);
             this.send('filtersChanged', filters);
         },
