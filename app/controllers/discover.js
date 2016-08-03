@@ -1,4 +1,5 @@
 import _ from 'lodash/lodash';
+import moment from 'moment';
 import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
@@ -35,6 +36,9 @@ export default ApplicationController.extend({
     results: Ember.ArrayProxy.create({content: []}),
     loading: true,
     eventsLastUpdated: Date().toString(),
+    numberOfResults: 0,
+    took: 0,
+    numberOfSources: 0,
 
     init() {
         //TODO Sort initial results on date_modified
@@ -46,6 +50,7 @@ export default ApplicationController.extend({
         //   query.size = this.get('page') * this.get('size');
         // }
         this.loadEventCount();
+        this.loadSourcesCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
@@ -58,6 +63,19 @@ export default ApplicationController.extend({
             'contentType': 'application/json',
         }).then((json) => {
             this.set('numberOfEvents', json.count);
+        });
+    },
+
+    loadSourcesCount() {
+        let url = url || ENV.apiUrl + '/api/providers/';
+        this.set('loading', true);
+        return Ember.$.ajax({
+            'url': url,
+            'crossDomain': true,
+            'type': 'GET',
+            'contentType': 'application/json',
+        }).then((json) => {
+            this.set('numberOfSources', json.count);
         });
     },
 
@@ -150,6 +168,8 @@ export default ApplicationController.extend({
             'contentType': 'application/json',
             'data': queryBody
         }).then((json) => {
+            this.set('numberOfResults', json.hits.total);
+            this.set('took', moment.duration(json.took).asSeconds());
             let results = json.hits.hits.map((hit) => {
                 // HACK
                 let source = hit._source;
