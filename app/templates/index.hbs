@@ -24,13 +24,19 @@
 
   <div class="row" id="index-tile-row">
     <div class="index-tile">
-      {{ homepage-button-box type='publication' label='PUBLICATIONS' icon='fa fa-book'}}
+      {{#link-to "discover" (query-params type="publication") class="index-filter"}}
+        {{ homepage-button-box type='publication' label='PUBLICATION' icon='fa fa-book' }}
+      {{/link-to}}
     </div>
+    {{#link-to "discover" (query-params type="preprint") class="index-filter"}}
+      <div class="index-tile">
+        {{ homepage-button-box type='preprint' label='PREPRINT' icon='fa fa-file-text'}}
+      </div>
+    {{/link-to}}
     <div class="index-tile">
-      {{ homepage-button-box type='preprint' label='PREPRINTS' icon='fa fa-file-text'}}
-    </div>
-    <div class="index-tile">
-      {{ homepage-button-box type='providers' label='PROVIDERS' icon='fa fa-university'}}
+      {{#link-to "sources" class="index-filter"}}
+        {{ homepage-button-box type='sources' label='SOURCES' icon='fa fa-university'}}
+      {{/link-to}}
     </div>
   </div>
 
