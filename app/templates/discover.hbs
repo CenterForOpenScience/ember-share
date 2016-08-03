@@ -1,23 +1,29 @@
 <div class="container">
     {{search-header}}
-    <div class="row">
+    <div class="row share-search">
         <div class="col-xs-8 col-xs-offset-2">
-            <div class="row share-search">
-                <div class="col-xs-10">
-                  {{input class="form-control" value=searchString key-up='typing'}}
-                </div>
-                <div class="col-xs-2">
-                    <a href="" {{action 'search'}}>
-                        {{fa-icon 'search' class='search-button' title='Search'}}
-                    </a>
-                    <a href={{atomFeedUrl}}>
-                        {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
-                    </a>
-                </div>
-            </div>
+            {{input class="form-control" value=searchString key-up='typing'}}
+        </div>
+        <div class="col-xs-2">
+            <a href="" {{action 'search'}}>
+                {{fa-icon 'search' class='search-button' title='Search'}}
+            </a>
+            <a href={{atomFeedUrl}}>
+                {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
+            </a>
         </div>
     </div>
-    <div class="text-muted text-center"><small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'ddd MMM DD YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small></div>
+    <div class="row">
+        <div class="text-muted col-xs-2 col-xs-offset-2">
+            <small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
+        </div>
+        <div class="col-xs-4" style="text-align: center">
+            <small>Found {{numberOfResults}} events in {{took}} seconds</small>
+        </div>
+        <div class="text-muted col-xs-2" style="text-align: right">
+            <small>{{numberOfSources}} aggregated sources</small>
+        </div>
+    </div>
     {{#if queryBody}}
         <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
