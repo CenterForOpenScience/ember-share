@@ -1,10 +1,10 @@
 .infoBox {
-  width: 25em ;
-  height: 25em ;
+    width: 25em ;
+    height: 25em ;
 }
 
 .infoBox-content {
-  padding-top: 30px ;
+    padding-top: 30px ;
 }
 
 .infoBox-text {
