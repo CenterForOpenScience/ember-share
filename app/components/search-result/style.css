@@ -1,12 +1,34 @@
-.tag {
-    border-radius: 5px;
-    background-color: #204762;
-    color: white;
-    padding: 2px;
-    margin: 2px;
+.tags {
+    padding-bottom: 2px;
 }
 
-.label {
-  margin: 2px;
-  display: inline-block;
+.tag {
+    border-radius: 5px;
+    color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 2px;
+    background: #5bc0de;
+    display: inline-block;
+    font-size: 75% ;
+}
+
+.redirect>a {
+    color: #214f77;
+}
+
+.description {
+    padding-top: 8px;
+    padding-bottom: 12px;
+}
+
+.extra {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.filter {
+    cursor: pointer;
 }
