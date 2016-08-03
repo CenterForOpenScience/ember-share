@@ -1,0 +1,16 @@
+.infoBox {
+    width: 25em ;
+    height: 25em ;
+}
+
+.infoBox-content {
+    padding-top: 30px ;
+}
+
+.infoBox-text {
+    font-size: 40px ;
+    font-weight: bold ;
+    color: #5b5e59 ;
+    font-family: 'Yanone Kaffeesatz' , sans-serif;
+    -webkit-font-smoothing: antialiased ;
+}
