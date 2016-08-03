@@ -28,11 +28,11 @@
         {{ homepage-button-box type='publication' label='PUBLICATION' icon='fa fa-book' }}
       {{/link-to}}
     </div>
-    {{#link-to "discover" (query-params type="preprint") class="index-filter"}}
-      <div class="index-tile">
+    <div class="index-tile">
+      {{#link-to "discover" (query-params type="preprint") class="index-filter"}}
         {{ homepage-button-box type='preprint' label='PREPRINT' icon='fa fa-file-text'}}
-      </div>
-    {{/link-to}}
+      {{/link-to}}
+    </div>
     <div class="index-tile">
       {{#link-to "sources" class="index-filter"}}
         {{ homepage-button-box type='sources' label='SOURCES' icon='fa fa-university'}}
