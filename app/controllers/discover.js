@@ -122,38 +122,12 @@ export default ApplicationController.extend({
     },
 
     elasticAggregations: Ember.computed(function() {
-        let histogramAgg = {
-            "last_3_months" : {
-                "filter": {
-                    "range": {
-                        "date": {
-                            "gte": "now-12w",
-                            "lte": "now"
-                        }
-                    }
-                },
-                "aggregations": {
-                    "results_by_date": {
-                        "date_histogram" : {
-                            "field" : "date",
-                            "interval" : "week",
-                            "extended_bounds": {
-                                "min": "now-12w",
-                                "max": "now"
-                            }
-                        }
-                    }
-                }
-            }
-        };
         return {
             "sources" : {
-                "terms" : { "field" : "sources" },
-                "aggregations": histogramAgg
-            },
-            "types" : {
-                "terms" : { "field" : "@type" },
-                "aggregations": histogramAgg
+                "terms" : {
+                    "field" : "sources",
+                    "size": 200
+                }
             }
         };
     }),
@@ -234,6 +208,7 @@ export default ApplicationController.extend({
 
     facets: Ember.computed(function() {
         return [
+            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-source', raw: false },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: '@type', title: 'Type', component: 'search-facet-worktype' },
             { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
@@ -243,7 +218,6 @@ export default ApplicationController.extend({
             { key: 'organization', title: 'Organization', component: 'search-facet-association' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
-            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-typeahead', raw: false }
         ];
     }),
 

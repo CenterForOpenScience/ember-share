@@ -56,18 +56,12 @@
         </div>
     {{/bs-collapse}}
     <hr>
-    <div class='row'>
-        {{aggregate-graphs aggregations=aggregations
-        setTermFilter=(action 'setTermFilter')
-        setDateFilter=(action 'setDateFilter')
-        }}
-    </div>
     <div class="row">
         <div class='col-xs-3'>
             <button {{action 'clearFilters'}} class='btn btn-default'>
                 Clear filters
             </button>
-            {{faceted-search onChange='filtersChanged' filters=facetFilters facets=facets}}
+            {{faceted-search onChange='filtersChanged' filters=facetFilters facets=facets aggregations=aggregations}}
         </div>
 
         <div class='col-xs-9'>

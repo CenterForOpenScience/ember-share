@@ -8,6 +8,7 @@
             {{component facet.component
             key=facet.key
             options=facet
+            aggregations=aggregations
             filter=(get filters facet.key)
             onChange=(action 'facetChanged')}}
         </div>

@@ -7,7 +7,6 @@ export default Ember.Component.extend({
 
     actions: {
         facetChanged(key, facet) {
-            //let filtersCopy = Ember.$.extend({}, this.get('filters'));
             let filters = this.get('filters');
             let newFilters = null;
             if (Array.isArray(facet)) {
