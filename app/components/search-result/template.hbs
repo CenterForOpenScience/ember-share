@@ -8,7 +8,11 @@
 <div class="row">
     <h4 class="col-sm-11 redirect">
         {{#link-to "curate.work" obj.workType obj.id}}
-            {{obj.title}}
+            {{#if obj.title}}
+                {{obj.title}}
+            {{else}}
+                <i class="no-title">Title not provided</i>
+            {{/if}}
         {{/link-to}}
     </h4>
 </div>
