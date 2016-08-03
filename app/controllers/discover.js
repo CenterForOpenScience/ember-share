@@ -256,7 +256,7 @@ export default ApplicationController.extend({
     actions: {
         addFilter(type, filterValue) {
             let filters = this.get('facetFilters');
-            let currentFilter = this.get(type);
+            let currentFilter = this.get(type) ? this.get(type) : [];
             let value = currentFilter.indexOf(filterValue) > -1 ? [] : [filterValue];
             let filter = termsFilter(type, Array.prototype.concat(value, currentFilter));
             filters.set(type, filter);
