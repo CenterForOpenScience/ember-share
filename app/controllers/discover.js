@@ -111,11 +111,14 @@ export default ApplicationController.extend({
             };
         }
 
+        let page = this.get('page');
         let queryBody = {
             query,
-            from: (this.get('page') - 1) * this.get('size'),
-            aggregations: this.get('elasticAggregations')
+            from: (page - 1) * this.get('size'),
         };
+        if (page == 1) {
+            queryBody.aggregations = this.get('elasticAggregations');
+        }
 
         this.set('displayQueryBody', { query } );
         return this.set('queryBody', queryBody);
@@ -160,7 +163,9 @@ export default ApplicationController.extend({
                 return source;
             });
             Ember.run(() => {
-                this.set('aggregations', json.aggregations);
+                if (json.aggregations) {
+                    this.set('aggregations', json.aggregations);
+                }
                 this.set('loading', false);
                 this.get('results').addObjects(results);
             });
