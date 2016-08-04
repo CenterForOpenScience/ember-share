@@ -12,9 +12,15 @@ export default Ember.Component.extend({
     },
 
     actions: {
-        change(type) {
+        toggle(type) {
             let key = this.get('key');
-            this.sendAction('onChange', key, this.buildQueryObject(type ? [type] : null));
+            let selected = this.get('selected').slice(0);
+            if (selected.contains(type)) {
+                selected.removeObject(type);
+            } else {
+                selected.addObject(type);
+            }
+            this.sendAction('onChange', key, this.buildQueryObject(selected.length ? selected : null));
         }
     }
 });
