@@ -67,7 +67,13 @@
             <button {{action 'clearFilters'}} class='btn btn-default'>
                 Clear filters
             </button>
-            {{faceted-search onChange='filtersChanged' filters=facetFilters facets=facets aggregations=aggregations}}
+            {{faceted-search
+                onChange='filtersChanged'
+                updateParams='updateParams'
+                filters=facetFilters
+                facets=facets
+                aggregations=aggregations
+            }}
         </div>
 
         <div class='col-xs-9'>

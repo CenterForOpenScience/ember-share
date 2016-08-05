@@ -6,6 +6,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
+        this.updateFilter(this.get('options.param.start'), this.get('options.param.end'));
     },
 
     didInsertElement() {
@@ -65,8 +66,8 @@ export default Ember.Component.extend({
     }),
 
     buildQueryObject(start, end) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: start, param2: end, filterType: dateRangeFilter};
+        let key = this.get('key');
+        return dateRangeFilter(key, start, end);
     },
 
     updateFilter(start, end) {

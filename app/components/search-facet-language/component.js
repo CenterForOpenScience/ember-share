@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import langs from 'npm:langs';
-import { termsFilter, invertTermsFilter } from 'ember-share/utils/elastic-query';
+import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -13,11 +13,13 @@ export default Ember.Component.extend({
     }),
 
     buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
+        let key = this.get('key');
         let languageCodes = selected.map((lang) => {
             return langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
         });
-        return {key: key, selected: languageCodes, param2: true, filterType: termsFilter};
+
+        let newFilter = termsFilter(key, getUniqueList(languageCodes), true);
+        return [newFilter, languageCodes];
     },
 
     selected: Ember.computed('key', 'filter', function() {
@@ -31,7 +33,8 @@ export default Ember.Component.extend({
     actions: {
         changeFilter(languageNames) {
             let key = this.get('key');
-            this.sendAction('onChange', key, this.buildQueryObject(languageNames));
+            let [filter, value] = this.buildQueryObject(languageNames);
+            this.sendAction('onChange', key, filter, value);
         }
     }
 });

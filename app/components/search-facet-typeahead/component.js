@@ -3,8 +3,14 @@ import ENV from '../../config/environment';
 import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
+
+    filterType: Ember.computed(function() {
+        return termsFilter;
+    }),
+
     init() {
         this._super(...arguments);
+        this.send('changeFilter', this.get('options.param').split(','));
     },
 
     placeholder: Ember.computed(function() {
@@ -15,9 +21,20 @@ export default Ember.Component.extend({
         return invertTermsFilter(this.get('key'), this.get('filter'));
     }),
 
-    buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: this.get('options.raw'), filterType: termsFilter};
+    buildQueryObjectCombine(selected) {
+        let key = this.get('key');
+        let currentFilter = this.get('options.facetFilters')[key] ? invertTermsFilter(key, this.get('options.facetFilters')[key])[0] : [];
+        let value = !selected[0] ? [] : selected;
+        let newValue = getUniqueList(Array.prototype.concat(value, currentFilter));
+        let newFilter = this.get('filterType')(key, newValue, this.get('options.raw'));
+        return [newFilter, newValue];
+    },
+
+    buildQueryObjectMatch(selected) {
+        let key = this.get('key');
+        let newValue = !selected[0] ? [] : selected;
+        let newFilter = this.get('filterType')(key, getUniqueList(newValue), this.get('options.raw'));
+        return [newFilter, newValue];
     },
 
     handleTypeaheadResponse(response) {
@@ -49,8 +66,14 @@ export default Ember.Component.extend({
     },
 
     actions: {
-        changeFilter(selected) {
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(selected));
+        changeFilter(selected, match=true) {
+            let [filter, value] = [null, null];
+            if (match) {
+                [filter, value] = this.buildQueryObjectMatch(selected);
+            } else {
+                [filter, value] = this.buildQueryObjectCombine(selected);
+            }
+            this.sendAction('onChange', this.get('key'), filter, value);
         },
 
         elasticSearch(term) {

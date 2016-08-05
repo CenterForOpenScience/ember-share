@@ -4,16 +4,15 @@ import { associationTermsFilter, invertAssociationTermsFilter } from 'ember-shar
 
 export default TypeaheadComponent.extend({
 
+    filterType: Ember.computed(function() {
+        return associationTermsFilter;
+    }),
+
     init() {
         this._super(...arguments);
     },
 
     selected: Ember.computed('key', 'filter', function() {
         return invertAssociationTermsFilter(this.get('key'), this.get('filter'));
-    }),
-
-    buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: true, filterType: associationTermsFilter};
-    }
+    })
 });

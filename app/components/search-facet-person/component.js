@@ -4,16 +4,15 @@ import { personTermsFilter, invertPersonTermsFilter } from 'ember-share/utils/el
 
 export default TypeaheadComponent.extend({
 
+    filterType: Ember.computed(function() {
+        return personTermsFilter;
+    }),
+
     init() {
         this._super(...arguments);
     },
 
     selected: Ember.computed('key', 'filter', function() {
         return invertPersonTermsFilter(this.get('key'), this.get('filter'));
-    }),
-
-    buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: true, filterType: personTermsFilter};
-    }
+    })
 });
