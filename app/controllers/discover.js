@@ -10,7 +10,7 @@ export default ApplicationController.extend({
     filterQueryParams: ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
     associationFilters: ['publisher', 'funder', 'institution', 'organization'],
     queryParams:  Ember.computed(function() {
-        let allParams = ['searchString', 'start', 'end'];
+        let allParams = ['searchString', 'start', 'end', 'sort'];
         allParams.push(...this.get('filterQueryParams'));
         return allParams;
     }),
@@ -30,6 +30,7 @@ export default ApplicationController.extend({
     start: '',
     end: '',
     type: '',
+    sort: '',
 
     collapsedQueryBody: true,
 
@@ -39,6 +40,17 @@ export default ApplicationController.extend({
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
+
+    sortOptions: [
+        {
+            display: 'relevance',
+            sortBy: ''
+        },
+        {
+            display: 'date',
+            sortBy: 'date_updated'
+        }
+    ],
 
     init() {
         //TODO Sort initial results on date_modified
@@ -114,8 +126,11 @@ export default ApplicationController.extend({
         let page = this.get('page');
         let queryBody = {
             query,
-            from: (page - 1) * this.get('size'),
+            from: (page - 1) * this.get('size')
         };
+        if (this.get('sort')) {
+            queryBody.sort = this.get('sort');
+        }
         if (page == 1) {
             queryBody.aggregations = this.get('elasticAggregations');
         }
@@ -304,6 +319,11 @@ export default ApplicationController.extend({
             this.loadPage();
         },
 
+        selectSortOption(option) {
+            this.set('sort', option);
+            this.search();
+        },
+
         setTermFilter(field, term) {
             let filter = null;
             // HACK This logic could be more generic.
@@ -339,6 +359,7 @@ export default ApplicationController.extend({
             this.set('start', '');
             this.set('end', '');
             this.set('type', '');
+            this.set('sort', '');
             this.search();
         }
     }
