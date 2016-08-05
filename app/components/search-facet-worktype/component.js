@@ -5,11 +5,11 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.send('change', this.get('options.param'));
+        this.send('toggle', this.get('options.param'));
     },
 
-    selected: Ember.computed('filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
+    selected: Ember.computed('state', function() {
+        return this.get('state') ? [this.get('state')] : [];
     }),
 
     buildQueryObjectCombine(selected) {
@@ -32,12 +32,14 @@ export default Ember.Component.extend({
         toggle(type, match=true) {
             let key = this.get('key');
             let selected = this.get('selected').slice(0);
+            let [filter, value] = [null, null];
+
 			if (selected.contains(type)) {
                 selected.removeObject(type);
             } else {
                 selected.addObject(type);
             }
-            let [filter, value] = [null, null];
+
             if (match) {
                 [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
             } else {

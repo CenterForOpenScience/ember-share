@@ -10,30 +10,25 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.send('changeFilter', this.get('options.param').split(','));
+        console.log('init', this.get('state').split(','));
+        this.send('changeFilter', this.get('state').split(','));
     },
 
     placeholder: Ember.computed(function() {
         return 'Add ' + this.get('options.title') + ' filter';
     }),
 
-    selected: Ember.computed('key', 'filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
+    selected: Ember.computed('state', function() {
+        console.log('selected', this.get('state').length && typeof(this.get('state')) === 'string' ? this.get('state').split(',') : this.get('state'));
+        let value = this.get('state').length && typeof(this.get('state')) === 'string' ? this.get('state').split(',') : this.get('state');
+        return value ? value : [];
     }),
-
-    buildQueryObjectCombine(selected) {
-        let key = this.get('key');
-        let currentFilter = this.get('options.facetFilters')[key] ? invertTermsFilter(key, this.get('options.facetFilters')[key])[0] : [];
-        let value = !selected[0] ? [] : selected;
-        let newValue = getUniqueList(Array.prototype.concat(value, currentFilter));
-        let newFilter = this.get('filterType')(key, newValue, this.get('options.raw'));
-        return [newFilter, newValue];
-    },
 
     buildQueryObjectMatch(selected) {
         let key = this.get('key');
         let newValue = !selected[0] ? [] : selected;
         let newFilter = this.get('filterType')(key, getUniqueList(newValue), this.get('options.raw'));
+        console.log('build list', getUniqueList(newValue));
         return [newFilter, newValue];
     },
 
@@ -65,14 +60,15 @@ export default Ember.Component.extend({
         };
     },
 
+    // stateChange: Ember.observer('state', function() {
+    //     let selected = this.get('state').split(',');
+    //     let [filter, value] = this.buildQueryObjectMatch(selected);
+    //     this.sendAction('onChange', this.get('key'), filter, value);
+    // }),
+
     actions: {
-        changeFilter(selected, match=true) {
-            let [filter, value] = [null, null];
-            if (match) {
-                [filter, value] = this.buildQueryObjectMatch(selected);
-            } else {
-                [filter, value] = this.buildQueryObjectCombine(selected);
-            }
+        changeFilter(selected) {
+            let [filter, value] = this.buildQueryObjectMatch(selected);
             this.sendAction('onChange', this.get('key'), filter, value);
         },
 

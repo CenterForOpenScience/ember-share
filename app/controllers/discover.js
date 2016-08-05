@@ -4,14 +4,15 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter } from '../utils/elastic-query';
+import { termsFilter, dateRangeFilter, getUniqueList } from '../utils/elastic-query';
+
+let filterQueryParams = ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'];
 
 export default ApplicationController.extend({
-    filterQueryParams: ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'],
-    associationFilters: ['publisher', 'funder', 'institution', 'organization'],
+
     queryParams:  Ember.computed(function() {
         let allParams = ['searchString', 'start', 'end', 'sort'];
-        allParams.push(...this.get('filterQueryParams'));
+        allParams.push(...filterQueryParams);
         return allParams;
     }),
 
@@ -131,7 +132,7 @@ export default ApplicationController.extend({
         if (this.get('sort')) {
             queryBody.sort = this.get('sort');
         }
-        if (page == 1) {
+        if (page === 1) {
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
@@ -196,17 +197,26 @@ export default ApplicationController.extend({
 
     facets: Ember.computed(function() {
         return [
-            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-source', raw: false, param: this.get('sources'), facetFilters: this.get('facetFilters') },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange', param: {start: this.get('start'), end: this.get('end')}, facetFilters: this.get('facetFilters') },
-            { key: '@type', title: 'Type', component: 'search-facet-worktype', param: this.get('type'), facetFilters: this.get('facetFilters') },
-            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true, param: this.get('tags'), facetFilters: this.get('facetFilters') },
-            { key: 'publisher', title: 'Publisher', component: 'search-facet-association', param: this.get('publisher'), facetFilters: this.get('facetFilters') },
-            { key: 'funder', title: 'Funder', component: 'search-facet-association', param: this.get('funder'), facetFilters: this.get('facetFilters') },
-            { key: 'institution', title: 'Institution', component: 'search-facet-association', param: this.get('institution'), facetFilters: this.get('facetFilters') },
-            { key: 'organization', title: 'Organization', component: 'search-facet-association', param: this.get('organization'), facetFilters: this.get('facetFilters') },
-            { key: 'language', title: 'Language', component: 'search-facet-language', param: this.get('language'), facetFilters: this.get('facetFilters') },
-            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person', param: this.get('contributors'), facetFilters: this.get('facetFilters') },
+            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-source', raw: false },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: '@type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
+            { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
+            { key: 'funder', title: 'Funder', component: 'search-facet-association' },
+            { key: 'institution', title: 'Institution', component: 'search-facet-association' },
+            { key: 'organization', title: 'Organization', component: 'search-facet-association' },
+            { key: 'language', title: 'Language', component: 'search-facet-language' },
+            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
         ];
+    }),
+
+    facetStates: Ember.computed(...filterQueryParams, function() {
+        let facetStates = {};
+        for (let param of filterQueryParams) {
+            facetStates[param] = this.get(param);
+        }
+        facetStates['date'] = {start: this.get('start'), end: this.get('end')};
+        return facetStates;
     }),
 
     atomFeedUrl: Ember.computed('queryBody', function() {
@@ -218,7 +228,11 @@ export default ApplicationController.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            console.log(type, filterValue);
+            let currentValue = typeof(this.get(type)) === 'string' ? this.get(type).split(',') : this.get(type);
+            currentValue = currentValue ? currentValue : [];
+            let newValue = getUniqueList([filterValue].concat(currentValue));
+            console.log(filterValue, currentValue, newValue);
+            this.set(type, newValue);
         },
 
         toggleCollapsedQueryBody() {
