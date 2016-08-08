@@ -4,9 +4,9 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter, getUniqueList } from '../utils/elastic-query';
+import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams } from '../utils/elastic-query';
 
-let filterQueryParams = ['type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'];
+let filterQueryParams = ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'];
 
 export default ApplicationController.extend({
 
@@ -30,7 +30,7 @@ export default ApplicationController.extend({
     contributors: '',
     start: '',
     end: '',
-    type: '',
+    '@type': '',
     sort: '',
 
     collapsedQueryBody: true,
@@ -228,10 +228,9 @@ export default ApplicationController.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            let currentValue = typeof(this.get(type)) === 'string' ? this.get(type).split(',') : this.get(type);
+            let currentValue = getSplitParams(this.get(type));
             currentValue = currentValue ? currentValue : [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
-            console.log(filterValue, currentValue, newValue);
             this.set(type, newValue);
         },
 
@@ -253,7 +252,13 @@ export default ApplicationController.extend({
         },
 
         updateParams(key, value) {
-            this.set(key, value);
+            if (key === 'date') {
+                this.set('start', value.start);
+                this.set('end', value.end);
+            } else {
+                value = value ? value : '';
+                this.set(key, value);
+            }
         },
 
         filtersChanged() {

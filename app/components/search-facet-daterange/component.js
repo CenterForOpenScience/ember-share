@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import moment from 'moment';
-import { dateRangeFilter, invertDateRangeFilter } from 'ember-share/utils/elastic-query';
+import { dateRangeFilter } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.updateFilter(this.get('options.param.start'), this.get('options.param.end'));
+        this.updateFilter(this.get('state.start'), this.get('state.end'));
     },
 
     didInsertElement() {
@@ -46,11 +46,11 @@ export default Ember.Component.extend({
 
     },
 
-    filterUpdated: Ember.observer('filter', function() {
-        let filter = this.get('filter');
-        if (filter) {
-            let key = this.get('key');
-            let { start, end } = invertDateRangeFilter(key, filter);
+    filterUpdated: Ember.observer('state', function() {
+        let state = this.get('state');
+        if (state.start) {
+            let start = moment(this.get('state.start'));
+            let end = moment(this.get('state.end'));
             let picker = this.$('.date-range').data('daterangepicker');
             picker.setStartDate(start);
             picker.setEndDate(end);
@@ -72,7 +72,8 @@ export default Ember.Component.extend({
 
     updateFilter(start, end) {
         let key = this.get('key');
-        this.sendAction('onChange', key, this.buildQueryObject(start, end));
+        let value = start && end ? {start: moment(start).format(), end: moment(end).format()} : {start: '', end: ''};
+        this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
     },
 
     noFilter() {
@@ -82,7 +83,7 @@ export default Ember.Component.extend({
     actions: {
         clear() {
             this.noFilter();
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null));
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), {start: '', end: ''});
         }
     }
 });

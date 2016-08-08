@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { termsFilter, getSplitParams, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -10,7 +10,6 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        console.log('init', this.get('state').split(','));
         this.send('changeFilter', this.get('state').split(','));
     },
 
@@ -19,8 +18,7 @@ export default Ember.Component.extend({
     }),
 
     selected: Ember.computed('state', function() {
-        console.log('selected', this.get('state').length && typeof(this.get('state')) === 'string' ? this.get('state').split(',') : this.get('state'));
-        let value = this.get('state').length && typeof(this.get('state')) === 'string' ? this.get('state').split(',') : this.get('state');
+        let value = getSplitParams(this.get('state'));
         return value ? value : [];
     }),
 
@@ -28,7 +26,6 @@ export default Ember.Component.extend({
         let key = this.get('key');
         let newValue = !selected[0] ? [] : selected;
         let newFilter = this.get('filterType')(key, getUniqueList(newValue), this.get('options.raw'));
-        console.log('build list', getUniqueList(newValue));
         return [newFilter, newValue];
     },
 
@@ -59,12 +56,6 @@ export default Ember.Component.extend({
             }
         };
     },
-
-    // stateChange: Ember.observer('state', function() {
-    //     let selected = this.get('state').split(',');
-    //     let [filter, value] = this.buildQueryObjectMatch(selected);
-    //     this.sendAction('onChange', this.get('key'), filter, value);
-    // }),
 
     actions: {
         changeFilter(selected) {

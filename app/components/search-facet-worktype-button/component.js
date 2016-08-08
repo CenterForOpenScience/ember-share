@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { getSplitParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     tagName: 'button',
@@ -6,7 +7,8 @@ export default Ember.Component.extend({
     classNameBindings: ['selected:active'],
 
     selected: Ember.computed('selectedTypes.[]', function() {
-        return this.get('selectedTypes').contains(this.get('type'));
+        let selectedTypes = getSplitParams(this.get('selectedTypes'));
+        return selectedTypes.contains(this.get('type'));
     }),
 
     click() {

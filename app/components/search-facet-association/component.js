@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import TypeaheadComponent from '../search-facet-typeahead/component';
-import { associationTermsFilter, invertAssociationTermsFilter } from 'ember-share/utils/elastic-query';
+import { associationTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default TypeaheadComponent.extend({
 
@@ -10,9 +10,5 @@ export default TypeaheadComponent.extend({
 
     init() {
         this._super(...arguments);
-    },
-
-    selected: Ember.computed('key', 'filter', function() {
-        return invertAssociationTermsFilter(this.get('key'), this.get('filter'));
-    })
+    }
 });
