@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import langs from 'npm:langs';
-import { termsFilter, getSplitParams, getUniqueList } from 'ember-share/utils/elastic-query';
+import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     },
 
     selected: Ember.computed('state', function() {
-        let params = getSplitParams(this.get('state'));
+        let params = this.get('state');
         let languageCodes =  params ? params : [];
         let languageNames = languageCodes.map((lang) => {
             return langs.where('3', lang)['name'];

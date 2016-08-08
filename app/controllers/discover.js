@@ -213,7 +213,7 @@ export default ApplicationController.extend({
     facetStates: Ember.computed(...filterQueryParams, function() {
         let facetStates = {};
         for (let param of filterQueryParams) {
-            facetStates[param] = this.get(param);
+            facetStates[param] = getSplitParams(this.get(param));
         }
         facetStates['date'] = {start: this.get('start'), end: this.get('end')};
         return facetStates;
@@ -313,16 +313,14 @@ export default ApplicationController.extend({
 
         clearFilters() {
             this.set('facetFilters', Ember.Object.create());
-            let params = this.get('filterQueryParams');
-            for (var param in params) {
-                let key = params[param];
-                if (params.indexOf(key) > -1) {
+            for (var param in filterQueryParams) {
+                let key = filterQueryParams[param];
+                if (filterQueryParams.indexOf(key) > -1) {
                     this.set(key, '');
                 }
             }
             this.set('start', '');
             this.set('end', '');
-            this.set('type', '');
             this.set('sort', '');
             this.search();
         }

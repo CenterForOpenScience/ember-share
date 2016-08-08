@@ -74,8 +74,10 @@ function getSplitParams(params) {
         return params[0];
     } else if (params.length && typeof(params) === 'string') {
         return params.split(',');
+    } else if (params.length === 1) {
+        return params[0].split(',');
     }
-    return params[0].split(',');
+    return params;
 }
 
 export {

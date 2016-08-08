@@ -46,6 +46,18 @@ export default Ember.Component.extend({
 
     },
 
+    statePrevious: [],
+    // this isn't getting triggered
+    changed: Ember.observer('state.start', 'state.end', function() {
+        let start = this.get('state.start');
+        let end = this.get('state.end');
+        if ( start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
+            let format = 'Y-MM-DD';
+            this.set('pickerValue', `${moment(start).format(format)} - ${moment(end).format(format)}`);
+            this.updateFilter(start, end);
+        }
+    }),
+
     filterUpdated: Ember.observer('state', function() {
         let state = this.get('state');
         if (state.start) {
@@ -73,6 +85,7 @@ export default Ember.Component.extend({
     updateFilter(start, end) {
         let key = this.get('key');
         let value = start && end ? {start: moment(start).format(), end: moment(end).format()} : {start: '', end: ''};
+        this.set('previousState', this.get('state'));
         this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
     },
 
@@ -83,6 +96,7 @@ export default Ember.Component.extend({
     actions: {
         clear() {
             this.noFilter();
+            this.set('previousState', this.get('state'));
             this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), {start: '', end: ''});
         }
     }

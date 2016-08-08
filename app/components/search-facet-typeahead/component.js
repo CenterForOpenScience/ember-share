@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-import { termsFilter, getSplitParams, getUniqueList } from 'ember-share/utils/elastic-query';
+import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        this.send('changeFilter', this.get('state').split(','));
+        this.send('changeFilter', this.get('state'));
     },
 
     placeholder: Ember.computed(function() {
@@ -18,8 +18,17 @@ export default Ember.Component.extend({
     }),
 
     selected: Ember.computed('state', function() {
-        let value = getSplitParams(this.get('state'));
+        let value = this.get('state');
         return value ? value : [];
+    }),
+
+    statePrevious: [],
+    stateOverlap: Ember.computed.intersect('state', 'previousState'),
+    changed: Ember.observer('state', 'stateOverlap', function() {
+        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+            let value = this.get('state');
+            this.send('changeFilter', value ? value : []);
+        }
     }),
 
     buildQueryObjectMatch(selected) {
@@ -60,6 +69,7 @@ export default Ember.Component.extend({
     actions: {
         changeFilter(selected) {
             let [filter, value] = this.buildQueryObjectMatch(selected);
+            this.set('previousState', this.get('state'));
             this.sendAction('onChange', this.get('key'), filter, value);
         },
 

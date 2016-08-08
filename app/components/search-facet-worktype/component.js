@@ -9,7 +9,16 @@ export default Ember.Component.extend({
     },
 
     selected: Ember.computed('state', function() {
-        return this.get('state') ? [this.get('state')] : [];
+        return this.get('state') ? this.get('state') : [];
+    }),
+
+    statePrevious: [],
+    stateOverlap: Ember.computed.intersect('state', 'previousState'),
+    changed: Ember.observer('state', 'stateOverlap', function() {
+        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+            let value = this.get('state');
+            this.send('setState', value ? value : []);
+        }
     }),
 
     buildQueryObjectMatch(selected) {
@@ -25,7 +34,7 @@ export default Ember.Component.extend({
             selected = getSplitParams(selected);
 
             let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
-
+            this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         },
         toggle(type) {
@@ -39,7 +48,7 @@ export default Ember.Component.extend({
             }
 
             let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
-
+            this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         }
     }
