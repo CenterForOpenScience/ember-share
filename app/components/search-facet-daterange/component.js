@@ -47,7 +47,6 @@ export default Ember.Component.extend({
     },
 
     statePrevious: [],
-    // this isn't getting triggered
     changed: Ember.observer('state.start', 'state.end', function() {
         let start = this.get('state.start');
         let end = this.get('state.end');
