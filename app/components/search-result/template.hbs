@@ -81,13 +81,13 @@
                 {{#if index}}
                     ,
                 {{/if}}
-                <a class="filter" {{action 'addFilter' 'organizations' organization.name}}>
+                <a class="filter" {{action 'addFilter' 'organization' organization.name}}>
                     {{organization.name}}
                 </a>
             {{/each}}
             {{#if (and obj.organizations obj.institutions)}}, {{/if}}
             {{#each obj.institutions as |institution|}}
-                <a class="filter" {{action 'addFilter' 'institutions' institution.name}}>
+                <a class="filter" {{action 'addFilter' 'institution' institution.name}}>
                     {{institution.name}}
                 </a>
             {{/each}}
@@ -102,8 +102,8 @@
                 {{#if index}}
                     ,
                 {{/if}}
-                <a class="filter" {{action 'addFilter' 'funders' funder}}>
-                    {{funder}}
+                <a class="filter" {{action 'addFilter' 'funder' funder.name}}>
+                    {{funder.name}}
                 </a>
             {{/each}}
         </div>
@@ -115,7 +115,7 @@
             <span class="pull-left" style="text-align: left">
                 <span class="text-muted">Published by </span>
                 {{#each obj.publishers as |publisher|}}
-                    <a class="filter" {{action 'addFilter' 'publishers' publisher.name}}>
+                    <a class="filter" {{action 'addFilter' 'publisher' publisher.name}}>
                         {{publisher.name}}
                     </a>
                 {{/each}}

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import { invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
     numberOfSources: 0,
@@ -36,9 +36,6 @@ export default Ember.Controller.extend({
             });
         });
     },
-    selected: Ember.computed('key', 'filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
-    }),
 
     typeaheadQueryUrl() {
         return ENV.apiUrl + '/api/search/_suggest';

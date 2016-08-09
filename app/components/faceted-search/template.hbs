@@ -9,7 +9,8 @@
             key=facet.key
             options=facet
             aggregations=aggregations
-            filter=(get filters facet.key)
+            state=(get facetStates facet.key)
+            filter=(get facetFilters facet.key)
             onChange=(action 'facetChanged')}}
         </div>
     </div>

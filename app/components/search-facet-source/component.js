@@ -4,7 +4,7 @@ import TypeaheadComponent from '../search-facet-typeahead/component';
 
 export default TypeaheadComponent.extend({
 
-    sources: Ember.computed('aggregations', function() {
+    sourcesList: Ember.computed('aggregations', function() {
         let data = this.get('aggregations.sources.buckets');
         return data ? data.mapBy('key') : [];
     }),

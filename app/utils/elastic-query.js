@@ -59,25 +59,6 @@ function personTermsFilter(field, terms, raw = true) {
     return termsFilter(field, terms, raw);
 }
 
-function invertTermsFilter(field, filter) {
-    if (filter) {
-        let terms = filter.terms[field] || filter.terms[field + '.raw'];
-        return terms;
-    } else {
-        return [];
-    }
-}
-
-function invertAssociationTermsFilter(field, filter) {
-    field = field + 's.name';
-    return invertTermsFilter(field, filter);
-}
-
-function invertPersonTermsFilter(field, filter) {
-    field = field + '.name';
-    return invertTermsFilter(field, filter);
-}
-
 function uniqueFilter(value, index, self) {
     return self.indexOf(value) === index;
 }
@@ -86,14 +67,25 @@ function getUniqueList(data) {
     return data.filter( uniqueFilter );
 }
 
+function getSplitParams(params) {
+    if (!params.length) {
+        return params.slice(0);
+    } else if (params.length && Array.isArray(params[0])) {
+        return params[0];
+    } else if (params.length && typeof(params) === 'string') {
+        return params.split(',');
+    } else if (params.length === 1) {
+        return params[0].split(',');
+    }
+    return params;
+}
+
 export {
     dateRangeFilter,
     invertDateRangeFilter,
     termsFilter,
     associationTermsFilter,
     personTermsFilter,
-    invertTermsFilter,
-    invertAssociationTermsFilter,
-    invertPersonTermsFilter,
-    getUniqueList
+    getUniqueList,
+    getSplitParams
 };

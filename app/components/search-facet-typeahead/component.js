@@ -1,23 +1,41 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-import { termsFilter, invertTermsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
+
+    filterType: Ember.computed(function() {
+        return termsFilter;
+    }),
+
     init() {
         this._super(...arguments);
+        this.send('changeFilter', this.get('state'));
     },
 
     placeholder: Ember.computed(function() {
         return 'Add ' + this.get('options.title') + ' filter';
     }),
 
-    selected: Ember.computed('key', 'filter', function() {
-        return invertTermsFilter(this.get('key'), this.get('filter'));
+    selected: Ember.computed('state', function() {
+        let value = this.get('state');
+        return value ? value : [];
     }),
 
-    buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: this.get('options.raw'), filterType: termsFilter};
+    statePrevious: [],
+    stateOverlap: Ember.computed.intersect('state', 'previousState'),
+    changed: Ember.observer('state', 'stateOverlap', function() {
+        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+            let value = this.get('state');
+            this.send('changeFilter', value ? value : []);
+        }
+    }),
+
+    buildQueryObjectMatch(selected) {
+        let key = this.get('key');
+        let newValue = !selected[0] ? [] : selected;
+        let newFilter = this.get('filterType')(key, getUniqueList(newValue), this.get('options.raw'));
+        return [newFilter, newValue];
     },
 
     handleTypeaheadResponse(response) {
@@ -50,7 +68,9 @@ export default Ember.Component.extend({
 
     actions: {
         changeFilter(selected) {
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(selected));
+            let [filter, value] = this.buildQueryObjectMatch(selected);
+            this.set('previousState', this.get('state'));
+            this.sendAction('onChange', this.get('key'), filter, value);
         },
 
         elasticSearch(term) {

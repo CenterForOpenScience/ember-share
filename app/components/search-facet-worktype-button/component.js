@@ -6,7 +6,8 @@ export default Ember.Component.extend({
     classNameBindings: ['selected:active'],
 
     selected: Ember.computed('selectedTypes.[]', function() {
-        return this.get('selectedTypes').contains(this.get('type'));
+        let selectedTypes = this.get('selectedTypes');
+        return selectedTypes.contains(this.get('type'));
     }),
 
     click() {
