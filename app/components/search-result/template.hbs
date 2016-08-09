@@ -1,11 +1,12 @@
+<div class="title-tile">
 {{#if obj.date_published}}
     <div class="row">
         <span class="col-sm-3 pull-right text-info" style="text-align: right">
-            <span class="text-muted">Published </span>{{moment-format obj.date_published 'YYYY'}}
+            <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
         </span>
     </div>
 {{/if}}
-<div class="row">
+<div class="row title">
     <h4 class="col-sm-11 redirect">
         {{#link-to "curate.work" obj.workType obj.id}}
             {{#if obj.title}}
@@ -34,7 +35,22 @@
             </span>
         </div>
     </div>
+    <div class="row tags">
+      <div class="col-sm-3 pull-right text-info" style="text-align: right">
+          {{#each obj.sources as |source index|}}
+              {{#if index}}
+                  ,
+              {{/if}}
+              <a class="filter" {{action 'addFilter' 'sources' source}}>
+              <img class="provider-favicon" src={{favicon}} >{{source}}</a>
+          {{/each}}
+      </div>
+      <div class="col-sm-1 worktype">
+          <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
+      </div>
+    </div>
 {{/if}}
+</div>
 {{#if abbreviation}}
     <div class="row description">
         <div class="col-sm-12">
@@ -45,7 +61,7 @@
         </div>
     </div>
 {{/if}}
-<br>
+
 {{#if tags}}
     <div class="row tags">
         <div class="col-xs-12">
@@ -60,19 +76,6 @@
         </div>
     </div>
 {{/if}}
-<div class="row extra">
-    <div class="col-sm-12">
-        <span class="text-muted"> Aggregated from </span>
-        {{#each obj.sources as |source index|}}
-            {{#if index}}
-                ,
-            {{/if}}
-            <a class="filter" {{action 'addFilter' 'sources' source}}>{{source}}</a>
-        {{/each}}
-        <span class="text-muted"> as a </span>
-        <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
-    </div>
-</div>
 {{#if (or obj.organizations obj.institutions)}}
     <div class="row extra">
         <div class="col-xs-12">
@@ -126,9 +129,9 @@
             </span>
         {{/if}}
     </div>
-    <div class="col-xs-4 extra">
+    <div class="col-xs-12">
         {{#if obj.date_updated}}
-            <span class="pull-right text-muted" style="text-align: right">
+            <span class="text-muted last-updated">
                 Last updated <span class="text-info">{{moment-format obj.date_updated 'MM-DD-YYYY'}}</span>
             </span>
         {{/if}}
