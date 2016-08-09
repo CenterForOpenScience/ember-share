@@ -33,6 +33,10 @@ export default ApplicationController.extend({
     type: '',
     sort: '',
 
+    noResultsMessage: Ember.computed(function() {
+        return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
+    }),
+
     collapsedQueryBody: true,
 
     results: Ember.ArrayProxy.create({content: []}),
