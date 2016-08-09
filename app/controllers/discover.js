@@ -134,7 +134,9 @@ export default ApplicationController.extend({
             from: (page - 1) * this.get('size')
         };
         if (this.get('sort')) {
-            queryBody.sort = this.get('sort');
+            let sortBy = {};
+            sortBy[this.get('sort')] = 'desc';
+            queryBody.sort = sortBy;
         }
         if (page === 1) {
             queryBody.aggregations = this.get('elasticAggregations');

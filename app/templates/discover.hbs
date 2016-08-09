@@ -56,14 +56,19 @@
             </div>
         </div>
     {{/bs-collapse}}
-    <hr>
     <div class="row">
-        <div class='col-xs-3'>
+        <div class="col-xs-2 col-xs-offset-10" style="text-align: right">
             <select onchange={{action 'selectSortOption' value="target.value"}}>
                 {{#each sortOptions as |sortChoice|}}
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
             </select>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class='col-xs-3'>
+
             <button {{action 'clearFilters'}} class='btn btn-default'>
                 Clear filters
             </button>
