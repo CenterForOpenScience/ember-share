@@ -1,19 +1,19 @@
 <div class="container">
-  <div class="header" >
-    <div class="row share-search">
-      {{search-header}}
-        <div class="col-xs-8 col-xs-offset-2">
-            {{input class="form-control" value=searchString key-up='typing'}}
+    <div class="header" >
+        <div class="row share-search">
+            {{search-header}}
+            <div class="col-xs-8 col-xs-offset-2">
+                {{input class="form-control" value=searchString key-up='typing'}}
+            </div>
+            <div class="col-xs-2">
+                <a href="" {{action 'search'}}>
+                    {{fa-icon 'search' class='search-button' title='Search'}}
+                </a>
+                <a href={{atomFeedUrl}}>
+                    {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
+                </a>
+            </div>
         </div>
-        <div class="col-xs-2">
-            <a href="" {{action 'search'}}>
-                {{fa-icon 'search' class='search-button' title='Search'}}
-            </a>
-            <a href={{atomFeedUrl}}>
-                {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
-            </a>
-        </div>
-    </div>
     <div class="row">
         <div class="text-muted col-xs-2 col-xs-offset-2">
             <small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
@@ -25,13 +25,10 @@
             <small>{{numberOfSources}} aggregated sources</small>
         </div>
     </div>
-
-
     {{#if queryBody}}
         <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
-                <a{{action 'toggleCollapsedQueryBody'}}>
-                    View query body
+                <a{{action 'toggleCollapsedQueryBody'}}>View query body
                     {{#if collapsedQueryBody}}
                         {{fa-icon 'caret-up'}}
                     {{else}}
@@ -82,22 +79,19 @@
 
 
         <div class='col-xs-9'>
-          {{#each results as |obj|}}
-            {{search-result addFilter='addFilter' obj=obj}}
-          {{/each}}
-
-          <div class="text-center">
-            {{#if loading}}
-              {{fa-icon 'spinner' pulse=true size=3}}
-            {{else if noResultsMessage}}
-                <div>{{noResultsMessage}}</div>
-            {{else}}
-              <button class="btn btn-default" {{action 'next'}}> More </button>
-            {{/if}}
-          </div>
+            {{#each results as |obj|}}
+                {{search-result addFilter='addFilter' obj=obj}}
+            {{/each}}
+            <div class="text-center">
+                {{#if loading}}
+                    {{fa-icon 'spinner' pulse=true size=3}}
+                {{else if noResultsMessage}}
+                    <div>{{noResultsMessage}}</div>
+                {{else}}
+                    <button class="btn btn-default" {{action 'next'}}> More </button>
+                {{/if}}
+            </div>
         </div>
     </div>
-
     <br>
-
 </div>

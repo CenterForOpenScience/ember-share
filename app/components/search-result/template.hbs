@@ -1,55 +1,58 @@
 <div class="title-tile">
-{{#if obj.date_published}}
-    <div class="row">
-        <span class="col-sm-3 pull-right text-info" style="text-align: right">
-            <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
-        </span>
-    </div>
-{{/if}}
-<div class="row title">
-    <h4 class="col-sm-11 redirect">
-        {{#link-to "curate.work" obj.workType obj.id}}
-            {{#if obj.title}}
-                {{obj.title}}
-            {{else}}
-                <i class="no-title">Title not provided</i>
-            {{/if}}
-        {{/link-to}}
-    </h4>
-</div>
-{{#if contributors}}
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="pull-left redirect" style="text-align: left">
-                {{#each contributors as |contrib index|}}
-                    {{#if index}}
-                        -
-                    {{/if}}
-                    {{#link-to 'curate.person' contrib.id}}
-                        {{contrib.familyName}}
-                    {{/link-to}}
-                {{/each}}
-                {{#if extra_contributors}}
-                    <span class="text-muted">+{{extra_contributors}}</span>
-                {{/if}}
+    {{#if obj.date_published}}
+        <div class="row">
+            <span class="col-sm-3 pull-right text-info" style="text-align: right">
+                <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
             </span>
         </div>
+    {{/if}}
+    <div class="row title">
+        <h4 class="col-sm-11 redirect">
+            {{#link-to "curate.work" obj.workType obj.id}}
+                {{#if obj.title}}
+                    {{obj.title}}
+                {{else}}
+                    <i class="no-title">Title not provided</i>
+                {{/if}}
+            {{/link-to}}
+        </h4>
     </div>
-    <div class="row tags">
-      <div class="col-sm-3 pull-right text-info" style="text-align: right">
-          {{#each obj.sources as |source index|}}
-              {{#if index}}
-                  ,
-              {{/if}}
-              <a class="filter" {{action 'addFilter' 'sources' source}}>
-              <img class="provider-favicon" src={{favicon}} >{{source}}</a>
-          {{/each}}
-      </div>
-      <div class="col-sm-1 worktype">
-          <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
-      </div>
-    </div>
-{{/if}}
+    {{#if contributors}}
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="pull-left redirect" style="text-align: left">
+                    {{#each contributors as |contrib index|}}
+                        {{#if index}}
+                            -
+                        {{/if}}
+                        {{#link-to 'curate.person' contrib.id}}
+                            {{contrib.familyName}}
+                        {{/link-to}}
+                    {{/each}}
+                    {{#if extra_contributors}}
+                        <span class="text-muted">+{{extra_contributors}}</span>
+                    {{/if}}
+                </span>
+            </div>
+        </div>
+        <div class="row tags">
+            <div class="col-sm-3 pull-right text-info" style="text-align: right">
+                {{#each obj.sources as |source index|}}
+                    {{#if index}}
+                        ,
+                    {{/if}}
+                    <a class="filter" {{action 'addFilter' 'sources' source}}>
+                        <img class="provider-favicon" src={{favicon}} >{{source}}
+                    </a>
+                {{/each}}
+            </div>
+            <div class="col-sm-1 worktype">
+                <a class="filter" {{action 'addFilter' 'type' obj.workType}}>
+                    {{obj.workType}}
+                </a>
+            </div>
+        </div>
+    {{/if}}
 </div>
 {{#if abbreviation}}
     <div class="row description">
@@ -61,7 +64,6 @@
         </div>
     </div>
 {{/if}}
-
 {{#if tags}}
     <div class="row tags">
         <div class="col-xs-12">

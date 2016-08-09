@@ -1,6 +1,6 @@
 .row {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
   > button {
     color: white ;
@@ -13,5 +13,4 @@
     border-radius: 3px ;
     border-color: rgba(51, 122, 183, 0.6) ;
   }
-
 }

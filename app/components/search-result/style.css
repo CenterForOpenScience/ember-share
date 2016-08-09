@@ -1,8 +1,8 @@
 .row {
-  font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
-  -webkit-font-smoothing: antialiased ;
-  padding-top: 5px ;
-  padding-bottom: 5px ;
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    -webkit-font-smoothing: antialiased ;
+    padding-top: 5px ;
+    padding-bottom: 5px ;
 }
 
 .tags {
@@ -34,16 +34,16 @@
 }
 
 .title-tile {
-  background-color: #f5f5f5 ;
-  padding-left: 15px;
-  padding-right: 15px ;
-  padding-bottom: 15px ;
-  padding-top: 5px ;
+    background-color: #f5f5f5 ;
+    padding-left: 15px;
+    padding-right: 15px ;
+    padding-bottom: 15px ;
+    padding-top: 5px ;
 
 }
 
 #source {
-  float: right;
+    float: right;
 }
 
 .redirect>a {
@@ -51,8 +51,8 @@
 }
 
 .redirect {
-  margin-top: 0 ;
-  margin-bottom: 5px ;
+    margin-top: 0 ;
+    margin-bottom: 5px ;
 }
 
 .description {
@@ -73,5 +73,5 @@
 }
 
 .last-updated {
-  padding-left: 15px ;
+    padding-left: 15px ;
 }
