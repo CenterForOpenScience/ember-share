@@ -6,18 +6,10 @@ export default Ember.Component.extend({
     },
 
     actions: {
-        facetChanged(key, facet) {
+        facetChanged(key, facet, value) {
             let filters = this.get('filters');
-            let newFilters = null;
-            if (Array.isArray(facet)) {
-                newFilters = facet.map(function(filter){
-                    return filter.filterType(filter.key, filter.selected, filter.param2);
-                });
-            } else {
-                newFilters = facet.filterType(facet.key, facet.selected, facet.param2);
-            }
-
-            filters.set(key, newFilters);
+            filters.set(key, facet);
+            this.sendAction('updateParams', key, value);
             this.sendAction('onChange', filters);
         }
     }

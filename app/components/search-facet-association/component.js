@@ -1,19 +1,14 @@
 import Ember from 'ember';
 import TypeaheadComponent from '../search-facet-typeahead/component';
-import { associationTermsFilter, invertAssociationTermsFilter } from 'ember-share/utils/elastic-query';
+import { associationTermsFilter } from 'ember-share/utils/elastic-query';
 
 export default TypeaheadComponent.extend({
 
-    init() {
-        this._super(...arguments);
-    },
-
-    selected: Ember.computed('key', 'filter', function() {
-        return invertAssociationTermsFilter(this.get('key'), this.get('filter'));
+    filterType: Ember.computed(function() {
+        return associationTermsFilter;
     }),
 
-    buildQueryObject(selected) {
-        let key = this.get('options.queryKey') || this.get('key');
-        return {key: key, selected: selected, param2: true, filterType: associationTermsFilter};
+    init() {
+        this._super(...arguments);
     }
 });

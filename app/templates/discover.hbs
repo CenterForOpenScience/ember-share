@@ -62,11 +62,22 @@
     <hr>
     <div class="row">
         <div class='col-xs-3'>
-            <button {{action 'clearFilters'}} class='btn btn-default' style="color: #337ab7 ; background-color: #f5f5f5; border-color: #ddd ;">
-                Clear Filters
+            <select onchange={{action 'selectSortOption' value="target.value"}}>
+                {{#each sortOptions as |sortChoice|}}
+                    <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
+                {{/each}}
+            </select>
+            <button {{action 'clearFilters'}} class='btn btn-default'>
+                Clear filters
             </button>
-            <hr>
-            {{faceted-search onChange='filtersChanged' filters=facetFilters facets=facets aggregations=aggregations}}
+            {{faceted-search
+                onChange='filtersChanged'
+                updateParams='updateParams'
+                filters=facetFilters
+                facetStates=facetStates
+                facets=facets
+                aggregations=aggregations
+            }}
         </div>
 
 
@@ -78,6 +89,8 @@
           <div class="text-center">
             {{#if loading}}
               {{fa-icon 'spinner' pulse=true size=3}}
+            {{else if noResultsMessage}}
+                <div>{{noResultsMessage}}</div>
             {{else}}
               <button class="btn btn-default" {{action 'next'}}> More </button>
             {{/if}}
