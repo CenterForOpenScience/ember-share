@@ -70,7 +70,7 @@
             <a class="filter" {{action 'addFilter' 'sources' source}}>{{source}}</a>
         {{/each}}
         <span class="text-muted"> as a </span>
-        <a class="filter" {{action 'addFilter' '@type' obj.workType}}>{{obj.workType}}</a>
+        <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
     </div>
 </div>
 {{#if (or obj.organizations obj.institutions)}}

@@ -6,7 +6,7 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams } from '../utils/elastic-query';
 
-let filterQueryParams = ['@type', 'tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors'];
+let filterQueryParams = ['tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
 
@@ -30,7 +30,7 @@ export default ApplicationController.extend({
     contributors: '',
     start: '',
     end: '',
-    '@type': '',
+    type: '',
     sort: '',
 
     collapsedQueryBody: true,
@@ -199,7 +199,7 @@ export default ApplicationController.extend({
         return [
             { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-source', raw: false },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: '@type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype' },
             { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
             { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
             { key: 'funder', title: 'Funder', component: 'search-facet-association' },

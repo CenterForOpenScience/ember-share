@@ -22,9 +22,8 @@ export default Ember.Component.extend({
     }),
 
     buildQueryObjectMatch(selected) {
-        let key = this.get('key');
         let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter(key, getUniqueList(newValue), this.get('options.raw'));
+        let newFilter = termsFilter('@type', getUniqueList(newValue), this.get('options.raw'));
         return [newFilter, newValue];
     },
 
@@ -40,7 +39,6 @@ export default Ember.Component.extend({
         toggle(type) {
             let key = this.get('key');
             let selected = getSplitParams(this.get('selected'));
-
 			if (selected.contains(type)) {
                 selected.removeObject(type);
             } else if (type) {
