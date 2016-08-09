@@ -33,7 +33,7 @@ export default ApplicationController.extend({
     type: '',
     sort: '',
 
-    noResultsMessage: Ember.computed(function() {
+    noResultsMessage: Ember.computed('numberOfResults', function() {
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
     }),
 
@@ -214,7 +214,7 @@ export default ApplicationController.extend({
         ];
     }),
 
-    facetStates: Ember.computed(...filterQueryParams, function() {
+    facetStates: Ember.computed(...filterQueryParams, 'end', 'start', function() {
         let facetStates = {};
         for (let param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));

@@ -4,6 +4,15 @@ import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
+    init() {
+        this._super(...arguments);
+        let languageCodes = this.get('state') ? this.get('state') : [];
+        let languageNames = languageCodes.map((lang) => {
+            return langs.where('3', lang)['name'];
+        });
+        this.send('changeFilter', languageNames);
+    },
+
     placeholder: Ember.computed(function() {
         return 'Add ' + this.get('options.title') + ' filter';
     }),
