@@ -59,7 +59,7 @@ export default Ember.Component.extend({
                     "size": 10,
                     "fuzzy": true,
                     "context": {
-                        "@type": type
+                        "type": type
                     }
                 }
             }

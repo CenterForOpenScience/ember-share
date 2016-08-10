@@ -6,12 +6,12 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams } from '../utils/elastic-query';
 
-let filterQueryParams = ['tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors', 'type'];
+let filterQueryParams = ['tag', 'source', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributor', 'type'];
 
 export default ApplicationController.extend({
 
     queryParams:  Ember.computed(function() {
-        let allParams = ['searchString', 'start', 'end', 'sort'];
+        let allParams = ['q', 'start', 'end', 'sort'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
@@ -19,15 +19,15 @@ export default ApplicationController.extend({
     page: 1,
     size: 10,
     query: {},
-    searchString: '',
-    tags: '',
-    sources: '',
+    q: '',
+    tag: '',
+    source: '',
     publisher: '',
     funder: '',
     institution: '',
     organization: '',
     language: '',
-    contributors: '',
+    contributor: '',
     start: '',
     end: '',
     type: '',
@@ -116,7 +116,7 @@ export default ApplicationController.extend({
 
         let query = {
             'query_string' : {
-                'query': this.get('searchString') || '*'
+                'query': this.get('q') || '*'
             }
         };
         if (filters.length) {
@@ -150,7 +150,7 @@ export default ApplicationController.extend({
         return {
             "sources" : {
                 "terms" : {
-                    "field" : "sources",
+                    "field" : "source.raw",
                     "size": 200
                 }
             }
@@ -167,30 +167,24 @@ export default ApplicationController.extend({
             'contentType': 'application/json',
             'data': queryBody
         }).then((json) => {
+            let results = json.hits.hits.map((hit) => {
+                let source = Ember.Object.create(hit._source);
+                let r = source.getProperties('type', 'title', 'description', 'language', 'date', 'date_created', 'date_modified', 'date_updated', 'date_published', 'tag', 'source');
+                r.id = hit._id;
+                r.contributors = source.lists.contributors;
+                r.funders = source.lists.funders;
+                r.publishers = source.lists.publishers;
+                r.institutions = source.lists.institutions;
+                r.organizations = source.lists.organizations;
+                return r;
+            });
+            if (json.aggregations) {
+                this.set('aggregations', json.aggregations);
+            }
             this.set('numberOfResults', json.hits.total);
             this.set('took', moment.duration(json.took).asSeconds());
-            let results = json.hits.hits.map((hit) => {
-                // HACK
-                let source = hit._source;
-                source.id = hit._id;
-                source.type = 'elastic-search-result';
-                source.workType = source['@type'];
-                source.contributors = source.contributors.map(contributor => {
-                    return {
-                        familyName: contributor.family_name,
-                        givenName: contributor.given_name,
-                        id: contributor['@id']
-                    };
-                });
-                return source;
-            });
-            Ember.run(() => {
-                if (json.aggregations) {
-                    this.set('aggregations', json.aggregations);
-                }
-                this.set('loading', false);
-                this.get('results').addObjects(results);
-            });
+            this.set('loading', false);
+            this.get('results').addObjects(results);
         });
     },
 
@@ -203,16 +197,16 @@ export default ApplicationController.extend({
 
     facets: Ember.computed(function() {
         return [
-            { key: 'sources', title: 'Source', type: 'source', component: 'search-facet-source', raw: false },
+            { key: 'source', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: 'type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag', raw: true },
-            { key: 'publisher', title: 'Publisher', component: 'search-facet-association' },
-            { key: 'funder', title: 'Funder', component: 'search-facet-association' },
-            { key: 'institution', title: 'Institution', component: 'search-facet-association' },
-            { key: 'organization', title: 'Organization', component: 'search-facet-association' },
+            { key: 'tag', title: 'Subject/Tag', component: 'search-facet-typeahead' },
+            { key: 'publisher', title: 'Publisher', component: 'search-facet-typeahead' },
+            { key: 'funder', title: 'Funder', component: 'search-facet-typeahead' },
+            { key: 'institution', title: 'Institution', component: 'search-facet-typeahead' },
+            { key: 'organization', title: 'Organization', component: 'search-facet-typeahead' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', type: 'person', useId: true, component: 'search-facet-person' },
+            { key: 'contributor', title: 'People', component: 'search-facet-typeahead', type: 'person' },
         ];
     }),
 

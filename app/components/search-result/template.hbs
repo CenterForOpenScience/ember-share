@@ -7,7 +7,7 @@
 {{/if}}
 <div class="row">
     <h4 class="col-sm-11 redirect">
-        {{#link-to "curate.work" obj.workType obj.id}}
+        {{#link-to "curate.work" obj.type obj.id}}
             {{#if obj.title}}
                 {{obj.title}}
             {{else}}
@@ -25,7 +25,7 @@
                         -
                     {{/if}}
                     {{#link-to 'curate.person' contrib.id}}
-                        {{contrib.familyName}}
+                        {{contrib.family_name}}
                     {{/link-to}}
                 {{/each}}
                 {{#if extra_contributors}}
@@ -50,7 +50,7 @@
     <div class="row tags">
         <div class="col-xs-12">
             {{#each tags as |tag|}}
-                <a class='tag filter' {{action 'addFilter' 'tags' tag}}>
+                <a class='tag filter' {{action 'addFilter' 'tag' tag}}>
                     {{tag}}
                 </a>
             {{/each}}
@@ -63,14 +63,14 @@
 <div class="row extra">
     <div class="col-sm-12">
         <span class="text-muted"> Aggregated from </span>
-        {{#each obj.sources as |source index|}}
+        {{#each obj.source as |source index|}}
             {{#if index}}
                 ,
             {{/if}}
-            <a class="filter" {{action 'addFilter' 'sources' source}}>{{source}}</a>
+            <a class="filter" {{action 'addFilter' 'source' source}}>{{source}}</a>
         {{/each}}
         <span class="text-muted"> as a </span>
-        <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
+        <a class="filter" {{action 'addFilter' 'type' obj.type}}>{{obj.type}}</a>
     </div>
 </div>
 {{#if (or obj.organizations obj.institutions)}}

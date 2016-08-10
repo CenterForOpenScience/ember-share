@@ -23,7 +23,7 @@ export default Ember.Component.extend({
 
     buildQueryObjectMatch(selected) {
         let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter('@type', getUniqueList(newValue), this.get('options.raw'));
+        let newFilter = termsFilter('type', getUniqueList(newValue), this.get('options.raw'));
         return [newFilter, newValue];
     },
 

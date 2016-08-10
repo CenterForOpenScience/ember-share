@@ -19,16 +19,6 @@ function dateRangeFilter(field, start, end) {
     }
 }
 
-function invertDateRangeFilter(field, filter) {
-    let start = null, end = null;
-    if (filter) {
-        let range = filter.range[field];
-        start = moment(range.gte);
-        end = moment(range.lte);
-    }
-    return { start, end };
-}
-
 /*
  * @function termsFilter
  * @param String field Name of the field to filter
@@ -47,16 +37,6 @@ function termsFilter(field, terms, raw = true) {
     } else {
         return null;
     }
-}
-
-function associationTermsFilter(field, terms, raw = true) {
-    field = field + 's.name';
-    return termsFilter(field, terms, raw);
-}
-
-function personTermsFilter(field, terms, raw = true) {
-    field = field + '.name';
-    return termsFilter(field, terms, raw);
 }
 
 function uniqueFilter(value, index, self) {
@@ -82,10 +62,7 @@ function getSplitParams(params) {
 
 export {
     dateRangeFilter,
-    invertDateRangeFilter,
     termsFilter,
-    associationTermsFilter,
-    personTermsFilter,
     getUniqueList,
     getSplitParams
 };
