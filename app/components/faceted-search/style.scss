@@ -21,21 +21,26 @@
     border-radius: 0 ;
     color: #333333 ;
 }
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #333333;
+    color: #333333 ;
 }
+
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #333333;
-   opacity:  1;
+    color: #333333;
+    opacity: 1;
 }
+
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #333333;
-   opacity:  1;
+    color: #333333;
+    opacity: 1;
 }
+
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #333333;
+    color: #333333 ;
 }
+
 .ember-power-select-status-icon{
-     border-color: #333333 transparent transparent transparent;
+    border-color: #333333 transparent transparent transparent;
 
 }
