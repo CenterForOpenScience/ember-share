@@ -288,29 +288,6 @@ export default ApplicationController.extend({
             this.search();
         },
 
-        setTermFilter(field, term) {
-            let filter = null;
-            // HACK This logic could be more generic.
-            if (field === 'sources') {
-                filter = termsFilter(field, [term], false);
-            } else if (field === 'types') {
-                filter = termsFilter('@type', [term]);
-            }
-            if (filter) {
-                let facetFilters = this.get('facetFilters');
-                facetFilters.set(field, filter);
-                this.search();
-            }
-        },
-
-        setDateFilter(start, end) {
-            let key = 'date';
-            let filter = dateRangeFilter(key, start, end);
-            let facetFilters = this.get('facetFilters');
-            facetFilters.set(key, filter);
-            this.search();
-        },
-
         clearFilters() {
             this.set('facetFilters', Ember.Object.create());
             for (var param in filterQueryParams) {

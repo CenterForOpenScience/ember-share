@@ -15,15 +15,17 @@ export default Ember.Component.extend({
     statePrevious: [],
     stateOverlap: Ember.computed.intersect('state', 'previousState'),
     changed: Ember.observer('state', 'stateOverlap', function() {
-        if (this.get('stateOverlap.length') !== this.get('state.length')) {
-            let value = this.get('state');
-            this.send('setState', value ? value : []);
-        }
+        Ember.run.once(this, function() {
+            if (this.get('stateOverlap.length') !== this.get('state.length')) {
+                let value = this.get('state');
+                this.send('setState', value ? value : []);
+            }
+        });
     }),
 
     buildQueryObjectMatch(selected) {
         let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter('type', getUniqueList(newValue), this.get('options.raw'));
+        let newFilter = termsFilter('type', getUniqueList(newValue));
         return [newFilter, newValue];
     },
 
