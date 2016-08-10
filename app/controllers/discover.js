@@ -234,10 +234,18 @@ export default ApplicationController.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            let currentValue = getSplitParams(this.get(type));
-            currentValue = currentValue ? currentValue : [];
+            let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
             this.set(type, newValue);
+        },
+
+        removeFilter(type, filterValue) {
+            let currentValue = getSplitParams(this.get(type)) || [];
+            let index = currentValue.indexOf(filterValue);
+            if (index > -1) {
+                currentValue.splice(index, 1);
+            }
+            this.set(type, currentValue);
         },
 
         toggleCollapsedQueryBody() {

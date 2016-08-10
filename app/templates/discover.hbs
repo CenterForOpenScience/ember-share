@@ -26,7 +26,7 @@
         </div>
     </div>
     {{#if queryBody}}
-        <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
+        <div class="row hidden-xs" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
                 <a{{action 'toggleCollapsedQueryBody'}}>
                     View query body
@@ -68,6 +68,19 @@
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
             </select>
+        </div>
+    </div>
+    <div class="row visible-xs">
+        <div class="col-xs-12 discover-filter-list">
+            {{#each-in facetStates as |key filter|}}
+                {{#if (and filter (not-eq key 'date'))}}
+                    {{#each filter as |value|}}
+                        <a class='discover-filter-block' {{action 'removeFilter' key value}}>
+                            {{value}} {{fa-icon 'times'}}
+                        </a>
+                    {{/each}}
+                {{/if}}
+            {{/each-in}}
         </div>
     </div>
     <hr>
