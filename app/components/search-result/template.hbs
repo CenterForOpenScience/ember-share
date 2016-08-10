@@ -35,21 +35,23 @@
                 </span>
             </div>
         </div>
-        <div class="row tags">
+        <div class="row">
             <div class="col-sm-3 pull-right text-info" style="text-align: right">
                 {{#each obj.sources as |source index|}}
                     {{#if index}}
                         ,
                     {{/if}}
                     <a class="filter" {{action 'addFilter' 'sources' source}}>
-                        <img class="provider-favicon" src={{favicon}} >{{source}}
+                        {{source}}
                     </a>
                 {{/each}}
             </div>
             <div class="col-sm-1 worktype">
+              <div class="worktype-inner">
                 <a class="filter" {{action 'addFilter' 'type' obj.workType}}>
                     {{obj.workType}}
                 </a>
+              </div>
             </div>
         </div>
     {{/if}}

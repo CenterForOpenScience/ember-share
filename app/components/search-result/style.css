@@ -25,12 +25,13 @@
 .worktype {
     padding-top: 2px;
     padding-bottom: 4px;
-    padding-left:  0 ;
-    padding-right: 0 ;
+    padding-left:  2px ;
+    padding-right: 2px ;
     text-align: center;
     margin-left: 15px ;
     background: #ccc;
     font-size: 85% ;
+    width: 10%;
 }
 
 .title-tile {
@@ -40,10 +41,6 @@
     padding-bottom: 15px ;
     padding-top: 5px ;
 
-}
-
-#source {
-    float: right;
 }
 
 .redirect>a {
