@@ -5,15 +5,15 @@
     padding-bottom: 5px ;
 }
 
-.tags {
-    padding-bottom: 2px;
+.published {
+  padding-right: 15px ;
 }
 
 .tag {
     border-radius: 5px;
     color: white;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     padding-left: 4px;
     padding-right: 4px;
     margin-left: 15px ;
@@ -60,15 +60,12 @@
 }
 
 .extra {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px ;
 }
 
 .filter {
     cursor: pointer;
     text-decoration: none ;
-}
-
-.last-updated {
-    padding-left: 15px ;
 }

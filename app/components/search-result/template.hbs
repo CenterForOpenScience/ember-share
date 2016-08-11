@@ -118,26 +118,22 @@
     </div>
 {{/if}}
 <div class="row extra">
-    <div class="col-xs-8">
+    <div class="col-sm-6 pull-right text-info">
         {{#if obj.publishers}}
-            <span class="pull-left" style="text-align: left">
+            <span class="pull-right published" style="text-align: right">
                 <span class="text-muted">Published by </span>
                 {{#each obj.publishers as |publisher|}}
                     <a class="filter" {{action 'addFilter' 'publisher' publisher.name}}>
                         {{publisher.name}}
                     </a>
                 {{/each}}
-                {{#if obj.date_published}}
-                    <span class="text-muted"> in </span>
-                    {{moment-format obj.date_published 'MMM YYYY'}}
-                {{/if}}
             </span>
         {{/if}}
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-3">
         {{#if obj.date_updated}}
             <span class="text-muted last-updated">
-                Last updated <span class="text-info">{{moment-format obj.date_updated 'MM-DD-YYYY'}}</span>
+                Last updated <span class="text-info">{{moment-format obj.date_updated 'MMM DD, YYYY'}}</span>
             </span>
         {{/if}}
     </div>
