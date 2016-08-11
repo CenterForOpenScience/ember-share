@@ -24,13 +24,14 @@
       itemType='tag'
       placeholder='Add a tag'
       onChange=(action 'listChanged' 'tags')}}
+   {{!--    TODO: uncomment for login/curation
       {{#if session.isAuthenticated}}
           <div class='row' style='padding-topL: 5px'>
             <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
               Submit Changes
             </button>
           </div>
-      {{/if}}
+      {{/if}} --}}
       <div class="row">
         <div class="col-xs-12">
           <h3>Links</h3>
@@ -48,15 +49,17 @@
           }}
         </div>
       </div>
-      {{#if previousChanges}}
+ {{!--      TODO: uncomment for login/curation
+    {{#if previousChanges}}
       <div class='row'>
         <h3> Previous Changes: </h3>
         {{#each previousChanges as |change|}}
           {{change-widget obj=change}}
         {{/each}}
       </div>
-      {{/if}}
+      {{/if}} --}}
 
+  {{!--     TODO: uncomment for login/curation
       <h4>Potential Merges</h4>
-      {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+      {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}} --}}
 </div>
