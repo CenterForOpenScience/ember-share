@@ -68,12 +68,12 @@ function getUniqueList(data) {
 }
 
 function encodeParams(tags) {
-    return tags.map(tag => tag.replace(',', ',\\'));
+    return tags.map(tag => tag.replace(/,/g, ',\\'));
 }
 
 function decodeParams(param) {
     return param.split(/,(?!\\)/).map(function(tag) {
-        return tag.replace(',\\', ',');
+        return tag.replace(/,\\/g, ',');
     });
 }
 
