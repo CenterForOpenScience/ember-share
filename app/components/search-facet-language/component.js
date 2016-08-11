@@ -23,6 +23,9 @@ export default Ember.Component.extend({
 
     buildQueryObject(selected) {
         let key = this.get('key');
+        if (!Ember.$.isArray(selected)) {
+            selected = [selected];
+        }
         let languageCodes = selected.map((lang) => {
             return langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
         });
@@ -42,8 +45,7 @@ export default Ember.Component.extend({
     actions: {
         changeFilter(languageNames) {
             let key = this.get('key');
-            let selected = Ember.$.isArray(languageNames) ? languageNames : [languageNames];
-            let [filter, value] = this.buildQueryObject(selected);
+            let [filter, value] = this.buildQueryObject(languageNames || []);
             this.sendAction('onChange', key, filter, value);
         }
     }
