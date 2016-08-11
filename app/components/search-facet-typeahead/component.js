@@ -24,13 +24,11 @@ export default Ember.Component.extend({
 
     statePrevious: [],
     stateOverlap: Ember.computed.intersect('state', 'previousState'),
-    changed: Ember.observer('state', 'stateOverlap', function() {
-        Ember.run.once(this, function() {
-            if (this.get('stateOverlap.length') !== this.get('state.length')) {
-                let value = this.get('state');
-                this.send('changeFilter', value ? value : []);
-            }
-        });
+    changed: Ember.observer('stateOverlap', function() {
+        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+            let value = this.get('state');
+            this.send('changeFilter', value ? value : []);
+        }
     }),
 
     buildQueryObjectMatch(selected) {
