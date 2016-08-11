@@ -17,6 +17,7 @@ export default Ember.Route.extend({
             controller.set('start', '');
             controller.set('end', '');
             controller.set('type', '');
+            controller.set('sort', '');
             controller.set('facetFilters', Ember.Object.create());
         }
     }
