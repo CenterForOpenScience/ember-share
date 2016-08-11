@@ -4,7 +4,7 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams } from '../utils/elastic-query';
+import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
 let filterQueryParams = ['tags', 'sources', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributors', 'type'];
 
@@ -247,7 +247,7 @@ export default ApplicationController.extend({
         addFilter(type, filterValue) {
             let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
-            this.set(type, newValue);
+            this.set(type, encodeParams(newValue));
         },
 
         removeFilter(type, filterValue) {
@@ -256,7 +256,7 @@ export default ApplicationController.extend({
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            this.set(type, currentValue);
+            this.set(type, encodeParams(currentValue));
         },
 
         toggleCollapsedQueryBody() {
@@ -281,7 +281,7 @@ export default ApplicationController.extend({
                 this.set('start', value.start);
                 this.set('end', value.end);
             } else {
-                value = value ? value : '';
+                value = value ? encodeParams(value) : '';
                 this.set(key, value);
             }
         },

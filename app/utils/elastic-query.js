@@ -67,15 +67,25 @@ function getUniqueList(data) {
     return data.filter( uniqueFilter );
 }
 
+function encodeParams(tags) {
+    return tags.map(tag => tag.replace(/,/g, ',\\'));
+}
+
+function decodeParams(param) {
+    return param.split(/,(?!\\)/).map(function(tag) {
+        return tag.replace(/,\\/g, ',');
+    });
+}
+
 function getSplitParams(params) {
     if (!params.length) {
         return params.slice(0);
     } else if (params.length && Array.isArray(params[0])) {
         return params[0];
     } else if (params.length && typeof(params) === 'string') {
-        return params.split(',');
+        return decodeParams(params);
     } else if (params.length === 1) {
-        return params[0].split(',');
+        return decodeParams(params[0]);
     }
     return params;
 }
@@ -87,5 +97,7 @@ export {
     associationTermsFilter,
     personTermsFilter,
     getUniqueList,
+    encodeParams,
+    decodeParams,
     getSplitParams
 };
