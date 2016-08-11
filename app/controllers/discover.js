@@ -20,17 +20,17 @@ export default ApplicationController.extend({
     size: 10,
     query: {},
     searchString: '',
-    tags: '',
-    sources: '',
-    publisher: '',
-    funder: '',
-    institution: '',
-    organization: '',
-    language: '',
-    contributors: '',
+    tags: [],
+    sources: [],
+    publisher: [],
+    funder: [],
+    institution: [],
+    organization: [],
+    language: [],
+    contributors: [],
     start: '',
     end: '',
-    type: '',
+    type: [],
     sort: '',
 
     noResultsMessage: Ember.computed('numberOfResults', function() {
@@ -216,12 +216,23 @@ export default ApplicationController.extend({
         ];
     }),
 
+    facetStatesArray: [],
+
     facetStates: Ember.computed(...filterQueryParams, 'end', 'start', function() {
         let facetStates = {};
         for (let param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));
         }
         facetStates['date'] = {start: this.get('start'), end: this.get('end')};
+
+        Ember.run.once(this, function() {
+            let facets = this.get('facetStates');
+            let facetArray = [];
+            for (let key of Object.keys(facets)) {
+                facetArray.push({key: key, value: facets[key]});
+            }
+            this.set('facetStatesArray', facetArray);
+        });
         return facetStates;
     }),
 
@@ -234,10 +245,18 @@ export default ApplicationController.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            let currentValue = getSplitParams(this.get(type));
-            currentValue = currentValue ? currentValue : [];
+            let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
             this.set(type, newValue);
+        },
+
+        removeFilter(type, filterValue) {
+            let currentValue = getSplitParams(this.get(type)) || [];
+            let index = currentValue.indexOf(filterValue);
+            if (index > -1) {
+                currentValue.splice(index, 1);
+            }
+            this.set(type, currentValue);
         },
 
         toggleCollapsedQueryBody() {
