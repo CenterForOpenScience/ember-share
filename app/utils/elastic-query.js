@@ -55,7 +55,7 @@ function getUniqueList(data) {
 function getSplitParams(params) {
     if (!params.length) {
         return params.slice(0);
-    } else if (params.length && Array.isArray(params[0])) {
+    } else if (params.length && Ember.$.isArray(params[0])) {
         return params[0];
     } else if (params.length && typeof(params) === 'string') {
         return params.split(',');

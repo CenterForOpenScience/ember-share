@@ -4,7 +4,7 @@ import Ember from 'ember';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { termsFilter, dateRangeFilter, getUniqueList, getSplitParams } from '../utils/elastic-query';
+import { getUniqueList, getSplitParams } from '../utils/elastic-query';
 
 let filterQueryParams = ['tag', 'source', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributor', 'type'];
 

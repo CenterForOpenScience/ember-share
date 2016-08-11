@@ -27,13 +27,12 @@ export default Ember.Component.extend({
             return langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
         });
 
-        let newFilter = termsFilter(key, getUniqueList(languageCodes), true);
+        let newFilter = termsFilter(key, getUniqueList(languageCodes));
         return [newFilter, languageCodes];
     },
 
     selected: Ember.computed('state', function() {
-        let params = this.get('state');
-        let languageCodes =  params ? params : [];
+        let languageCodes =  this.get('state') || [];
         let languageNames = languageCodes.map((lang) => {
             return langs.where('3', lang)['name'];
         });
@@ -43,7 +42,8 @@ export default Ember.Component.extend({
     actions: {
         changeFilter(languageNames) {
             let key = this.get('key');
-            let [filter, value] = this.buildQueryObject(languageNames);
+            let selected = Ember.$.isArray(languageNames) ? languageNames : [languageNames];
+            let [filter, value] = this.buildQueryObject(selected);
             this.sendAction('onChange', key, filter, value);
         }
     }

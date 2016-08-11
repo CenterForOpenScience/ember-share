@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { termsFilter, getUniqueList, getSplitParams } from 'ember-share/utils/elastic-query';
+import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -9,18 +9,16 @@ export default Ember.Component.extend({
     },
 
     selected: Ember.computed('state', function() {
-        return this.get('state') ? this.get('state') : [];
+        return this.get('state') || [];
     }),
 
     statePrevious: [],
     stateOverlap: Ember.computed.intersect('state', 'previousState'),
-    changed: Ember.observer('state', 'stateOverlap', function() {
-        Ember.run.once(this, function() {
-            if (this.get('stateOverlap.length') !== this.get('state.length')) {
-                let value = this.get('state');
-                this.send('setState', value ? value : []);
-            }
-        });
+    changed: Ember.observer('stateOverlap', function() {
+        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+            let value = this.get('state') || [];
+            this.send('setState', value);
+        }
     }),
 
     buildQueryObjectMatch(selected) {
@@ -32,24 +30,15 @@ export default Ember.Component.extend({
     actions: {
         setState(selected) {
             let key = this.get('key');
-            selected = getSplitParams(selected);
-
             let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         },
-        toggle(type) {
-            let key = this.get('key');
-            let selected = getSplitParams(this.get('selected'));
-			if (selected.contains(type)) {
-                selected.removeObject(type);
-            } else if (type) {
-                selected.addObject(type);
-            }
 
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
-            this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
+        toggle(type) {
+            let selected = this.get('selected');
+            selected = selected.contains(type) ? [] : [type];
+            this.send('setState', selected);
         }
     }
 });
