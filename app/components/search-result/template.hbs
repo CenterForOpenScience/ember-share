@@ -35,6 +35,8 @@
                 </span>
             </div>
         </div>
+        {{/if}}
+
         <div class="row">
             <div class="col-sm-3 pull-right text-info" style="text-align: right">
                 {{#each obj.sources as |source index|}}
@@ -54,7 +56,6 @@
               </div>
             </div>
         </div>
-    {{/if}}
 </div>
 {{#if abbreviation}}
     <div class="row description">
