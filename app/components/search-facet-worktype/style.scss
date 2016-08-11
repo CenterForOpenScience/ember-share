@@ -28,3 +28,13 @@
     color: white ;
     background-color: rgba(139, 149, 157, 0.5) ;
 }
+
+.btn-default:focus {
+    color: white ;
+    background-color: rgba(139, 149, 157, 0.5) ;
+}
+
+
+a:-webkit-any-link {
+    text-decoration: none !important;
+}
