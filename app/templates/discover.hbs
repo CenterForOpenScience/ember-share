@@ -1,7 +1,9 @@
 <div class="container">
     <div class="header" >
         <div class="row share-search">
-            {{search-header}}
+            <br>
+            <br>
+            <br>
             <div class="col-xs-8 col-xs-offset-2">
                 {{input class="form-control" value=searchString key-up='typing'}}
             </div>
@@ -58,13 +60,24 @@
         </div>
     {{/bs-collapse}}
     <div class="row">
-        <div class="col-xs-6 hidden-sm hidden-md hidden-lg" style="text-align: left">
-            <button {{action 'clearFilters'}} class='btn btn-default'>
+        <div class="col-xs-2" style="text-align: left;">
+            <button {{action 'clearFilters'}} class='btn btn-default' style="
+            background-color: #f5f5f5;
+            color: #204762;
+            font-family: 'Open Sans', sans-serif ;
+            -webkit-font-smoothing:antialiased ;">
                 Clear filters
             </button>
         </div>
-        <div class="col-sm-2 col-sm-offset-10 col-xs-6" style="text-align: right">
-            <select onchange={{action 'selectSortOption' value="target.value"}}>
+        <div class="col-sm-2 col-xs-6 pull-right" style="text-align: right">
+            <select onchange={{action 'selectSortOption' value="target.value"}} style="
+                background-color: #f5f5f5;
+                color: #204762;
+                height: 33px ;
+                font-size: 14px ;
+                font-family: 'Open Sans', sans-serif ;
+                -webkit-font-smoothing:antialiased ;
+                border-color: #ccc ;">
                 {{#each sortOptions as |sortChoice|}}
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
@@ -87,9 +100,6 @@
     <hr>
     <div class="row">
         <div class='col-sm-3 hidden-xs'>
-            <button {{action 'clearFilters'}} class='btn btn-default'>
-                Clear filters
-            </button>
             {{faceted-search
                 onChange='filtersChanged'
                 updateParams='updateParams'
