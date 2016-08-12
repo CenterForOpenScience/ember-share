@@ -66,6 +66,23 @@ export default Ember.Component.extend({
         };
     },
 
+    _performSearch(term, resolve, reject) {
+        if (Ember.isBlank(term)) { return []; }
+
+        var data = JSON.stringify(this.buildTypeaheadQuery(term));
+
+        return Ember.$.ajax({
+            'url': this.typeaheadQueryUrl(),
+            'crossDomain': true,
+            'type': 'POST',
+            'contentType': 'application/json',
+            'data': data
+        }).then((json) =>
+            resolve(this.handleTypeaheadResponse(json)),
+            reject
+        );
+    },
+
     actions: {
         changeFilter(selected) {
             let [filter, value] = this.buildQueryObjectMatch(selected);
@@ -74,18 +91,8 @@ export default Ember.Component.extend({
         },
 
         elasticSearch(term) {
-            if (Ember.isBlank(term)) { return []; }
-
-            var data = JSON.stringify(this.buildTypeaheadQuery(term));
-
-            return Ember.$.ajax({
-                'url': this.typeaheadQueryUrl(),
-                'crossDomain': true,
-                'type': 'POST',
-                'contentType': 'application/json',
-                'data': data
-            }).then((json) => {
-                return this.handleTypeaheadResponse(json);
+            return new Ember.RSVP.Promise((resolve, reject) => {
+                Ember.run.debounce(this, this._performSearch, term, resolve, reject, 250);
             });
         }
     }

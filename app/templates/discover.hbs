@@ -14,21 +14,23 @@
                 </a>
             </div>
         </div>
+      </div>
     <div class="row">
-        <div class="text-muted col-xs-2 col-xs-offset-2">
+        <div class="text-muted col-sm-2 col-sm-offset-2 hidden-xs">
             <small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
         </div>
-        <div class="col-xs-4" style="text-align: center">
+        <div class="col-sm-4 col-xs-12" style="text-align: center">
             <small>Found {{numberOfResults}} events in {{took}} seconds</small>
         </div>
-        <div class="text-muted col-xs-2" style="text-align: right">
+        <div class="text-muted col-sm-2 hidden-xs" style="text-align: right">
             <small>{{numberOfSources}} aggregated sources</small>
         </div>
     </div>
     {{#if queryBody}}
         <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
-                <a{{action 'toggleCollapsedQueryBody'}}>View query body
+                <a{{action 'toggleCollapsedQueryBody'}} href="#">
+                    View query body
                     {{#if collapsedQueryBody}}
                         {{fa-icon 'caret-up'}}
                     {{else}}
@@ -40,12 +42,12 @@
     {{/if}}
     {{#bs-collapse collapsed=collapsedQueryBody}}
         <div id="queryBody" class="row">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-sm-8 col-sm-offset-2">
                 <div class="row">
                     <div style="text-align: center; font-size:75%; margin-top:15px">
                         <i>Search API: <a href={{searchUrl}}>{{searchUrl}}</a></i>
                     </div>
-                    <div class="col-xs-8 col-xs-offset-2">
+                    <div class="col-sm-8 col-sm-offset-2">
                         {{json-pretty
                             obj=displayQueryBody
                             shouldHighlight=true
@@ -55,15 +57,36 @@
             </div>
         </div>
     {{/bs-collapse}}
-    </div>
-    <hr>
     <div class="row">
-        <div class='col-xs-3'>
+        <div class="col-xs-6 hidden-sm hidden-md hidden-lg" style="text-align: left">
+            <button {{action 'clearFilters'}} class='btn btn-default'>
+                Clear filters
+            </button>
+        </div>
+        <div class="col-sm-2 col-sm-offset-10 col-xs-6" style="text-align: right">
             <select onchange={{action 'selectSortOption' value="target.value"}}>
                 {{#each sortOptions as |sortChoice|}}
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
             </select>
+        </div>
+    </div>
+    <div class="row visible-xs">
+        <div class="col-xs-12 discover-filter-list">
+            {{#each facetStatesArray as |filter|}}
+                {{#if (and filter.key (not-eq key 'date'))}}
+                    {{#each filter.value as |value|}}
+                        <a class='discover-filter-block' {{action 'removeFilter' filter.key value}}>
+                            {{value}} {{fa-icon 'times'}}
+                        </a>
+                    {{/each}}
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class='col-sm-3 hidden-xs'>
             <button {{action 'clearFilters'}} class='btn btn-default'>
                 Clear filters
             </button>
@@ -76,9 +99,7 @@
                 aggregations=aggregations
             }}
         </div>
-
-
-        <div class='col-xs-9'>
+        <div class='col-sm-9 col-xs-12'>
             {{#each results as |obj|}}
                 {{search-result addFilter='addFilter' obj=obj}}
             {{/each}}
