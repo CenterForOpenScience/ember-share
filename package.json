@@ -53,6 +53,7 @@
     "loader.js": "^4.0.1"
   },
   "dependencies": {
+    "ember-responsive": "^1.2.7",
     "langs": "^1.0.2",
     "osf-style": "git+https://github.com/caneruguz/osf-style.git"
   }
