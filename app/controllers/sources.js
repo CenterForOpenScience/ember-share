@@ -50,7 +50,7 @@ export default Ember.Controller.extend({
                     "size": 10,
                     "fuzzy": true,
                     "context": {
-                        "@type": "source"
+                        "type": "source"
                     }
                 }
             }
@@ -65,7 +65,7 @@ export default Ember.Controller.extend({
     },
     actions: {
         changeFilter(selected) {
-            this.transitionToRoute('discover', { queryParams: { sources: selected }});
+            this.transitionToRoute('discover', { queryParams: { source: selected }});
         },
 
         elasticSearch(term) {
