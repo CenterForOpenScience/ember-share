@@ -91,8 +91,32 @@
             {{/each}}
         </div>
     </div>
+    <div class="row visible-xs" style="text-align: right; font-size:75%; margin-top:15px">
+        <i>
+            <a{{action 'toggleCollapsedFilters'}} href="#">
+                View filter options
+                {{#if collapsedFilters}}
+                    {{fa-icon 'caret-up'}}
+                {{else}}
+                    {{fa-icon 'caret-down'}}
+                {{/if}}
+            </a>
+        </i>
+    </div>
     <hr>
     <div class="row">
+        <div class='col-xs-12 visible-xs'>
+            {{#bs-collapse collapsed=collapsedFilters}}
+                {{faceted-search
+                    onChange='filtersChanged'
+                    updateParams='updateParams'
+                    filters=facetFilters
+                    facetStates=facetStates
+                    facets=facets
+                    aggregations=aggregations
+                }}
+            {{/bs-collapse}}
+        </div>
         <div class='col-sm-3 hidden-xs'>
             {{faceted-search
                 onChange='filtersChanged'
