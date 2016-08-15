@@ -1,40 +1,62 @@
-{{#if obj.date_published}}
-    <div class="row">
-        <span class="col-sm-3 pull-right text-info" style="text-align: right">
-            <span class="text-muted">Published </span>{{moment-format obj.date_published 'YYYY'}}
-        </span>
-    </div>
-{{/if}}
-<div class="row">
-    <h4 class="col-sm-11 redirect">
-        {{#link-to "curate.work" obj.workType obj.id}}
-            {{#if obj.title}}
-                {{obj.title}}
-            {{else}}
-                <i class="no-title">Title not provided</i>
-            {{/if}}
-        {{/link-to}}
-    </h4>
-</div>
-{{#if contributors}}
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="pull-left redirect" style="text-align: left">
-                {{#each contributors as |contrib index|}}
-                    {{#if index}}
-                        -
-                    {{/if}}
-                    {{#link-to 'curate.person' contrib.id}}
-                        {{contrib.familyName}}
-                    {{/link-to}}
-                {{/each}}
-                {{#if extra_contributors}}
-                    <span class="text-muted">+{{extra_contributors}}</span>
-                {{/if}}
+<div class="title-tile">
+    {{#if obj.date_published}}
+        <div class="row">
+            <span class="col-xs-6 pull-right text-info" style="text-align: right">
+                <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
             </span>
         </div>
+    {{/if}}
+    <div class="row title">
+        <h4 class="col-sm-11 redirect">
+            {{#link-to "curate.work" obj.workType obj.id}}
+                {{#if obj.title}}
+                    {{obj.title}}
+                {{else}}
+                    <i class="no-title">Title not provided</i>
+                {{/if}}
+            {{/link-to}}
+        </h4>
     </div>
-{{/if}}
+    {{#if contributors}}
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="pull-left redirect" style="text-align: left">
+                    {{#each contributors as |contrib index|}}
+                        {{#if index}}
+                            -
+                        {{/if}}
+                        {{#link-to 'curate.person' contrib.id}}
+                            {{contrib.familyName}}
+                        {{/link-to}}
+                    {{/each}}
+                    {{#if extra_contributors}}
+                        <span class="text-muted">+{{extra_contributors}}</span>
+                    {{/if}}
+                </span>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="row">
+            <div class="col-xs-9 pull-right text-info" style="text-align: right">
+                {{#each obj.sources as |source index|}}
+                    {{#if index}}
+                        ,
+                    {{/if}}
+                    <a class="filter" {{action 'addFilter' 'sources' source}}>
+                        {{source}}
+                    </a>
+                {{/each}}
+            </div>
+            <div class="col-xs-2 pull-left worktype" style="text-align: left">
+                <div class="worktype-inner">
+                    <a class="filter typefilter" {{action 'addFilter' 'type' obj.workType}}>
+                        {{obj.workType}}
+                    </a>
+                </div>
+            </div>
+        </div>
+</div>
 {{#if abbreviation}}
     <div class="row description">
         <div class="col-sm-12">
@@ -45,7 +67,6 @@
         </div>
     </div>
 {{/if}}
-<br>
 {{#if tags}}
     <div class="row tags">
         <div class="col-xs-12">
@@ -60,19 +81,6 @@
         </div>
     </div>
 {{/if}}
-<div class="row extra">
-    <div class="col-sm-12">
-        <span class="text-muted"> Aggregated from </span>
-        {{#each obj.sources as |source index|}}
-            {{#if index}}
-                ,
-            {{/if}}
-            <a class="filter" {{action 'addFilter' 'sources' source}}>{{source}}</a>
-        {{/each}}
-        <span class="text-muted"> as a </span>
-        <a class="filter" {{action 'addFilter' 'type' obj.workType}}>{{obj.workType}}</a>
-    </div>
-</div>
 {{#if (or obj.organizations obj.institutions)}}
     <div class="row extra">
         <div class="col-xs-12">
@@ -110,26 +118,22 @@
     </div>
 {{/if}}
 <div class="row extra">
-    <div class="col-xs-8">
+    <div class="col-xs-6">
+        {{#if obj.date_updated}}
+            <span class="text-muted last-updated">
+                Last updated <span class="text-info">{{moment-format obj.date_updated 'MMM DD, YYYY'}}</span>
+            </span>
+        {{/if}}
+    </div>
+    <div class="col-xs-6 pull-right text-info">
         {{#if obj.publishers}}
-            <span class="pull-left" style="text-align: left">
+            <span class="pull-right published" style="text-align: right">
                 <span class="text-muted">Published by </span>
                 {{#each obj.publishers as |publisher|}}
                     <a class="filter" {{action 'addFilter' 'publisher' publisher.name}}>
                         {{publisher.name}}
                     </a>
                 {{/each}}
-                {{#if obj.date_published}}
-                    <span class="text-muted"> in </span>
-                    {{moment-format obj.date_published 'MMM YYYY'}}
-                {{/if}}
-            </span>
-        {{/if}}
-    </div>
-    <div class="col-xs-4 extra">
-        {{#if obj.date_updated}}
-            <span class="pull-right text-muted" style="text-align: right">
-                Last updated <span class="text-info">{{moment-format obj.date_updated 'MM-DD-YYYY'}}</span>
             </span>
         {{/if}}
     </div>
