@@ -21,7 +21,6 @@ export default Ember.Component.extend({
         return langs.names();
     }),
 
-    statePrevious: [],
     changed: Ember.observer('state', function() {
         let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
         let previousState = this.get('previousState') || [];
