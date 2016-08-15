@@ -21,6 +21,16 @@ export default Ember.Component.extend({
         return langs.names();
     }),
 
+    changed: Ember.observer('state', function() {
+        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
+        let previousState = this.get('previousState') || [];
+
+        if (Ember.compare(previousState, state) !== 0) {
+            let value = this.get('state');
+            this.send('changeFilter', value ? value : []);
+        }
+    }),
+
     buildQueryObject(selected) {
         let key = this.get('key');
         let languageCodes = selected.map((lang) => {
@@ -44,6 +54,7 @@ export default Ember.Component.extend({
         changeFilter(languageNames) {
             let key = this.get('key');
             let [filter, value] = this.buildQueryObject(languageNames);
+            this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         }
     }

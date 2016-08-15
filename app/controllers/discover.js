@@ -37,6 +37,7 @@ export default ApplicationController.extend({
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
     }),
 
+    collapsedFilters: true,
     collapsedQueryBody: true,
 
     results: Ember.ArrayProxy.create({content: []}),
@@ -256,11 +257,17 @@ export default ApplicationController.extend({
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            this.set(type, encodeParams(currentValue));
+            currentValue = currentValue.length ? encodeParams(currentValue) : '';
+            this.set(type, currentValue);
+            this.get('facetFilters');
         },
 
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
+        },
+
+        toggleCollapsedFilters() {
+            this.toggleProperty('collapsedFilters');
         },
 
         typing(val, event) {
