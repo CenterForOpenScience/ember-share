@@ -1,15 +1,20 @@
 <div class="container">
     <div class="header" >
+        <br>
+        <br>
+        <br>
         <div class="row share-search">
-            <br>
-            <br>
-            <br>
             <div class="col-xs-8 col-xs-offset-2">
-                {{input class="form-control" value=searchString key-up='typing'}}
+                {{input class="form-control" value=searchString key-up='typing' style="background-color:red" placeholder="Search"}}
             </div>
             <div class="col-xs-2">
                 <a href="" {{action 'search'}}>
                     {{fa-icon 'search' class='search-button' title='Search'}}
+                    <style>
+                        .form-control {
+                            border-radius: 1px ;
+                        }
+                    </style>
                 </a>
                 <a href={{atomFeedUrl}}>
                     {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
