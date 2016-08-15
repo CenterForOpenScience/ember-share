@@ -257,7 +257,9 @@ export default ApplicationController.extend({
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            this.set(type, encodeParams(currentValue));
+            currentValue = currentValue.length ? encodeParams(currentValue) : '';
+            this.set(type, currentValue);
+            this.get('facetFilters');
         },
 
         toggleCollapsedQueryBody() {

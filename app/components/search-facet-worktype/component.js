@@ -13,9 +13,11 @@ export default Ember.Component.extend({
     }),
 
     statePrevious: [],
-    stateOverlap: Ember.computed.intersect('state', 'previousState'),
-    changed: Ember.observer('state', 'stateOverlap', function() {
-        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+    changed: Ember.observer('state', function() {
+        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
+        let previousState = this.get('previousState') || [];
+
+        if (Ember.compare(previousState, state) !== 0) {
             let value = this.get('state');
             this.send('setState', value ? value : []);
         }

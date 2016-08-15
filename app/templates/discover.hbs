@@ -26,7 +26,7 @@
         </div>
     </div>
     {{#if queryBody}}
-        <div class="row hidden-xs" style="text-align: center; font-size:75%; margin-top:15px">
+        <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
             <i>
                 <a{{action 'toggleCollapsedQueryBody'}} href="#">
                     View query body
@@ -40,7 +40,7 @@
         </div>
     {{/if}}
     {{#bs-collapse collapsed=collapsedQueryBody}}
-        <div id="queryBody" class="row hidden-xs">
+        <div id="queryBody" class="row">
             <div class="col-sm-8 col-sm-offset-2">
                 <div class="row">
                     <div style="text-align: center; font-size:75%; margin-top:15px">
@@ -83,17 +83,19 @@
             {{/each}}
         </div>
     </div>
-    <div class="row visible-xs" style="text-align: right; font-size:75%; margin-top:15px">
-        <i>
-            <a{{action 'toggleCollapsedFilters'}} href="#">
-                View filter options
-                {{#if collapsedFilters}}
-                    {{fa-icon 'caret-up'}}
-                {{else}}
-                    {{fa-icon 'caret-down'}}
-                {{/if}}
-            </a>
-        </i>
+    <div class="row visible-xs">
+        <div class="col-xs-12" style="text-align: right; font-size:75%; margin-top:15px">
+            <i>
+                <a{{action 'toggleCollapsedFilters'}} href="#">
+                    View filter options
+                    {{#if collapsedFilters}}
+                        {{fa-icon 'caret-up'}}
+                    {{else}}
+                        {{fa-icon 'caret-down'}}
+                    {{/if}}
+                </a>
+            </i>
+        </div>
     </div>
     <hr>
     <div class="row">

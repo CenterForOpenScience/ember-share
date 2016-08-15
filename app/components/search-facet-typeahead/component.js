@@ -23,10 +23,11 @@ export default Ember.Component.extend({
     }),
 
     statePrevious: [],
-    stateOverlap: Ember.computed.intersect('state', 'previousState'),
     changed: Ember.observer('state', function() {
-        console.log('state:', this.get('state'), 'statePrevious:', this.get('statePrevious'));
-        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
+        let previousState = this.get('previousState') || [];
+
+        if (Ember.compare(previousState, state) !== 0) {
             let value = this.get('state');
             this.send('changeFilter', value ? value : []);
         }
@@ -88,7 +89,6 @@ export default Ember.Component.extend({
         changeFilter(selected) {
             let [filter, value] = this.buildQueryObjectMatch(selected);
             this.set('previousState', this.get('state'));
-            console.log(this.get('previousState'));
             this.sendAction('onChange', this.get('key'), filter, value);
         },
 
