@@ -66,23 +66,12 @@
     {{/bs-collapse}}
     <div class="row">
         <div class="col-xs-2" style="text-align: left;">
-            <button {{action 'clearFilters'}} class='btn btn-default' style="
-            background-color: #f5f5f5;
-            color: #204762;
-            font-family: 'Open Sans', sans-serif ;
-            -webkit-font-smoothing:antialiased ;">
+            <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
                 Clear filters
             </button>
         </div>
         <div class="col-sm-2 col-xs-6 pull-right" style="text-align: right">
-            <select onchange={{action 'selectSortOption' value="target.value"}} style="
-                background-color: #f5f5f5;
-                color: #204762;
-                height: 33px ;
-                font-size: 14px ;
-                font-family: 'Open Sans', sans-serif ;
-                -webkit-font-smoothing:antialiased ;
-                border-color: #ccc ;">
+            <select onchange={{action 'selectSortOption' value="target.value"}} class="btn-select">
                 {{#each sortOptions as |sortChoice|}}
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
@@ -122,10 +111,7 @@
                 {{#if loading}}
                     {{fa-icon 'spinner' pulse=true size=3}}
                 {{else if noResultsMessage}}
-                    <div class="no-results" style="font-size: 15px ;
-                    color: #204762;
-                    font-family: 'Open Sans', sans-serif ;
-                    -webkit-font-smoothing:antialiased ;">{{noResultsMessage}}</div>
+                    <div class="no-results">{{noResultsMessage}}</div>
                 {{else}}
                     <button class="btn btn-default" {{action 'next'}}> More </button>
                 {{/if}}
