@@ -47,6 +47,13 @@ export default ApplicationController.extend({
     took: 0,
     numberOfSources: 0,
 
+    morePages: Ember.computed('results.length', function() {
+        if (this.get('results.length') === this.get('numberOfResults')) {
+            return false;
+        }
+        return true;
+    }),
+
     sortOptions: [
         {
             display: 'relevance',
@@ -299,7 +306,7 @@ export default ApplicationController.extend({
 
         next() {
             // If we don't have full pages then we've hit the end of our search
-            if (this.get('results.length') % this.get('size') !== 0) {
+            if (!this.get('morePages')) {
                 return;
             }
             this.incrementProperty('page', 1);

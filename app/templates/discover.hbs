@@ -134,7 +134,7 @@
                     {{fa-icon 'spinner' pulse=true size=3}}
                 {{else if noResultsMessage}}
                     <div class="no-results">{{noResultsMessage}}</div>
-                {{else}}
+                {{else if morePages}}
                     <button class="btn btn-default" {{action 'next'}}> More </button>
                 {{/if}}
             </div>
