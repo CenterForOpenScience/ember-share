@@ -50,7 +50,7 @@
     <div class="row tags">
         <div class="col-xs-12">
             {{#each tags as |tag|}}
-                <a class='tag filter' {{action 'addFilter' 'tag' tag}}>
+                <a class='tag filter' {{action 'addFilter' 'tags' tag}}>
                     {{tag}}
                 </a>
             {{/each}}
@@ -63,11 +63,11 @@
 <div class="row extra">
     <div class="col-sm-12">
         <span class="text-muted"> Aggregated from </span>
-        {{#each obj.source as |source index|}}
+        {{#each obj.sources as |source index|}}
             {{#if index}}
                 ,
             {{/if}}
-            <a class="filter" {{action 'addFilter' 'source' source}}>{{source}}</a>
+            <a class="filter" {{action 'addFilter' 'sources' source}}>{{source}}</a>
         {{/each}}
         <span class="text-muted"> as a </span>
         <a class="filter" {{action 'addFilter' 'type' obj.type}}>{{obj.type}}</a>

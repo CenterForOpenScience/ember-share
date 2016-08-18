@@ -23,9 +23,9 @@ export default Ember.Component.extend({
         return contribs;
     }),
     extra_tags: null,
-    tags: Ember.computed('obj.tag', function() {
+    tags: Ember.computed('obj.tags', function() {
         let max_tags = 5;
-        let tags = this.get('obj.tag');
+        let tags = this.get('obj.tags');
         if (tags.length > max_tags) {
             this.set('extra_tags', tags.length - max_tags);
             return tags.slice(0, max_tags);

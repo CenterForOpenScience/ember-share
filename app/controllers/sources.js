@@ -65,7 +65,7 @@ export default Ember.Controller.extend({
     },
     actions: {
         changeFilter(selected) {
-            this.transitionToRoute('discover', { queryParams: { source: selected }});
+            this.transitionToRoute('discover', { queryParams: { sources: selected }});
         },
 
         elasticSearch(term) {

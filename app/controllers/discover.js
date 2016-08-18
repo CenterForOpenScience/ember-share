@@ -6,7 +6,7 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
-let filterQueryParams = ['tag', 'source', 'publisher', 'funder', 'institution', 'organization', 'language', 'contributor', 'type'];
+let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
 
@@ -19,14 +19,14 @@ export default ApplicationController.extend({
     page: 1,
     size: 10,
     q: '',
-    tag: '',
-    source: '',
-    publisher: '',
-    funder: '',
-    institution: '',
-    organization: '',
+    tags: '',
+    sources: '',
+    publishers: '',
+    funders: '',
+    institutions: '',
+    organizations: '',
     language: '',
-    contributor: '',
+    contributors: '',
     start: '',
     end: '',
     type: '',
@@ -149,7 +149,7 @@ export default ApplicationController.extend({
         return {
             "sources" : {
                 "terms" : {
-                    "field" : "source.raw",
+                    "field" : "sources.raw",
                     "size": 200
                 }
             }
@@ -168,7 +168,7 @@ export default ApplicationController.extend({
         }).then((json) => {
             let results = json.hits.hits.map((hit) => {
                 let source = Ember.Object.create(hit._source);
-                let r = source.getProperties('type', 'title', 'description', 'language', 'date', 'date_created', 'date_modified', 'date_updated', 'date_published', 'tag', 'source');
+                let r = source.getProperties('type', 'title', 'description', 'language', 'date', 'date_created', 'date_modified', 'date_updated', 'date_published', 'tags', 'sources');
                 r.id = hit._id;
                 r.contributors = source.lists.contributors;
                 r.funders = source.lists.funders;
@@ -196,16 +196,16 @@ export default ApplicationController.extend({
 
     facets: Ember.computed(function() {
         return [
-            { key: 'source', title: 'Source', component: 'search-facet-source' },
+            { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: 'type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tag', title: 'Subject/Tag', component: 'search-facet-typeahead' },
-            { key: 'publisher', title: 'Publisher', component: 'search-facet-typeahead' },
-            { key: 'funder', title: 'Funder', component: 'search-facet-typeahead' },
-            { key: 'institution', title: 'Institution', component: 'search-facet-typeahead' },
-            { key: 'organization', title: 'Organization', component: 'search-facet-typeahead' },
+            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead' },
+            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead' },
+            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead' },
+            { key: 'institutions', title: 'Institution', component: 'search-facet-typeahead' },
+            { key: 'organizations', title: 'Organization', component: 'search-facet-typeahead' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributor', title: 'People', component: 'search-facet-typeahead', type: 'person' },
+            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', type: 'person' },
         ];
     }),
 
