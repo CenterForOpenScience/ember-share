@@ -20,10 +20,10 @@ export default Ember.Controller.extend({
         url = url || ENV.apiUrl + '/api/providers/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
         }).then((json) => {
             this.set('numberOfSources', json.count);
             this.get('sources').addObjects(json.results);
@@ -43,14 +43,14 @@ export default Ember.Controller.extend({
 
     buildTypeaheadQuery(text) {
         return {
-            "suggestions": {
-                "text": text,
-                "completion": {
-                    "field": "suggest",
-                    "size": 10,
-                    "fuzzy": true,
-                    "context": {
-                        "@type": "source"
+            suggestions: {
+                text: text,
+                completion: {
+                    field: 'suggest',
+                    size: 10,
+                    fuzzy: true,
+                    context: {
+                        '@type': 'source'
                     }
                 }
             }
@@ -58,14 +58,14 @@ export default Ember.Controller.extend({
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.suggestions[0].options.map(function(obj){
+        let textList = response.suggestions[0].options.map(function(obj) {
             return obj.payload.name;
         });
         return getUniqueList(textList);
     },
     actions: {
         changeFilter(selected) {
-            this.transitionToRoute('discover', { queryParams: { sources: selected }});
+            this.transitionToRoute('discover', { queryParams: { sources: selected } });
         },
 
         elasticSearch(term) {
@@ -74,14 +74,14 @@ export default Ember.Controller.extend({
             var data = JSON.stringify(this.buildTypeaheadQuery(term));
 
             return Ember.$.ajax({
-                'url': this.typeaheadQueryUrl(),
-                'crossDomain': true,
-                'type': 'POST',
-                'contentType': 'application/json',
-                'data': data
-            }).then((json) => {
-                return this.handleTypeaheadResponse(json);
-            });
+                url: this.typeaheadQueryUrl(),
+                crossDomain: true,
+                type: 'POST',
+                contentType: 'application/json',
+                data: data
+            }).then(json =>
+                this.handleTypeaheadResponse(json)
+            );
         }
     }
 });

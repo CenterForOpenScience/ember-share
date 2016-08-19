@@ -29,7 +29,7 @@ export default BaseAuthenticator.extend({
                     if (redirectToLogin) {
                         window.location = `${ENV.apiUrl}/accounts/login/`;
                         return;
-                    } 
+                    }
                     reject('not logged in');
                 } else {
                     resolve({
@@ -46,7 +46,7 @@ export default BaseAuthenticator.extend({
             method: 'POST',
             url: `${ENV.apiUrl}/accounts/logout/`,
             crossDomain: true,
-            xhrFields: {withCredentials: true}
+            xhrFields: { withCredentials: true }
         });
     },
 
@@ -54,7 +54,7 @@ export default BaseAuthenticator.extend({
         return Ember.$.ajax({
             url: `${ENV.apiUrl}/api/userinfo`,
             crossDomain: true,
-            xhrFields: {withCredentials: true}
+            xhrFields: { withCredentials: true }
         });
     }
 });

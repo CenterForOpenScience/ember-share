@@ -4,7 +4,7 @@ export default Ember.Component.extend({
     relValue: Ember.computed('obj', function() {
         var obj = this.get('obj');
         var rel = this.get('rel');
-        if (!obj || !rel){
+        if (!obj || !rel) {
             return;
         }
         var relation = obj.get(rel);

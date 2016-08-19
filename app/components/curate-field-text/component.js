@@ -41,7 +41,7 @@ export default Ember.Component.extend({
 
     actions: {
         cancel() {
-            this.setProperties({editing: false, updated: this.get('text')});
+            this.setProperties({ editing: false, updated: this.get('text') });
             this.sendAction('onChange', undefined);
         },
 
