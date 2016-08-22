@@ -1,24 +1,24 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+// import { moduleForComponent, test } from 'ember-qunit';
+// import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('curate-work', 'Integration | Component | curate work', {
-  integration: true
-});
+// moduleForComponent('curate-work', 'Integration | Component | curate work', {
+//   integration: true
+// });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+// test('it renders', function(assert) {
+//   // Set any properties with this.set('myProperty', 'value');
+//   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{curate-work}}`);
+//   this.render(hbs`{{curate-work}}`);
 
-  assert.equal(this.$().text().trim(), '');
+//   assert.equal(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#curate-work}}
-      template block text
-    {{/curate-work}}
-  `);
+//   // Template block usage:
+//   this.render(hbs`
+//     {{#curate-work}}
+//       template block text
+//     {{/curate-work}}
+//   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
-});
+//   assert.equal(this.$().text().trim(), 'template block text');
+// });
