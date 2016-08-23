@@ -1,7 +1,7 @@
 // import { moduleForComponent, test } from 'ember-qunit';
 // import hbs from 'htmlbars-inline-precompile';
 
-// moduleForComponent('curate-list-tag', 'Integration | Component | curate list tag', {
+// moduleForComponent('homepage-buttom-box', 'Integration | Component | homepage buttom box', {
 //   integration: true
 // });
 
@@ -9,15 +9,15 @@
 //   // Set any properties with this.set('myProperty', 'value');
 //   // Handle any actions with this.on('myAction', function(val) { ... });
 
-//   this.render(hbs`{{curate-list-tag}}`);
+//   this.render(hbs`{{homepage-buttom-box}}`);
 
 //   assert.equal(this.$().text().trim(), '');
 
 //   // Template block usage:
 //   this.render(hbs`
-//     {{#curate-list-tag}}
+//     {{#homepage-buttom-box}}
 //       template block text
-//     {{/curate-list-tag}}
+//     {{/homepage-buttom-box}}
 //   `);
 
 //   assert.equal(this.$().text().trim(), 'template block text');

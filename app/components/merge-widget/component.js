@@ -44,24 +44,24 @@ export default Ember.Component.extend({
         }
         var data = JSON.stringify({
             query: {
-                'more_like_this': {
+                more_like_this: {
                     like: {
-                        '_index': 'share',
-                        '_type': _type,
-                        '_id': this.get('obj.id')
+                        _index: 'share',
+                        _type: _type,
+                        _id: this.get('obj.id')
                     },
-                    'min_term_freq': 1,
-                    'min_doc_freq': 1
+                    min_term_freq: 1,
+                    min_doc_freq: 1
                 }
             }
         });
         var url = ENV.apiUrl + '/api/search/' + _type + '/_search?';
         Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'POST',
-            'contentType': 'application/json',
-            'data': data
+            url: url,
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: data
         }).then(function(json) {
             let hits = json.hits.hits.splice(0, 3);
             hits.map(hit => {

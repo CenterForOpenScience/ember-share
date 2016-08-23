@@ -3,7 +3,7 @@ import JSONSerializer from 'ember-data/serializers/json';
 
 export default JSONSerializer.extend({
 
-    normalizeArrayResponse (store, primaryModelClass, payload, id, requestType) {
+    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {
         if (typeof payload === 'object' && payload.results) {
             payload = payload.results;
         }

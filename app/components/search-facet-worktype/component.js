@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     buildQueryObjectMatch(selected) {
         let newValue = !selected[0] ? [] : selected;
         let newFilter = termsFilter('@type', getUniqueList(newValue), this.get('options.raw'));
-        return [newFilter, newValue];
+        return { filter: newFilter, value: newValue };
     },
 
     actions: {
@@ -33,20 +33,20 @@ export default Ember.Component.extend({
             let key = this.get('key');
             selected = getSplitParams(selected);
 
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
+            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         },
         toggle(type) {
             let key = this.get('key');
             let selected = getSplitParams(this.get('selected'));
-			if (selected.contains(type)) {
+            if (selected.contains(type)) {
                 selected.removeObject(type);
             } else if (type) {
                 selected.addObject(type);
             }
 
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
+            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         }

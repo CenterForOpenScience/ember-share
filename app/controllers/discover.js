@@ -40,7 +40,7 @@ export default ApplicationController.extend({
     collapsedFilters: true,
     collapsedQueryBody: true,
 
-    results: Ember.ArrayProxy.create({content: []}),
+    results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
     eventsLastUpdated: Date().toString(),
     numberOfResults: 0,
@@ -79,13 +79,13 @@ export default ApplicationController.extend({
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
-    loadEventCount(){
+    loadEventCount() {
         var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
         return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
         }).then((json) => {
             this.set('numberOfEvents', json.count);
         });
@@ -95,10 +95,10 @@ export default ApplicationController.extend({
         let url = url || ENV.apiUrl + '/api/providers/';
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
         }).then((json) => {
             this.set('numberOfSources', json.count);
         });
@@ -123,15 +123,15 @@ export default ApplicationController.extend({
         }
 
         let query = {
-            'query_string' : {
-                'query': this.get('searchString') || '*'
+            query_string: {
+                query: this.get('searchString') || '*'
             }
         };
         if (filters.length) {
             query = {
-                'bool': {
-                    'must': query,
-                    'filter': filters
+                bool: {
+                    must: query,
+                    filter: filters
                 }
             };
         }
@@ -150,16 +150,16 @@ export default ApplicationController.extend({
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
-        this.set('displayQueryBody', { query } );
+        this.set('displayQueryBody', { query });
         return this.set('queryBody', queryBody);
     },
 
     elasticAggregations: Ember.computed(function() {
         return {
-            "sources" : {
-                "terms" : {
-                    "field" : "sources",
-                    "size": 200
+            sources: {
+                terms: {
+                    field: 'sources',
+                    size: 200
                 }
             }
         };
@@ -169,11 +169,11 @@ export default ApplicationController.extend({
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': this.get('searchUrl'),
-            'crossDomain': true,
-            'type': 'POST',
-            'contentType': 'application/json',
-            'data': queryBody
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody
         }).then((json) => {
             this.set('numberOfResults', json.hits.total);
             this.set('took', moment.duration(json.took).asSeconds());
@@ -183,13 +183,11 @@ export default ApplicationController.extend({
                 source.id = hit._id;
                 source.type = 'elastic-search-result';
                 source.workType = source['@type'];
-                source.contributors = source.contributors.map(contributor => {
-                    return {
-                        familyName: contributor.family_name,
-                        givenName: contributor.given_name,
-                        id: contributor['@id']
-                    };
-                });
+                source.contributors = source.contributors.map(contributor => ({
+                    familyName: contributor.family_name,
+                    givenName: contributor.given_name,
+                    id: contributor['@id']
+                }));
                 return source;
             });
             Ember.run(() => {
@@ -231,13 +229,13 @@ export default ApplicationController.extend({
         for (let param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));
         }
-        facetStates['date'] = {start: this.get('start'), end: this.get('end')};
+        facetStates.date = { start: this.get('start'), end: this.get('end') };
 
         Ember.run.once(this, function() {
             let facets = this.get('facetStates');
             let facetArray = [];
             for (let key of Object.keys(facets)) {
-                facetArray.push({key: key, value: facets[key]});
+                facetArray.push({ key: key, value: facets[key] });
             }
             this.set('facetStatesArray', facetArray);
         });

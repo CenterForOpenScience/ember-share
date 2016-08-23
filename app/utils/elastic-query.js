@@ -20,7 +20,8 @@ function dateRangeFilter(field, start, end) {
 }
 
 function invertDateRangeFilter(field, filter) {
-    let start = null, end = null;
+    let start = null;
+    let end = null;
     if (filter) {
         let range = filter.range[field];
         start = moment(range.gte);
@@ -64,7 +65,7 @@ function uniqueFilter(value, index, self) {
 }
 
 function getUniqueList(data) {
-    return data.filter( uniqueFilter );
+    return data.filter(uniqueFilter);
 }
 
 function encodeParams(tags) {
@@ -82,7 +83,7 @@ function getSplitParams(params) {
         return params.slice(0);
     } else if (params.length && Array.isArray(params[0])) {
         return params[0];
-    } else if (params.length && typeof(params) === 'string') {
+    } else if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
     } else if (params.length === 1) {
         return decodeParams(params[0]);

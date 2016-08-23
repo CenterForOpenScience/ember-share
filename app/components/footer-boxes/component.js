@@ -6,8 +6,8 @@ export default Ember.Component.extend({
     classNames: ['ember-view'],
     classNameBindings: ['selected:active'],
 
-    didRender(){
-        Ember.$(".providerBox").parent().css({"background": "rgba(52, 73, 94, 0)" , "border": "none" , "outline": "0"});
+    didRender() {
+        Ember.$('.providerBox').parent().css({ background: 'rgba(52, 73, 94, 0)', border: 'none', outline: '0' });
     },
 
     selected: Ember.computed('selectedType', function() {
@@ -19,10 +19,10 @@ export default Ember.Component.extend({
         if (!type) {
             this.$().blur();
         }
-        if (type === "provider") {
-            window.location.href = "https://osf.io/share/registration/";
+        if (type === 'provider') {
+            window.location.href = 'https://osf.io/share/registration/';
         } else {
-            window.location.href = "https://osf.io/api/v1/share/data/help/#!/SHARE/get_share_search";
+            window.location.href = 'https://osf.io/api/v1/share/data/help/#!/SHARE/get_share_search';
         }
         this.sendAction('onClick', type);
     }

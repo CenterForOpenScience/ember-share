@@ -7,9 +7,9 @@ export default Ember.Component.extend({
     init() {
         this._super(...arguments);
         let languageCodes = this.get('state') ? this.get('state') : [];
-        let languageNames = languageCodes.map((lang) => {
-            return langs.where('3', lang)['name'];
-        });
+        let languageNames = languageCodes.map(lang =>
+            langs.where('3', lang).name
+        );
         this.send('changeFilter', languageNames);
     },
 
@@ -33,27 +33,27 @@ export default Ember.Component.extend({
 
     buildQueryObject(selected) {
         let key = this.get('key');
-        let languageCodes = selected.map((lang) => {
-            return langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
-        });
+        let languageCodes = selected.map(lang =>
+            langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']
+        );
 
         let newFilter = termsFilter(key, getUniqueList(languageCodes), true);
-        return [newFilter, languageCodes];
+        return { filter: newFilter, value: languageCodes };
     },
 
     selected: Ember.computed('state', function() {
         let params = this.get('state');
         let languageCodes =  params ? params : [];
-        let languageNames = languageCodes.map((lang) => {
-            return langs.where('3', lang)['name'];
-        });
+        let languageNames = languageCodes.map(lang =>
+            langs.where('3', lang).name
+        );
         return languageNames;
     }),
 
     actions: {
         changeFilter(languageNames) {
             let key = this.get('key');
-            let [filter, value] = this.buildQueryObject(languageNames);
+            let { filter: filter, value: value } = this.buildQueryObject(languageNames);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         }
