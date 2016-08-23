@@ -7,6 +7,7 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['curate-work'],
     changes: null,
+    submitting: false,
 
     throughMap: {
         tag: 'throughtags',
@@ -23,13 +24,20 @@ export default Ember.Component.extend({
         this.set('relations', []);
     },
 
-    changed: function() {
+    changed: Ember.computed('changes', 'relations.[]', 'toMerge.[]', function() {
+        let self = this;
         return this.get('relations.length') > 0 ||
             this.get('toMerge.length') > 0 ||
-            Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
-    }.property('changes', 'relations.[]', 'toMerge.[]'),
+            Ember.isPresent(Object.keys(this.get('changes')).map(function(key) {
+                if (key !== '@id' && key !== '@type') {
+                    return self.get(`changes.${key}`);
+                } else {
+                    return '';
+                }
+            }).filter(Ember.isPresent));
+    }),
 
-    merges: function() {
+    merges: Ember.computed('toMerge.[]', function() {
         if (this.get('toMerge.length') < 1) { return []; }
 
         return [{
@@ -38,7 +46,11 @@ export default Ember.Component.extend({
             into: { '@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName') },
             from: this.get('toMerge').map(obj => ({ '@id': obj.get('id'), '@type': obj.get('_internalModel.modelName') })),
         }];
-    }.property('toMerge.[]'),
+    }),
+
+    disableSubmit: Ember.computed('submitting', 'changed', function() {
+        return this.get('submitting') || !this.get('changed');
+    }),
 
     actions: {
         merge(obj) {
@@ -70,6 +82,7 @@ export default Ember.Component.extend({
             console.log(this.get('relations')
                 .concat(this.get('changes'))
                 .concat(this.get('merges')));
+            this.set('submitting', true);
             let changes = {
                 normalized_data: {
                     '@graph': this.get('relations')
@@ -90,7 +103,15 @@ export default Ember.Component.extend({
                 data: JSON.stringify(changes),
                 contentType: 'application/json',
                 url: `${ENV.apiUrl}/api/normalizeddata/`,
-            }).then(resp => console.log(resp));
+            }).done(function(resp) {
+                console.log(resp);
+                this.set('toMerge', []);
+                this.set('relations', []);
+                this.set('submitting', false);
+            }).fail(function(resp) {
+                console.log(resp);
+                this.set('submitting', false);
+            });
         },
 
         toggleExtraData() {

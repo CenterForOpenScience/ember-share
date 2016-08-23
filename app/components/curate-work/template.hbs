@@ -27,7 +27,7 @@
 
     {{#if session.isAuthenticated}}
         <div class='row' style='padding-topL: 5px'>
-            <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
+            <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}} disabled={{disableSubmit}}>
                 Submit Changes
             </button>
         </div>
