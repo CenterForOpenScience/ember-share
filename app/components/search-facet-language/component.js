@@ -37,7 +37,7 @@ export default Ember.Component.extend({
             selected = [selected];
         }
         let languageCodes = selected.map(lang =>
-            langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3'];
+            langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']
         );
 
         let newFilter = termsFilter(key, getUniqueList(languageCodes));
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
     selected: Ember.computed('state', function() {
         let languageCodes =  this.get('state') || [];
         let languageNames = languageCodes.map(lang =>
-            langs.where('3', lang)['name'];
+            langs.where('3', lang).name
         );
         return languageNames;
     }),
