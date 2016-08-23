@@ -57,13 +57,13 @@
         </div>
     {{/bs-collapse}}
     <div class="row">
-        <div class="col-xs-6 hidden-sm hidden-md hidden-lg" style="text-align: left">
-            <button {{action 'clearFilters'}} class='btn btn-default'>
+        <div class="col-xs-6" style="text-align: left;">
+            <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
                 Clear filters
             </button>
         </div>
-        <div class="col-sm-2 col-sm-offset-10 col-xs-6" style="text-align: right">
-            <select onchange={{action 'selectSortOption' value="target.value"}}>
+        <div class="col-xs-6 pull-right" style="text-align: right">
+            <select onchange={{action 'selectSortOption' value="target.value"}} class="btn-select">
                 {{#each sortOptions as |sortChoice|}}
                     <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                 {{/each}}
@@ -83,39 +83,62 @@
             {{/each}}
         </div>
     </div>
-    <hr>
-    <div class="row">
-        <div class='col-sm-3 hidden-xs'>
-            <button {{action 'clearFilters'}} class='btn btn-default'>
-                Clear filters
-            </button>
-            {{faceted-search
-                onChange='filtersChanged'
-                updateParams='updateParams'
-                filters=facetFilters
-                facetStates=facetStates
-                facets=facets
-                aggregations=aggregations
-            }}
-        </div>
-
-        <div class='col-sm-9 col-xs-12'>
-          {{#each results as |obj|}}
-            {{search-result addFilter='addFilter' obj=obj}}
-          {{/each}}
-
-          <div class="text-center">
-            {{#if loading}}
-              {{fa-icon 'spinner' pulse=true size=3}}
-            {{else if noResultsMessage}}
-                <div>{{noResultsMessage}}</div>
-            {{else}}
-              <button class="btn btn-default" {{action 'next'}}> More </button>
-            {{/if}}
-          </div>
+    <div class="row visible-xs">
+        <div class="col-xs-12" style="text-align: right; font-size:75%; margin-top:15px">
+            <i>
+                <a{{action 'toggleCollapsedFilters'}} href="#">
+                    View filter options
+                    {{#if collapsedFilters}}
+                        {{fa-icon 'caret-up'}}
+                    {{else}}
+                        {{fa-icon 'caret-down'}}
+                    {{/if}}
+                </a>
+            </i>
         </div>
     </div>
-
+    <hr>
+    <div class="row">
+        {{#if media.isExtraSmall}}
+            <div class='col-xs-12 visible-xs'>
+                {{#bs-collapse collapsed=collapsedFilters}}
+                    {{faceted-search
+                        onChange='filtersChanged'
+                        updateParams='updateParams'
+                        filters=facetFilters
+                        facetStates=facetStates
+                        facets=facets
+                        aggregations=aggregations
+                    }}
+                {{/bs-collapse}}
+            </div>
+        {{/if}}
+        {{#if (not media.isExtraSmall)}}
+            <div class='col-sm-3 hidden-xs'>
+                {{faceted-search
+                    onChange='filtersChanged'
+                    updateParams='updateParams'
+                    filters=facetFilters
+                    facetStates=facetStates
+                    facets=facets
+                    aggregations=aggregations
+                }}
+            </div>
+        {{/if}}
+        <div class='col-sm-9 col-xs-12'>
+            {{#each results as |obj|}}
+                {{search-result addFilter='addFilter' obj=obj}}
+            {{/each}}
+            <div class="text-center">
+                {{#if loading}}
+                    {{fa-icon 'spinner' pulse=true size=3}}
+                {{else if noResultsMessage}}
+                    <div class="no-results">{{noResultsMessage}}</div>
+                {{else if morePages}}
+                    <button class="btn btn-default" {{action 'next'}}> More </button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
     <br>
-
 </div>

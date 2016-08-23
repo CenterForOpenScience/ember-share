@@ -136,3 +136,27 @@
 .discover-filter-list {
     padding-top: 8px;
 }
+
+.clear-filters {
+    background-color: #f5f5f5;
+    color: #204762;
+    font-family: 'Open Sans', sans-serif ;
+    -webkit-font-smoothing:antialiased ;
+}
+
+.btn-select {
+    background-color: #f5f5f5;
+    color: #204762;
+    height: 33px ;
+    font-size: 14px ;
+    font-family: 'Open Sans', sans-serif ;
+    -webkit-font-smoothing:antialiased ;
+    border-color: #ccc ;
+}
+
+.no-results {
+    font-size: 15px ;
+    color: #204762;
+    font-family: 'Open Sans', sans-serif ;
+    -webkit-font-smoothing:antialiased ;
+}

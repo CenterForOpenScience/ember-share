@@ -36,14 +36,22 @@ export default ApplicationController.extend({
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
     }),
 
+    collapsedFilters: true,
     collapsedQueryBody: true,
 
-    results: Ember.ArrayProxy.create({content: []}),
+    results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
     eventsLastUpdated: Date().toString(),
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
+
+    morePages: Ember.computed('results.length', function() {
+        if (this.get('results.length') === this.get('numberOfResults')) {
+            return false;
+        }
+        return true;
+    }),
 
     sortOptions: [
         {
@@ -70,13 +78,13 @@ export default ApplicationController.extend({
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
-    loadEventCount(){
+    loadEventCount() {
         var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
         return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
         }).then((json) => {
             this.set('numberOfEvents', json.count);
         });
@@ -86,10 +94,10 @@ export default ApplicationController.extend({
         let url = url || ENV.apiUrl + '/api/providers/';
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': url,
-            'crossDomain': true,
-            'type': 'GET',
-            'contentType': 'application/json',
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
         }).then((json) => {
             this.set('numberOfSources', json.count);
         });
@@ -114,15 +122,15 @@ export default ApplicationController.extend({
         }
 
         let query = {
-            'query_string' : {
-                'query': this.get('q') || '*'
+            query_string: {
+                query: this.get('q') || '*'
             }
         };
         if (filters.length) {
             query = {
-                'bool': {
-                    'must': query,
-                    'filter': filters
+                bool: {
+                    must: query,
+                    filter: filters
                 }
             };
         }
@@ -141,16 +149,16 @@ export default ApplicationController.extend({
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
-        this.set('displayQueryBody', { query } );
+        this.set('displayQueryBody', { query });
         return this.set('queryBody', queryBody);
     },
 
     elasticAggregations: Ember.computed(function() {
         return {
-            "sources" : {
-                "terms" : {
-                    "field" : "sources.raw",
-                    "size": 200
+            sources: {
+                terms: {
+                    field: 'sources.raw',
+                    size: 200
                 }
             }
         };
@@ -160,11 +168,11 @@ export default ApplicationController.extend({
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
-            'url': this.get('searchUrl'),
-            'crossDomain': true,
-            'type': 'POST',
-            'contentType': 'application/json',
-            'data': queryBody
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody
         }).then((json) => {
             let results = json.hits.hits.map((hit) => {
                 let source = Ember.Object.create(hit._source);
@@ -216,13 +224,13 @@ export default ApplicationController.extend({
         for (let param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));
         }
-        facetStates['date'] = {start: this.get('start'), end: this.get('end')};
+        facetStates.date = { start: this.get('start'), end: this.get('end') };
 
         Ember.run.once(this, function() {
             let facets = this.get('facetStates');
             let facetArray = [];
             for (let key of Object.keys(facets)) {
-                facetArray.push({key: key, value: facets[key]});
+                facetArray.push({ key: key, value: facets[key] });
             }
             this.set('facetStatesArray', facetArray);
         });
@@ -249,11 +257,17 @@ export default ApplicationController.extend({
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            this.set(type, encodeParams(currentValue));
+            currentValue = currentValue.length ? encodeParams(currentValue) : '';
+            this.set(type, currentValue);
+            this.get('facetFilters');
         },
 
         toggleCollapsedQueryBody() {
             this.toggleProperty('collapsedQueryBody');
+        },
+
+        toggleCollapsedFilters() {
+            this.toggleProperty('collapsedFilters');
         },
 
         typing(val, event) {
@@ -285,7 +299,7 @@ export default ApplicationController.extend({
 
         next() {
             // If we don't have full pages then we've hit the end of our search
-            if (this.get('results.length') % this.get('size') !== 0) {
+            if (!this.get('morePages')) {
                 return;
             }
             this.incrementProperty('page', 1);

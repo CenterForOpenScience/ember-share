@@ -50,7 +50,7 @@ function uniqueFilter(value, index, self) {
 }
 
 function getUniqueList(data) {
-    return data.filter( uniqueFilter );
+    return data.filter(uniqueFilter);
 }
 
 function encodeParams(tags) {
@@ -68,7 +68,7 @@ function getSplitParams(params) {
         return params.slice(0);
     } else if (params.length && Ember.$.isArray(params[0])) {
         return params[0];
-    } else if (params.length && typeof(params) === 'string') {
+    } else if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
     } else if (params.length === 1) {
         return decodeParams(params[0]);

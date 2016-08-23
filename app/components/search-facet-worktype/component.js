@@ -12,10 +12,11 @@ export default Ember.Component.extend({
         return this.get('state') || [];
     }),
 
-    statePrevious: [],
-    stateOverlap: Ember.computed.intersect('state', 'previousState'),
-    changed: Ember.observer('stateOverlap', function() {
-        if (this.get('stateOverlap.length') !== this.get('state.length')) {
+    changed: Ember.observer('state', function() {
+        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
+        let previousState = this.get('previousState') || [];
+
+        if (Ember.compare(previousState, state) !== 0) {
             let value = this.get('state') || [];
             this.send('setState', value);
         }
@@ -24,13 +25,13 @@ export default Ember.Component.extend({
     buildQueryObjectMatch(selected) {
         let newValue = !selected[0] ? [] : selected;
         let newFilter = termsFilter('type', getUniqueList(newValue));
-        return [newFilter, newValue];
+        return { filter: newFilter, value: newValue };
     },
 
     actions: {
         setState(selected) {
             let key = this.get('key');
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
+            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         },

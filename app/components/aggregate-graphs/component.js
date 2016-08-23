@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     },
 
     updateDonut(field, data) {
-        let columns = data.map(({key, doc_count}) => [key, doc_count]);
+        let columns = data.map(({ key, docCount }) => [key, docCount]);
         let title = `${columns.length} ${field}`;
 
         let donut = this.get('donut');

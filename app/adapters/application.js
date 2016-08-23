@@ -11,7 +11,7 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     ajax(url, method, hash) {
         hash = hash || {};
         hash.crossDomain = true;
-        hash.xhrFields = {withCredentials: true};
+        hash.xhrFields = { withCredentials: true };
         return this._super(url, method, hash);
     },
     pathForType(type) {

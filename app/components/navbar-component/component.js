@@ -20,11 +20,11 @@ export default Ember.Component.extend({
     }),
 
     actions: {
-        login(){
+        login() {
             this.get('session').authenticate('authenticator:osf-token');
         },
 
-        logout(){
+        logout() {
             this.get('session').invalidate();
         }
     }

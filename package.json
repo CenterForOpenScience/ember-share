@@ -10,7 +10,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "check-style": "./node_modules/jscs/bin/jscs ."
   },
   "repository": "",
   "engines": {
@@ -50,10 +51,31 @@
     "ember-power-select": "1.0.0-alpha.13",
     "ember-resolver": "^2.0.3",
     "ember-simple-auth": "1.1.0",
+    "jscs": "^3.0.3",
     "loader.js": "^4.0.1"
   },
   "dependencies": {
+    "ember-responsive": "^1.2.7",
     "langs": "^1.0.2",
     "osf-style": "git+https://github.com/caneruguz/osf-style.git"
+  },
+  "jscsConfig": {
+    "preset": "airbnb",
+    "excludeFiles": [
+      "bower_components",
+      "node_modules",
+      "dist",
+      "tmp",
+      "vendor",
+      "app/locales",
+      "tests"
+    ],
+    "requireSpacesInAnonymousFunctionExpression": false,
+    "requireTrailingComma": false,
+    "disallowTrailingComma": false,
+    "requirePaddingNewLinesAfterBlocks": false,
+    "validateIndentation": 4,
+    "requirePaddingNewLinesBeforeLineComments": false,
+    "maximumLineLength": false
   }
 }

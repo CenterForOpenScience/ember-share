@@ -9,44 +9,44 @@ export default Ember.Component.extend({
     changes: null,
 
     throughMap: {
-      tag: 'throughtags',
-      person: 'contributor',
+        tag: 'throughtags',
+        person: 'contributor',
     },
 
     init() {
         this._super(...arguments);
         this.set('changes', {
-          '@id': this.get('work.id'),
-          '@type': this.get('work._internalModel.modelName'),
+            '@id': this.get('work.id'),
+            '@type': this.get('work._internalModel.modelName'),
         });
         this.set('toMerge', []);
         this.set('relations', []);
     },
 
     changed: function() {
-      return this.get('relations.length') > 0 ||
-          this.get('toMerge.length') > 0 ||
-          Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
+        return this.get('relations.length') > 0 ||
+            this.get('toMerge.length') > 0 ||
+            Ember.isPresent(Object.keys(this.get('changes')).map(key => this.get(`changes.${key}`)).filter(Ember.isPresent));
     }.property('changes', 'relations.[]', 'toMerge.[]'),
 
     merges: function() {
-      if (this.get('toMerge.length') < 1) { return []; }
+        if (this.get('toMerge.length') < 1) { return []; }
 
-      return [{
-        '@id': `_:${Math.random().toString().substring(2)}`,
-        '@type': 'MergeAction',
-        'into': {'@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName')},
-        'from': this.get('toMerge').map(obj => ({'@id': obj.get('id'), '@type': obj.get('_internalModel.modelName')})),
-      }];
+        return [{
+            '@id': `_:${Math.random().toString().substring(2)}`,
+            '@type': 'MergeAction',
+            into: { '@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName') },
+            from: this.get('toMerge').map(obj => ({ '@id': obj.get('id'), '@type': obj.get('_internalModel.modelName') })),
+        }];
     }.property('toMerge.[]'),
 
     previousChanges: Ember.computed('work', function() {
         let id_ = this.get('work.id');
         let type = this.get('work.type') || this.get('work')._internalModel.modelName + 's';
-        return this.get('store').query('change', {objectChanged: {
-             id: id_,
-             type: type
-        }});
+        return this.get('store').query('change', { objectChanged: {
+            id: id_,
+            type: type
+        } });
     }),
     actions: {
         merge(obj) {
@@ -58,48 +58,47 @@ export default Ember.Component.extend({
             return this.set(`changes.${field}`, newValue);
         },
 
-        listChanged(field, modelType, addedItems, removedItems) {
-          let throughModels = addedItems.map(item => ({
-            '@id': `_:${Math.random().toString().substring(2)}`,
-            '@type': this.get('throughMap')[modelType],
-            [modelType]: {'@id': item['@id'], '@type': item['@type']},
-            'creative_work': {'@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName')},
-          }));
+        listChanged(field, modelType, addedItems) {
+            let throughModels = addedItems.map(item => ({
+                '@id': `_:${Math.random().toString().substring(2)}`,
+                '@type': this.get('throughMap')[modelType],
+                [modelType]: { '@id': item['@id'], '@type': item['@type'] },
+                creative_work: { '@id': this.get('work.id'), '@type': this.get('work._internalModel.modelName') },
+            }));
 
-          this.get('relations').addObjects(addedItems.concat(throughModels));
+            this.get('relations').addObjects(addedItems.concat(throughModels));
 
-          this.set(`changes.${field}`, throughModels.map(item => ({
-            '@id': item['@id'],
-            '@type': item['@type'],
-          })));
+            this.set(`changes.${field}`, throughModels.map(item => ({
+                '@id': item['@id'],
+                '@type': item['@type'],
+            })));
         },
 
         submitChanges() {
             console.log(this.get('relations')
-                  .concat(this.get('changes'))
-                  .concat(this.get('merges')));
+                .concat(this.get('changes'))
+                .concat(this.get('merges')));
             let changes = {
-              'normalized_data': {
-                '@graph': this.get('relations')
-                  .concat(this.get('changes'))
-                  .concat(this.get('merges'))
-                  .filter(obj => Object.keys(obj).length > 1)
-              }
+                normalized_data: {
+                    '@graph': this.get('relations')
+                        .concat(this.get('changes'))
+                        .concat(this.get('merges'))
+                        .filter(obj => Object.keys(obj).length > 1)
+                }
             };
 
             Ember.$.ajax({
-              method: 'POST',
-              headers: {
-                'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken')
-              },
-              xhrFields: {
-                withCredentials: true,
-              },
-              data: JSON.stringify(changes),
-              contentType: 'application/json',
-              url: `${ENV.apiUrl}/api/normalizeddata/`,
+                method: 'POST',
+                headers: {
+                    'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken')
+                },
+                xhrFields: {
+                    withCredentials: true,
+                },
+                data: JSON.stringify(changes),
+                contentType: 'application/json',
+                url: `${ENV.apiUrl}/api/normalizeddata/`,
             }).then(resp => console.log(resp));
-        },
-
+        }
     }
 });
