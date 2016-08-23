@@ -15,7 +15,7 @@ export default TypeaheadComponent.extend({
     }),
 
     updateDonut(data) {
-        let columns = data.map(({ key, docCount }) => [key, docCount]);
+        let columns = data.map(({ key, doc_count }) => [key, doc_count]); // jscs:ignore
         let title = columns.length + (columns.length === 1 ? ' Source' : ' Sources');
 
         let donut = this.get('donut');

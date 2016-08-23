@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     buildQueryObjectMatch(selected) {
         let key = this.get('key');
         let newValue = !selected[0] ? [] : selected;
-        let newFilter = this.get('filterType')(key, getUniqueList(newValue), this.get('options.raw'));
+        let newFilter = this.get('filterType')(key, getUniqueList(newValue));
         return { filter: newFilter, value: newValue };
     },
 
@@ -54,13 +54,13 @@ export default Ember.Component.extend({
         let type = this.get('options.type') || this.get('key');
         return {
             suggestions: {
-                text: text,
+                text,
                 completion: {
                     field: 'suggest',
                     size: 10,
                     fuzzy: true,
                     context: {
-                        '@type': type
+                        type
                     }
                 }
             }

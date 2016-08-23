@@ -50,7 +50,7 @@ export default Ember.Controller.extend({
                     size: 10,
                     fuzzy: true,
                     context: {
-                        '@type': 'source'
+                        type: 'source'
                     }
                 }
             }

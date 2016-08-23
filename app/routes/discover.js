@@ -5,13 +5,13 @@ export default Ember.Route.extend({
     resetController(controller, isExiting) {
         if (isExiting) {
             controller.set('page', 1);
-            controller.set('searchString', '');
+            controller.set('q', '');
             controller.set('tags', '');
             controller.set('sources', '');
-            controller.set('publisher', '');
-            controller.set('funder', '');
-            controller.set('institution', '');
-            controller.set('organization', '');
+            controller.set('publishers', '');
+            controller.set('funders', '');
+            controller.set('institutions', '');
+            controller.set('organizations', '');
             controller.set('language', '');
             controller.set('contributors', '');
             controller.set('start', '');
