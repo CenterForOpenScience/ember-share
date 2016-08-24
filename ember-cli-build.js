@@ -12,6 +12,7 @@ module.exports = function(defaults) {
                 './node_modules/osf-style/css',
                 'bower_components/bootstrap-daterangepicker',
                 'bower_components/c3',
+                'bower_components/toastr'
             ]
         }
     });

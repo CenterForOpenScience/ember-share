@@ -5,9 +5,27 @@ export default Ember.Component.extend({
     curate: false,
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    toast: Ember.inject.service(),
     classNames: ['curate-work'],
     changes: null,
     submitting: false,
+    toastrOptions: {
+        closeButton: false,
+        debug: false,
+        newestOnTop: false,
+        progressBar: false,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: '5000',
+        hideDuration: '1000',
+        timeOut: '5000',
+        extendedTimeOut: '1000',
+        showEasing: 'swing',
+        hideEasing: 'linear',
+        showMethod: 'fadeIn',
+        hideMethod: 'fadeOut'
+    },
 
     throughMap: {
         tag: 'throughtags',
@@ -25,12 +43,12 @@ export default Ember.Component.extend({
     },
 
     changed: Ember.computed('changes', 'relations.[]', 'toMerge.[]', function() {
-        let self = this;
+        let _this = this;
         return this.get('relations.length') > 0 ||
             this.get('toMerge.length') > 0 ||
             Ember.isPresent(Object.keys(this.get('changes')).map(function(key) {
                 if (key !== '@id' && key !== '@type') {
-                    return self.get(`changes.${key}`);
+                    return _this.get(`changes.${key}`);
                 } else {
                     return '';
                 }
@@ -92,6 +110,8 @@ export default Ember.Component.extend({
                 }
             };
 
+            let _this = this;
+
             Ember.$.ajax({
                 method: 'POST',
                 headers: {
@@ -105,12 +125,18 @@ export default Ember.Component.extend({
                 url: `${ENV.apiUrl}/api/normalizeddata/`,
             }).done(function(resp) {
                 console.log(resp);
-                this.set('toMerge', []);
-                this.set('relations', []);
-                this.set('submitting', false);
-            }).fail(function(resp) {
-                console.log(resp);
-                this.set('submitting', false);
+                _this.set('toMerge', []);
+                _this.set('relations', []);
+                _this.set('submitting', false);
+                _this.set('changes', null);
+                _this.set('changes', {
+                    '@id': _this.get('work.id'),
+                    '@type': _this.get('work._internalModel.modelName'),
+                });
+                _this.get('toast').success('View your submitted changes by clicking on "Changes" in the navbar.', 'Success', _this.get('toastrOptions'));
+            }).fail(function() {
+                _this.set('submitting', false);
+                _this.get('toast').error('Changes not submitted.', 'Error', _this.get('toastrOptions'));
             });
         },
 
