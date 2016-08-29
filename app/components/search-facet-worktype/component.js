@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { termsFilter, getUniqueList, getSplitParams } from 'ember-share/utils/elastic-query';
+import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     },
 
     selected: Ember.computed('state', function() {
-        return this.get('state') ? this.get('state') : [];
+        return this.get('state') || [];
     }),
 
     changed: Ember.observer('state', function() {
@@ -17,38 +17,29 @@ export default Ember.Component.extend({
         let previousState = this.get('previousState') || [];
 
         if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get('state');
-            this.send('setState', value ? value : []);
+            let value = this.get('state') || [];
+            this.send('setState', value);
         }
     }),
 
     buildQueryObjectMatch(selected) {
         let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter('@type', getUniqueList(newValue), this.get('options.raw'));
-        return [newFilter, newValue];
+        let newFilter = termsFilter('type', getUniqueList(newValue));
+        return { filter: newFilter, value: newValue };
     },
 
     actions: {
         setState(selected) {
             let key = this.get('key');
-            selected = getSplitParams(selected);
-
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
+            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', key, filter, value);
         },
-        toggle(type) {
-            let key = this.get('key');
-            let selected = getSplitParams(this.get('selected'));
-			if (selected.contains(type)) {
-                selected.removeObject(type);
-            } else if (type) {
-                selected.addObject(type);
-            }
 
-            let [filter, value] = this.buildQueryObjectMatch(selected.length ? selected : []);
-            this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
+        toggle(type) {
+            let selected = this.get('selected');
+            selected = selected.contains(type) ? [] : [type];
+            this.send('setState', selected);
         }
     }
 });

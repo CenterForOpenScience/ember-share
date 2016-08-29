@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
 
     actions: {
         search() {
-            this.transitionToRoute('discover', { queryParams: { searchString: this.get('searchString') }});
+            this.transitionToRoute('discover', { queryParams: { q: this.get('searchString') } });
         }
     }
 });

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import moment from 'moment';
 
 /*
@@ -19,44 +20,29 @@ function dateRangeFilter(field, start, end) {
     }
 }
 
-function invertDateRangeFilter(field, filter) {
-    let start = null, end = null;
-    if (filter) {
-        let range = filter.range[field];
-        start = moment(range.gte);
-        end = moment(range.lte);
-    }
-    return { start, end };
-}
-
 /*
  * @function termsFilter
  * @param String field Name of the field to filter
  * @param Array terms List of terms to match
- * @param Boolean [raw] If true, uses the raw, unanalyzed version of the field
- * for exact matches. Defaults to true.
+ * @param Boolean [all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms.
  */
-function termsFilter(field, terms, raw = true) {
+function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (raw) {
-            field = field + '.raw';
+        field = field + '.raw';
+        if (all) {
+            return terms.map(term => {
+                let filter = { term: {} };
+                filter.term[field] = term;
+                return filter;
+            });
+        } else {
+            let filter = { terms: {} };
+            filter.terms[field] = terms;
+            return filter;
         }
-        let filter = { terms: {} };
-        filter.terms[field] = terms;
-        return filter;
     } else {
         return null;
     }
-}
-
-function associationTermsFilter(field, terms, raw = true) {
-    field = field + 's.name';
-    return termsFilter(field, terms, raw);
-}
-
-function personTermsFilter(field, terms, raw = true) {
-    field = field + '.name';
-    return termsFilter(field, terms, raw);
 }
 
 function uniqueFilter(value, index, self) {
@@ -64,7 +50,7 @@ function uniqueFilter(value, index, self) {
 }
 
 function getUniqueList(data) {
-    return data.filter( uniqueFilter );
+    return data.filter(uniqueFilter);
 }
 
 function encodeParams(tags) {
@@ -80,9 +66,9 @@ function decodeParams(param) {
 function getSplitParams(params) {
     if (!params.length) {
         return params.slice(0);
-    } else if (params.length && Array.isArray(params[0])) {
+    } else if (params.length && Ember.$.isArray(params[0])) {
         return params[0];
-    } else if (params.length && typeof(params) === 'string') {
+    } else if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
     } else if (params.length === 1) {
         return decodeParams(params[0]);
@@ -92,10 +78,7 @@ function getSplitParams(params) {
 
 export {
     dateRangeFilter,
-    invertDateRangeFilter,
     termsFilter,
-    associationTermsFilter,
-    personTermsFilter,
     getUniqueList,
     encodeParams,
     decodeParams,

@@ -2,6 +2,8 @@ import Ember from 'ember';
 import moment from 'moment';
 import { dateRangeFilter } from 'ember-share/utils/elastic-query';
 
+const DATE_FORMAT = 'Y-MM-DD';
+
 export default Ember.Component.extend({
 
     init() {
@@ -50,9 +52,8 @@ export default Ember.Component.extend({
     changed: Ember.observer('state.start', 'state.end', function() {
         let start = this.get('state.start');
         let end = this.get('state.end');
-        if ( start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
-            let format = 'Y-MM-DD';
-            this.set('pickerValue', `${moment(start).format(format)} - ${moment(end).format(format)}`);
+        if (start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
+            this.set('pickerValue', `${moment(start).format(DATE_FORMAT)} - ${moment(end).format(DATE_FORMAT)}`);
             this.updateFilter(start, end);
         }
     }),
@@ -67,9 +68,8 @@ export default Ember.Component.extend({
             picker.setEndDate(end);
             if (picker.chosenLabel && picker.chosenLabel !== 'Custom Range') {
                 this.set('pickerValue', picker.chosenLabel);
-            } else  {
-                let format = 'Y-MM-DD';
-                this.set('pickerValue', `${start.format(format)} - ${end.format(format)}`);
+            } else {
+                this.set('pickerValue', `${start.format(DATE_FORMAT)} - ${end.format(DATE_FORMAT)}`);
             }
         } else {
             this.noFilter();
@@ -83,7 +83,7 @@ export default Ember.Component.extend({
 
     updateFilter(start, end) {
         let key = this.get('key');
-        let value = start && end ? {start: moment(start).format(), end: moment(end).format()} : {start: '', end: ''};
+        let value = start && end ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } : { start: '', end: '' };
         this.set('previousState', this.get('state'));
         this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
     },
@@ -96,7 +96,7 @@ export default Ember.Component.extend({
         clear() {
             this.noFilter();
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), {start: '', end: ''});
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
         }
     }
 });
