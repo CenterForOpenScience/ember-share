@@ -1,0 +1,20 @@
+/* TODO: uncomment for login/curation */
+
+.disable-edit {
+    cursor: default;
+}
+
+.disable-edit:hover {
+    background: #337ab7;
+}
+
+.disable-edit:active {
+    background: #337ab7;
+    border-color: #2e6da4;
+}
+
+.disable-edit:focus {
+    background: #337ab7;
+    border-color: #2e6da4;
+    outline: none;
+}
