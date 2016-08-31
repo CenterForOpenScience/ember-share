@@ -59,6 +59,10 @@
         </div>
     {{/if}}
 
+    {{#each work.rawData as |rawDatum|}}
+        <pre>{{rawDatum.datum}}</pre>
+    {{/each}}
+
     <h4>Potential Merges</h4>
     {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
 </div>
