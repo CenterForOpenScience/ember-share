@@ -7,6 +7,7 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['curate-work'],
     changes: null,
+    rawData: null,
 
     throughMap: {
         tag: 'throughtags',
@@ -14,13 +15,29 @@ export default Ember.Component.extend({
     },
 
     init() {
+        let id = this.get('work.id');
+        let type = this.get('work._internalModel.modelName');
+
         this._super(...arguments);
         this.set('changes', {
-            '@id': this.get('work.id'),
-            '@type': this.get('work._internalModel.modelName'),
+            '@id': id,
+            '@type': type,
         });
+        this.getRawData(id, type);
         this.set('toMerge', []);
         this.set('relations', []);
+    },
+
+    getRawData(id, type) {
+        var url = ENV.apiUrl + '/api/' + type + 's/' + id + '/rawdata';
+        return Ember.$.ajax({
+            url: url,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/json',
+        }).then((json) => {
+            this.set('rawData', json.results[0].data);
+        });
     },
 
     changed: function() {

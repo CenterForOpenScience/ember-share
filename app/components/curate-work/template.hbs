@@ -59,6 +59,15 @@
         </div>
     {{/if}}
 
-    <h4>Potential Merges</h4>
+    {{#if rawData}}
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Raw Data</h3>
+                <pre>{{rawData}}</pre>
+            </div>
+        </div>
+    {{/if}}
+
+    <h3>Potential Merges</h3>
     {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
 </div>
