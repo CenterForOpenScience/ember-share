@@ -40,14 +40,6 @@ export default Ember.Component.extend({
         }];
     }.property('toMerge.[]'),
 
-    previousChanges: Ember.computed('work', function() {
-        let id_ = this.get('work.id');
-        let type = this.get('work.type') || this.get('work')._internalModel.modelName + 's';
-        return this.get('store').query('change', { objectChanged: {
-            id: id_,
-            type: type
-        } });
-    }),
     actions: {
         merge(obj) {
             this.get('toMerge').addObject(obj);

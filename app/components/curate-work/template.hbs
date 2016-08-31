@@ -50,10 +50,10 @@
         </div>
     </div>
 
-    {{#if previousChanges}}
+    {{#if work.changes}}
         <div class='row'>
             <h3> Previous Changes: </h3>
-            {{#each previousChanges as |change|}}
+            {{#each work.changes as |change|}}
                 {{change-widget obj=change}}
             {{/each}}
         </div>
