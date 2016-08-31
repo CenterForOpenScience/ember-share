@@ -16,9 +16,9 @@ export default Ember.Mixin.create(DS.EmbeddedRecordsMixin, {
         // Ideally these links would be provided by the API in a 'links'
         // property, but there's already a 'links' property that means
         // something else and this is easier than rewriting JSONSerializer
-        relationships['rawData'] = { links: { related: url + '/rawdata/' } };
-        relationships['changes'] = { links: { related: url + '/changes/' } };
-        relationships['versions'] = { links: { related: url + '/versions/' } };
+        relationships.rawData = { links: { related: url + '/rawdata/' } };
+        relationships.changes = { links: { related: url + '/changes/' } };
+        relationships.versions = { links: { related: url + '/versions/' } };
         return relationships;
     }
 });

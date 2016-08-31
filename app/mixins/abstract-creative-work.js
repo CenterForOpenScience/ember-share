@@ -26,4 +26,8 @@ export default Ember.Mixin.create(ShareObjectMixin, {
 
     rights: DS.attr('string'),
     language: DS.attr('string'),
+
+    changes: DS.hasMany('change', { async: true }),
+    rawData: DS.hasMany('raw-datum', { async: true }),
+    //versions: DS.hasMany(),
 });

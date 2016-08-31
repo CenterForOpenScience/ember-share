@@ -6,8 +6,4 @@ export default Ember.Mixin.create({
     version: DS.attr('string'),
     elasticFilter: Ember.computed('id', function() { return this.get('id'); }),
     extra: DS.attr(),
-
-    changes: DS.hasMany('change', { async: true }),
-    rawData: DS.hasMany('raw-datum', { async: true }),
-    //versions: DS.hasMany(),
 });
