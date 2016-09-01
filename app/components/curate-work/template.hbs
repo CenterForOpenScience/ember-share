@@ -43,26 +43,62 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>Extra</h3>
-            {{json-pretty
-                obj=work.extra
-                shouldHighlight=true
-            }}
+            <a {{action 'toggleExtraData'}} href="#">
+                {{#if showExtraData}}
+                    Hide extra data {{fa-icon 'caret-up'}}
+                {{else}}
+                    Show extra data {{fa-icon 'caret-down'}}
+                {{/if}}
+            </a>
+            {{#if showExtraData}}
+                {{json-pretty
+                    obj=work.extra.data
+                    shouldHighlight=true
+                }}
+            {{/if}}
         </div>
     </div>
 
-    {{#if work.changes}}
-        <div class='row'>
-            <h3> Previous Changes: </h3>
-            {{#each work.changes as |change|}}
-                {{change-widget obj=change}}
-            {{/each}}
+    <div class='row'>
+        <div class="col-xs-12">
+            <h3>Previous Changes</h3>
+            <a {{action 'toggleChanges'}} href="#">
+                {{#if showChanges}}
+                    Hide changes {{fa-icon 'caret-up'}}
+                {{else}}
+                    Show changes {{fa-icon 'caret-down'}}
+                {{/if}}
+            </a>
+            {{#if showChanges}}
+                {{#each work.changes as |change|}}
+                    {{change-widget obj=change}}
+                {{/each}}
+            {{/if}}
         </div>
-    {{/if}}
+    </div>
 
-    {{#each work.rawData as |rawDatum|}}
-        <pre>{{rawDatum.datum}}</pre>
-    {{/each}}
+    <div class='row'>
+        <div class="col-xs-12">
+            <h3>Raw Data</h3>
+            <a {{action 'toggleRawData'}} href="#">
+                {{#if showRawData}}
+                    Hide raw data {{fa-icon 'caret-up'}}
+                {{else}}
+                    Show raw data {{fa-icon 'caret-down'}}
+                {{/if}}
+            </a>
+            {{#if showRawData}}
+                {{#each work.rawData as |rawDatum|}}
+                    <pre>{{rawDatum.datum}}</pre>
+                {{/each}}
+            {{/if}}
+        </div>
+    </div>
 
-    <h4>Potential Merges</h4>
-    {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+    <div class='row'>
+        <div class="col-xs-12">
+            <h3>Potential Merges</h3>
+            {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+        </div>
+    </div>
 </div>

@@ -91,6 +91,18 @@ export default Ember.Component.extend({
                 contentType: 'application/json',
                 url: `${ENV.apiUrl}/api/normalizeddata/`,
             }).then(resp => console.log(resp));
-        }
+        },
+
+        toggleExtraData() {
+            this.toggleProperty('showExtraData');
+        },
+
+        toggleChanges() {
+            this.toggleProperty('showChanges');
+        },
+
+        toggleRawData() {
+            this.toggleProperty('showRawData');
+        },
     }
 });
