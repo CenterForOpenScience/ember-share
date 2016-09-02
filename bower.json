@@ -13,6 +13,7 @@
     "bootstrap": "~3.3.5",
     "bootstrap-daterangepicker": "^2.1.23",
     "c3": "^0.4.11",
-    "d3": "~3.5.0"
+    "d3": "~3.5.0",
+    "toastr": "^2.1.3"
   }
 }
