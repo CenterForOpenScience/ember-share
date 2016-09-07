@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     }),
     extra_contributors: null,
     contributors: Ember.computed('obj.contributors', function() {
-        let  maxContribs = 11;
+        let  maxContribs = 6;
         let contribs = this.get('obj.contributors');
         if (contribs.length >  maxContribs) {
             this.set('extra_contributors', contribs.length -  maxContribs);
