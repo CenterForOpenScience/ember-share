@@ -22,7 +22,7 @@ export default Ember.Component.extend({
         if (type === 'provider') {
             window.location.href = 'https://osf.io/share/registration/';
         } else {
-            window.location.href = 'https://osf.io/api/v1/share/data/help/#!/SHARE/get_share_search';
+            window.location.href = 'https://share.osf.io/api/';
         }
         this.sendAction('onClick', type);
     }
