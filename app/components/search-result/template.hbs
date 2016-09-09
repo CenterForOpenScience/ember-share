@@ -25,9 +25,13 @@
                         {{#if index}}
                             -
                         {{/if}}
-                        {{#link-to 'curate.person' contrib.id}}
-                            {{contrib.family_name}}
-                        {{/link-to}}
+                        {{#if contrib.id}}
+                            {{#link-to 'curate.person' contrib.id}}
+                                {{contrib.cited_name}}
+                            {{/link-to}}
+                        {{else}}
+                            {{contrib.cited_name}}
+                        {{/if}}
                     {{/each}}
                     {{#if extra_contributors}}
                         <span class="text-muted">+{{extra_contributors}}</span>
