@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     tagName: 'button',
     classNames: ['ember-view'],
     classNameBindings: ['selected:active'],
+    metrics: Ember.inject.service(),
 
     didRender() {
         Ember.$('.providerBox').parent().css({ background: 'rgba(52, 73, 94, 0)', border: 'none', outline: '0' });
@@ -16,6 +17,13 @@ export default Ember.Component.extend({
 
     click() {
         let type = this.get('selected') ? null : this.get('type');
+
+        const category = 'homepage';
+        const action = 'click';
+        const label = type;
+
+        Ember.get(this, 'metrics').trackEvent({ category, action, label });
+
         if (!type) {
             this.$().blur();
         }
