@@ -27,7 +27,7 @@ export default BaseAuthenticator.extend({
             this.getUserInfo().then(response => {
                 if (!response || !response.token) {
                     if (redirectToLogin) {
-                        window.location = `${ENV.apiUrl}/accounts/login/`;
+                        window.location = `${ENV.apiBaseUrl}/accounts/login/`;
                         return;
                     }
                     reject('not logged in');
@@ -44,7 +44,7 @@ export default BaseAuthenticator.extend({
     invalidate() {
         return Ember.$.ajax({
             method: 'POST',
-            url: `${ENV.apiUrl}/accounts/logout/`,
+            url: `${ENV.apiBaseUrl}/accounts/logout/`,
             crossDomain: true,
             xhrFields: { withCredentials: true }
         });
@@ -52,7 +52,7 @@ export default BaseAuthenticator.extend({
 
     getUserInfo() {
         return Ember.$.ajax({
-            url: `${ENV.apiUrl}/api/userinfo`,
+            url: `${ENV.apiBaseUrl}/api/userinfo`,
             crossDomain: true,
             xhrFields: { withCredentials: true }
         });

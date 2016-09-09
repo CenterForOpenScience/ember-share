@@ -110,7 +110,7 @@ export default Ember.Component.extend({
                 }
             });
 
-            const url = ENV.apiUrl + '/api/search/autocomplete/_search';
+            const url = ENV.apiUrl + '/search/autocomplete/_search';
             return Ember.$.ajax({
                 url: url,
                 crossDomain: true,

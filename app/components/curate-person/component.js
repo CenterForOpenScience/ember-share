@@ -82,7 +82,7 @@ export default Ember.Component.extend({
                 },
                 data: JSON.stringify(changes),
                 contentType: 'application/json',
-                url: `${ENV.apiUrl}/api/normalizeddata/`,
+                url: `${ENV.apiUrl}/normalizeddata/`,
             }).then(resp => console.log(resp));
         },
         curateToggle() {

@@ -82,7 +82,7 @@ export default ApplicationController.extend({
     },
 
     loadEventCount() {
-        var url = ENV.apiUrl + '/api/search/abstractcreativework/_count';
+        var url = ENV.apiUrl + '/search/abstractcreativework/_count';
         return Ember.$.ajax({
             url: url,
             crossDomain: true,
@@ -94,7 +94,7 @@ export default ApplicationController.extend({
     },
 
     loadSourcesCount() {
-        let url = url || ENV.apiUrl + '/api/providers/';
+        let url = url || ENV.apiUrl + '/providers/';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -243,7 +243,7 @@ export default ApplicationController.extend({
     atomFeedUrl: Ember.computed('queryBody', function() {
         let query = this.get('queryBody.query');
         let encodedQuery = encodeURIComponent(JSON.stringify(query));
-        return `${ENV.apiUrl}/api/atom/?elasticQuery=${encodedQuery}`;
+        return `${ENV.apiBaseUrl}/api/atom/?elasticQuery=${encodedQuery}`;
     }),
 
     actions: {
