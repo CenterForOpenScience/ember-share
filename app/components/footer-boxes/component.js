@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
 
@@ -29,9 +30,10 @@ export default Ember.Component.extend({
             this.$().blur();
         }
         if (type === 'provider') {
+            // TODO: move registration form to v2 and update link
             window.location.href = 'https://osf.io/share/registration/';
         } else {
-            window.location.href = 'https://share.osf.io/api/';
+            window.location.href = `${ENV.apiBaseUrl}/api/`;
         }
         this.sendAction('onClick', type);
     }

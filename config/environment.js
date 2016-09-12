@@ -24,16 +24,6 @@ module.exports = function(environment) {
               // when it is created
         },
 
-        metricsAdapters: [
-            {
-                name: 'GoogleAnalytics',
-                environments: ['production'],
-                config: {
-                    id: process.env.GA_ID
-                }
-            }
-        ],
-
         contentSecurityPolicy: {
             'default-src': "'none'",
             'script-src': "'self' www.google-analytics.com",
@@ -47,6 +37,7 @@ module.exports = function(environment) {
     };
     //this needs to go in an actual env at some point
     ENV.csrfCookie = 'csrftoken';
+    ENV.apiBaseUrl = 'http://localhost:8000';
     ENV.apiUrl = 'http://localhost:8000';
 
     if (environment === 'development') {
@@ -58,7 +49,8 @@ module.exports = function(environment) {
     }
 
     if (environment === 'staging') {
-        ENV.apiUrl = 'https://staging-share.osf.io';
+        ENV.apiBaseUrl = 'https://staging-share.osf.io';
+        ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
 
         // Testem prefers this...
         ENV.baseURL = '/';
@@ -71,7 +63,13 @@ module.exports = function(environment) {
     }
 
     if (environment === 'production') {
-        ENV.apiUrl = 'https://share.osf.io';
+        ENV.apiBaseUrl = 'https://share.osf.io';
+        ENV.apiUrl = 'https://share.osf.io/api/v2';
+        ENV.metricsAdapters = [{
+          name: 'GoogleAnalytics',
+          environments: ['production'],
+          config: {id: 'UA-83881781-1'}
+        }];
 
         // Testem prefers this...
         ENV.baseURL = '/';

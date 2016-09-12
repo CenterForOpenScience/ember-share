@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/api/providers/?sort=long_title';
+        url = url || ENV.apiUrl + '/providers/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -41,7 +41,7 @@ export default Ember.Controller.extend({
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/api/search/_suggest';
+        return ENV.apiUrl + '/search/_suggest';
     },
 
     buildTypeaheadQuery(text) {
