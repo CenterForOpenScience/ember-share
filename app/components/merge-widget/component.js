@@ -55,7 +55,7 @@ export default Ember.Component.extend({
                 }
             }
         });
-        var url = ENV.apiUrl + '/api/search/' + _type + '/_search?';
+        var url = ENV.apiUrl + '/search/' + _type + '/_search?';
         Ember.$.ajax({
             url: url,
             crossDomain: true,

@@ -50,7 +50,7 @@ export default Ember.Component.extend({
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/api/search/_suggest';
+        return ENV.apiUrl + '/search/_suggest';
     },
 
     buildTypeaheadQuery(text) {

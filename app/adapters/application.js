@@ -3,8 +3,8 @@ import DS from 'ember-data';
 import ENV from '../config/environment';
 
 export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
-    namespace: 'api',
-    host: ENV.apiUrl,
+    namespace: 'api/v2',
+    host: ENV.apiBaseUrl,
     headers: {
         Accept: 'application/json'
     },
