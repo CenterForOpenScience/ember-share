@@ -20,21 +20,42 @@ module.exports = function(environment) {
         },
 
         APP: {
-            // Here you can pass flags/options to your application instance
-            // when it is created
+              // Here you can pass flags/options to your application instance
+              // when it is created
+        },
+
+        metricsAdapters: [
+            {
+                name: 'GoogleAnalytics',
+                environments: ['production'],
+                config: {
+                    id: process.env.GA_ID
+                }
+            }
+        ],
+
+        contentSecurityPolicy: {
+            'default-src': "'none'",
+            'script-src': "'self' www.google-analytics.com",
+            'font-src': "'self'",
+            'connect-src': "'self' www.google-analytics.com",
+            'img-src': "'self'",
+            'style-src': "'self'",
+            'media-src': "'self'"
         }
+
     };
     //this needs to go in an actual env at some point
     ENV.csrfCookie = 'csrftoken';
     ENV.apiUrl = 'http://localhost:8000';
 
-    // if (environment === 'development') {
-    //     ENV.APP.LOG_RESOLVER = true;
-    //     ENV.APP.LOG_ACTIVE_GENERATION = true;
-    //     ENV.APP.LOG_TRANSITIONS = true;
-    //     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    //     ENV.APP.LOG_VIEW_LOOKUPS = true;
-    // }
+    if (environment === 'development') {
+        // ENV.APP.LOG_RESOLVER = true;
+        // ENV.APP.LOG_ACTIVE_GENERATION = true;
+        // ENV.APP.LOG_TRANSITIONS = true;
+        // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+        // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    }
 
     if (environment === 'staging') {
         ENV.apiUrl = 'https://staging-share.osf.io';
@@ -49,9 +70,16 @@ module.exports = function(environment) {
         // ENV.APP.rootElement = '#ember-staging';
     }
 
-    // if (environment === 'production') {
+    if (environment === 'production') {
+        ENV.apiUrl = 'https://share.osf.io';
 
-    // }
+        // Testem prefers this...
+        ENV.baseURL = '/';
+
+        // keep test console output quieter
+        ENV.APP.LOG_ACTIVE_GENERATION = false;
+        ENV.APP.LOG_VIEW_LOOKUPS = false;
+    }
 
     return ENV;
 };

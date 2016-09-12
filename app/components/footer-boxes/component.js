@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+    metrics: Ember.inject.service(),
+
     tagName: 'button',
     classNames: ['ember-view'],
     classNameBindings: ['selected:active'],
@@ -16,13 +18,20 @@ export default Ember.Component.extend({
 
     click() {
         let type = this.get('selected') ? null : this.get('type');
+
+        const category = 'homepage';
+        const action = 'click';
+        const label = type;
+
+        this.get('metrics').trackEvent({ category, action, label });
+
         if (!type) {
             this.$().blur();
         }
         if (type === 'provider') {
             window.location.href = 'https://osf.io/share/registration/';
         } else {
-            window.location.href = 'https://osf.io/api/v1/share/data/help/#!/SHARE/get_share_search';
+            window.location.href = 'https://share.osf.io/api/';
         }
         this.sendAction('onClick', type);
     }
