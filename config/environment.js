@@ -24,16 +24,6 @@ module.exports = function(environment) {
               // when it is created
         },
 
-        metricsAdapters: [
-            {
-                name: 'GoogleAnalytics',
-                environments: ['production'],
-                config: {
-                    id: process.env.GA_ID
-                }
-            }
-        ],
-
         contentSecurityPolicy: {
             'default-src': "'none'",
             'script-src': "'self' www.google-analytics.com",
@@ -75,6 +65,11 @@ module.exports = function(environment) {
     if (environment === 'production') {
         ENV.apiBaseUrl = 'https://share.osf.io';
         ENV.apiUrl = 'https://share.osf.io/api/v2';
+        ENV.metricsAdapters = [{
+          name: 'GoogleAnalytics',
+          environments: ['production'],
+          config: {id: 'UA-83881781-1'}
+        }];
 
         // Testem prefers this...
         ENV.baseURL = '/';
