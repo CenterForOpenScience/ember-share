@@ -3,6 +3,9 @@ import ENV from '../config/environment';
 import { getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
+
+    metrics: Ember.inject.service(),
+
     numberOfSources: 0,
     sources: [],
     numberOfEvents: 0,
@@ -65,11 +68,23 @@ export default Ember.Controller.extend({
     },
     actions: {
         changeFilter(selected) {
+            const category = 'sources';
+            const action = 'filter';
+            const label = selected;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.transitionToRoute('discover', { queryParams: { sources: selected } });
         },
 
         elasticSearch(term) {
             if (Ember.isBlank(term)) { return []; }
+
+            const category = 'sources';
+            const action = 'search';
+            const label = term;
+
+            this.get('metrics').trackEvent({ category, action, label });
 
             var data = JSON.stringify(this.buildTypeaheadQuery(term));
 

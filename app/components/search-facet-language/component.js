@@ -4,6 +4,9 @@ import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
+    metrics: Ember.inject.service(),
+    category: 'filter-facets',
+
     init() {
         this._super(...arguments);
         let languageCodes = this.get('state') ? this.get('state') : [];
@@ -54,6 +57,12 @@ export default Ember.Component.extend({
 
     actions: {
         changeFilter(languageNames) {
+            const category = this.get('category');
+            const action = 'filter';
+            const label = languageNames;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             let key = this.get('key');
             let { filter: filter, value: value } = this.buildQueryObject(languageNames || []);
             this.set('previousState', this.get('state'));

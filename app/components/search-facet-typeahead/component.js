@@ -4,6 +4,9 @@ import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
 
+    metrics: Ember.inject.service(),
+    category: 'filter-facets',
+
     filterType: Ember.computed(function() {
         return termsFilter;
     }),
@@ -86,6 +89,12 @@ export default Ember.Component.extend({
 
     actions: {
         changeFilter(selected) {
+            const category = this.get('category');
+            const action = 'filter';
+            const label = selected;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             let { filter: filter, value: value } = this.buildQueryObjectMatch(selected);
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', this.get('key'), filter, value);
