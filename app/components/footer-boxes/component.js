@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+    metrics: Ember.inject.service(),
+
     tagName: 'button',
     classNames: ['ember-view'],
     classNameBindings: ['selected:active'],
@@ -16,6 +18,13 @@ export default Ember.Component.extend({
 
     click() {
         let type = this.get('selected') ? null : this.get('type');
+
+        const category = 'homepage';
+        const action = 'click';
+        const label = type;
+
+        this.get('metrics').trackEvent({ category, action, label });
+
         if (!type) {
             this.$().blur();
         }

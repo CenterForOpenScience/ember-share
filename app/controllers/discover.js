@@ -10,6 +10,9 @@ let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutio
 
 export default ApplicationController.extend({
 
+    metrics: Ember.inject.service(),
+    category: 'discover',
+
     queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort'];
         allParams.push(...filterQueryParams);
@@ -246,12 +249,24 @@ export default ApplicationController.extend({
     actions: {
 
         addFilter(type, filterValue) {
+            const category = this.get('category');
+            const action = 'remove-filter';
+            const label = filterValue;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
             this.set(type, encodeParams(newValue));
         },
 
         removeFilter(type, filterValue) {
+            const category = this.get('category');
+            const action = 'add-filter';
+            const label = filterValue;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             let currentValue = getSplitParams(this.get(type)) || [];
             let index = currentValue.indexOf(filterValue);
             if (index > -1) {
@@ -280,6 +295,12 @@ export default ApplicationController.extend({
         },
 
         search() {
+            const category = this.get('category');
+            const action = 'search';
+            const label = this.get('q');
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.search();
         },
 
@@ -302,6 +323,13 @@ export default ApplicationController.extend({
             if (!this.get('morePages')) {
                 return;
             }
+
+            const category = this.get('category');
+            const action = 'results';
+            const label = 'more-results';
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.incrementProperty('page', 1);
             this.loadPage();
         },
@@ -321,6 +349,12 @@ export default ApplicationController.extend({
         },
 
         clearFilters() {
+            const category = this.get('category');
+            const action = 'clear-filters';
+            const label = 'clear';
+
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.set('facetFilters', Ember.Object.create());
             for (var param in filterQueryParams) {
                 let key = filterQueryParams[param];
