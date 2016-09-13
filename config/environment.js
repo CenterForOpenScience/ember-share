@@ -19,10 +19,10 @@ module.exports = function(environment) {
             }
         },
 
-        APP: {
-              // Here you can pass flags/options to your application instance
-              // when it is created
-        },
+        // APP: {
+        //     Here you can pass flags/options to your application instance
+        //     when it is created
+        // },
 
         contentSecurityPolicy: {
             'default-src': "'none'",
@@ -40,13 +40,13 @@ module.exports = function(environment) {
     ENV.apiBaseUrl = 'http://localhost:8000';
     ENV.apiUrl = 'http://localhost:8000';
 
-    if (environment === 'development') {
-        // ENV.APP.LOG_RESOLVER = true;
-        // ENV.APP.LOG_ACTIVE_GENERATION = true;
-        // ENV.APP.LOG_TRANSITIONS = true;
-        // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-        // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    }
+    // if (environment === 'development') {
+    //     ENV.APP.LOG_RESOLVER = true;
+    //     ENV.APP.LOG_ACTIVE_GENERATION = true;
+    //     ENV.APP.LOG_TRANSITIONS = true;
+    //     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    //     ENV.APP.LOG_VIEW_LOOKUPS = true;
+    // }
 
     if (environment === 'staging') {
         ENV.apiBaseUrl = 'https://staging-share.osf.io';
@@ -66,9 +66,9 @@ module.exports = function(environment) {
         ENV.apiBaseUrl = 'https://share.osf.io';
         ENV.apiUrl = 'https://share.osf.io/api/v2';
         ENV.metricsAdapters = [{
-          name: 'GoogleAnalytics',
-          environments: ['production'],
-          config: {id: 'UA-83881781-1'}
+            name: 'GoogleAnalytics',
+            environments: ['production'],
+            config: { id: 'UA-83881781-1' }
         }];
 
         // Testem prefers this...
