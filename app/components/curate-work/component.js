@@ -40,6 +40,21 @@ export default Ember.Component.extend({
         }];
     }.property('toMerge.[]'),
 
+    validLinks: Ember.computed('work.links', function() {
+        let links = this.get('work.links').content.currentState;
+
+        // http://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+        let urlPattern = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+        let urlRegex = new RegExp(urlPattern);
+
+        return links.map(function(link) {
+            if (link._data.url.match(urlRegex)) {
+                return link._data.url;
+            }
+            return;
+        });
+    }),
+
     previousChanges: Ember.computed('work', function() {
         let id_ = this.get('work.id');
         let type = this.get('work.type') || this.get('work')._internalModel.modelName + 's';
