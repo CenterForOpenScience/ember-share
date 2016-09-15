@@ -31,6 +31,7 @@ Router.map(function() {
     this.route('support');
     this.route('settings');
     this.route('sources');
+    this.route('registration');
 
     this.route('notfound', { path: '/*path' });
 });
