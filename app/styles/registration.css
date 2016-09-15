@@ -1,0 +1,18 @@
+.container{
+  font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+  -webkit-font-smoothing: antialiased ;
+}
+
+.contact-info {
+  background-color: aliceblue ;
+}
+
+/*
+.metadata-sharing {
+  background-color: aliceblue ;
+}
+
+.provider-info {
+  background-color: aliceblue ;
+}
+*/
