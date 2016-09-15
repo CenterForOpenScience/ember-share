@@ -1,147 +1,197 @@
-<div class="container">
-    <form>
-        <div class="form-group row">
-            <div class="col-xs-12">
-                <h1>Provider Registration Form</h1>
-                <br>
-                <form class="contact-info container" {{action "updateUser" on="submit"}}>
+<div class="registration-container container">
+    <div class="form-group row">
+        <div class="col-xs-12">
+            <h1>Provider Registration Form</h1>
+            <br>
+            {{#form-for registration as |f|}}
+                <section class="registration-section">
                     <h2>Contact Information</h2>
-                    <small id="contact-info" class="form-text text-muted">Please let us know who we can ask questions about your data provider.</small>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='name'>Name</label>
-                            {{input value=name id='name' class="form-control"}}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='email'>Email</label>
-                            {{input value=email id='email' class="form-control"}}
-                        </div>
-                    </div>
-                    <br>
-                    <button class="btn btn-primary btn-block" type="submit">Next</button>
-                    <br>
-                </form>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-xs-12">
-                <form class="metadata-sharing container" {{action "updateUser" on="submit"}}>
+                    {{
+                        f.text-field
+                        "contactName"
+                        required=true
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    {{
+                        f.email-field
+                        "contactEmail"
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    {{
+                        f.text-field
+                        "contactAffiliation"
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                </section>
+                <section class="registration-section">
                     <h2>Metadata Sharing</h2>
-                    <h6>Please confirm the following statements about the metadata you will be providing to SHARE:</h6>
-                    <small id="metadata-sharing-2" class="form-text text-muted">Please note these statements only apply to the metadata in your API, not to the research objects themselves.</small>
+                    <h6>
+                        Please confirm the following statements about the metadata
+                        you will be providing to SHARE:
+                    </h6>
+                    <small class="form-text text-muted">
+                        Please note these statements only apply to the metadata in your API, not to the research objects themselves.
+                    </small>
                     <br>
                     <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <input type="checkbox" name="metadata-1"> Metadata gathering does not violate my organization's Terms of Service.<br><br>
-                            <input type="checkbox" name="metadata-2"> Metadata gathering does not violate my organization's Privacy Policy.<br><br>
-                            <input type="checkbox" name="metadata-3"> Distributing this metadata does not violate my organization's Terms of Service or Privacy Policy.<br><br>
-                            <input type="checkbox" name="metadata-4"> I understand and acknowledge that the metadata my organization provides will be redistributed by SHARE.<br><br>
-                            <input type="checkbox" name="metadata-5"> I have the right to acknowledge the above statements for my organization.<br>
+                    {{
+                        f.checkbox-field
+                        "metadata1"
+                        label="Metadata gathering does not violate my organization's Terms of Service."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.checkbox-field
+                        "metadata2"
+                        label="Metadata gathering does not violate my organization's Privacy Policy."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.checkbox-field
+                        "metadata3"
+                        label="Distributing this metadata does not violate my organization's Terms of Service or Privacy Policy."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.checkbox-field
+                        "metadata4"
+                        label="I understand and acknowledge that the metadata my organization provides will be redistributed by SHARE."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.checkbox-field
+                        "metadata5"
+                        label="I have the right to acknowledge the above statements for my organization."
+                        fieldClasses="form-group"
+                    }}
+                </section>
+                <section class="registration-section">
+                    <h2>Source Type</h2>
+                    {{
+                        f.radio-field
+                        "directSource"
+                        "We want to push directly into the SHARE database using the API."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.radio-field
+                        "directSource"
+                        "We want our metadata to be harvested by SHARE."
+                        fieldClasses="form-group"
+                    }}
+                </section>
+                <section class="registration-section">
+                    <h2>Source Information</h2>
+                    {{
+                        f.text-field
+                        "sourceName"
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    {{
+                        f.textarea-field
+                        "sourceDescription"
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                        rows=6
+                    }}
+                    {{
+                        f.text-field
+                        "sourceRateLimit"
+                        label="If there are rate limits for requests from your service, please list them below."
+                        hint="Example: 1 request/second"
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    {{
+                        f.text-field
+                        "sourcePreferredMetadataPrefix"
+                        label="Preferred Metadata Prefix"
+                        hint="The metadata prefix that provides the most complete metadata."
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    {{
+                        f.checkbox-field
+                        "sourceOAI"
+                        label="This source follows OAI-PMH standards."
+                        hint="Preferred metadata prefix is \"oai_dc\"."
+                        fieldClasses="form-group"
+                    }}
+                    {{
+                        f.url-field
+                        "sourceBaseUrl"
+                        label="Base URL"
+                        hint="If you're entering an OAI-PMH provider, include everything before the \"?\" in the base url."
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    <small>Example: http://repository.stcloudstate.edu/do/oai/</small>
+                    <small>Not: http://repository.stcloudstate.edu/do/oai/?verb=ListRecords</small>
+                    {{
+                        f.text-field
+                        "sourceDocumentation"
+                        label="If your organization's API has documentation online, please enter the URL below."
+                        fieldClasses="form-group"
+                        labelClasses="registration-field-group"
+                        inputClasses="form-control"
+                    }}
+                    <label>Disapproved Sets</label>
+                    <br>
+                    <p>
+                        Check the sets that you would NOT like to appear in SHARE Notify. These options
+                        are automatically generated from your provider's ListSets API endpoint.
+                        Displayed here are the setNames for the corresponding setSpec options
+                        in your publically accessable database.
+                    </p>
+                    <p>
+                        Sets that you specify will be ignored and not processed by SHARE, and
+                        sets that you do not specify will be included in SHARE.
+                    </p>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {{input type="checkbox" name="metadata"}} All iMinds Publications
+                            <br>
+                            <input type="checkbox" name="metadata"> All Public Records (no deleted)<br>
+                            <input type="checkbox" name="metadata"> All with fulltext<br>
+                            <input type="checkbox" name="metadata"> Book<br>
+                            <input type="checkbox" name="metadata"> Book with fulltext<br>
+                            <input type="checkbox" name="metadata"> Book Chapter<br>
+                            <input type="checkbox" name="metadata"> Book Chapter with fulltext<br>
+                            <input type="checkbox" name="metadata"> Conference Paper<br>
+                            <input type="checkbox" name="metadata"> Conference Paper with fulltext<br>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" name="metadata"> Dissertation<br>
+                            <input type="checkbox" name="metadata"> Dissertation with fulltext<br>
+                            <input type="checkbox" name="metadata"> Driver<br>
+                            <input type="checkbox" name="metadata"> Editor of book<br>
+                            <input type="checkbox" name="metadata"> Editor of book with fulltext<br>
+                            <input type="checkbox" name="metadata"> Journal Article<br>
+                            <input type="checkbox" name="metadata"> Miscellaneous<br>
+                            <input type="checkbox" name="metadata"> Miscellaneous with fulltext<br>
+                            <input type="checkbox" name="metadata"> OpenAire<br>
                         </div>
                     </div>
-                    <br>
-                    <button class="btn btn-primary btn-block" type="submit">Next</button>
-                    <br>
-                </form>
-            </div>
+                </section>
+                <br>
+                {{
+                    f.submit
+                    "Submit SHARE registration"
+                    class="btn btn-primary btn-block"
+                }}
+            {{/form-for}}
         </div>
-        <div class="form-group row">
-            <div class="col-xs-12">
-                <form class="provider-info container" {{action "updateUser" on="submit"}}>
-                    <h2>Provider Information</h2><br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='name'>Name of your organization</label>
-                            {{input value=name id='name' class="form-control"}}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='ratelimit'>If there are rate limits for requests from your service, please list them below.</label>
-                            {{input value=ratelimit id='ratelimit' class="form-control"}}
-                            <h6>Example: 1 request/second</h6>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='apiurl'>If your organization's API has documentation online, please enter the URL below.</label>
-                            {{input value=apiurl id='apiurl' class="form-control"}}
-                        </div>
-                    </div>
-                    <br>
-                    <input type="checkbox" name="metadata"> This content provider is based on OAI-PMH Standards.<br>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='baseurl'>Base URL</label>
-                            <h5>Enter the base URL for your content provider.</h5>
-                            <h5>If you're entering an OAI-PMH provider, include everything before the "?" in the base url.</h5>
-                            {{input value=baseurl id='baseurl' class="form-control"}}
-                            <small>Example: http://repository.stcloudstate.edu/do/oai/</small>
-                            <small>Not: http://repository.stcloudstate.edu/do/oai/?verb=ListRecords</small>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='description'>Description of your organization</label>
-                            {{textarea value=description id='description' class="form-control" rows="6"}}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for='approvedsets'>Approved Sets</label>
-                            <br>
-                            <br>
-                            <p>
-                              Check the sets that you'd like to appear in SHARE Notify. These options are automatically generated from your provider's ListSets API endpoint.
-                              Displayed here are the setNames for the corresponding setSpec options in your publically accessable database.
-                            </p>
-                            <br>
-                            <p>If you'd rather enter the approved sets manually, click here to access the simple OAI registration form.</p><br>
-                            <p>Sets that you specify will be included in SHARE, and sets that you do not specify will be ignored and not processed by SHARE.</p><br>
-                            <button class="btn btn-primary" type="select">Select All</button>
-                            <button class="btn btn-primary" type="deselect">Deselect All</button>
-                            <br>
-                            <br>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6">
-                                    <input type="checkbox" name="metadata"> All iMinds Publications<br>
-                                    <input type="checkbox" name="metadata"> All Public Records (no deleted)<br>
-                                    <input type="checkbox" name="metadata"> All with fulltext<br>
-                                    <input type="checkbox" name="metadata"> Book<br>
-                                    <input type="checkbox" name="metadata"> Book with fulltext<br>
-                                    <input type="checkbox" name="metadata"> Book Chapter<br>
-                                    <input type="checkbox" name="metadata"> Book Chapter with fulltext<br>
-                                    <input type="checkbox" name="metadata"> Conference Paper<br>
-                                    <input type="checkbox" name="metadata"> Conference Paper with fulltext<br>
-                                </div>
-                                <div class="col-xs-6">
-                                    <input type="checkbox" name="metadata"> Dissertation<br>
-                                    <input type="checkbox" name="metadata"> Dissertation with fulltext<br>
-                                    <input type="checkbox" name="metadata"> Driver<br>
-                                    <input type="checkbox" name="metadata"> Editor of book<br>
-                                    <input type="checkbox" name="metadata"> Editor of book with fulltext<br>
-                                    <input type="checkbox" name="metadata"> Journal Article<br>
-                                    <input type="checkbox" name="metadata"> Miscellaneous<br>
-                                    <input type="checkbox" name="metadata"> Miscellaneous with fulltext<br>
-                                    <input type="checkbox" name="metadata"> OpenAire<br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <button class="btn btn-primary btn-block" type="submit">Submit</button>
-                    <br>
-                </form>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>

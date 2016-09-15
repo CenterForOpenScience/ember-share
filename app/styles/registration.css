@@ -1,10 +1,14 @@
 .container{
-  font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
-  -webkit-font-smoothing: antialiased ;
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    -webkit-font-smoothing: antialiased ;
 }
 
 .contact-info {
-  background-color: aliceblue ;
+    background-color: aliceblue ;
+}
+
+.registration-field-group {
+    display: block;
 }
 
 /*

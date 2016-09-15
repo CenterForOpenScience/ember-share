@@ -45,6 +45,7 @@
     "ember-data": "^2.5.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.1.1",
+    "ember-form-for": "2.0.0-alpha.10",
     "ember-inflector": "1.9.4",
     "ember-link-action": "0.0.35",
     "ember-load-initializers": "^0.5.1",
