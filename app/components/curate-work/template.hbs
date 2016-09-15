@@ -24,14 +24,14 @@
       itemType='tag'
       placeholder='Add a tag'
       onChange=(action 'listChanged' 'tags')}}
-   {{!--    TODO: uncomment for login/curation
-      {{#if session.isAuthenticated}}
+      {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
+      {{#if (and session.isAuthenticated loginEnabled)}}
           <div class='row' style='padding-topL: 5px'>
             <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
                 Submit Changes
             </button>
           </div>
-      {{/if}} --}}
+      {{/if}}
       <div class="row">
         <div class="col-xs-12">
             <h3>Links</h3>

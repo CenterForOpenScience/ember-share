@@ -1,7 +1,13 @@
 {{#if list}}
 <div class="row">
   <div class="col-xs-12">
-    <h3>{{field}} {{!-- TODO: uncomment for login/curation  {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}} --}} </h3>
+    <h3>
+        {{field}}
+        {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
+        {{#if loginEnabled}}
+            {{#unless edit}}{{fa-icon 'edit' click=(action 'edit')}}{{/unless}}
+        {{/if}}
+    </h3>
   </div>
 </div>
 

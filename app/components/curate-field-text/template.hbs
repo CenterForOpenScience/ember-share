@@ -1,17 +1,17 @@
-{{!-- TODO: uncomment for login/curation
-{{#if editing}}
+{{!-- TODO: remove loginEnabled check when login is enabled on production --}}
+{{#if (and editing loginEnabled)}}
   {{textarea rows=rows class="form-control" keyDown=(action 'submit') value=updated}}
   <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
-{{else}} --}}
-  <span class='text-display'>
-{{!--     {{#if changed}}
+{{else}}
+  <span class="{{if (not loginEnabled) 'text-display'}}">
+    {{#if changed}}
       <i>{{updated}}</i>
-    {{else}} --}}
+    {{else}}
         {{#if text}}
             {{text}}
-     {{!--    {{else}}
-            <i>Add information</i> --}}
+        {{else if loginEnabled}}
+            <i>Add information</i>
         {{/if}}
-{{!--     {{/if}} --}}
+    {{/if}}
   </span>
-{{!-- {{/if}} --}}
+{{/if}}
