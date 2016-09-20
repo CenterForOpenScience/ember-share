@@ -2,11 +2,10 @@
     <div class="form-group row">
         <div class="col-xs-12">
             <h1>Provider Registration Form</h1>
-            <br>
             {{#form-for (changeset registration RegistrationValidations) as |f|}}
+                <hr>
                 <section class="registration-section">
                     <h2>Contact Information</h2>
-                    <hr>
                     {{
                         f.text-field
                         "contactName"
@@ -32,62 +31,69 @@
                         inputClasses="form-control"
                     }}
                 </section>
+                <hr>
                 <section class="registration-section">
                     <h2>Metadata Sharing</h2>
-                    <hr>
                     <h6>
                         Please confirm the following statements about the metadata
                         you will be providing to SHARE:
                     </h6>
                     <small class="form-text text-muted">
-                        Please note these statements only apply to the metadata in your API, not to the research objects themselves.
+                        Please note these statements only apply to the metadata
+                        in your API, not to the research objects themselves.
                     </small>
                     <br>
                     <br>
                     {{
                         f.checkbox-field
                         "metaTos"
-                        label="Metadata gathering does not violate my organization's Terms of Service."
+                        label="Metadata gathering does not violate my
+                                organization's Terms of Service."
                         required=true
                         fieldClasses="form-group"
                     }}
                     {{
                         f.checkbox-field
                         "metaRights"
-                        label="Metadata gathering does not violate my organization's Privacy Policy."
+                        label="Metadata gathering does not violate my
+                               organization's Privacy Policy."
                         required=true
                         fieldClasses="form-group"
                     }}
                     {{
                         f.checkbox-field
                         "metaPrivacy"
-                        label="Distributing this metadata does not violate my organization's Terms of Service or Privacy Policy."
+                        label="Distributing this metadata does not violate my
+                                organization's Terms of Service or Privacy Policy."
                         required=true
                         fieldClasses="form-group"
                     }}
                     {{
                         f.checkbox-field
                         "metaSharing"
-                        label="I understand and acknowledge that the metadata my organization provides will be redistributed by SHARE."
+                        label="I understand and acknowledge that the metadata my
+                              organization provides will be redistributed by SHARE."
                         required=true
                         fieldClasses="form-group"
                     }}
                     {{
                         f.checkbox-field
                         "metaLicense"
-                        label="I have the right to acknowledge the above statements for my organization."
+                        label="I have the right to acknowledge the above statements
+                                for my organization."
                         required=true
                         fieldClasses="form-group"
                     }}
                 </section>
+                <hr>
                 <section class="registration-section">
                     <h2>Source Type</h2>
-                    <hr>
                     {{
                         f.radio-field
                         "directSource"
                         true
-                        label="We want to push directly into the SHARE database using the API."
+                        label="We want to push directly into the SHARE database
+                              using the API."
                         fieldClasses="form-group"
                     }}
                     {{
@@ -98,9 +104,9 @@
                         fieldClasses="form-group"
                     }}
                 </section>
+                <hr>
                 <section class="registration-section">
                     <h2>Source Information</h2>
-                    <hr>
                     {{
                         f.text-field
                         "sourceName"
@@ -124,7 +130,8 @@
                             f.url-field
                             "sourceBaseUrl"
                             label="Base URL"
-                            hint="If you're entering an OAI-PMH provider, include everything before the \"?\" in the base url."
+                            hint="If you're entering an OAI-PMH provider, include
+                                  everything before the \"?\" in the base url."
                             required=true
                             labelClasses="registration-field-group"
                             inputClasses="form-control"
@@ -145,7 +152,8 @@
                         {{
                             f.text-field
                             "sourceRateLimit"
-                            label="If there are rate limits for requests from your service, please list them below."
+                            label="If there are rate limits for requests from
+                                  your service, please list them below."
                             hint="Example: 1 request/second"
                             placeholder="Optional"
                             fieldClasses="form-group"
@@ -156,7 +164,8 @@
                             f.text-field
                             "sourcePreferredMetadataPrefix"
                             label="Preferred Metadata Prefix"
-                            hint="The metadata prefix that provides the most complete metadata."
+                            hint="The metadata prefix that provides the most
+                                  complete metadata."
                             placeholder="Optional"
                             fieldClasses="form-group"
                             labelClasses="registration-field-group"
@@ -165,7 +174,8 @@
                         {{
                             f.text-field
                             "sourceDocumentation"
-                            label="If your organization's API has documentation online, please enter the URL below."
+                            label="If your organization's API has documentation
+                                    online, please enter the URL below."
                             placeholder="Optional"
                             fieldClasses="form-group"
                             labelClasses="registration-field-group"
@@ -192,7 +202,8 @@
                         {{
                             f.text-field
                             "sourceDisallowedSets"
-                            label="If you you would like SHARE to ignore certain sets, please list them below."
+                            label="If you you would like SHARE to ignore certain
+                                  sets, please list them below."
                             placeholder="Optional"
                             fieldClasses="form-group"
                             labelClasses="registration-field-group"
@@ -201,7 +212,8 @@
                         {{
                             f.textarea-field
                             "sourceAdditionalInfo"
-                            label="Is there anything else we should know to harvest from your source?"
+                            label="Is there anything else we should know to harvest
+                                  from your source?"
                             placeholder="Optional"
                             fieldClasses="form-group"
                             labelClasses="registration-field-group"
