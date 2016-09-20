@@ -3,7 +3,7 @@
         <div class="col-xs-12">
             <h1>Provider Registration Form</h1>
             <br>
-            {{#form-for (changeset registration RegistrationValidations) as |f|}}
+            {{#form-for model submit=(action 'submit') as |f|}}
                 <section class="registration-section">
                     <h2>Contact Information</h2>
                     <hr>
@@ -35,15 +35,13 @@
                 <section class="registration-section">
                     <h2>Metadata Sharing</h2>
                     <hr>
-                    <h6>
+                    <h5>
                         Please confirm the following statements about the metadata
                         you will be providing to SHARE:
-                    </h6>
-                    <small class="form-text text-muted">
+                    </h5>
+                    <p class="form-text help-block">
                         Please note these statements only apply to the metadata in your API, not to the research objects themselves.
-                    </small>
-                    <br>
-                    <br>
+                    </p>
                     {{
                         f.checkbox-field
                         "metaTos"
@@ -129,12 +127,12 @@
                             labelClasses="registration-field-group"
                             inputClasses="form-control"
                         }}
-                        <small class="registration-example">
+                        <p class="registration-example help-block">
                             Example: http://repository.stcloudstate.edu/do/oai/
-                        </small>
-                        <small class="registration-example registration-field-bottom">
+                        </p>
+                        <p class="registration-example help-block registration-field-bottom">
                             Not: http://repository.stcloudstate.edu/do/oai/?verb=ListRecords
-                        </small>
+                        </p>
                         {{
                             f.checkbox-field
                             "sourceOAI"

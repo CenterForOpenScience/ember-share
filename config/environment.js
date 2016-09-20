@@ -35,7 +35,9 @@ module.exports = function(environment) {
         },
 
         'ember-form-for': {
-            errorsProperty: 'error'
+            fieldHasErrorClasses: 'has-error',
+            errorClasses: ['text-danger'],
+            hintClasses: ['help-block'],
         }
 
     };

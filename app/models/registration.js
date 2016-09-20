@@ -1,7 +1,7 @@
 import DS from 'ember-data';
-import ShareObjectMixin from '../mixins/share-object';
+import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(ShareObjectMixin, {
+export default DS.Model.extend(Validator, {
     contactName: DS.attr('string'),
     contactEmail: DS.attr('string'),
     contactAffiliation: DS.attr('string'),
@@ -22,5 +22,41 @@ export default DS.Model.extend(ShareObjectMixin, {
     sourceBaseUrl: DS.attr('string'),
     sourceDescription: DS.attr('string'),
     sourceDisallowedSets: DS.attr('string'),
-    sourceAdditionalInfo: DS.attr('string')
+    sourceAdditionalInfo: DS.attr('string'),
+
+    validations: {
+        contactName: {
+            presence: true
+        },
+        contactEmail: {
+            presence: true,
+            email: true
+        },
+        contactAffiliation: {
+            presence: true
+        },
+
+        metaTos: {
+            presence: true
+        },
+        metaRights: {
+            presence: true
+        },
+        metaPrivacy: {
+            presence: true
+        },
+        metaSharing: {
+            presence: true
+        },
+        metaLicense: {
+            presence: true
+        },
+
+        sourceName: {
+            presence: true
+        },
+        sourceDescription: {
+            presence: true
+        }
+    }
 });
