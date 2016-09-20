@@ -11,6 +11,18 @@
     display: block;
 }
 
+.registration-section {
+    padding-bottom: 8px;
+}
+
+.registration-example {
+    display: block;
+}
+
+.registration-field-bottom {
+    margin-bottom: 15px;
+}
+
 /*
 .metadata-sharing {
   background-color: aliceblue ;

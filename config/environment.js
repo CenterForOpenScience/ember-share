@@ -32,6 +32,10 @@ module.exports = function(environment) {
             'img-src': "'self'",
             'style-src': "'self'",
             'media-src': "'self'"
+        },
+
+        'ember-form-for': {
+            errorsProperty: 'error'
         }
 
     };

@@ -6,11 +6,11 @@ export default DS.Model.extend(ShareObjectMixin, {
     contactEmail: DS.attr('string'),
     contactAffiliation: DS.attr('string'),
 
-    metadata1: DS.attr('boolean'),
-    metadata2: DS.attr('boolean'),
-    metadata3: DS.attr('boolean'),
-    metadata4: DS.attr('boolean'),
-    metadata5: DS.attr('boolean'),
+    metaTos: DS.attr('boolean'),
+    metaRights: DS.attr('boolean'),
+    metaPrivacy: DS.attr('boolean'),
+    metaSharing: DS.attr('boolean'),
+    metaLicense: DS.attr('boolean'),
 
     directSource: DS.attr('boolean'),
 
@@ -22,4 +22,5 @@ export default DS.Model.extend(ShareObjectMixin, {
     sourceBaseUrl: DS.attr('string'),
     sourceDescription: DS.attr('string'),
     sourceDisallowedSets: DS.attr('string'),
+    sourceAdditionalInfo: DS.attr('string')
 });
