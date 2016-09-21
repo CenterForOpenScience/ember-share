@@ -1,10 +1,7 @@
 .container{
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
-}
-
-.contact-info {
-    background-color: aliceblue ;
+    max-width: 1000px;
 }
 
 .registration-field-group {
@@ -13,6 +10,9 @@
 
 .registration-section {
     padding-bottom: 8px;
+    padding-top: 8px ;
+    padding-left: 15px;
+    padding-right: 15px ;
 }
 
 .registration-example {
@@ -21,6 +21,15 @@
 
 .registration-field-bottom {
     margin-bottom: 15px;
+}
+
+.star {
+  color: #a94442 ;
+
+}
+
+.h2 {
+  margin-top: 10px !important ;
 }
 
 /*
