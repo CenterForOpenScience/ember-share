@@ -243,7 +243,7 @@ export default ApplicationController.extend({
     atomFeedUrl: Ember.computed('queryBody', function() {
         let query = this.get('queryBody.query');
         let encodedQuery = encodeURIComponent(JSON.stringify(query));
-        return `${ENV.apiBaseUrl}/api/atom/?elasticQuery=${encodedQuery}`;
+        return `${ENV.apiBaseUrl}/api/v2/atom/?elasticQuery=${encodedQuery}`;
     }),
 
     actions: {
