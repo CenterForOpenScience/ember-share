@@ -5,26 +5,26 @@ export default Ember.Route.extend({
         return this.store.createRecord('registration', { directSource: false });
     },
     actions: {
-        saveFakeModel(registration) {
-            var fakeModel = registration;
+        saveRegistrationModel(model) {
+            var registration = model;
 
-            if (fakeModel.validate()) {
-                fakeModel.save().then(
+            if (registration.validate()) {
+                registration.save().then(
                     // Success
                     function() {
                         // Alert success
-                        console.log('ooooh yeah we just saved the FakeModel...');
+                        console.log('Registration saved.');
                     },
 
                     // Error handling
                     function(error) {
                         // Alert failure
-                        console.log('There was a problem saving the FakeModel...');
+                        console.log('There was a problem saving the registration...');
                         console.log(error);
                     }
                 );
             } else {
-                fakeModel.get('errors');
+                registration.get('errors');
             }
         },
     }

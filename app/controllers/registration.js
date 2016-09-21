@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
 
     actions: {
         submit() {
-            this.send('saveFakeModel', this.get('model'));
+            this.send('saveRegistrationModel', this.get('model'));
         },
 
         validateField(field) {
