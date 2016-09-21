@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     }),
     extra_contributors: null,
     contributors: Ember.computed('obj.contributors', function() {
-        let  maxContribs = 6;
+        let maxContribs = 6;
         let contribs = this.get('obj.contributors');
         if (contribs.length >  maxContribs) {
             this.set('extra_contributors', contribs.length -  maxContribs);
@@ -32,6 +32,9 @@ export default Ember.Component.extend({
         }
         return tags;
     }),
+    didRender: function() {
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
+    },
     actions: {
         addFilter(type, filter) {
             this.sendAction('addFilter', type, filter);
