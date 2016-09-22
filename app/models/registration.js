@@ -72,6 +72,7 @@ export default DS.Model.extend(Validator, {
                 {
                     validation: function(key, value, model) {
                         if (!model.get('directSource') && value) {
+                            // same as URL validation provided by ember-model-validator
                             return String(value).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/);
                         }
                         return true;

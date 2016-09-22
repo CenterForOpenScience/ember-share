@@ -10,6 +10,7 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
         Accept: 'application/json'
     },
     ajax(url, method, hash) {
+        // trailing slash required for POST requests
         url = url + '/';
         hash = hash || {};
         hash.crossDomain = true;

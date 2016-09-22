@@ -5,7 +5,7 @@
             {{#form-for model submit=(action 'submit') as |f|}}
                 <hr>
                 <section class="registration-section">
-                    <h2>Contact Information</h2>
+                    <h2 class="registration-section-header">Contact Information</h2>
                     {{
                         f.text-field
                         "contactName"
@@ -33,7 +33,7 @@
                 </section>
                 <hr>
                 <section class="registration-section">
-                    <h2>Metadata Sharing</h2>
+                    <h2 class="registration-section-header">Metadata Sharing</h2>
                     <h5>
                         Please confirm the following statements about the metadata
                         you will be providing to SHARE:
@@ -84,7 +84,7 @@
                 </section>
                 <hr>
                 <section class="registration-section">
-                    <h2>Source Type</h2>
+                    <h2 class="registration-section-header">Source Type</h2>
                     {{
                         f.radio-field
                         "directSource"
@@ -103,7 +103,7 @@
                 </section>
                 <hr>
                 <section class="registration-section">
-                    <h2>Source Information</h2>
+                    <h2 class="registration-section-header">Source Information</h2>
                     {{
                         f.text-field
                         "sourceName"

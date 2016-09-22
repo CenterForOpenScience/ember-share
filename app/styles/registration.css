@@ -1,4 +1,4 @@
-.container{
+.registration-container{
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
     max-width: 1000px;
@@ -23,21 +23,12 @@
     margin-bottom: 15px;
 }
 
+/* class name on asterisk inserted by ember-form-for for required fields */
 .star {
   color: #a94442 ;
 
 }
 
-.h2 {
-  margin-top: 10px !important ;
+.registration-section-header {
+  margin-top: 10px;
 }
-
-/*
-.metadata-sharing {
-  background-color: aliceblue ;
-}
-
-.provider-info {
-  background-color: aliceblue ;
-}
-*/

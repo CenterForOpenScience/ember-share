@@ -8,11 +8,6 @@ export default Ember.Controller.extend({
     actions: {
         submit() {
             this.send('saveRegistrationModel', this.get('model'));
-        },
-
-        validateField(field) {
-            // on blur validate the current field
-            return field;
         }
     }
 
