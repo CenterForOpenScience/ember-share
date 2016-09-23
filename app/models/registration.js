@@ -24,6 +24,9 @@ export default DS.Model.extend(Validator, {
     sourceDisallowedSets: DS.attr('string'),
     sourceAdditionalInfo: DS.attr('string'),
 
+    status: DS.attr('string'),
+    submitted_at: DS.attr('string'),
+
     validations: {
         contactName: {
             presence: true

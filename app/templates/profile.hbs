@@ -1,13 +1,33 @@
 <div class="container">
-<br>
-<br>
-<div class="row">
-  <div class="col-md-12">
-    <div class="input-group">
-      <span class="input-group-addon">OAuth2 Token</span>
-      <input type="text" class="form-control" value={{session.data.authenticated.user.token}} readonly>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group">
+                <span class="input-group-addon">OAuth2 Token</span>
+                <input type="text" class="form-control" value={{session.data.authenticated.user.token}} readonly>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-{{outlet}}
+    {{#if model}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Your submitted provider registrations</h2>
+                </div>
+                {{#each model as |registration|}}
+                    <div class="row">
+                        Source name: <span>{{registration.sourceName}}</span>
+                    </div>
+                    <div class="row">
+                        Status: <span>{{status registration.status}}</span>
+                    </div>
+                    <div class="row">
+                        Date submitted: <span>{{registration.submitted_at}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{outlet}}
 </div>

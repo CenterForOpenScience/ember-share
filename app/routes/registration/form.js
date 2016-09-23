@@ -24,5 +24,9 @@ export default Ember.Route.extend({
                 registration.get('errors');
             }
         },
+        checkRegistrations() {
+            // use current user to get form count and then transition to different page if so
+            return true;
+        }
     }
 });
