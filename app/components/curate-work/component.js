@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
 
+// http://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+const URL_PATTERN = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+
 export default Ember.Component.extend({
     curate: false,
     store: Ember.inject.service(),
@@ -39,6 +42,15 @@ export default Ember.Component.extend({
             from: this.get('toMerge').map(obj => ({ '@id': obj.get('id'), '@type': obj.get('_internalModel.modelName') })),
         }];
     }.property('toMerge.[]'),
+
+    validLinks: Ember.computed('work.links', function() {
+        let links = this.get('work.links').content.currentState;
+        let urlRegex = new RegExp(URL_PATTERN);
+
+        return links.mapBy('_data.url').filter(function(link) {
+            return link.match(urlRegex);
+        });
+    }),
 
     previousChanges: Ember.computed('work', function() {
         let id_ = this.get('work.id');
