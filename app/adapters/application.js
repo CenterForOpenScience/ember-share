@@ -2,6 +2,9 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from '../config/environment';
 
+// matches query params or trailing slash
+const TRAILING_SLASH_PATTERN = /(^.*?\?.*?|.*?[^\/]$)/;
+
 export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     session: Ember.inject.service(),
     namespace: 'api/v2',
@@ -11,7 +14,13 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     },
     ajax(url, method, hash) {
         // trailing slash required for POST requests
-        url = url + '/';
+        if (method === 'POST') {
+            let urlRegex = new RegExp(TRAILING_SLASH_PATTERN);
+            if (url.match(urlRegex)) {
+                url = url + '/';
+            }
+        }
+
         hash = hash || {};
         hash.crossDomain = true;
         hash.xhrFields = { withCredentials: true };

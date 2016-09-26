@@ -15,6 +15,11 @@
     padding-right: 15px ;
 }
 
+.registration-completed {
+    padding-bottom: 15px;
+    padding-top: 30px ;
+}
+
 .registration-example {
     display: block;
 }

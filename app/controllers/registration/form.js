@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
 
     init() {
         this._super(...arguments);
-        // if (this.get('session.data.') =>
         this.getRegistrations();
         this.set('submitAgain', false);
     },

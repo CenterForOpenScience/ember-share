@@ -1,6 +1,6 @@
 <div class="registration-container container">
     {{#if (and loginEnabled session.isAuthenticated)}}
-        {{#if (and alreadySubmitted (not submitAgain))}}
+        {{#if (or (not numberOfRegistrations) (and numberOfRegistrations submitAgain))}}
             <div class="form-group row">
                 <div class="col-xs-12">
                     <h1>Provider Registration Form</h1>
@@ -232,12 +232,16 @@
                 </div>
             </div>
         {{else}}
-            <div class="row">
-                You have already submitted a provider registration form. To check on the status of
-                your submission, visit your {{#link-to 'profile'}}profile page{{/link-to}}.
+            <div class="row registration-completed">
+                <p class="col-xs-12">
+                    You have already submitted a provider registration form. To check on the status of
+                    your submission(s), visit your {{#link-to 'profile'}}profile page{{/link-to}}.
+                </p>
             </div>
             <div class="row">
-                Affiliated with multiple providers? <a {{action 'submitAgain'}}>Submit another provider registration form</a>.
+                <p class="col-xs-12">
+                    Affiliated with multiple providers? <a {{action 'submitAgain'}}>Submit another provider registration form</a>.
+                </p>
             </div>
         {{/if}}
     {{else}}

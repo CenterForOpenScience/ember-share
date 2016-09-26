@@ -11,19 +11,28 @@
     </div>
     {{#if model}}
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="row">
-                    <h2>Your submitted provider registrations</h2>
+                    <div class="col-xs-12">
+                        <h2>Your provider registration requests</h2>
+                    </div>
                 </div>
                 {{#each model as |registration|}}
                     <div class="row">
-                        Source name: <span>{{registration.sourceName}}</span>
+                        <div class="col-xs-12">
+                            <strong>Status: </strong><span>{{status registration.status}}</span>
+                        </div>
                     </div>
                     <div class="row">
-                        Status: <span>{{status registration.status}}</span>
+                        <div class="col-xs-12">
+                            <strong>Source name: </strong><span>{{registration.sourceName}}</span>
+                        </div>
                     </div>
                     <div class="row">
-                        Date submitted: <span>{{registration.submitted_at}}</span>
+                        <div class="col-xs-12">
+                            <strong>Date submitted: </strong>
+                            <span>{{moment-format registration.submitted_at 'MMM D, YYYY' 'YYYY-MM-DDTHH:mm:ssZ'}}</span>
+                        </div>
                     </div>
                 {{/each}}
             </div>
