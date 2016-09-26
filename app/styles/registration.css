@@ -20,6 +20,10 @@
     padding-top: 30px ;
 }
 
+.registration-submission-block {
+    padding-bottom: 15px;
+}
+
 .registration-example {
     display: block;
 }

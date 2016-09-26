@@ -86,7 +86,7 @@
                         </section>
                         <hr>
                         <section class="registration-section">
-                            <h2 class="registration-section-header">Source Type</h2>
+                            <h2 class="registration-section-header">Provider Type</h2>
                             {{
                                 f.radio-field
                                 "directSource"
@@ -105,10 +105,11 @@
                         </section>
                         <hr>
                         <section class="registration-section">
-                            <h2 class="registration-section-header">Source Information</h2>
+                            <h2 class="registration-section-header">Provider Information</h2>
                             {{
                                 f.text-field
                                 "sourceName"
+                                label="Provider name"
                                 required=true
                                 fieldClasses="form-group"
                                 labelClasses="registration-field-group"
@@ -117,6 +118,7 @@
                             {{
                                 f.textarea-field
                                 "sourceDescription"
+                                label="Provider description"
                                 required=true
                                 fieldClasses="form-group"
                                 labelClasses="registration-field-group"
@@ -225,7 +227,7 @@
                         <br>
                         {{
                             f.submit
-                            "Register to become a SHARE source"
+                            "Register to become a SHARE provider"
                             class="btn btn-primary btn-block"
                         }}
                     {{/form-for}}
