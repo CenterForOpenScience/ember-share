@@ -20,7 +20,7 @@
                 {{#each model as |registration|}}
                     <div class="row">
                         <div class="col-xs-12">
-                            <strong>Status: </strong><span>{{status registration.status}}</span>
+                            <strong>Status: </strong><span class="{{status registration.status}}">{{registration.status}}</span>
                         </div>
                     </div>
                     <div class="row">

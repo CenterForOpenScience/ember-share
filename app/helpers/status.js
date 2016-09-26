@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
 const statusMap = {
-    0: 'Pending',
-    1: 'Accepted',
-    2: 'Implemented',
-    3: 'Rejected'
+    pending: 'bg-warning',
+    accepted: 'bg-info',
+    implemented: 'bg-success',
+    rejected: 'bg-danger'
 };
 
 export function status(status) {
