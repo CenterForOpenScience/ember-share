@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
 
     init() {
         this._super(...arguments);
-        this.getRegistrations();
         this.set('submitAgain', false);
     },
 
@@ -22,10 +21,6 @@ export default Ember.Controller.extend({
     }),
 
     numberOfRegistrations: 0,
-
-    registrationsSubmitted: Ember.computed('session.data.authenticated.user', function() {
-        this.getRegistrations();
-    }),
 
     submitAgain: false,
 

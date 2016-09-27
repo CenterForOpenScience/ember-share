@@ -10,7 +10,11 @@ export default Ember.Route.extend({
             controller.set('dbErrors', null);
         }
     },
-    activate: function() {
+    setupController(controller, model) {
+        this._super(controller, model);
+        controller.getRegistrations();
+    },
+    activate() {
         this._super();
         window.scrollTo(0, 0);
     },
