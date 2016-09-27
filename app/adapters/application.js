@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import ENV from '../config/environment';
 
 // matches query params or trailing slash
-const TRAILING_SLASH_PATTERN = /(^.*?\?.*?|.*?[^\/]$)/;
+const TRAILING_SLASH_PATTERN = /((^.*?[^\/])\?(.*?)$|^[^\?]+?[^\/]$)/;
 
 export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     session: Ember.inject.service(),
@@ -14,17 +14,21 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     },
     ajax(url, method, hash) {
         // trailing slash required for POST requests
-        if (method === 'POST') {
-            let urlRegex = new RegExp(TRAILING_SLASH_PATTERN);
-            if (url.match(urlRegex)) {
-                url = url + '/';
-            }
+        let urlRegex = new RegExp(TRAILING_SLASH_PATTERN);
+        if (url.match(urlRegex)) {
+            url = url.replace(urlRegex, function(g1, g2, g3, g4) {
+                if (g3) {
+                    return g3 + '/?' + g4;
+                }
+                return g1 + '/';
+            });
         }
 
         hash = hash || {};
         hash.crossDomain = true;
         hash.xhrFields = { withCredentials: true };
-        hash.headers = { 'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken') };
+        hash.headers = hash.headers || {};
+        hash.headers['X-CSRFTOKEN'] = this.get('session.data.authenticated.csrfToken');
         return this._super(url, method, hash);
     },
     pathForType(type) {
