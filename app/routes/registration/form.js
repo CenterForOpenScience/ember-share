@@ -11,7 +11,7 @@ export default Ember.Route.extend({
     },
     actions: {
         saveRegistrationModel(model) {
-            var registration = model;
+            let registration = model;
 
             if (registration.validate()) {
                 registration.save().then(

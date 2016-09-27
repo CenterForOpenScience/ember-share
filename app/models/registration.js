@@ -6,23 +6,17 @@ export default DS.Model.extend(Validator, {
     contactEmail: DS.attr('string'),
     contactAffiliation: DS.attr('string'),
 
-    metaTos: DS.attr('boolean'),
-    metaRights: DS.attr('boolean'),
-    metaPrivacy: DS.attr('boolean'),
-    metaSharing: DS.attr('boolean'),
-    metaLicense: DS.attr('boolean'),
-
     directSource: DS.attr('boolean'),
 
     sourceName: DS.attr('string'),
-    sourceRateLimit: DS.attr('string'),
-    sourceDocumentation: DS.attr('string'),
-    sourcePreferredMetadataPrefix: DS.attr('string'),
-    sourceOAI: DS.attr('boolean'),
-    sourceBaseUrl: DS.attr('string'),
     sourceDescription: DS.attr('string'),
-    sourceDisallowedSets: DS.attr('string'),
-    sourceAdditionalInfo: DS.attr('string'),
+    sourceBaseUrl: DS.attr('string', { defaultValue: '' }),
+    sourceOAI: DS.attr('boolean'),
+    sourceRateLimit: DS.attr('string', { defaultValue: '' }),
+    sourcePreferredMetadataPrefix: DS.attr('string', { defaultValue: '' }),
+    sourceDocumentation: DS.attr('string', { defaultValue: '' }),
+    sourceDisallowedSets: DS.attr('string', { defaultValue: '' }),
+    sourceAdditionalInfo: DS.attr('string', { defaultValue: '' }),
 
     status: DS.attr('string'),
     submitted_at: DS.attr('string'),
@@ -36,22 +30,6 @@ export default DS.Model.extend(Validator, {
             email: true
         },
         contactAffiliation: {
-            presence: true
-        },
-
-        metaTos: {
-            presence: true
-        },
-        metaRights: {
-            presence: true
-        },
-        metaPrivacy: {
-            presence: true
-        },
-        metaSharing: {
-            presence: true
-        },
-        metaLicense: {
             presence: true
         },
 

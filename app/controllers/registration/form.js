@@ -16,6 +16,11 @@ export default Ember.Controller.extend({
         this.set('submitAgain', false);
     },
 
+    canSubmit: false,
+    disableSubmit: Ember.computed('canSubmit', function() {
+        return !this.get('canSubmit');
+    }),
+
     numberOfRegistrations: 0,
 
     registrationsSubmitted: Ember.computed('session.data.authenticated.user', function() {

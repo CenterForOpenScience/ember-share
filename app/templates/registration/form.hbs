@@ -35,57 +35,6 @@
                         </section>
                         <hr>
                         <section class="registration-section">
-                            <h2 class="registration-section-header">Metadata Sharing</h2>
-                            <h5>
-                                Please confirm the following statements about the metadata
-                                you will be providing to SHARE:
-                            </h5>
-                            <p class="form-text help-block">
-                                Please note these statements only apply to the metadata in your API, not to the research objects themselves.
-                            </p>
-                            {{
-                                f.checkbox-field
-                                "metaTos"
-                                label="Metadata gathering does not violate my
-                                        organization's Terms of Service."
-                                required=true
-                                fieldClasses="form-group"
-                            }}
-                            {{
-                                f.checkbox-field
-                                "metaRights"
-                                label="Metadata gathering does not violate my
-                                       organization's Privacy Policy."
-                                required=true
-                                fieldClasses="form-group"
-                            }}
-                            {{
-                                f.checkbox-field
-                                "metaPrivacy"
-                                label="Distributing this metadata does not violate my
-                                        organization's Terms of Service or Privacy Policy."
-                                required=true
-                                fieldClasses="form-group"
-                            }}
-                            {{
-                                f.checkbox-field
-                                "metaSharing"
-                                label="I understand and acknowledge that the metadata my
-                                      organization provides will be redistributed by SHARE."
-                                required=true
-                                fieldClasses="form-group"
-                            }}
-                            {{
-                                f.checkbox-field
-                                "metaLicense"
-                                label="I have the right to acknowledge the above statements
-                                        for my organization."
-                                required=true
-                                fieldClasses="form-group"
-                            }}
-                        </section>
-                        <hr>
-                        <section class="registration-section">
                             <h2 class="registration-section-header">Provider Type</h2>
                             {{
                                 f.radio-field
@@ -224,11 +173,39 @@
 
                             {{/if}}
                         </section>
+                        <hr>
+                        <section class="registration-section">
+                            <h2 class="registration-section-header">Metadata Sharing</h2>
+                            <div class="well">
+                                <p>Metadata gathering does not violate my organization's Terms of Service.</p>
+
+                                <p>Metadata gathering does not violate my organization's Privacy Policy.</p>
+
+                                <p>Distributing this metadata does not violate my
+                                        organization's Terms of Service or Privacy Policy.</p>
+
+                                <p>I understand and acknowledge that the metadata my
+                                      organization provides will be redistributed by SHARE.</p>
+
+                                <p>I have the right to acknowledge the above statements
+                                        for my organization.</p>
+                            </div>
+
+                            {{input type="checkbox" name="canSubmit" checked=canSubmit}}
+                            <label>
+                                By checking the box you are confirming the above statements are true
+                            </label>
+                            <p class="form-text help-block">
+                                Please note these statements only apply to the metadata in your API,
+                                not to the research objects themselves.
+                            </p>
+                        </section>
                         <br>
                         {{
                             f.submit
                             "Register to become a SHARE provider"
                             class="btn btn-primary btn-block"
+                            disabled=disableSubmit
                         }}
                     {{/form-for}}
                 </div>
