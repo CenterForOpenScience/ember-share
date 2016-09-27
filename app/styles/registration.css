@@ -1,7 +1,7 @@
 .registration-container{
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
-    max-width: 1000px;
+    max-width: 750px;
 }
 
 .registration-field-group {
