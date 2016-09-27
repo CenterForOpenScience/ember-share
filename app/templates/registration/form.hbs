@@ -200,6 +200,26 @@
                                 not to the research objects themselves.
                             </p>
                         </section>
+                        {{#if dbErrors}}
+                            <hr>
+                            <section class="registration-section">
+                                <h2 class="registration-section-header text-danger">Errors</h2>
+                                <div class="row">
+                                    <span class="col-xs-12 text-danger">
+                                        There was an error submitting your form. If this should not have occurred
+                                        and the issue persists, please report it to support@osf.io.
+                                    </span>
+                                </div>
+                                <div class="well registration-db-errors">
+                                    {{#each-in dbErrors.errors as |field errors|}}
+                                        {{field}}:
+                                        {{#each-in errors as |index error|}}
+                                            {{error}}
+                                        {{/each-in}}
+                                    {{/each-in}}
+                                </div>
+                            </section>
+                        {{/if}}
                         <br>
                         {{
                             f.submit

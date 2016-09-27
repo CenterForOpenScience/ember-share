@@ -7,6 +7,7 @@ export default Ember.Route.extend({
     resetController(controller, isExiting) {
         if (isExiting) {
             controller.set('submitAgain', false);
+            controller.set('dbErrors', null);
         }
     },
     actions: {
@@ -21,6 +22,7 @@ export default Ember.Route.extend({
                     (error) => {
                         console.log('There was a problem saving the registration...');
                         console.log(error);
+                        this.get('controller').set('dbErrors', error);
                     }
                 );
             } else {
