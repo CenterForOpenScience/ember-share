@@ -10,6 +10,10 @@ export default Ember.Route.extend({
             controller.set('dbErrors', null);
         }
     },
+    activate: function() {
+        this._super();
+        window.scrollTo(0, 0);
+    },
     actions: {
         saveRegistrationModel(model) {
             let registration = model;
