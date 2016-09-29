@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import { getUniqueList } from 'ember-share/utils/elastic-query';
+import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
 
@@ -74,7 +74,7 @@ export default Ember.Controller.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.transitionToRoute('discover', { queryParams: { sources: selected } });
+            this.transitionToRoute('discover', { queryParams: { sources: encodeParams(selected) } });
         },
 
         elasticSearch(term) {
