@@ -1,0 +1,249 @@
+<div class="registration-container container">
+    {{#if (and loginEnabled session.isAuthenticated)}}
+        {{#if (or (not numberOfRegistrations) (and numberOfRegistrations submitAgain))}}
+            <div class="form-group row">
+                <div class="col-xs-12">
+                    <h1>Provider Registration Form</h1>
+                    {{#form-for model submit=(action 'submit') as |f|}}
+                        <hr>
+                        <section class="registration-section">
+                            <h2 class="registration-section-header">Contact Information</h2>
+                            {{
+                                f.text-field
+                                "contactName"
+                                required=true
+                                fieldClasses="form-group"
+                                labelClasses="registration-field-group"
+                                inputClasses="form-control"
+                            }}
+                            {{
+                                f.email-field
+                                "contactEmail"
+                                required=true
+                                fieldClasses="form-group"
+                                labelClasses="registration-field-group"
+                                inputClasses="form-control"
+                            }}
+                            {{
+                                f.text-field
+                                "contactAffiliation"
+                                required=true
+                                fieldClasses="form-group"
+                                labelClasses="registration-field-group"
+                                inputClasses="form-control"
+                            }}
+                        </section>
+                        <hr>
+                        <section class="registration-section">
+                            <h2 class="registration-section-header">Provider Type</h2>
+                            {{
+                                f.radio-field
+                                "directSource"
+                                true
+                                label="We want to push directly into the SHARE database
+                                      using the API."
+                                fieldClasses="form-group"
+                            }}
+                            {{
+                                f.radio-field
+                                "directSource"
+                                false
+                                label="We want our metadata to be harvested by SHARE."
+                                fieldClasses="form-group"
+                            }}
+                        </section>
+                        <hr>
+                        <section class="registration-section">
+                            <h2 class="registration-section-header">Provider Information</h2>
+                            {{
+                                f.text-field
+                                "sourceName"
+                                label="Provider name"
+                                required=true
+                                fieldClasses="form-group"
+                                labelClasses="registration-field-group"
+                                inputClasses="form-control"
+                            }}
+                            {{
+                                f.textarea-field
+                                "sourceDescription"
+                                label="Provider description"
+                                required=true
+                                fieldClasses="form-group"
+                                labelClasses="registration-field-group"
+                                inputClasses="form-control"
+                                rows=6
+                            }}
+
+                            {{#if (not model.directSource)}}
+                                {{
+                                    f.url-field
+                                    "sourceBaseUrl"
+                                    label="Base URL"
+                                    hint="If you're entering an OAI-PMH provider, include
+                                          everything before the \"?\" in the base url."
+                                    required=true
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                <p class="registration-example help-block">
+                                    Example: http://repository.stcloudstate.edu/do/oai/
+                                </p>
+                                <p class="registration-example help-block registration-field-bottom">
+                                    Not: http://repository.stcloudstate.edu/do/oai/?verb=ListRecords
+                                </p>
+                                {{
+                                    f.checkbox-field
+                                    "sourceOAI"
+                                    label="This source follows OAI-PMH standards."
+                                    hint="Preferred metadata prefix is \"oai_dc\"."
+                                    fieldClasses="form-group"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourceRateLimit"
+                                    label="If there are rate limits for requests from
+                                          your service, please list them below."
+                                    hint="Example: 1 request/second"
+                                    placeholder="Optional"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourcePreferredMetadataPrefix"
+                                    label="Preferred Metadata Prefix"
+                                    hint="The metadata prefix that provides the most
+                                          complete metadata."
+                                    placeholder="Optional"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourceDocumentation"
+                                    label="If your organization's API has documentation
+                                            online, please enter the URL below."
+                                    placeholder="Optional"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+
+                                <label>Disapproved Sets</label>
+                                <br>
+                                <p>
+                                    List the setNames for the corresponding setSpec options in your
+                                    publically accessable database that you would NOT like to appear
+                                    in SHARE Notify.
+                                    {{#if (and registration.sourceBaseUrl registration.sourceOAI)}}
+                                        To see your source's ListSets, visit
+                                        <a>{{registration.sourceBaseUrl}}?verb=ListSets</a>.
+                                        Displayed here are the setNames for the corresponding setSpec options
+                                        in your publically accessable database.
+                                    {{/if}}
+                                </p>
+                                <p>
+                                    Sets that you specify will be ignored and not processed by SHARE, and
+                                    sets that you do not specify will be included in SHARE.
+                                </p>
+                                {{
+                                    f.text-field
+                                    "sourceDisallowedSets"
+                                    label="If you you would like SHARE to ignore certain
+                                          sets, please list them below."
+                                    placeholder="Optional"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.textarea-field
+                                    "sourceAdditionalInfo"
+                                    label="Is there anything else we should know to harvest
+                                          from your source?"
+                                    placeholder="Optional"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                    rows=6
+                                }}
+
+                            {{/if}}
+                        </section>
+                        <hr>
+                        <section class="registration-section">
+                            <h2 class="registration-section-header">Metadata Sharing</h2>
+                            <div class="well">
+                                <p>Metadata gathering does not violate my organization's Terms of Service.</p>
+
+                                <p>Metadata gathering does not violate my organization's Privacy Policy.</p>
+
+                                <p>Distributing this metadata does not violate my
+                                        organization's Terms of Service or Privacy Policy.</p>
+
+                                <p>I understand and acknowledge that the metadata my
+                                      organization provides will be redistributed by SHARE.</p>
+
+                                <p>I have the right to acknowledge the above statements
+                                        for my organization.</p>
+                            </div>
+
+                            {{input type="checkbox" name="canSubmit" checked=canSubmit}}
+                            <label>
+                                By checking the box you are confirming the above statements are true
+                            </label>
+                            <p class="form-text help-block">
+                                Please note these statements only apply to the metadata in your API,
+                                not to the research objects themselves.
+                            </p>
+                        </section>
+                        {{#if dbErrors}}
+                            <hr>
+                            <section class="registration-section">
+                                <h2 class="registration-section-header text-danger">Errors</h2>
+                                <div class="row">
+                                    <span class="col-xs-12 text-danger">
+                                        There was an error submitting your form. If this should not have occurred
+                                        and the issue persists, please report it to support@osf.io.
+                                    </span>
+                                </div>
+                                <div class="well registration-db-errors">
+                                    {{#each-in dbErrors.errors as |field errors|}}
+                                        {{field}}:
+                                        {{#each-in errors as |index error|}}
+                                            {{error}}
+                                        {{/each-in}}
+                                    {{/each-in}}
+                                </div>
+                            </section>
+                        {{/if}}
+                        <br>
+                        {{
+                            f.submit
+                            "Register to become a SHARE provider"
+                            class="btn btn-primary btn-block"
+                            disabled=disableSubmit
+                        }}
+                    {{/form-for}}
+                </div>
+            </div>
+        {{else}}
+            <div class="row registration-completed">
+                <p class="col-xs-12">
+                    You have already submitted a provider registration form. To check on the status of
+                    your submission(s), visit your {{#link-to 'profile'}}profile page{{/link-to}}.
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-xs-12">
+                    Affiliated with multiple providers? <a {{action 'submitAgain'}}>Submit another provider registration form</a>.
+                </p>
+            </div>
+        {{/if}}
+    {{else}}
+        {{suggest-login message="register as a SHARE provider"}}
+    {{/if}}
+</div>

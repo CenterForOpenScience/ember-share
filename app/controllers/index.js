@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../config/environment';
 
 export default Ember.Controller.extend({
 
@@ -28,6 +29,25 @@ export default Ember.Controller.extend({
             const label = event;
 
             this.get('metrics').trackEvent({ category, action, label });
+        },
+        transitionRegistration() {
+            const category = 'homepage';
+            const action = 'click';
+            const label = 'registration';
+
+            this.get('metrics').trackEvent({ category, action, label });
+
+            this.transitionToRoute('registration');
+        },
+
+        transitionAPI() {
+            const category = 'homepage';
+            const action = 'click';
+            const label = 'API';
+
+            this.get('metrics').trackEvent({ category, action, label });
+
+            window.location.href = `${ENV.apiBaseUrl}/api/`;
         }
     }
 });
