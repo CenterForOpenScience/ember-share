@@ -24,22 +24,7 @@
                     </div>
                 </div>
                 {{#each model as |registration|}}
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <strong>Status: </strong><span class="{{status registration.status}}">{{registration.status}}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <strong>Provider name: </strong><span>{{registration.sourceName}}</span>
-                        </div>
-                    </div>
-                    <div class="row registration-submission-block">
-                        <div class="col-xs-12">
-                            <strong>Date submitted: </strong>
-                            <span>{{moment-format registration.submitted_at 'MMM D, YYYY' 'YYYY-MM-DDTHH:mm:ssZ'}}</span>
-                        </div>
-                    </div>
+                    {{registration-status registration=registration}}
                 {{/each}}
             </div>
         </div>

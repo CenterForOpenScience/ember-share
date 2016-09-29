@@ -2,9 +2,6 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from '../config/environment';
 
-// matches query params or trailing slash
-const TRAILING_SLASH_PATTERN = /((^.*?[^\/])\?(.*?)$|^[^\?]+?[^\/]$)/;
-
 export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
     session: Ember.inject.service(),
     namespace: 'api/v2',
@@ -13,16 +10,8 @@ export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
         Accept: 'application/json'
     },
     ajax(url, method, hash) {
-        // trailing slash required for POST requests
-        let urlRegex = new RegExp(TRAILING_SLASH_PATTERN);
-        if (url.match(urlRegex)) {
-            url = url.replace(urlRegex, function(g1, g2, g3, g4) {
-                if (g3) {
-                    return g3 + '/?' + g4;
-                }
-                return g1 + '/';
-            });
-        }
+        // add trailing slash
+        url = url.replace(/([^\/])(\?|$)/, '$1/$2');
 
         hash = hash || {};
         hash.crossDomain = true;
