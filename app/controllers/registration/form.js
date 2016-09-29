@@ -1,6 +1,14 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
 
+const formStates = {
+    0: 'Provider Type',
+    1: 'Contact Information',
+    2: 'Provider Information',
+    3: 'Provider Details',
+    4: 'Metadata Sharing'
+};
+
 export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
@@ -18,6 +26,12 @@ export default Ember.Controller.extend({
     canSubmit: false,
     disableSubmit: Ember.computed('canSubmit', function() {
         return !this.get('canSubmit');
+    }),
+
+    currentLocation: 0,
+
+    formState: Ember.computed('currentLocation', function() {
+        return formStates[this.get('currentLocation')];
     }),
 
     numberOfRegistrations: 0,
@@ -42,6 +56,14 @@ export default Ember.Controller.extend({
         },
         submitAgain() {
             this.set('submitAgain', true);
+        },
+        next() {
+            let current = this.get('currentLocation');
+            this.set('currentLocation', current + 1);
+        },
+        back() {
+            let current = this.get('currentLocation');
+            this.set('currentLocation', current - 1);
         }
     }
 
