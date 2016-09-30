@@ -4,6 +4,9 @@
             <div class="form-group row">
                 <div class="col-xs-12">
                     <h1 class="registration-title">Provider Registration Form</h1>
+                    {{#if (not-eq formState 'Provider Type')}}
+                        {{progress-tracker sections=sections active=formState}}
+                    {{/if}}
                     {{#form-for model submit=(action 'submit') as |f|}}
                         {{#if (eq formState 'Provider Type')}}
                             <hr class="registration-title-line bg-info">
@@ -110,82 +113,79 @@
                             <span class="registration-dots"></span>
                             <section class="registration-section">
 
-                                {{#if (not model.directSource)}}
+                                {{
+                                    f.checkbox-field
+                                    "sourceOAI"
+                                    label="This source follows OAI-PMH standards."
+                                    hint="Preferred metadata prefix is \"oai_dc\"."
+                                    fieldClasses="form-group"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourceRateLimit"
+                                    label="If there are rate limits for requests from
+                                          your service, please list them below."
+                                    hint="Example: 1 request/second"
+                                    placeholder="(Optional)"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourcePreferredMetadataPrefix"
+                                    label="Preferred Metadata Prefix"
+                                    hint="The metadata prefix that provides the most
+                                          complete metadata."
+                                    placeholder="(Optional)"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.text-field
+                                    "sourceDocumentation"
+                                    label="If your organization's API has documentation
+                                            online, please enter the URL below."
+                                    placeholder="(Optional)"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                }}
 
-                                    {{
-                                        f.checkbox-field
-                                        "sourceOAI"
-                                        label="This source follows OAI-PMH standards."
-                                        hint="Preferred metadata prefix is \"oai_dc\"."
-                                        fieldClasses="form-group"
-                                    }}
-                                    {{
-                                        f.text-field
-                                        "sourceRateLimit"
-                                        label="If there are rate limits for requests from
-                                              your service, please list them below."
-                                        hint="Example: 1 request/second"
-                                        placeholder="(Optional)"
-                                        fieldClasses="form-group"
-                                        labelClasses="registration-field-group"
-                                        inputClasses="form-control"
-                                    }}
-                                    {{
-                                        f.text-field
-                                        "sourcePreferredMetadataPrefix"
-                                        label="Preferred Metadata Prefix"
-                                        hint="The metadata prefix that provides the most
-                                              complete metadata."
-                                        placeholder="(Optional)"
-                                        fieldClasses="form-group"
-                                        labelClasses="registration-field-group"
-                                        inputClasses="form-control"
-                                    }}
-                                    {{
-                                        f.text-field
-                                        "sourceDocumentation"
-                                        label="If your organization's API has documentation
-                                                online, please enter the URL below."
-                                        placeholder="(Optional)"
-                                        fieldClasses="form-group"
-                                        labelClasses="registration-field-group"
-                                        inputClasses="form-control"
-                                    }}
+                                <label>Disapproved Sets</label>
+                                <br>
+                                <p class="help-block">
+                                    If you would like SHARE to <u>ignore</u> certain sets, please
+                                    list the setNames for the corresponding setSpec options. Any
+                                    set NOT listed here will be included in SHARE.
+                                    {{#if (and registration.sourceBaseUrl registration.sourceOAI)}}
+                                        To see your source's ListSets, visit
+                                        <a>{{registration.sourceBaseUrl}}?verb=ListSets</a>.
+                                        Displayed here are the setNames for the corresponding setSpec options
+                                        in your publically accessable database.
+                                    {{/if}}
+                                </p>
+                                {{
+                                    f.text-field
+                                    "sourceDisallowedSets"
+                                    placeholder="(Optional)"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-hide-label"
+                                    inputClasses="form-control"
+                                }}
+                                {{
+                                    f.textarea-field
+                                    "sourceAdditionalInfo"
+                                    label="Is there anything else we should know to harvest
+                                          from your source?"
+                                    placeholder="(Optional)"
+                                    fieldClasses="form-group"
+                                    labelClasses="registration-field-group"
+                                    inputClasses="form-control"
+                                    rows=6
+                                }}
 
-                                    <label>Disapproved Sets</label>
-                                    <br>
-                                    <p class="help-block">
-                                        If you would like SHARE to <u>ignore</u> certain sets, please
-                                        list the setNames for the corresponding setSpec options. Any
-                                        set NOT listed here will be included in SHARE.
-                                        {{#if (and registration.sourceBaseUrl registration.sourceOAI)}}
-                                            To see your source's ListSets, visit
-                                            <a>{{registration.sourceBaseUrl}}?verb=ListSets</a>.
-                                            Displayed here are the setNames for the corresponding setSpec options
-                                            in your publically accessable database.
-                                        {{/if}}
-                                    </p>
-                                    {{
-                                        f.text-field
-                                        "sourceDisallowedSets"
-                                        placeholder="(Optional)"
-                                        fieldClasses="form-group"
-                                        labelClasses="registration-hide-label"
-                                        inputClasses="form-control"
-                                    }}
-                                    {{
-                                        f.textarea-field
-                                        "sourceAdditionalInfo"
-                                        label="Is there anything else we should know to harvest
-                                              from your source?"
-                                        placeholder="(Optional)"
-                                        fieldClasses="form-group"
-                                        labelClasses="registration-field-group"
-                                        inputClasses="form-control"
-                                        rows=6
-                                    }}
-
-                                {{/if}}
                             </section>
 
                         {{else if (eq formState 'Metadata Sharing')}}

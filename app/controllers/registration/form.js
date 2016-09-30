@@ -9,6 +9,13 @@ const formStates = {
     4: 'Metadata Sharing'
 };
 
+const directSourceFormStates = {
+    0: 'Provider Type',
+    1: 'Contact Information',
+    2: 'Provider Information',
+    3: 'Metadata Sharing'
+};
+
 export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
@@ -30,7 +37,26 @@ export default Ember.Controller.extend({
 
     currentLocation: 0,
 
-    formState: Ember.computed('currentLocation', function() {
+    sections: Ember.computed('model.directSource', function() {
+        if (this.get('model.directSource')) {
+            return [
+                'Contact Information',
+                'Provider Information',
+                'Metadata Sharing'
+            ];
+        }
+        return [
+            'Contact Information',
+            'Provider Information',
+            'Provider Details',
+            'Metadata Sharing'
+        ];
+    }),
+
+    formState: Ember.computed('currentLocation', 'model.directSource', function() {
+        if (this.get('model.directSource')) {
+            return directSourceFormStates[this.get('currentLocation')];
+        }
         return formStates[this.get('currentLocation')];
     }),
 
