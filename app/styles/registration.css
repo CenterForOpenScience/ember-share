@@ -65,3 +65,7 @@
     margin-top: 10px;
 }
 
+.registration-form-errors {
+    padding: 15px;
+    margin-bottom: 15px;
+}

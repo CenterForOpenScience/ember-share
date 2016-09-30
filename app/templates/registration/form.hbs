@@ -215,6 +215,27 @@
                                     not to the research objects themselves.
                                 </p>
                             </section>
+                            {{#if formErrors}}
+                                <hr>
+                                <section class="registration-section">
+                                    <h2 class="registration-section-header text-danger">Errors</h2>
+
+                                    <div class="col-xs-12 bg-danger registration-form-errors">
+                                        <div>
+                                            <span class="fa fa-exclamation-circle"></span>
+                                            There are some errors with your registration. Click the ‘Back’
+                                            button and correct any fields highlighted in red.
+                                        </div>
+                                    </div>
+
+                                    <div class="well registration-db-errors">
+                                        {{#each formErrors as |error|}}
+                                            {{error.attribute}}: {{error.message}}
+                                            <br>
+                                        {{/each}}
+                                    </div>
+                                </section>
+                            {{/if}}
                             {{#if dbErrors}}
                                 <hr>
                                 <section class="registration-section">

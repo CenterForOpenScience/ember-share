@@ -34,7 +34,7 @@ export default Ember.Route.extend({
                     }
                 );
             } else {
-                registration.get('errors');
+                this.get('controller').set('formErrors', registration.get('errors'));
             }
         }
     }
