@@ -40,27 +40,8 @@ export default DS.Model.extend(Validator, {
             presence: true
         },
         sourceBaseUrl: {
-            custom: [
-                {
-                    validation: function(key, value, model) {
-                        if (!model.get('directSource') && !value) {
-                            return false;
-                        }
-                        return true;
-                    },
-                    message: 'can\'t be blank'
-                },
-                {
-                    validation: function(key, value, model) {
-                        if (!model.get('directSource') && value) {
-                            // same as URL validation provided by ember-model-validator
-                            return String(value).match(/^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/);
-                        }
-                        return true;
-                    },
-                    message: 'must be a valid URL'
-                }
-            ]
+            presence: true,
+            URL: true
         }
     }
 });

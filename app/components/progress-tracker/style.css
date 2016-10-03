@@ -1,0 +1,61 @@
+.progress-block {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+li {
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    line-height: 2em;
+    border-radius: 1em;
+    background: #5bc0de;
+    margin: 0 4.5em;
+    display: inline-block;
+    color: white;
+    position: relative;
+}
+
+li::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -9.5em;
+    width: 9.5em;
+    height: .15em;
+    background: #5bc0de;
+    z-index: -1;
+}
+
+
+li:first-child::before {
+    display: none;
+}
+
+.active {
+    background: white;
+    border-color: #5bc0de;
+    border-style: solid;
+}
+
+.active ~ li {
+    background: white;
+    border-color: gray;
+    border-style: solid;
+}
+
+.active ~ li::before {
+    background: gray;
+}
+
+.label {
+    position: absolute;
+    color: #5bc0de;
+    white-space: pre-wrap;
+    text-align: center;
+    font-size: 15px;
+    display: table;
+    width: 120px;
+    top: 30px;
+    left: -45px;
+}

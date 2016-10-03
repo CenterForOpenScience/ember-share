@@ -1,7 +1,26 @@
-.registration-container{
+.registration-container {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
     max-width: 750px;
+}
+
+.registration-title {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.registration-title-line {
+    height: 5px;
+    width: 500px;
+    background-color: #5bc0de;
+}
+
+.registration-section-title {
+    margin-bottom: 20px;
+}
+
+.registration-hide-label {
+    display: none;
 }
 
 .registration-field-group {
@@ -34,15 +53,19 @@
 
 /* class name on asterisk inserted by ember-form-for for required fields */
 .star {
-  color: #a94442 ;
+    color: #a94442 ;
 
 }
 
 .registration-section-header {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .registration-db-errors {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
+.registration-form-errors {
+    padding: 15px;
+    margin-bottom: 15px;
+}
