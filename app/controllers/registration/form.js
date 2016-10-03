@@ -39,18 +39,13 @@ export default Ember.Controller.extend({
 
     sections: Ember.computed('model.directSource', function() {
         if (this.get('model.directSource')) {
-            return [
-                'Contact Information',
-                'Provider Information',
-                'Metadata Sharing'
-            ];
+            let pages = Object.keys(directSourceFormStates).map(k => directSourceFormStates[k]);
+            let progressPages = pages.slice(1);
+            return progressPages;
         }
-        return [
-            'Contact Information',
-            'Provider Information',
-            'Provider Details',
-            'Metadata Sharing'
-        ];
+        let pages = Object.keys(formStates).map(k => formStates[k]);
+        let progressPages = pages.slice(1);
+        return progressPages;
     }),
 
     formState: Ember.computed('currentLocation', 'model.directSource', function() {
