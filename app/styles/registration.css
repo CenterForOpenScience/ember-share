@@ -4,6 +4,10 @@
     max-width: 750px;
 }
 
+.registration-form > form:focus {
+    outline: none;
+}
+
 .registration-title {
     text-align: center;
     padding-top: 15px;

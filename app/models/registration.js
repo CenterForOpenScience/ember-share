@@ -23,25 +23,25 @@ export default DS.Model.extend(Validator, {
 
     validations: {
         contactName: {
-            presence: true
+            presence: { message: 'This field is required.' }
         },
         contactEmail: {
-            presence: true,
-            email: true
+            presence: { message: 'This field is required.' },
+            email: { message: 'Not a valid email address.' }
         },
         contactAffiliation: {
-            presence: true
+            presence: { message: 'This field is required.' }
         },
 
         sourceName: {
-            presence: true
+            presence: { message: 'This field is required.' }
         },
         sourceDescription: {
-            presence: true
+            presence: { message: 'This field is required.' }
         },
         sourceBaseUrl: {
-            presence: true,
-            URL: true
+            presence: { message: 'This field is required.' },
+            URL: { message: 'Must be a valid url.' }
         }
     }
 });
