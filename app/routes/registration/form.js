@@ -8,6 +8,9 @@ export default Ember.Route.extend({
         if (isExiting) {
             controller.set('submitAgain', false);
             controller.set('dbErrors', null);
+            controller.set('formErrors', null);
+            controller.set('currentLocation', 0);
+            this.model().rollbackAttributes();
         }
     },
     setupController(controller, model) {
@@ -28,6 +31,7 @@ export default Ember.Route.extend({
                         this.transitionTo('registration.confirmation');
                     },
                     (error) => {
+                        this.get('controller').set('fromErrors', null);
                         console.log('There was a problem saving the registration...');
                         console.log(error);
                         this.get('controller').set('dbErrors', error);
