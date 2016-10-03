@@ -2,17 +2,17 @@ import Ember from 'ember';
 import ENV from '../../config/environment';
 
 const formStates = {
-    0: 'Provider Type',
+    0: 'Source Type',
     1: 'Contact Information',
-    2: 'Provider Information',
-    3: 'Provider Details',
+    2: 'Source Information',
+    3: 'Source Details',
     4: 'Metadata Sharing'
 };
 
 const directSourceFormStates = {
-    0: 'Provider Type',
+    0: 'Source Type',
     1: 'Contact Information',
-    2: 'Provider Information',
+    2: 'Source Information',
     3: 'Metadata Sharing'
 };
 

@@ -3,12 +3,12 @@
         {{#if (or (not numberOfRegistrations) (and numberOfRegistrations submitAgain))}}
             <div class="form-group row">
                 <div class="col-xs-12">
-                    <h1 class="registration-title">Provider Registration Form</h1>
-                    {{#if (not-eq formState 'Provider Type')}}
+                    <h1 class="registration-title">Source Registration Form</h1>
+                    {{#if (not-eq formState 'Source Type')}}
                         {{progress-tracker sections=sections active=formState}}
                     {{/if}}
                     {{#form-for model submit=(action 'submit') as |f|}}
-                        {{#if (eq formState 'Provider Type')}}
+                        {{#if (eq formState 'Source Type')}}
                             <hr class="registration-title-line bg-info">
                             <section class="registration-section">
                                 <h4 class="registration-section-title">
@@ -66,14 +66,13 @@
                                 }}
                             </section>
 
-                        {{else if (eq formState 'Provider Information')}}
+                        {{else if (eq formState 'Source Information')}}
 
                             <span class="registration-dots"></span>
                             <section class="registration-section">
                                 {{
                                     f.text-field
                                     "sourceName"
-                                    label="Provider name"
                                     required=true
                                     fieldClasses="form-group"
                                     labelClasses="registration-field-group"
@@ -82,7 +81,6 @@
                                 {{
                                     f.textarea-field
                                     "sourceDescription"
-                                    label="Provider description"
                                     required=true
                                     fieldClasses="form-group"
                                     labelClasses="registration-field-group"
@@ -94,7 +92,7 @@
                                     f.url-field
                                     "sourceBaseUrl"
                                     label="Base URL"
-                                    hint="If you're entering an OAI-PMH provider, include
+                                    hint="If you're entering an OAI-PMH source, include
                                           everything before the \"?\" in the base url."
                                     required=true
                                     labelClasses="registration-field-group"
@@ -108,7 +106,7 @@
                                 </p>
                             </section>
 
-                        {{else if (eq formState 'Provider Details')}}
+                        {{else if (eq formState 'Source Details')}}
 
                             <span class="registration-dots"></span>
                             <section class="registration-section">
@@ -258,7 +256,7 @@
                             {{/if}}
                         {{/if}}
                         <br>
-                        {{#if (not-eq formState 'Provider Type')}}
+                        {{#if (not-eq formState 'Source Type')}}
                             <button class="btn btn-default pull-left" {{action "back"}}>Back</button>
                         {{/if}}
                         {{#if (not-eq formState 'Metadata Sharing')}}
@@ -266,7 +264,7 @@
                         {{else}}
                             {{
                                 f.submit
-                                "Register to become a SHARE provider"
+                                "Register to become a SHARE source"
                                 class="btn btn-success pull-right"
                                 disabled=disableSubmit
                             }}
@@ -277,17 +275,17 @@
         {{else}}
             <div class="row registration-completed">
                 <p class="col-xs-12">
-                    You have already submitted a provider registration form. To check on the status of
+                    You have already submitted a source registration form. To check on the status of
                     your submission(s), visit your {{#link-to 'profile'}}profile page{{/link-to}}.
                 </p>
             </div>
             <div class="row">
                 <p class="col-xs-12">
-                    Affiliated with multiple providers? <a {{action 'submitAgain'}}>Submit another provider registration form</a>.
+                    Affiliated with multiple sources? <a {{action 'submitAgain'}}>Submit another source registration form</a>.
                 </p>
             </div>
         {{/if}}
     {{else}}
-        {{suggest-login message="register as a SHARE provider"}}
+        {{suggest-login message="register as a SHARE source"}}
     {{/if}}
 </div>
