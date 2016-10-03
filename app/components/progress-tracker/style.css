@@ -55,7 +55,7 @@ li:first-child::before {
     text-align: center;
     font-size: 15px;
     display: table;
-    width: 5px;
+    width: 120px;
     top: 30px;
-    right: 45px;
+    left: -45px;
 }
