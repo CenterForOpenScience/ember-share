@@ -1,9 +1,9 @@
 {{!-- <button class='btn btn-primary btn-xs'> --}}
-<button class="{{if loginEnabled 'btn btn-primary btn-xs' 'btn btn-primary btn-xs disable-edit'}}">
+<button class="{{if curationEnabled 'btn btn-primary btn-xs' 'btn btn-primary btn-xs disable-edit'}}">
     {{item.name}}
 </button>
-{{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-{{#if (and edit loginEnabled)}}
+{{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+{{#if (and edit curationEnabled)}}
     <button class='btn btn-warning btn-xs'>
         {{fa-icon 'trash' click=(action 'remove' item)}}
     </button>

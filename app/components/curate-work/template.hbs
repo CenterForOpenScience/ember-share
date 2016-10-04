@@ -24,8 +24,8 @@
       itemType='tag'
       placeholder='Add a tag'
       onChange=(action 'listChanged' 'tags')}}
-      {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-      {{#if (and session.isAuthenticated loginEnabled)}}
+      {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+      {{#if (and session.isAuthenticated curationEnabled)}}
           <div class='row' style='padding-topL: 5px'>
             <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
                 Submit Changes
@@ -59,23 +59,26 @@
         </div>
     </div>
 
-    <div class='row'>
-        <div class="col-xs-12">
-            <h3>Previous Changes</h3>
-            <a {{action 'toggleChanges'}} href="#">
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
+        <div class='row'>
+            <div class="col-xs-12">
+                <h3>Previous Changes</h3>
+                <a {{action 'toggleChanges'}} href="#">
+                    {{#if showChanges}}
+                        Hide changes {{fa-icon 'caret-up'}}
+                    {{else}}
+                        Show changes {{fa-icon 'caret-down'}}
+                    {{/if}}
+                </a>
                 {{#if showChanges}}
-                    Hide changes {{fa-icon 'caret-up'}}
-                {{else}}
-                    Show changes {{fa-icon 'caret-down'}}
+                    {{#each work.changes as |change|}}
+                        {{change-widget obj=change}}
+                    {{/each}}
                 {{/if}}
-            </a>
-            {{#if showChanges}}
-                {{#each work.changes as |change|}}
-                    {{change-widget obj=change}}
-                {{/each}}
-            {{/if}}
+            </div>
         </div>
-    </div>
+    {{/if}}
 
     <div class='row'>
         <div class="col-xs-12">
@@ -95,10 +98,13 @@
         </div>
     </div>
 
-    <div class='row'>
-        <div class="col-xs-12">
-            <h3>Potential Merges</h3>
-            {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
+        <div class='row'>
+            <div class="col-xs-12">
+                <h3>Potential Merges</h3>
+                {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+            </div>
         </div>
-    </div>
+    {{/if}}
 </div>

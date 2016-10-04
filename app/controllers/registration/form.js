@@ -22,9 +22,6 @@ export default Ember.Controller.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
 
-    // TODO: remove when login is enabled on production
-    loginEnabled: ENV.loginEnabled,
-
     init() {
         this._super(...arguments);
         this.set('submitAgain', false);

@@ -18,8 +18,8 @@
 <div class='body-container' style='padding-top:15px'>
     <div class='container'>
         <div class='row'>
-            {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-            {{#if (and session.isAuthenticated loginEnabled)}}
+            {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+            {{#if (and session.isAuthenticated curationEnabled)}}
                 <label>Additional name</label>
                 {{curate-field-text text=person.additionalName
                 onChange=(action 'fieldChanged' 'additionalName')}}
@@ -31,8 +31,8 @@
             {{/if}}
         </div>
         <div class='row'>
-            {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-            {{#if (and session.isAuthenticated loginEnabled)}}
+            {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+            {{#if (and session.isAuthenticated curationEnabled)}}
                 <label>Suffix</label>
                 {{curate-field-text text=person.suffix
                 onChange=(action 'fieldChanged' 'suffix')}}
@@ -44,8 +44,8 @@
             {{/if}}
         </div>
         <div class='row'>
-            {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-            {{#if (and session.isAuthenticated loginEnabled)}}
+            {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+            {{#if (and session.isAuthenticated curationEnabled)}}
                 <label>Location</label>
                 {{curate-field-text text=person.location
                 onChange=(action 'fieldChanged' 'location')}}
@@ -57,8 +57,8 @@
             {{/if}}
         </div>
         <div class='row'>
-            {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-            {{#if (and session.isAuthenticated loginEnabled)}}
+            {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+            {{#if (and session.isAuthenticated curationEnabled)}}
                 <label>URL</label>
                 {{curate-field-text text=person.url
                 onChange=(action 'fieldChanged' 'url')}}
@@ -85,8 +85,8 @@
                 onChange=(action 'listChanged' 'identifiers')}} -->
             {{/if}}
         </div>
-        {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-        {{#if (and session.isAuthenticated loginEnabled)}}
+        {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+        {{#if (and session.isAuthenticated curationEnabled)}}
             <div class='row'>
             <button class='btn btn-default' {{action 'submitChanges'}}>
                 Submit Changes
@@ -94,8 +94,8 @@
             </div>
         {{/if}}
     </div>
-    {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-    {{#if (and session.isAuthenticated loginEnabled)}}
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
         <div class='container'>
             <h3>Potential Merges</h3>
             {{merge-widget obj=person _type='person'}}
