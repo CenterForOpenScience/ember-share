@@ -80,6 +80,12 @@ export default Ember.Controller.extend({
             this.set('currentLocation', current + 1);
         },
         back() {
+            if (this.get('formErrors')) {
+                this.set('formErrors', null);
+            }
+            if (this.get('dbErrors')) {
+                this.set('dbErrors', null);
+            }
             let current = this.get('currentLocation');
             this.set('currentLocation', current - 1);
         }
