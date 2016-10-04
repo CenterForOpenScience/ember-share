@@ -1,15 +1,15 @@
-{{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-{{#if (and editing loginEnabled)}}
+{{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+{{#if (and editing curationEnabled)}}
   {{textarea rows=rows class="form-control" keyDown=(action 'submit') value=updated}}
   <span {{action 'cancel'}}>{{fa-icon 'times'}}</span>
 {{else}}
-  <span class="{{if (not loginEnabled) 'text-display'}}">
+  <span class="{{if (not curationEnabled) 'text-display'}}">
     {{#if changed}}
       <i>{{updated}}</i>
     {{else}}
         {{#if text}}
             {{text}}
-        {{else if loginEnabled}}
+        {{else if curationEnabled}}
             <i>Add information</i>
         {{/if}}
     {{/if}}

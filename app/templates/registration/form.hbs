@@ -1,5 +1,5 @@
 <div class="registration-container container">
-    {{#if (and loginEnabled session.isAuthenticated)}}
+    {{#if session.isAuthenticated}}
         {{#if (or (not numberOfRegistrations) (and numberOfRegistrations submitAgain))}}
             <div class="form-group row">
                 <div class="col-xs-12 registration-form">

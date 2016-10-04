@@ -2,8 +2,8 @@ import Ember from 'ember';
 import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
-    // TODO: remove when login is enabled on production
-    loginEnabled: ENV.loginEnabled,
+    // TODO: remove when curation is enabled on production
+    curationEnabled: ENV.curationEnabled,
 
     curate: false,
     store: Ember.inject.service(),

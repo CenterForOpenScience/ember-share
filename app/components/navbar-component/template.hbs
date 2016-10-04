@@ -3,29 +3,28 @@
         {{#link-to 'index'}}<img class='navbar-logo' height='35px' width='auto' src='assets/images/nav_logo.png'>
         <span class="share hidden-xs"> S H A R E</span>{{/link-to}}
 
-        {{!-- TODO: remove loginEnabled check when login is enabled on production --}}
-        {{#if loginEnabled}}
-            {{#if session.isAuthenticated}}
-                <div class="btn-group">
-                    <button class="hello-text" role="button" data-toggle="dropdown">
-                        <img class='img-circle gravatar' src={{gravatarSrc}}>
-                        <span class="username">{{userName}}</span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            {{#link-to 'profile'}}<i class="fa fa-user" aria-hidden="true"></i> My Profile{{/link-to}}
-                            {{#link-to 'support'}}<i class="fa fa-life-ring" aria-hidden="true"></i> Support{{/link-to}}
-                            {{#link-to 'settings'}}<i class="fa fa-cog" aria-hidden="true"></i> Settings{{/link-to}}
-                            <a {{action 'logout'}}><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
-                        </li>
-                    </ul>
-                </div>
+        {{#if session.isAuthenticated}}
+            <div class="btn-group">
+                <button class="hello-text" role="button" data-toggle="dropdown">
+                    <img class='img-circle gravatar' src={{gravatarSrc}}>
+                    <span class="username">{{userName}}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        {{#link-to 'profile'}}<i class="fa fa-user" aria-hidden="true"></i> My Profile{{/link-to}}
+                      {{!--   {{#link-to 'settings'}}<i class="fa fa-cog" aria-hidden="true"></i> Settings{{/link-to}} --}}
+                        <a {{action 'logout'}}><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+                    </li>
+                </ul>
+            </div>
 
+            {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+            {{#if curationEnabled}}
                 {{link-to 'Changes' 'changes' class='nav-link'}}
-            {{else}}
-                <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
             {{/if}}
+        {{else}}
+            <button class='btn btn-info log-button' {{action 'login'}}>Login</button>
         {{/if}}
 
         <a class='nav-link' href="https://osf.io/cpsin/wiki/home/?view">FAQ</a>
