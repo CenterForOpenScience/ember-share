@@ -6,9 +6,9 @@ const STATUS_HELP = {
     },
     accepted: function(registration) {
         if (registration.directSource) {
-            return registration.sourceName + ' have been approved as a source. Start pushing data!';
+            return registration.sourceName + ' has been approved as a source. Start pushing data!';
         }
-        return registration.sourceName + ' have been approved as a source but we have not started scraping it yet.';
+        return registration.sourceName + ' has been approved as a source but we have not started scraping it yet.';
     },
     implemented: function(registration) {
         return registration.sourceName + ' is now a source. Check it out!';
