@@ -1,13 +1,19 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
 
+const category = 'detail';
+const action = 'click';
+
 export default Ember.Component.extend({
+
+    store: Ember.inject.service(),
+    session: Ember.inject.service(),
+    metrics: Ember.inject.service(),
+
     // TODO: remove when curation is enabled on production
     curationEnabled: ENV.curationEnabled,
 
     curate: false,
-    store: Ember.inject.service(),
-    session: Ember.inject.service(),
     classNames: ['curate-work'],
     changes: null,
 
@@ -97,14 +103,23 @@ export default Ember.Component.extend({
         },
 
         toggleExtraData() {
+            const label = 'toggle extra data';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.toggleProperty('showExtraData');
         },
 
         toggleChanges() {
+            const label = 'toggle changes';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.toggleProperty('showChanges');
         },
 
         toggleRawData() {
+            const label = 'toggle raw data';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.toggleProperty('showRawData');
         },
     }
