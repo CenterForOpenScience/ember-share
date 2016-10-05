@@ -276,7 +276,10 @@
             <div class="row registration-completed">
                 <p class="col-xs-12">
                     You have already submitted a source registration form. To check on the status of
-                    your submission(s), visit your {{#link-to 'profile'}}profile page{{/link-to}}.
+                    your submission(s), visit your
+                    {{#link-to 'profile' invokeAction=(action 'track' 'check submisstion status')}}
+                        profile page
+                    {{/link-to}}.
                 </p>
             </div>
             <div class="row">

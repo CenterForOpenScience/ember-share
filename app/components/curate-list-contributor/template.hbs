@@ -1,4 +1,4 @@
-{{#link-to 'curate.person' item.person}}
+{{#link-to 'curate.person' item.person invokeAction=(action 'track' item.person)}}
     <div style='font-size: 150%'>{{item.person.familyName}}, {{item.person.givenName}}</div>
 {{/link-to}}
 <!-- {{#if edit}}

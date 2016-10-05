@@ -16,6 +16,9 @@ const directSourceFormStates = {
     3: 'Metadata Sharing'
 };
 
+const category = 'registration form';
+const action = 'click';
+
 export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
@@ -70,24 +73,46 @@ export default Ember.Controller.extend({
 
     actions: {
         submit() {
+            const label = 'submit form';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.send('saveRegistrationModel', this.get('model'));
         },
         submitAgain() {
+            const label = 'submit another form';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.set('submitAgain', true);
         },
         next() {
             let current = this.get('currentLocation');
+
+            const label = 'form next: current location ' + current;
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.set('currentLocation', current + 1);
         },
         back() {
+            let current = this.get('currentLocation');
+            let context = 'back: current location ' + current;
+
             if (this.get('formErrors')) {
                 this.set('formErrors', null);
+                context = 'back with form errors';
             }
             if (this.get('dbErrors')) {
                 this.set('dbErrors', null);
+                context = 'back with db errors';
             }
-            let current = this.get('currentLocation');
+
+            const label = context;
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.set('currentLocation', current - 1);
+        },
+        track(event) {
+            const label = event;
+            this.get('metrics').trackEvent({ category, action, label });
         }
     }
 
