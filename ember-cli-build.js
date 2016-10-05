@@ -7,9 +7,12 @@ module.exports = function(defaults) {
         'ember-font-awesome': {
             useScss: true
         },
+        'ember-bootstrap': {
+            importBootstrapFont: false
+        },
         sassOptions: {
             includePaths: [
-                './node_modules/osf-style/css',
+                'bower_components/osf-style/css',
                 'bower_components/bootstrap-daterangepicker',
                 'bower_components/c3',
             ]
