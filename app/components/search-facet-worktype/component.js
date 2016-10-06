@@ -39,7 +39,6 @@ export default Ember.Component.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-
             let key = this.get('key');
             let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));

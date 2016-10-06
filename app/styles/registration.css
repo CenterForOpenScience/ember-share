@@ -1,0 +1,75 @@
+.registration-container {
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    -webkit-font-smoothing: antialiased ;
+    max-width: 750px;
+}
+
+.registration-form > form:focus {
+    outline: none;
+}
+
+.registration-title {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.registration-title-line {
+    height: 5px;
+    width: 500px;
+    background-color: #5bc0de;
+}
+
+.registration-section-title {
+    margin-bottom: 20px;
+}
+
+.registration-hide-label {
+    display: none;
+}
+
+.registration-field-group {
+    display: block;
+}
+
+.registration-section {
+    padding-bottom: 8px;
+    padding-top: 8px ;
+    padding-left: 15px;
+    padding-right: 15px ;
+}
+
+.registration-completed {
+    padding-bottom: 15px;
+    padding-top: 30px ;
+}
+
+.registration-submission-block {
+    padding-bottom: 15px;
+}
+
+.registration-example {
+    display: block;
+}
+
+.registration-field-bottom {
+    margin-bottom: 15px;
+}
+
+/* class name on asterisk inserted by ember-form-for for required fields */
+.star {
+    color: #a94442 ;
+
+}
+
+.registration-section-header {
+    margin-top: 10px;
+}
+
+.registration-db-errors {
+    margin-top: 10px;
+}
+
+.registration-form-errors {
+    padding: 15px;
+    margin-bottom: 15px;
+}

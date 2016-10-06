@@ -11,55 +11,107 @@
 
 
 <div class="container">
-      {{curate-field-list list=work.contributors
-      listItem='curate-list-contributor'
-      itemType='person'
-      field='Contributors'
-      placeholder='Add a contributor'
-      onChange=(action 'listChanged' 'contributors')}}
+    {{
+        curate-field-list
+        list=work.contributors
+        listItem='curate-list-contributor'
+        itemType='person'
+        field='Contributors'
+        placeholder='Add a contributor'
+        onChange=(action 'listChanged' 'contributors')
+    }}
 
-      {{curate-field-list list=work.tags
-      listItem='curate-list-tag'
-      field='Tags'
-      itemType='tag'
-      placeholder='Add a tag'
-      onChange=(action 'listChanged' 'tags')}}
-   {{!--    TODO: uncomment for login/curation
-      {{#if session.isAuthenticated}}
-          <div class='row' style='padding-topL: 5px'>
+    {{
+        curate-field-list
+        list=work.tags
+        listItem='curate-list-tag'
+        field='Tags'
+        itemType='tag'
+        placeholder='Add a tag'
+        onChange=(action 'listChanged' 'tags')
+    }}
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
+        <div class='row' style='padding-topL: 5px'>
             <button class='btn btn-default pull-right' {{action 'submitChanges'}} disabled={{not changed}}>
                 Submit Changes
             </button>
-          </div>
-      {{/if}} --}}
-      <div class="row">
-        <div class="col-xs-12">
-            <h3>Links</h3>
         </div>
-      </div>
-      {{#each work.links as |item|}}
+    {{/if}}
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Links</h3>
+            </div>
+        </div>
+    {{#each work.links as |item|}}
         <div><a href='{{item.url}}' style='font-size: 150%'>{{item.url}}</a></div>
-      {{/each}}
-      <div class="row">
+    {{/each}}
+    <div class="row">
         <div class="col-xs-12">
             <h3>Extra</h3>
-            {{json-pretty
-                obj=work.extra
-                shouldHighlight=true
-            }}
+            <a {{action 'toggleExtraData'}} href="#">
+                {{#if showExtraData}}
+                    Hide extra data {{fa-icon 'caret-down'}}
+                {{else}}
+                    Show extra data {{fa-icon 'caret-up'}}
+                {{/if}}
+            </a>
+            {{#if showExtraData}}
+                {{
+                    json-pretty
+                    obj=work.extra.data
+                    shouldHighlight=true
+                }}
+            {{/if}}
         </div>
-      </div>
- {{!--      TODO: uncomment for login/curation
-    {{#if previousChanges}}
-      <div class='row'>
-        <h3> Previous Changes: </h3>
-        {{#each previousChanges as |change|}}
-          {{change-widget obj=change}}
-        {{/each}}
-      </div>
-      {{/if}} --}}
+    </div>
 
-  {{!--     TODO: uncomment for login/curation
-      <h4>Potential Merges</h4>
-      {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}} --}}
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
+        <div class='row'>
+            <div class="col-xs-12">
+                <h3>Previous Changes</h3>
+                <a {{action 'toggleChanges'}} href="#">
+                    {{#if showChanges}}
+                        Hide changes {{fa-icon 'caret-down'}}
+                    {{else}}
+                        Show changes {{fa-icon 'caret-up'}}
+                    {{/if}}
+                </a>
+                {{#if showChanges}}
+                    {{#each work.changes as |change|}}
+                        {{change-widget obj=change}}
+                    {{/each}}
+                {{/if}}
+            </div>
+        </div>
+    {{/if}}
+
+    <div class='row'>
+        <div class="col-xs-12">
+            <h3>Raw Data</h3>
+            <a {{action 'toggleRawData'}} href="#">
+                {{#if showRawData}}
+                    Hide raw data {{fa-icon 'caret-down'}}
+                {{else}}
+                    Show raw data {{fa-icon 'caret-up'}}
+                {{/if}}
+            </a>
+            {{#if showRawData}}
+                {{#each work.rawData as |rawDatum|}}
+                    <pre>{{rawDatum.datum}}</pre>
+                {{/each}}
+            {{/if}}
+        </div>
+    </div>
+
+    {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
+    {{#if (and session.isAuthenticated curationEnabled)}}
+        <div class='row'>
+            <div class="col-xs-12">
+                <h3>Potential Merges</h3>
+                {{merge-widget obj=work _type='abstractcreativework' onMerge=(action 'merge')}}
+            </div>
+        </div>
+    {{/if}}
 </div>

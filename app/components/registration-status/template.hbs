@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-xs-12">
+        <strong>Status: </strong><span class="{{colorClass}}">{{registration.status}}</span>
+        <span
+            id="status-help"
+            class="fa fa-question-circle"
+            data-container="body"
+            data-toggle="popover"
+            data-placement="right"
+            title={{registration.status}}
+            data-content={{helpText}}
+            data-trigger="hover"
+        >
+        </span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <strong>Source name: </strong><span>{{registration.sourceName}}</span>
+    </div>
+</div>
+<div class="row registration-submission-block">
+    <div class="col-xs-12">
+        <strong>Date submitted: </strong>
+        <span>{{moment-format registration.submitted_at 'MMM D, YYYY' 'YYYY-MM-DDTHH:mm:ssZ'}}</span>
+    </div>
+</div>

@@ -19,9 +19,9 @@ module.exports = function(environment) {
             }
         },
 
-        APP: {
-              // Here you can pass flags/options to your application instance
-              // when it is created
+        APP: {  // jscs:ignore
+            // Here you can pass flags/options to your application instance
+            // when it is created
         },
 
         contentSecurityPolicy: {
@@ -32,6 +32,12 @@ module.exports = function(environment) {
             'img-src': "'self'",
             'style-src': "'self'",
             'media-src': "'self'"
+        },
+
+        'ember-form-for': {
+            fieldHasErrorClasses: 'has-error',
+            errorClasses: ['text-danger'],
+            hintClasses: ['help-block'],
         }
 
     };
@@ -39,18 +45,20 @@ module.exports = function(environment) {
     ENV.csrfCookie = 'csrftoken';
     ENV.apiBaseUrl = 'http://localhost:8000';
     ENV.apiUrl = 'http://localhost:8000/api/v2';
+    ENV.curationEnabled = true;
 
-    if (environment === 'development') {
-        // ENV.APP.LOG_RESOLVER = true;
-        // ENV.APP.LOG_ACTIVE_GENERATION = true;
-        // ENV.APP.LOG_TRANSITIONS = true;
-        // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-        // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    }
+    // if (environment === 'development') {
+    //     ENV.APP.LOG_RESOLVER = true;
+    //     ENV.APP.LOG_ACTIVE_GENERATION = true;
+    //     ENV.APP.LOG_TRANSITIONS = true;
+    //     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    //     ENV.APP.LOG_VIEW_LOOKUPS = true;
+    // }
 
     if (environment === 'staging') {
         ENV.apiBaseUrl = 'https://staging-share.osf.io';
         ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
+        ENV.curationEnabled = false;
 
         // Testem prefers this...
         ENV.baseURL = '/';
@@ -65,10 +73,11 @@ module.exports = function(environment) {
     if (environment === 'production') {
         ENV.apiBaseUrl = 'https://share.osf.io';
         ENV.apiUrl = 'https://share.osf.io/api/v2';
+        ENV.curationEnabled = false;
         ENV.metricsAdapters = [{
-          name: 'GoogleAnalytics',
-          environments: ['production'],
-          config: {id: 'UA-83881781-1'}
+            name: 'GoogleAnalytics',
+            environments: ['production'],
+            config: { id: 'UA-83881781-1' }
         }];
 
         // Testem prefers this...

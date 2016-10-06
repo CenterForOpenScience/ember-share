@@ -1,6 +1,16 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
+
+const category = 'navbar';
+const action = 'click';
 
 export default Ember.Component.extend({
+
+    metrics: Ember.inject.service(),
+
+    // TODO: remove when curation is enabled on production
+    curationEnabled: ENV.curationEnabled,
+
     tagName: 'header',
     classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],
     session: Ember.inject.service(),
@@ -21,11 +31,21 @@ export default Ember.Component.extend({
 
     actions: {
         login() {
+            const label = 'login';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.get('session').authenticate('authenticator:osf-token');
         },
 
         logout() {
+            const label = 'logout';
+            this.get('metrics').trackEvent({ category, action, label });
+
             this.get('session').invalidate();
+        },
+        track(event) {
+            const label = event;
+            this.get('metrics').trackEvent({ category, action, label });
         }
     }
 });

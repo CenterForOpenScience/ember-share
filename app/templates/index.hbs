@@ -67,14 +67,28 @@
 
 <div class='index-provider' style="background: url('assets/images/bg7.jpg'); background-size: cover ;">
     <div class="row">
-        <h3 class="index-provider-title">Become a SHARE Provider</h3>
+        <h3 class="index-provider-title">Become a SHARE Source</h3>
     </div>
     <div class="row" id="index-provider-tile">
         <div class="index-tile">
-            {{footer-boxes type='provider' label='Provider Registration' icon='fa fa-map' description="Include your organization's publications, data, repository holdings, or other research."}}
+            {{
+                footer-boxes
+                type='registration'
+                label='Source Registration'
+                icon='fa fa-map'
+                description="Include your organization's publications, data, repository holdings, or other research."
+                click=(action 'transitionRegistration')
+            }}
         </div>
         <div class="index-tile">
-            {{footer-boxes type='api' label='API Usage' icon='fa fa-database' description='Search all SHARE data, post to SHARE, and get metrics on the SHARE providers.'}}
+            {{
+                footer-boxes
+                type='api'
+                label='API Usage'
+                icon='fa fa-database'
+                description='Search all SHARE data, post to SHARE, and get metrics on the SHARE providers.'
+                click=(action 'transitionAPI')
+            }}
         </div>
     </div>
 </div>

@@ -1,10 +1,19 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
 
+const category = 'detail';
+const action = 'click';
+
 export default Ember.Component.extend({
-    curate: false,
+
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    metrics: Ember.inject.service(),
+
+    // TODO: remove when curation is enabled on production
+    curationEnabled: ENV.curationEnabled,
+
+    curate: false,
     classNames: ['curate-work'],
     changes: null,
 
@@ -40,14 +49,6 @@ export default Ember.Component.extend({
         }];
     }.property('toMerge.[]'),
 
-    previousChanges: Ember.computed('work', function() {
-        let id_ = this.get('work.id');
-        let type = this.get('work.type') || this.get('work')._internalModel.modelName + 's';
-        return this.get('store').query('change', { objectChanged: {
-            id: id_,
-            type: type
-        } });
-    }),
     actions: {
         merge(obj) {
             this.get('toMerge').addObject(obj);
@@ -99,6 +100,27 @@ export default Ember.Component.extend({
                 contentType: 'application/json',
                 url: `${ENV.apiUrl}/normalizeddata/`,
             }).then(resp => console.log(resp));
-        }
+        },
+
+        toggleExtraData() {
+            const label = 'toggle extra data';
+            this.get('metrics').trackEvent({ category, action, label });
+
+            this.toggleProperty('showExtraData');
+        },
+
+        toggleChanges() {
+            const label = 'toggle changes';
+            this.get('metrics').trackEvent({ category, action, label });
+
+            this.toggleProperty('showChanges');
+        },
+
+        toggleRawData() {
+            const label = 'toggle raw data';
+            this.get('metrics').trackEvent({ category, action, label });
+
+            this.toggleProperty('showRawData');
+        },
     }
 });

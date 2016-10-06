@@ -1,0 +1,11 @@
+<div class="progress-block row">
+    <div class="col-sm-12 hidden-xs">
+    {{#each sections as |section|}}
+        <li class="{{if (eq section active) 'active'}}">
+            {{#if (eq section active)}}
+                <div class="label">{{active}}</div>
+            {{/if}}
+        </li>
+    {{/each}}
+    </div>
+</div>

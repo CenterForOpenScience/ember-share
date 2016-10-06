@@ -1,7 +1,7 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-    normalize(_, __) {
-        return this._super(_, __, 'change');
+    keyForAttribute: function(attr) {
+        return attr === 'datum' ? 'data' : this._super(...arguments);
     }
 });
