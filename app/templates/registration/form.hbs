@@ -1,6 +1,18 @@
 <div class="registration-container container">
     {{#if session.isAuthenticated}}
-        {{#if (or (not numberOfRegistrations) (and numberOfRegistrations submitAgain))}}
+      {{#if numberOfRegistrations}}
+        <br>
+        <div class="alert alert-info" role="alert">
+          You have already submitted a source registration form. To check on the status of
+          your submission(s), visit your
+          <b>
+          {{#link-to 'profile' invokeAction=(action 'track' 'check submisstion status')}}
+            profile page
+          {{/link-to}}.
+          </b>
+          Affiliated with multiple sources? Submit another.
+        </div>
+      {{/if}}
             <div class="form-group row">
                 <div class="col-xs-12 registration-form">
                     <h1 class="registration-title">Source Registration Form</h1>
@@ -272,22 +284,6 @@
                     {{/form-for}}
                 </div>
             </div>
-        {{else}}
-            <div class="row registration-completed">
-                <p class="col-xs-12">
-                    You have already submitted a source registration form. To check on the status of
-                    your submission(s), visit your
-                    {{#link-to 'profile' invokeAction=(action 'track' 'check submisstion status')}}
-                        profile page
-                    {{/link-to}}.
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-xs-12">
-                    Affiliated with multiple sources? <a {{action 'submitAgain'}}>Submit another source registration form</a>.
-                </p>
-            </div>
-        {{/if}}
     {{else}}
         {{suggest-login message="register as a SHARE source"}}
     {{/if}}
