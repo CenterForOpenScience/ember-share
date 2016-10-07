@@ -57,7 +57,7 @@ export default Ember.Route.extend({
                     return { attribute: spaceCamelCase.charAt(0).toUpperCase() + spaceCamelCase.slice(1), message: error.message };
                 });
 
-                const label = 'submit form: ' + formErrors.length() + 'error(s)';
+                const label = 'submit form: ' + formErrors.length + 'error(s)';
                 this.get('metrics').trackEvent({ category, action, label });
 
                 this.get('controller').set('formErrors', humanFormErrors);
