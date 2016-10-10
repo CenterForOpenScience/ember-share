@@ -27,8 +27,7 @@ export default BaseAuthenticator.extend({
             this.getUserInfo().then(response => {
                 if (!response || !response.token) {
                     if (redirectToLogin) {
-                        window.location = `${ENV.apiBaseUrl}/accounts/osf/login/`;
-                        return;
+                        return window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
                     }
                     reject('not logged in');
                 } else {
