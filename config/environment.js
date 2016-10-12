@@ -58,7 +58,7 @@ module.exports = function(environment) {
     if (environment === 'staging') {
         ENV.apiBaseUrl = 'https://staging-share.osf.io';
         ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
-        ENV.curationEnabled = false;
+        ENV.curationEnabled = true;
 
         // Testem prefers this...
         ENV.baseURL = '/';
