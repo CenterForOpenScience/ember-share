@@ -56,16 +56,22 @@ export default ApplicationController.extend({
         return true;
     }),
 
-    sortOptions: [
-        {
-            display: 'relevance',
-            sortBy: ''
-        },
-        {
-            display: 'date',
-            sortBy: 'date_updated'
-        }
-    ],
+    sortOptions: [{
+        display: 'Relevance',
+        sortBy: ''
+    }, {
+        display: 'Date Updated (Descending)',
+        sortBy: 'date_updated'
+    }, {
+        display: 'Date Updated (Ascending)',
+        sortBy: '-date_updated'
+    }, {
+        display: 'Ingress Date (Ascending)',
+        sortBy: '-date_created'
+    }, {
+        display: 'Ingress Date (Descending)',
+        sortBy: 'date_created'
+    }],
 
     init() {
         //TODO Sort initial results on date_modified
@@ -82,7 +88,7 @@ export default ApplicationController.extend({
     },
 
     loadEventCount() {
-        var url = ENV.apiUrl + '/search/abstractcreativework/_count';
+        var url = ENV.apiUrl + '/search/creativeworks/_count';
         return Ember.$.ajax({
             url: url,
             crossDomain: true,
@@ -94,7 +100,7 @@ export default ApplicationController.extend({
     },
 
     loadSourcesCount() {
-        let url = url || ENV.apiUrl + '/providers/';
+        let url = url || ENV.apiUrl + '/sources/';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -145,7 +151,7 @@ export default ApplicationController.extend({
         };
         if (this.get('sort')) {
             let sortBy = {};
-            sortBy[this.get('sort')] = 'desc';
+            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
             queryBody.sort = sortBy;
         }
         if (page === 1) {
@@ -177,17 +183,15 @@ export default ApplicationController.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            let results = json.hits.hits.map((hit) => {
-                let source = Ember.Object.create(hit._source);
-                let r = source.getProperties('type', 'title', 'description', 'language', 'date', 'date_created', 'date_modified', 'date_updated', 'date_published', 'tags', 'sources');
-                r.id = hit._id;
-                r.contributors = source.lists.contributors;
-                r.funders = source.lists.funders;
-                r.publishers = source.lists.publishers;
-                r.institutions = source.lists.institutions;
-                r.organizations = source.lists.organizations;
-                return r;
-            });
+            let results = json.hits.hits.map(hit => Object.assign(
+                {},
+                hit._source,
+                ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
+                    acc,
+                    { [key]: hit._source.lists[key] }
+                ), { typeSlug: hit._source.type.classify().toLowerCase() })
+            ));
+
             if (json.aggregations) {
                 this.set('aggregations', json.aggregations);
             }

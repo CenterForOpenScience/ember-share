@@ -15,14 +15,18 @@
         </div>
     </div>
     <div class="row">
-        <div class="text-muted col-sm-2 col-sm-offset-2 hidden-xs">
-            <small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
-        </div>
-        <div class="col-sm-4 col-xs-12" style="text-align: center">
-            <small>Found {{numberOfResults}} events in {{took}} seconds</small>
-        </div>
-        <div class="text-muted col-sm-2 hidden-xs" style="text-align: right">
-            <small>{{numberOfSources}} aggregated sources</small>
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="row">
+              <div class="text-muted col-sm-4 hidden-xs">
+                  <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
+              </div>
+              <div class="col-sm-4 col-xs-12" style="text-align: center">
+                  <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
+              </div>
+              <div class="text-muted col-sm-4 hidden-xs" style="text-align: right">
+                  <small>{{locale-string numberOfSources}} aggregated sources</small>
+              </div>
+            </div>
         </div>
     </div>
     {{#if queryBody}}
@@ -131,7 +135,7 @@
             {{/each}}
             <div class="text-center">
                 {{#if loading}}
-                    {{fa-icon 'spinner' pulse=true size=3}}
+                  {{loading-bars}}
                 {{else if noResultsMessage}}
                     <div class="no-results">{{noResultsMessage}}</div>
                 {{else if morePages}}
