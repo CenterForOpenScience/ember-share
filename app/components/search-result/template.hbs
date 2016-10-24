@@ -8,7 +8,7 @@
     {{/if}}
     <div class="row title">
         <h4 class="col-sm-11 redirect">
-            {{#link-to "curate.work" obj.type obj.id}}
+            {{#link-to 'detail' (slug obj.type) obj.id}}
                 {{#if obj.title}}
                     {{obj.title}}
                 {{else}}
@@ -26,15 +26,15 @@
                             -
                         {{/if}}
                         {{#if contrib.id}}
-                            {{#link-to 'curate.person' contrib.id}}
-                                {{contrib.cited_name}}
+                            {{#link-to 'detail' (slug contrib.type) contrib.id}}
+                                {{contrib.cited_as}}
                             {{/link-to}}
                         {{else}}
-                            {{contrib.cited_name}}
+                            {{contrib.cited_as}}
                         {{/if}}
                     {{/each}}
-                    {{#if extra_contributors}}
-                        <span class="text-muted">+{{extra_contributors}}</span>
+                    {{#if extraContributors}}
+                        <span class="text-muted">+{{extraContributors.length}}</span>
                     {{/if}}
                 </span>
             </div>
@@ -55,7 +55,7 @@
             <div class="col-xs-2 pull-left worktype" style="text-align: left">
                 <div class="worktype-inner">
                     <a class="filter typefilter" {{action 'addFilter' 'type' obj.type}}>
-                        {{obj.type}}
+                        {{type}}
                     </a>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 </a>
             {{/each}}
             {{#if extraTags}}
-                <span class="text-muted">+{{extraTags}}</span>
+                <span class="text-muted">+{{extraTags.length}}</span>
             {{/if}}
         </div>
     </div>

@@ -1,0 +1,63 @@
+<div class="title-container">
+    <div class="container">
+        <div class="jumbotron">
+          <h1 class="title">
+            {{model.title}}
+            <br>
+            <small>{{model.type}}</small>
+          </h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <br>
+  <p>
+  {{#if model.description}}
+    {{model.description}}
+  {{else}}
+    <span class="text-muted">No description provided.</span>
+  {{/if}}
+  </p>
+  <br>
+
+  {{#if contributors}}
+    <h3>Contributors</h3>
+    <hr style="margin-top: 0px; margin-bottom: 10px">
+    {{#each contributors as |contributor index|}}
+      <span>{{~if index '  -  ' ''~}}</span>
+      {{~link-to-agent agent=contributor.agent display=contributor.citedAs~}}
+    {{/each}}
+  {{/if}}
+
+  {{#if identifiers}}
+    <br>
+    <h3>Identified by</h3>
+    {{#each model.identifiers as |identifier index|}}
+      <a href={{identifier.uri}}>{{identifier.host}}</a>
+    {{/each}}
+  {{/if}}
+
+  {{#if publishers}}
+    <br>
+    <h3>Published By</h3>
+    <hr style="margin-top: 0px; margin-bottom: 10px">
+    {{#each publishers as |relation|}}
+      {{link-to-agent agent=relation.agent}}
+    {{/each}}
+  {{/if}}
+
+  <br>
+  <h3>Tags</h3>
+  <hr style="margin-top: 0px; margin-bottom: 10px">
+  {{#each model.tags as |tag|}}
+    <span class="label label-primary">{{tag.name}}</span>
+  {{/each}}
+
+  <h3>Collected From</h3>
+  <hr style="margin-top: 0px; margin-bottom: 10px">
+  {{#each model.sources as |source|}}
+    <a class="btn btn-primary"><img class="provider-favicon" src={{source.favicon}}>{{source.title}}</a>
+  {{/each}}
+
+</div>

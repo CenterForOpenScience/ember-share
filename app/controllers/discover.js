@@ -88,9 +88,8 @@ export default ApplicationController.extend({
     },
 
     loadEventCount() {
-        var url = ENV.apiUrl + '/search/creativeworks/_count';
         return Ember.$.ajax({
-            url: url,
+            url: ENV.apiUrl + '/search/creativeworks/_count',
             crossDomain: true,
             type: 'GET',
             contentType: 'application/json',
@@ -100,10 +99,9 @@ export default ApplicationController.extend({
     },
 
     loadSourcesCount() {
-        let url = url || ENV.apiUrl + '/sources/';
         this.set('loading', true);
         return Ember.$.ajax({
-            url: url,
+            url: ENV.apiUrl + '/sources/',
             crossDomain: true,
             type: 'GET',
             contentType: 'application/json',

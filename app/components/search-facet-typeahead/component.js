@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     },
 
     buildTypeaheadQuery(text) {
-        let type = this.get('options.type') || this.get('key');
+        let types = this.get('options.type') || this.get('key');
         return {
             suggestions: {
                 text,
@@ -63,7 +63,7 @@ export default Ember.Component.extend({
                     size: 10,
                     fuzzy: true,
                     context: {
-                        type
+                        types
                     }
                 }
             }
