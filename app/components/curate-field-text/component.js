@@ -18,6 +18,7 @@ export default Ember.Component.extend({
     }.property('updated'),
 
     changed: function() {
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
         return this.get('text') !== this.get('updated');
     }.property('text', 'updated'),
 
@@ -43,6 +44,9 @@ export default Ember.Component.extend({
         }, 10);
     },
 
+    didRender() {
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
+    },
     actions: {
         cancel() {
             this.setProperties({ editing: false, updated: this.get('text') });

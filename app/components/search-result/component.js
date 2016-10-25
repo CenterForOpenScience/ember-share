@@ -28,6 +28,9 @@ export default Ember.Component.extend({
     tags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(0, this.get('maxTags'));
     }),
+    didRender() {
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
+    },
     actions: {
         addFilter(type, filter) {
             this.sendAction('addFilter', type, filter);
