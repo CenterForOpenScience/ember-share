@@ -16,11 +16,11 @@ export default Ember.Component.extend({
     abbreviation: Ember.computed('obj.description', function() {
         return this.get('obj.description').slice(0, this.get('maxDescription'));
     }),
-    extraContributors: Ember.computed('obj.contributors', function() {
-        return (this.get('obj.contributors') || []).slice(this.get('maxContributors'));
+    extraContributors: Ember.computed('obj.lists.contributors', function() {
+        return (this.get('obj.lists.contributors') || []).slice(this.get('maxContributors'));
     }),
-    contributors: Ember.computed('obj.contributors', function() {
-        return (this.get('obj.contributors') || []).slice(0, this.get('maxContributors'));
+    contributors: Ember.computed('obj.lists.contributors', function() {
+        return (this.get('obj.lists.contributors') || []).slice(0, this.get('maxContributors'));
     }),
     extraTags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));
