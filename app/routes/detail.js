@@ -1,25 +1,5 @@
 import Ember from 'ember';
-
-const CONTROLLER_MAP = {
-    Agent: 'agent',
-    'Creative Work': 'work',
-};
-
-const FRAGMENTS = {
-    AbstractCreativeWork: `{
-      title,
-      description,
-
-      tags { name },
-      identifiers { host, uri },
-
-      relatedAgents {
-        type: __typename,
-        citedAs,
-        agent { id, type: __typename, name }
-      }
-    }`
-};
+import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
 
 export default Ember.Route.extend({
     model(params) {
@@ -32,9 +12,10 @@ export default Ember.Route.extend({
                       id,
                       type: __typename,
                       types,
-                      sources { id, title, favicon }
+                      extra,
+                      sources { id, title, favicon },
 
-                      ${Object.keys(FRAGMENTS).map(key => `...on ${key} ${FRAGMENTS[key]}`).join('\n')}
+                      ${Object.entries(FRAGMENT_MAP).map(([type, fragment]) => `...on ${type} ${fragment}`).join('\n')}
                   }
               }`
             }
@@ -45,14 +26,16 @@ export default Ember.Route.extend({
     },
     actions: {
         error(error, transition) {
+            console.error(error);
             return this.intermediateTransitionTo('notfound');
         }
     },
     setup(model, transition) {
         if (!model) return this._super(model, transition);  // If the model could not be loaded. Do nothing.
 
+        // Find the most specific template available for the found type
         let view = null;
-        for (let i = model.types.length; i > -1; i--)
+        for (let i = 0; i < model.types.length; i++)
           if ((view = CONTROLLER_MAP[model.types[i]])) break;
 
         this.set('templateName', view);
@@ -62,6 +45,8 @@ export default Ember.Route.extend({
     afterModel(model, transition) {
         if (!model) return;  // If the model could not be loaded. Do nothing.
 
+        // If the type slug /:SLUG/:SHARE-ID is not the type of the object
+        // Correct the url
         let slug = model.type.classify().toLowerCase();
         if (slug !== transition.params.detail.type)
             return this.transitionTo('detail', slug, model.id);

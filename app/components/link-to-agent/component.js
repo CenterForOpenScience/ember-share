@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 const ICON_MAP = {
-    Organization: 'fa-building',
+    Consortium: 'fa-users',
     Institution: 'fa-university',
+    Organization: 'fa-building',
     Person: 'fa-user',
 };
 
@@ -22,7 +23,7 @@ export default Ember.Component.extend({
     }),
 
     slugType: Ember.computed('agent.type', function() {
-      return this.get('agent.type').classify().toLowerCase();
+        return this.get('agent.type').classify().toLowerCase();
     })
 
 });

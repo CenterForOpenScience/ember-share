@@ -1,0 +1,5 @@
+<ul>
+  {{#each model.relatedWorks as |relation index|}}
+    <li>{{link-to-work work=relation.creativeWork}}</li>
+  {{/each}}
+</ul>

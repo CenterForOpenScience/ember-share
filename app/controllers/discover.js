@@ -82,20 +82,22 @@ export default ApplicationController.extend({
         //   query.from = 0;
         //   query.size = this.get('page') * this.get('size');
         // }
-        this.loadEventCount();
+        //
+        this.store.adapterFor('application').ajax('/api/v2/graph/', 'POST', {
+            data: {
+                variables: '',
+                query: `query {
+                  search(type: "creativeworks", size: 0) {
+                    hits { total }
+                  }
+                }`
+            }
+        }).then(data => {
+            this.set('numberOfEvents', data.data.search.hits.total);
+        });
+
         this.loadSourcesCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
-    },
-
-    loadEventCount() {
-        return Ember.$.ajax({
-            url: ENV.apiUrl + '/search/creativeworks/_count',
-            crossDomain: true,
-            type: 'GET',
-            contentType: 'application/json',
-        }).then((json) => {
-            this.set('numberOfEvents', json.count);
-        });
     },
 
     loadSourcesCount() {

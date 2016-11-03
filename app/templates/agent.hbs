@@ -1,1 +1,48 @@
-AGENT TEMPLATE
+{{title model.name}}
+
+<div class="title-container">
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="title">
+        {{#if avatar}}
+          <img class="img-circle" src={{avatar.uri}} style="margin-right: 5px; height: 80px;">
+        {{/if}}
+        {{model.name}}
+        <br>
+        <small>{{model.type}}</small>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <br>
+
+  {{#each sections as |section|}}
+    {{#if (get this section.value)}}
+      <br>
+      <h3>{{section.title}}</h3>
+      <hr style="margin-top: 0px; margin-bottom: 10px">
+      {{component section.component model=model data=(get this section.value)}}
+    {{/if}}
+  {{/each}}
+
+  {{#if hasExtra}}
+    <br>
+    <h3>Additional Information
+      <small>
+        <a {{action 'toggleExtra'}} href="#">
+          {{#if showExtra}}
+            <i class="fa fa-caret-down"></i>
+          {{else}}
+            <i class="fa fa-caret-left"></i>
+          {{/if}}
+        </a>
+      </small>
+    </h3>
+    <hr style="margin-top: 0px; margin-bottom: 10px">
+    {{#if showExtra}}
+      {{json-pretty obj=model.extra shouldHighlight=true}}
+    {{/if}}
+  {{/if}}
+</div>
