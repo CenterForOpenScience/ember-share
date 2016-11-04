@@ -33,6 +33,7 @@ Router.map(function() {
     });
 
     this.route('detail', { path: '/:type/:id' });
+    this.route('curate', { path: '/curate/:type/:id' });
 
     this.route('notfound', { path: '/*path' });
     this.route('notfound');
