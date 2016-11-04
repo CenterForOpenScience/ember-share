@@ -7,7 +7,7 @@ const MOD = 10000000000;
 
 export default Ember.Route.extend({
     getEncodedPk(pk, type) {
-        const modelID = ENV.modelIDs[type] || 49;  // 49 is abstractcreativework
+        const modelID = ENV.modelIDs[type] || ENV.modelIDs.creativework;
         const hexValue = ((pk * NUM) % MOD).toString(16);
         const encoded = `${String('000000000' + hexValue).slice(-9)}`;
         return `${modelID.toString(16)}${encoded.slice(0, 3)}-${encoded.slice(3, 6)}-${encoded.slice(6)}`;
