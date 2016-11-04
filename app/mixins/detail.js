@@ -20,8 +20,8 @@ export default Ember.Mixin.create({
     // Links that people could actual click on and not get XML/JSON/etc
     links: Ember.computed('model.identifiers', function() {
         return this.get('model.identifiers').filter(identifier =>
-            Object.entries(VISITABLE).reduce((acc, [k, re]) => acc || re.test(identifier[k]), false)
-            && !Object.entries(AVOID).reduce((acc, [k, re]) => acc || re.test(identifier[k]), false)
+            Object.keys(VISITABLE).reduce((acc, k) => acc || VISITABLE[k].test(identifier[k]), false)
+            && !Object.keys(AVOID).reduce((acc, k) => acc || AVOID[k].test(identifier[k]), false)
         );
     }),
 
