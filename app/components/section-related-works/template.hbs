@@ -1,5 +1,6 @@
 <ul>
-  {{#each model.relatedWorks as |relation index|}}
-    <li>{{link-to-work work=relation.creativeWork}}</li>
-  {{/each}}
+    {{#each model.relatedWorks as |relation index|}}
+        <li>{{relation.type}}: {{link-to-work work=relation.creativeWork}}</li>
+    {{/each}}
 </ul>
+{{page-controls list='relatedWorks' model=model start=0 end=10 total=model.totalRelatedWorks}} 

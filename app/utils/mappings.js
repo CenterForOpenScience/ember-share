@@ -19,6 +19,38 @@ export const CONTROLLER_MAP = Object.freeze({
     // Person: 'person',
 });
 
+export const PAGE_FRAGMENT_MAP = Object.freeze({
+    agent: {
+        relatedWorks: (offset) => `
+          relatedWorks(offset:${offset|0}) {
+            type: __typename
+            creativeWork { id, type: __typename, title }
+          }
+        `,
+        relatedAgents: (offset) => `
+          relatedAgents(offset:${offset|0}) {
+            type: __typename
+            related { id, type: __typename, name }
+          }
+        `
+    },
+    work: {
+        relatedWorks: (offset) => `
+          relatedWorks(offset:${offset|0}) {
+            type: __typename
+            related { id, type: __typename, title }
+          }
+        `,
+        relatedAgents: (offset) => `
+          relatedAgents(offset:${offset|0}) {
+            type: __typename,
+            citedAs,
+            agent { id, type: __typename, name }
+          }
+        `
+    }
+})
+
 // GraphQL fragments that dictate the default attributes
 // loaded for a given type in the detail route
 export const FRAGMENT_MAP = Object.freeze({
@@ -29,22 +61,13 @@ export const FRAGMENT_MAP = Object.freeze({
       tags { name },
       identifiers { scheme, host, uri },
 
-      relatedAgents {
-        type: __typename,
-        citedAs,
-        agent { id, type: __typename, name }
-      }
+      ${PAGE_FRAGMENT_MAP.work.relatedAgents()}
     }`,
 
     AbstractAgent: `{
       name,
       identifiers { scheme, host, uri },
-    }`,
-
-    Person: `{
-      relatedWorks {
-        type: __typename
-        creativeWork { id, type: __typename, title }
-      }
+      totalRelatedWorks,
+      ${PAGE_FRAGMENT_MAP.agent.relatedWorks()}
     }`,
 });
