@@ -1,6 +1,6 @@
 {{#if showPageControls}}
     <div class='text-center'>
-        {{page-controls offset=offset pageSize=pageSize total=model.totalRelatedWorks getPage=(action 'getPage')}} 
+        {{page-controls page=page totalPages=totalPages nextPage=(action 'nextPage') prevPage=(action 'prevPage')}} 
     </div>
 {{/if}}
 <ul>
