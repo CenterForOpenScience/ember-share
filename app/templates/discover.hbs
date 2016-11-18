@@ -101,7 +101,7 @@
             </i>
         </div>
     </div>
-    <hr>
+    <hr class='results-top'>
     <div class="row">
         {{#if media.isExtraSmall}}
             <div class='col-xs-12 visible-xs'>
@@ -130,18 +130,18 @@
             </div>
         {{/if}}
         <div class='col-sm-9 col-xs-12'>
-            {{#each results as |obj|}}
-                {{search-result addFilter='addFilter' obj=obj}}
-            {{/each}}
-            <div class="text-center">
-                {{#if loading}}
-                  {{loading-bars}}
-                {{else if noResultsMessage}}
-                    <div class="no-results">{{noResultsMessage}}</div>
-                {{else if morePages}}
-                    <button class="btn btn-default" {{action 'next'}}> More </button>
-                {{/if}}
-            </div>
+            {{#if loading}}
+                {{loading-bars}}
+            {{else if noResultsMessage}}
+                <div class="no-results">{{noResultsMessage}}</div>
+            {{else}}
+                {{#each results as |obj|}}
+                    {{search-result addFilter='addFilter' obj=obj}}
+                {{/each}}
+                <div class="text-center">
+                    {{page-controls page=page totalPages=totalPages nextPage=(action 'next') prevPage=(action 'prev')}}
+                </div>
+            {{/if}}
         </div>
     </div>
     <br>
