@@ -1,6 +1,10 @@
+{{#if showPageControls}}
+    <div class='text-center'>
+        {{page-controls offset=offset pageSize=pageSize total=model.totalRelatedWorks getPage=(action 'getPage')}} 
+    </div>
+{{/if}}
 <ul>
     {{#each model.relatedWorks as |relation index|}}
         <li>{{relation.type}}: {{link-to-work work=relation.creativeWork}}</li>
     {{/each}}
 </ul>
-{{page-controls list='relatedWorks' model=model start=0 end=10 total=model.totalRelatedWorks}} 

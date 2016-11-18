@@ -20,7 +20,7 @@ export const CONTROLLER_MAP = Object.freeze({
 });
 
 export const PAGE_FRAGMENT_MAP = Object.freeze({
-    agent: {
+    AbstractAgent: {
         relatedWorks: (offset) => `
           relatedWorks(offset:${offset|0}) {
             type: __typename
@@ -34,7 +34,7 @@ export const PAGE_FRAGMENT_MAP = Object.freeze({
           }
         `
     },
-    work: {
+    AbstractCreativeWork: {
         relatedWorks: (offset) => `
           relatedWorks(offset:${offset|0}) {
             type: __typename
@@ -61,13 +61,13 @@ export const FRAGMENT_MAP = Object.freeze({
       tags { name },
       identifiers { scheme, host, uri },
 
-      ${PAGE_FRAGMENT_MAP.work.relatedAgents()}
+      ${PAGE_FRAGMENT_MAP.AbstractCreativeWork.relatedAgents()}
     }`,
 
     AbstractAgent: `{
       name,
       identifiers { scheme, host, uri },
       totalRelatedWorks,
-      ${PAGE_FRAGMENT_MAP.agent.relatedWorks()}
+      ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedWorks()}
     }`,
 });
