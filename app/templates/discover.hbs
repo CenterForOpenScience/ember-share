@@ -133,11 +133,12 @@
             {{#if loading}}
                 {{loading-bars}}
             {{else if noResultsMessage}}
-                <div class="no-results">{{noResultsMessage}}</div>
+                <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
                 <div class="text-center">
                     {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
                 </div>
+                <hr>
                 {{#each results as |obj|}}
                     {{search-result addFilter='addFilter' obj=obj}}
                 {{/each}}

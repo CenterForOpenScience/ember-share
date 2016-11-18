@@ -194,7 +194,7 @@ export default ApplicationController.extend({
                 firstLoad: false,
                 results: results,
             });
-            if (results.length === 0 && this.get('totalPages') < this.get('page')) {
+            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
         });
