@@ -22,13 +22,13 @@ export const CONTROLLER_MAP = Object.freeze({
 export const PAGE_FRAGMENT_MAP = Object.freeze({
     AbstractAgent: {
         relatedWorks: (offset) => `
-          relatedWorks(offset:${offset|0}) {
+          relatedWorks(offset:${offset | 0}) {
             type: __typename
             creativeWork { id, type: __typename, title }
           }
         `,
         relatedAgents: (offset) => `
-          relatedAgents(offset:${offset|0}) {
+          relatedAgents(offset:${offset | 0}) {
             type: __typename
             related { id, type: __typename, name }
           }
@@ -36,20 +36,20 @@ export const PAGE_FRAGMENT_MAP = Object.freeze({
     },
     AbstractCreativeWork: {
         relatedWorks: (offset) => `
-          relatedWorks(offset:${offset|0}) {
+          relatedWorks(offset:${offset | 0}) {
             type: __typename
             related { id, type: __typename, title }
           }
         `,
         relatedAgents: (offset) => `
-          relatedAgents(offset:${offset|0}) {
+          relatedAgents(offset:${offset | 0}) {
             type: __typename,
             citedAs,
             agent { id, type: __typename, name }
           }
         `
     }
-})
+});
 
 // GraphQL fragments that dictate the default attributes
 // loaded for a given type in the detail route

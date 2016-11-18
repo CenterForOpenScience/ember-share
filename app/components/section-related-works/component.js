@@ -1,5 +1,4 @@
 import Ember from 'ember';
-//import page_query from '../../utils/graphql';
 import { PAGE_FRAGMENT_MAP } from '../../utils/mappings';
 
 export default Ember.Component.extend({
@@ -48,9 +47,9 @@ export default Ember.Component.extend({
             }).then(data => {
                 if (data.errors) {throw Error(data.errors[0].message);}
                 this.setProperties({
-                    'loadingPage': false,
+                    loadingPage: false,
                     'model.relatedWorks': data.data.shareObject.relatedWorks,
-                    'offset': newOffset
+                    offset: newOffset
                 });
             });
         },
