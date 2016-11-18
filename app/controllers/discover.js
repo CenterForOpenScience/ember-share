@@ -146,7 +146,7 @@ export default ApplicationController.extend({
             sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
             queryBody.sort = sortBy;
         }
-        if (page === 1) {
+        if (page === 1 || this.get('firstLoad')) {
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
@@ -194,6 +194,9 @@ export default ApplicationController.extend({
                 firstLoad: false,
                 results: results,
             });
+            if (results.length === 0 && this.get('totalPages') < this.get('page')) {
+                this.search()
+            }
         });
     },
 
