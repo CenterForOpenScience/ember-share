@@ -258,7 +258,7 @@ export default ApplicationController.extend({
 
         addFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'remove-filter';
+            const action = 'add-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -270,7 +270,7 @@ export default ApplicationController.extend({
 
         removeFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'add-filter';
+            const action = 'remove-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -326,28 +326,18 @@ export default ApplicationController.extend({
             this.search();
         },
 
-        next() {
-            if (this.get('page') >= this.get('totalPages')) {
+        loadPage(newPage) {
+            if (newPage === this.get('page') || newPage < 1 || newPage > this.get('totalPages')) {
                 return;
             }
 
             const category = this.get('category');
-            const action = 'results';
-            const label = 'more-results';
+            const action = 'load-result-page';
+            const label = newPage;
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.incrementProperty('page', 1);
-            this.scrollToResults();
-            this.loadPage();
-        },
-
-        prev() {
-            // No negative pages
-            if (this.get('page') <= 1) {
-                return;
-            }
-            this.decrementProperty('page', 1);
+            this.set('page', newPage);
             this.scrollToResults();
             this.loadPage();
         },

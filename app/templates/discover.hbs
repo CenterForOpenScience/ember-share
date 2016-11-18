@@ -135,11 +135,14 @@
             {{else if noResultsMessage}}
                 <div class="no-results">{{noResultsMessage}}</div>
             {{else}}
+                <div class="text-center">
+                    {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
+                </div>
                 {{#each results as |obj|}}
                     {{search-result addFilter='addFilter' obj=obj}}
                 {{/each}}
                 <div class="text-center">
-                    {{page-controls page=page totalPages=totalPages nextPage=(action 'next') prevPage=(action 'prev')}}
+                    {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
                 </div>
             {{/if}}
         </div>

@@ -18,20 +18,13 @@ export default Ember.Component.extend({
     showPageControls: Ember.computed.gt('totalPages', 1),
 
     actions: {
-        nextPage: function() {
-            const nextOffset = this.get('page') * this.get('pageSize');
-            this.send('getPage', nextOffset);
-        },
-
-        prevPage: function() {
-            const prevOffset = (this.get('page') - 2) * this.get('pageSize');
-            this.send('getPage', prevOffset);
-        },
-
-        getPage: function(newOffset) {
-            if (this.get('loadingPage')) {return;}
+        loadPage(newPage) {
+            if (this.get('loadingPage')) {
+                return;
+            }
             this.set('loadingPage', true);
 
+            const offset = (newPage - 1) * this.get('pageSize');
             const model = this.get('model');
             const adapter = this.get('store').adapterFor('application');
             // TODO consolidate graphql queries in a util or service or something
@@ -40,16 +33,16 @@ export default Ember.Component.extend({
                     variables: '',
                     query: `query {
                         shareObject(id: "${model.id}") {
-                            ${Object.entries(PAGE_FRAGMENT_MAP).map(([type, fragments]) => `...on ${type} { ${fragments.relatedWorks(newOffset)} }`).join('\n')}
+                            ${Object.entries(PAGE_FRAGMENT_MAP).map(([type, fragments]) => `...on ${type} { ${fragments.relatedWorks(offset)} }`).join('\n')}
                         }
                     }`
                 }
             }).then(data => {
                 if (data.errors) {throw Error(data.errors[0].message);}
                 this.setProperties({
+                    offset,
                     loadingPage: false,
                     'model.relatedWorks': data.data.shareObject.relatedWorks,
-                    offset: newOffset
                 });
             });
         },

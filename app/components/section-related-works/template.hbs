@@ -1,6 +1,6 @@
 {{#if showPageControls}}
     <div class='text-center'>
-        {{page-controls page=page totalPages=totalPages nextPage=(action 'nextPage') prevPage=(action 'prevPage')}} 
+        {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
     </div>
 {{/if}}
 <ul>
