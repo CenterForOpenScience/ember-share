@@ -14,7 +14,7 @@ export default ApplicationController.extend({
     category: 'discover',
 
     queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort'];
+        let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
@@ -49,11 +49,8 @@ export default ApplicationController.extend({
     took: 0,
     numberOfSources: 0,
 
-    morePages: Ember.computed('results.length', function() {
-        if (this.get('results.length') === this.get('numberOfResults')) {
-            return false;
-        }
-        return true;
+    totalPages: Ember.computed('numberOfResults', 'size', function() {
+        return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
     sortOptions: [{
@@ -76,13 +73,8 @@ export default ApplicationController.extend({
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
+        this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        // TODO Load all previous pages when hitting a page with page > 1
-        // if (this.get('page') != 1) {
-        //   query.from = 0;
-        //   query.size = this.get('page') * this.get('size');
-        // }
-        //
         this.store.adapterFor('application').ajax('/api/v2/graph/', 'POST', {
             data: {
                 variables: '',
@@ -154,7 +146,7 @@ export default ApplicationController.extend({
             sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
             queryBody.sort = sortBy;
         }
-        if (page === 1) {
+        if (page === 1 || this.get('firstLoad')) {
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
@@ -195,15 +187,23 @@ export default ApplicationController.extend({
             if (json.aggregations) {
                 this.set('aggregations', json.aggregations);
             }
-            this.set('numberOfResults', json.hits.total);
-            this.set('took', moment.duration(json.took).asSeconds());
-            this.set('loading', false);
-            this.get('results').addObjects(results);
+            this.setProperties({
+                numberOfResults: json.hits.total,
+                took: moment.duration(json.took).asSeconds(),
+                loading: false,
+                firstLoad: false,
+                results: results,
+            });
+            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+                this.search();
+            }
         });
     },
 
     search() {
-        this.set('page', 1);
+        if (!this.get('firstLoad')) {
+            this.set('page', 1);
+        }
         this.set('loading', true);
         this.get('results').clear();
         this.get('debouncedLoadPage')();
@@ -250,11 +250,15 @@ export default ApplicationController.extend({
         return `${ENV.apiUrl}/atom/?elasticQuery=${encodedQuery}`;
     }),
 
+    scrollToResults() {
+        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+    },
+
     actions: {
 
         addFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'remove-filter';
+            const action = 'add-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -266,7 +270,7 @@ export default ApplicationController.extend({
 
         removeFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'add-filter';
+            const action = 'remove-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -322,28 +326,19 @@ export default ApplicationController.extend({
             this.search();
         },
 
-        next() {
-            // If we don't have full pages then we've hit the end of our search
-            if (!this.get('morePages')) {
+        loadPage(newPage) {
+            if (newPage === this.get('page') || newPage < 1 || newPage > this.get('totalPages')) {
                 return;
             }
 
             const category = this.get('category');
-            const action = 'results';
-            const label = 'more-results';
+            const action = 'load-result-page';
+            const label = newPage;
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.incrementProperty('page', 1);
-            this.loadPage();
-        },
-
-        prev() {
-            // No negative pages
-            if (this.get('page') < 1) {
-                return;
-            }
-            this.decrementProperty('page', 1);
+            this.set('page', newPage);
+            this.scrollToResults();
             this.loadPage();
         },
 

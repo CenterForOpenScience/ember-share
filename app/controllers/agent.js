@@ -3,7 +3,8 @@ import DetailMixin from '../mixins/detail';
 
 const SECTIONS = [
     { title: 'Profiles', value: 'links', component: 'section-links' },
-    { title: 'Worked on', value: 'model.relatedWorks', component: 'section-related-works' },
+    { title: 'Events', value: 'model.relatedWorks', component: 'section-related-works' },
+    { title: 'Affiliations', value: 'model.relatedAgents', component: 'section-related-agents' },
     { title: 'Collected From', value: 'model.sources', component: 'section-sources' },
 ];
 
