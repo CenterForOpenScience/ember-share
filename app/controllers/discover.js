@@ -58,16 +58,16 @@ export default ApplicationController.extend({
         sortBy: ''
     }, {
         display: 'Date Updated (Descending)',
-        sortBy: 'date_updated'
-    }, {
-        display: 'Date Updated (Ascending)',
         sortBy: '-date_updated'
     }, {
+        display: 'Date Updated (Ascending)',
+        sortBy: 'date_updated'
+    }, {
         display: 'Ingress Date (Ascending)',
-        sortBy: '-date_created'
+        sortBy: 'date_created'
     }, {
         display: 'Ingress Date (Descending)',
-        sortBy: 'date_created'
+        sortBy: '-date_created'
     }],
 
     init() {
