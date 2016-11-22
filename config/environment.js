@@ -38,6 +38,16 @@ module.exports = function(environment) {
             fieldHasErrorClasses: 'has-error',
             errorClasses: ['text-danger'],
             hintClasses: ['help-block'],
+        },
+
+        modelIDs: {
+            creativework: 49,
+            publication: 49,
+            preprint: 49,
+            project: 49,
+            registration: 49,
+            dataset: 49,
+            person: 47
         }
 
     };
