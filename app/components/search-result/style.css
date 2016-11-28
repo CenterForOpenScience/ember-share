@@ -19,7 +19,8 @@
     margin-left: 15px ;
     background: #5bc0de;
     display: inline-block;
-    font-size: 85% ;
+    font-size: 85%;
+    margin-top: 4px;
 }
 
 .worktype {
