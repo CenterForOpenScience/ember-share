@@ -1,7 +1,7 @@
 <div class="col-sm-6 col-xs-12">
     <div class="provider-filter">
         {{#link-to "discover" (query-params sources=encodedParam) class="provider-filter"}}
-            <img class="provider-favicon" src={{favicon}}>{{source.long_title}}
+            <img class="provider-favicon" src={{favicon}}>{{source.attributes.longTitle}}
         {{/link-to}}
     </div>
 </div>

@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/providers/?sort=long_title';
+        url = url || ENV.apiUrl + '/sources/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -28,11 +28,11 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.count);
-            this.get('sources').addObjects(json.results);
+            this.set('numberOfSources', json.meta.pagination.count);
+            this.get('sources').addObjects(json.data);
 
-            if (json.next) {
-                return this.loadPage(json.next);
+            if (json.links.next) {
+                return this.loadPage(json.links.next);
             }
             Ember.run(() => {
                 this.set('loading', false);

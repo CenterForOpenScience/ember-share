@@ -4,9 +4,9 @@ import { encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
     favicon: Ember.computed(function() {
-        return ENV.apiBaseUrl + '/static/' + this.get('source').provider_name + '/img/favicon.ico';
+        return ENV.apiBaseUrl + '/static/' + this.get('source').attributes.providerName + '/img/favicon.ico';
     }),
     encodedParam: Ember.computed(function() {
-        return encodeParams([this.get('source.long_title')])[0];
+        return encodeParams([this.get('source.attributes.longTitle')])[0];
     })
 });
