@@ -77,6 +77,11 @@ module.exports = function(environment) {
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
 
+        ENV.modelIDs = {
+            person: 100,
+            creativework: 70,
+        };
+
         // ENV.APP.rootElement = '#ember-staging';
     }
 
@@ -89,6 +94,11 @@ module.exports = function(environment) {
             environments: ['production'],
             config: { id: 'UA-83881781-1' }
         }];
+
+        ENV.modelIDs = {
+            person: 100,
+            creativework: 70,
+        };
 
         // Testem prefers this...
         ENV.baseURL = '/';
