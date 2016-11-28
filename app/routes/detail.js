@@ -1,24 +1,8 @@
 import Ember from 'ember';
 import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
-import ENV from '../config/environment';
-
-const NUM = 0xDEADBEEF;
-const MOD = 10000000000;
 
 export default Ember.Route.extend({
-    getEncodedPk(pk, type) {
-        const modelID = ENV.modelIDs[type] || ENV.modelIDs.creativework;
-        const hexValue = ((pk * NUM) % MOD).toString(16);
-        const encoded = `${String('000000000' + hexValue).slice(-9)}`;
-        return `${modelID.toString(16)}${encoded.slice(0, 3)}-${encoded.slice(3, 6)}-${encoded.slice(6)}`;
-    },
     model(params) {
-        const pkRegex = /^[0-9]+$/;
-        const pk = params.id.match(pkRegex);
-        if (pk) {
-            params.id = this.getEncodedPk(params.id, params.type);
-            return this.transitionTo('detail', params.type, params.id);
-        }
         let adapter = this.store.adapterFor('application');
         return adapter.ajax('/api/v2/graph/', 'POST', {
             data: {
