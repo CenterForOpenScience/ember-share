@@ -28,7 +28,9 @@ function dateRangeFilter(field, start, end) {
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (field !== 'tags') {
+        if (field === 'type' && !terms.includes('creative work')) {
+            field = field + 's.raw';
+        } else if (field !== 'tags') {
             field = field + '.raw';
         }
         if (all) {
