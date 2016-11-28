@@ -100,7 +100,7 @@ export default ApplicationController.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.count);
+            this.set('numberOfSources', json.meta.pagination.count);
         });
     },
 
