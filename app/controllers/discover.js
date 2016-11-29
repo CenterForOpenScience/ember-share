@@ -54,9 +54,9 @@ export default ApplicationController.extend({
     }),
 
     clampedPages: Ember.computed('totalPages', 'size', function() {
-        let max_pages = Math.ceil(10000 / this.get('size'));
+        let maxPages = Math.ceil(10000 / this.get('size'));
         let totalPages = this.get('totalPages');
-        return  totalPages < max_pages ? totalPages : max_pages;
+        return totalPages < maxPages ? totalPages : maxPages;
     }),
 
     hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
