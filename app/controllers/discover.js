@@ -63,9 +63,9 @@ export default ApplicationController.extend({
         const total = this.get('totalPages');
         const max = this.get('clampedPages');
         if (total !== max) {
-            return total - max + ' additional pages not shown';
+            return total - max;
         }
-        return '';
+        return null;
     }),
 
     sortOptions: [{
