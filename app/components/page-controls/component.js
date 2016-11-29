@@ -3,26 +3,26 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     atFirstPage: Ember.computed.equal('page', 1),
 
-    atLastPage: Ember.computed('page', 'totalPages', function() {
-        return this.get('page') === this.get('totalPages');
+    atLastPage: Ember.computed('page', 'clampedPages', function() {
+        return this.get('page') === this.get('clampedPages');
     }),
 
-    pageLinks: Ember.computed('page', 'totalPages', function() {
+    pageLinks: Ember.computed('page', 'clampedPages', function() {
         const radius = 2;
         const page = this.get('page');
-        const total = this.get('totalPages');
+        const max = this.get('clampedPages');
         const pages = [1];
         if (page > radius + 2) {
             pages.push(null);
         }
-        for (let i = Math.max(page - radius, 2); i <= Math.min(page + radius, total); i++) {
+        for (let i = Math.max(page - radius, 2); i <= Math.min(page + radius, max); i++) {
             pages.push(i);
         }
-        if (page + radius + 1 < total) {
+        if (page + radius + 1 < max) {
             pages.push(null);
         }
-        if (page + radius < total) {
-            pages.push(total);
+        if (page + radius < max) {
+            pages.push(max);
         }
         return pages;
     }),

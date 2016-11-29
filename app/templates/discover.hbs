@@ -66,13 +66,18 @@
                 Clear filters
             </button>
         </div>
-        <div class="col-xs-6 pull-right" style="text-align: right">
-            <select onchange={{action 'selectSortOption' value="target.value"}} class="btn-select">
-                {{#each sortOptions as |sortChoice|}}
-                    <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
-                {{/each}}
-            </select>
-        </div>
+        {{#if (not noResultsMessage)}}
+            <div class="col-sm-6 pull-right" style="text-align: right">
+                <div>
+                    {{page-controls page=page clampedPages=clampedPages totalPages=totalPages loadPage=(action 'loadPage')}}
+                </div>
+                {{#if hiddenPages}}
+                    <div style="color:gray">
+                        {{hiddenPages}}
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
     </div>
     <div class="row visible-xs">
         <div class="col-xs-12 discover-filter-list">
@@ -106,6 +111,14 @@
         {{#if media.isExtraSmall}}
             <div class='col-xs-12 visible-xs'>
                 {{#bs-collapse collapsed=collapsedFilters}}
+                    <select
+                        onchange={{action 'selectSortOption' value="target.value"}}
+                        class="btn-select"
+                        style="margin-bottom: 8px; width: 100%;">
+                        {{#each sortOptions as |sortChoice|}}
+                            <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
+                        {{/each}}
+                    </select>
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'
@@ -119,6 +132,14 @@
         {{/if}}
         {{#if (not media.isExtraSmall)}}
             <div class='col-sm-3 hidden-xs'>
+                <select
+                    onchange={{action 'selectSortOption' value="target.value"}}
+                    class="btn-select"
+                    style="margin-bottom: 8px; width: 100%;">
+                    {{#each sortOptions as |sortChoice|}}
+                        <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
+                    {{/each}}
+                </select>
                 {{faceted-search
                     onChange='filtersChanged'
                     updateParams='updateParams'
@@ -135,15 +156,11 @@
             {{else if noResultsMessage}}
                 <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
-                <div class="text-center">
-                    {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
-                </div>
-                <hr>
                 {{#each results as |obj|}}
                     {{search-result addFilter='addFilter' obj=obj}}
                 {{/each}}
-                <div class="text-center">
-                    {{page-controls page=page totalPages=totalPages loadPage=(action 'loadPage')}}
+                <div class="pull-right" style="text-align: right">
+                    {{page-controls page=page clampedPages=clampedPages totalPages=totalPages loadPage=(action 'loadPage')}}
                 </div>
             {{/if}}
         </div>
