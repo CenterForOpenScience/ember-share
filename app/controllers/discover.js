@@ -53,20 +53,35 @@ export default ApplicationController.extend({
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
+    clampedPages: Ember.computed('totalPages', 'size', function() {
+        let max_pages = Math.ceil(10000 / this.get('size'));
+        let totalPages = this.get('totalPages');
+        return  totalPages < max_pages ? totalPages : max_pages;
+    }),
+
+    hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
+        const total = this.get('totalPages');
+        const max = this.get('clampedPages');
+        if (total !== max) {
+            return total - max + ' additional pages not shown';
+        }
+        return '';
+    }),
+
     sortOptions: [{
         display: 'Relevance',
         sortBy: ''
     }, {
-        display: 'Date Updated (Descending)',
+        display: 'Date Updated (Desc)',
         sortBy: '-date_updated'
     }, {
-        display: 'Date Updated (Ascending)',
+        display: 'Date Updated (Asc)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingress Date (Ascending)',
+        display: 'Ingress Date (Asc)',
         sortBy: 'date_created'
     }, {
-        display: 'Ingress Date (Descending)',
+        display: 'Ingress Date (Desc)',
         sortBy: '-date_created'
     }],
 
