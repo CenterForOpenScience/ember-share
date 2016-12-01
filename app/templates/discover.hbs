@@ -69,7 +69,7 @@
         {{#if (not noResultsMessage)}}
             <div class="col-sm-6 pull-right" style="text-align: right">
                 <div>
-                    {{page-controls page=page clampedPages=clampedPages totalPages=totalPages loadPage=(action 'loadPage')}}
+                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPageNoScroll')}}
                 </div>
                 {{#if hiddenPages}}
                     <div style="color:gray">
@@ -160,7 +160,7 @@
                     {{search-result addFilter='addFilter' obj=obj}}
                 {{/each}}
                 <div class="pull-right" style="text-align: right">
-                    {{page-controls page=page clampedPages=clampedPages totalPages=totalPages loadPage=(action 'loadPage')}}
+                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
                 </div>
             {{/if}}
         </div>

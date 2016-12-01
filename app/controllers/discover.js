@@ -341,7 +341,11 @@ export default ApplicationController.extend({
             this.search();
         },
 
-        loadPage(newPage) {
+        loadPageNoScroll(newPage) {
+            this.send('loadPage', newPage, false);
+        },
+
+        loadPage(newPage, scroll = true) {
             if (newPage === this.get('page') || newPage < 1 || newPage > this.get('totalPages')) {
                 return;
             }
@@ -353,7 +357,9 @@ export default ApplicationController.extend({
             this.get('metrics').trackEvent({ category, action, label });
 
             this.set('page', newPage);
-            this.scrollToResults();
+            if (scroll) {
+                this.scrollToResults();
+            }
             this.loadPage();
         },
 
