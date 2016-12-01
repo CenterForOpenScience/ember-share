@@ -12,7 +12,8 @@ export default Ember.Component.extend({
     }),
 
     totalPages: Ember.computed('pageSize', 'model.totalRelatedWorks', function() {
-        return Math.ceil(this.get('model.totalRelatedWorks') / this.get('pageSize'));
+        const maxPages = 1000;
+        return Math.min(maxPages, Math.ceil(this.get('model.totalRelatedWorks') / this.get('pageSize')));
     }),
 
     showPageControls: Ember.computed.gt('totalPages', 1),
@@ -33,7 +34,9 @@ export default Ember.Component.extend({
                     variables: '',
                     query: `query {
                         shareObject(id: "${model.id}") {
-                            ${Object.entries(PAGE_FRAGMENT_MAP).map(([type, fragments]) => `...on ${type} { ${fragments.relatedWorks(offset)} }`).join('\n')}
+                            ...on AbstractAgent {
+                                ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedWorks(offset)}
+                            }
                         }
                     }`
                 }
