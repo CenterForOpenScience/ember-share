@@ -2,12 +2,12 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from '../config/environment';
 
-export default DS.RESTAdapter.extend(DS.BuildURLMixin, {
+export default DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
     session: Ember.inject.service(),
     namespace: 'api/v2',
     host: ENV.apiBaseUrl,
     headers: {
-        Accept: 'application/json'
+        Accept: 'application/vnd.api+json'
     },
     ajax(url, method, hash) {
         // add trailing slash
