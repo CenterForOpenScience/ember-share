@@ -52,7 +52,7 @@ export default BaseAuthenticator.extend({
 
     getUserInfo() {
         return Ember.$.ajax({
-            url: `${ENV.apiBaseUrl}/api/userinfo`,
+            url: `${ENV.apiUrl}/userinfo`,
             crossDomain: true,
             xhrFields: { withCredentials: true }
         });

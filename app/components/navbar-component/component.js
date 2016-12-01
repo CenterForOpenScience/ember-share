@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     userName: Ember.computed('session.data.authenticated.user', function() {
         let userData = this.get('session.data.authenticated.user');
         if (userData) {
-            return `${userData.first_name} ${userData.last_name}`;
+            return `${userData.firstName} ${userData.lastName}`;
         }
     }),
 
