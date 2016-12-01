@@ -15,11 +15,15 @@ export default Ember.Controller.extend(DetailMixin, {
     sections: SECTIONS,
 
     contributors: Ember.computed('model.relatedAgents', function() {
-        return this.get('model.relatedAgents').filter(relation => RELATION_MAP[relation.type] === 'contributor');
+        return this.get('model.relatedAgents')
+            .filter(relation => RELATION_MAP[relation.type] === 'contributor')
+            .map(relation => relation.agent);
     }),
 
     publishers: Ember.computed('model.relatedAgents', function() {
-        return this.get('model.relatedAgents').filter(relation => RELATION_MAP[relation.type] === 'publisher');
+        return this.get('model.relatedAgents')
+            .filter(relation => RELATION_MAP[relation.type] === 'publisher')
+            .map(relation => relation.agent);
     }),
 
     relatedWorks: Ember.computed('model.incomingWorkRelations', 'model.outgoingWorkRelations', function() {

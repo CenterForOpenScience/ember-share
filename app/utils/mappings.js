@@ -27,12 +27,18 @@ export const PAGE_FRAGMENT_MAP = Object.freeze({
             creativeWork { id, type: __typename, title }
           }
         `,
-        relatedAgents: (offset) => `
-          relatedAgents(offset:${offset | 0}) {
+        incomingAgentRelations: (offset) => `
+          incomingAgentRelations(offset:${offset | 0}) {
+            type: __typename
+            subject { id, type: __typename, name }
+          }
+        `,
+        outgoingAgentRelations: (offset) => `
+          outgoingAgentRelations(offset:${offset | 0}) {
             type: __typename
             related { id, type: __typename, name }
           }
-        `
+        `,
     },
     AbstractCreativeWork: {
         incomingWorkRelations: (offset) => `
@@ -77,6 +83,6 @@ export const FRAGMENT_MAP = Object.freeze({
       identifiers { scheme, host, uri },
       totalRelatedWorks,
       ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedWorks()},
-      ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedAgents()},
+      ${PAGE_FRAGMENT_MAP.AbstractAgent.outgoingAgentRelations()},
     }`,
 });

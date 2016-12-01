@@ -4,7 +4,8 @@ import DetailMixin from '../mixins/detail';
 const SECTIONS = [
     { title: 'Profiles', value: 'links', component: 'section-links' },
     { title: 'Events', value: 'model.relatedWorks', component: 'section-related-works' },
-    { title: 'Affiliations', value: 'model.relatedAgents', component: 'section-related-agents' },
+    { title: 'Affiliations', value: 'outgoingAffiliations', component: 'section-related-agents' },
+    //{ title: 'Incoming Affiliations', value: 'incomingAffiliations', component: 'section-related-agents' },
     { title: 'Collected From', value: 'model.sources', component: 'section-sources' },
 ];
 
@@ -18,5 +19,13 @@ export default Ember.Controller.extend(DetailMixin, {
           .filter(identifier => identifier.scheme === 'urn' && identifier.host === 'issn')
           .map(identifier => identifier.uri.split('/').slice(-1)[0])
           .join(', ');
-    })
+    }),
+
+    incomingAffiliations: Ember.computed('model.incomingAgentRelations', function() {
+        return this.get('model.incomingAgentRelations').map(relation => relation.subject);
+    }),
+
+    outgoingAffiliations: Ember.computed('model.outgoingAgentRelations', function() {
+        return this.get('model.outgoingAgentRelations').map(relation => relation.related);
+    }),
 });
