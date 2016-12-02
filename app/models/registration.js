@@ -19,7 +19,7 @@ export default DS.Model.extend(Validator, {
     sourceAdditionalInfo: DS.attr('string', { defaultValue: '' }),
 
     status: DS.attr('string'),
-    submitted_at: DS.attr('string'),
+    submittedAt: DS.attr('string'),
 
     validations: {
         contactName: {
