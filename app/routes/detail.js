@@ -3,7 +3,7 @@ import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
 
 export default Ember.Route.extend({
     model(params) {
-        let adapter = this.store.adapterFor('application');
+        let adapter = this.store.adapterFor('graph');
         return adapter.ajax('/api/v2/graph/', 'POST', {
             data: {
                 variables: '',

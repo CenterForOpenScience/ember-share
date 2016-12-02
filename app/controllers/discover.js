@@ -90,7 +90,7 @@ export default ApplicationController.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.store.adapterFor('application').ajax('/api/v2/graph/', 'POST', {
+        this.store.adapterFor('graph').ajax('/api/v2/graph/', 'POST', {
             data: {
                 variables: '',
                 query: `query {

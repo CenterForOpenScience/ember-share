@@ -27,7 +27,7 @@ export default Ember.Component.extend({
 
             const offset = (newPage - 1) * this.get('pageSize');
             const model = this.get('model');
-            const adapter = this.get('store').adapterFor('application');
+            const adapter = this.get('store').adapterFor('graph');
             // TODO consolidate graphql queries in a util or service or something
             adapter.ajax('/api/v2/graph/', 'POST', {
                 data: {
