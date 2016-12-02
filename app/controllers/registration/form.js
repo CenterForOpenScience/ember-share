@@ -67,7 +67,7 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfRegistrations', json.count);
+            this.set('numberOfRegistrations', json.meta.pagination.count);
         });
     },
 
