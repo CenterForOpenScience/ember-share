@@ -12,8 +12,18 @@
 
 /* Index Style */
 
+.index-search-section {
+    min-height: 700px;
+    background: #C5D6E6 url('images/bg6.jpg') top center repeat-y;
+    background-size: cover;
+}
+
+.index-source-section {
+    background: #C5D6E6 url('images/bg7.jpg') top center repeat-y;
+    background-size: cover;
+}
+
 .index-jumbo {
-    background-color: rgb(197, 214, 230);
     padding-bottom: 40px ;
 }
 
@@ -42,6 +52,7 @@
     flex-wrap: wrap ;
     margin-left: 25px;
     margin-right: 25px;
+    text-align: center;
 }
 
 .index-tile {
