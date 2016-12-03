@@ -38,6 +38,16 @@ module.exports = function(environment) {
             fieldHasErrorClasses: 'has-error',
             errorClasses: ['text-danger'],
             hintClasses: ['help-block'],
+        },
+
+        modelIDs: {
+            creativework: 49,
+            publication: 49,
+            preprint: 49,
+            project: 49,
+            registration: 49,
+            dataset: 49,
+            person: 47
         }
 
     };
@@ -58,7 +68,7 @@ module.exports = function(environment) {
     if (environment === 'staging') {
         ENV.apiBaseUrl = 'https://staging-share.osf.io';
         ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
-        ENV.curationEnabled = false;
+        ENV.curationEnabled = true;
 
         // Testem prefers this...
         ENV.baseURL = '/';
@@ -66,6 +76,11 @@ module.exports = function(environment) {
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+        ENV.modelIDs = {
+            person: 100,
+            creativework: 70,
+        };
 
         // ENV.APP.rootElement = '#ember-staging';
     }
@@ -79,6 +94,11 @@ module.exports = function(environment) {
             environments: ['production'],
             config: { id: 'UA-83881781-1' }
         }];
+
+        ENV.modelIDs = {
+            person: 100,
+            creativework: 70,
+        };
 
         // Testem prefers this...
         ENV.baseURL = '/';

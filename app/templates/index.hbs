@@ -1,48 +1,51 @@
-<div class='index-jumbo' style="background: url('assets/images/bg6.jpg'); background-size: cover ;">
-    <div>
-        <img class="index-background" src='assets/images/main_logo.png'>
-    </div>
-
+<div class="index-search-section">
     <div class="container">
-        <div class="row" id="index-row">
-            <div class="col-xs-offset-1 col-xs-10" >
-                {{input class="form-control" enter='search' value=searchString placeholder=placeholder }}
-            </div>
-            <div class="col-xs-1">
-                <a href="" {{action 'search'}}>
-                    <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
-                </a>
-            </div>
-        </div>
-        <br>
-        <div class="row" id="index-row">
-            {{#link-to "discover" class="index-advanced"}}Advanced Search{{/link-to}}
-        </div>
-    </div>
+        <div class="index-jumbo row">
+            <div class="col-xs-12">
+                <div>
+                    <img class="index-background" src='assets/images/main_logo.png'>
+                </div>
 
-    <div class="row" id="index-tile-row">
-        <div class="index-tile">
-            {{#link-to 'discover' (query-params type="publication") class="index-filter" invokeAction=(action 'track' 'publication')}}
-                {{ homepage-button-box label='PUBLICATIONS' icon='fa fa-book' }}
-            {{/link-to}}
-        </div>
-        <div class="index-tile">
-            {{#link-to 'discover' (query-params type="preprint") class="index-filter" invokeAction=(action 'track' 'preprint')}}
-                {{ homepage-button-box label='PREPRINTS' icon='fa fa-file-text' }}
-            {{/link-to}}
-        </div>
-        <div class="index-tile">
-            {{#link-to 'sources' class="index-filter" invokeAction=(action 'track' 'sources')}}
-                {{ homepage-button-box label='SOURCES' icon='fa fa-university'}}
-            {{/link-to}}
+                    <div class="row index-search-row">
+                        <div class="col-xs-offset-1 col-xs-10" id="index-row">
+                            {{input class="form-control" enter='search' value=searchString placeholder=placeholder }}
+                        </div>
+                        <div class="col-xs-1">
+                            <a href="" {{action 'search'}}>
+                                <i style="font-size: 150%; margin-top: 5px" class="fa fa-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row" id="index-row">
+                        {{#link-to "discover" class="index-advanced"}}Advanced Search{{/link-to}}
+                    </div>
+
+                    <div class="row" id="index-tile-row">
+                        <div class=" index-tile col-lg-4">
+                            {{#link-to 'discover' (query-params type="publication") class="index-filter" invokeAction=(action 'track' 'publication')}}
+                                {{ homepage-button-box label='PUBLICATIONS' icon='fa fa-book' }}
+                            {{/link-to}}
+                        </div>
+                        <div class="index-tile col-lg-4">
+                            {{#link-to 'discover' (query-params type="preprint") class="index-filter" invokeAction=(action 'track' 'preprint')}}
+                                {{ homepage-button-box label='PREPRINTS' icon='fa fa-file-text' }}
+                            {{/link-to}}
+                        </div>
+                        <div class="index-tile col-lg-4">
+                            {{#link-to 'sources' class="index-filter" invokeAction=(action 'track' 'sources')}}
+                                {{ homepage-button-box label='SOURCES' icon='fa fa-university'}}
+                            {{/link-to}}
+                        </div>
+                    </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="index-info">
-    <div class="container">
-        <span>
-            <br>
+<div class="container">
+    <div class="index-info row">
+        <div class="col-xs-10 col-xs-offset-1">
             The
             <a href="https://github.com/CenterForOpenScience/SHARE">SHARE infrastructure</a>
              was developed by the
@@ -61,43 +64,45 @@
             <a href="https://osf.io/wur56/wiki/home/">developer docs</a>, and
             <a href="https://osf.io/68ymx/">working group details </a>check out
             <a href="https://osf.io/t3j94">SHARE on the OSF</a>.
-        </span>
-    </div>
-</div>
-
-<div class='index-provider' style="background: url('assets/images/bg7.jpg'); background-size: cover ;">
-    <div class="row">
-        <h3 class="index-provider-title">Become a SHARE Source</h3>
-    </div>
-    <div class="row" id="index-provider-tile">
-        <div class="index-tile">
-            {{
-                footer-boxes
-                type='registration'
-                label='Source Registration'
-                icon='fa fa-map'
-                description="Include your organization's publications, data, repository holdings, or other research."
-                click=(action 'transitionRegistration')
-            }}
-        </div>
-        <div class="index-tile">
-            {{
-                footer-boxes
-                type='api'
-                label='API Usage'
-                icon='fa fa-database'
-                description='Search all SHARE data, post to SHARE, and get metrics on the SHARE providers.'
-                click=(action 'transitionAPI')
-            }}
         </div>
     </div>
 </div>
-
-<div class="index-footer">
-    <div class="col-md-12" id="index-copyright">
+<div class="index-source-section">
+    <div class="container">
+        <div class="index-provider row">
+            <div class="row">
+                <h3 class="index-provider-title col-xs-12">Become a SHARE Source</h3>
+            </div>
+            <div class="row" id="index-provider-tile">
+                <div class="col-sm-4 offset-sm-1">
+                    {{
+                        footer-boxes
+                        type='registration'
+                        label='Source Registration'
+                        icon='fa fa-map'
+                        description="Include your organization's publications, data, repository holdings, or other research."
+                        click=(action 'transitionRegistration')
+                    }}
+                </div>
+                <div class="col-sm-4">
+                    {{
+                        footer-boxes
+                        type='api'
+                        label='API Usage'
+                        icon='fa fa-database'
+                        description='Search all SHARE data, post to SHARE, and get metrics on the SHARE sources.'
+                        click=(action 'transitionAPI')
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="index-footer row">
+    <div class="col-xs-12" id="index-copyright">
         <p>
             Copyright © 2011-2016
-            <a href="http://centerforopenscience.org/?_ga=1.81415315.524376919.1464115365">Center for Open Science</a>
+            <a href="https://cos.io/">Center for Open Science</a>
             |
             <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms of Use</a>
             |

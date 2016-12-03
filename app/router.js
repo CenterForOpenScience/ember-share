@@ -21,10 +21,6 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-    this.route('curate', function() {
-        this.route('person', { path: '/person/:person_id' });
-        this.route('work', { path: '/:work_type/:work_id' });
-    });
     this.route('changes');
     this.route('discover');
     this.route('profile');
@@ -36,7 +32,11 @@ Router.map(function() {
         this.route('confirmation', { path: '/confirmation/' });
     });
 
+    this.route('detail', { path: '/:type/:id' });
+    this.route('curate', { path: '/curate/:type/:id' });
+
     this.route('notfound', { path: '/*path' });
+    this.route('notfound');
 });
 
 export default Router;

@@ -1,0 +1,9 @@
+<ul>
+    {{#each data as |relation index|}}
+        {{#if relation.subject}}
+            <li>{{link-to-work work=relation.subject}} {{prettify relation.type}} This Work</li>
+        {{else}}
+            <li>This Work {{prettify relation.type}} {{link-to-work work=relation.related}}</li>
+        {{/if}}
+    {{/each}}
+</ul>

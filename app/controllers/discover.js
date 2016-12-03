@@ -14,7 +14,7 @@ export default ApplicationController.extend({
     category: 'discover',
 
     queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort'];
+        let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
@@ -49,60 +49,73 @@ export default ApplicationController.extend({
     took: 0,
     numberOfSources: 0,
 
-    morePages: Ember.computed('results.length', function() {
-        if (this.get('results.length') === this.get('numberOfResults')) {
-            return false;
-        }
-        return true;
+    totalPages: Ember.computed('numberOfResults', 'size', function() {
+        return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
-    sortOptions: [
-        {
-            display: 'relevance',
-            sortBy: ''
-        },
-        {
-            display: 'date',
-            sortBy: 'date_updated'
+    clampedPages: Ember.computed('totalPages', 'size', function() {
+        let maxPages = Math.ceil(10000 / this.get('size'));
+        let totalPages = this.get('totalPages');
+        return totalPages < maxPages ? totalPages : maxPages;
+    }),
+
+    hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
+        const total = this.get('totalPages');
+        const max = this.get('clampedPages');
+        if (total !== max) {
+            return total - max;
         }
-    ],
+        return null;
+    }),
+
+    sortOptions: [{
+        display: 'Relevance',
+        sortBy: ''
+    }, {
+        display: 'Date Updated (Desc)',
+        sortBy: '-date_updated'
+    }, {
+        display: 'Date Updated (Asc)',
+        sortBy: 'date_updated'
+    }, {
+        display: 'Ingress Date (Asc)',
+        sortBy: 'date_created'
+    }, {
+        display: 'Ingress Date (Desc)',
+        sortBy: '-date_created'
+    }],
 
     init() {
         //TODO Sort initial results on date_modified
         this._super(...arguments);
+        this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        // TODO Load all previous pages when hitting a page with page > 1
-        // if (this.get('page') != 1) {
-        //   query.from = 0;
-        //   query.size = this.get('page') * this.get('size');
-        // }
-        this.loadEventCount();
+        this.store.adapterFor('graph').ajax('/api/v2/graph/', 'POST', {
+            data: {
+                variables: '',
+                query: `query {
+                  search(type: "creativeworks", size: 0) {
+                    hits { total }
+                  }
+                }`
+            }
+        }).then(data => {
+            this.set('numberOfEvents', data.data.search.hits.total);
+        });
+
         this.loadSourcesCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
     },
 
-    loadEventCount() {
-        var url = ENV.apiUrl + '/search/abstractcreativework/_count';
-        return Ember.$.ajax({
-            url: url,
-            crossDomain: true,
-            type: 'GET',
-            contentType: 'application/json',
-        }).then((json) => {
-            this.set('numberOfEvents', json.count);
-        });
-    },
-
     loadSourcesCount() {
-        let url = url || ENV.apiUrl + '/providers/';
         this.set('loading', true);
         return Ember.$.ajax({
-            url: url,
+            url: ENV.apiUrl + '/sources/',
             crossDomain: true,
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.count);
+            this.set('numberOfSources', json.meta.pagination.count);
         });
     },
 
@@ -145,10 +158,10 @@ export default ApplicationController.extend({
         };
         if (this.get('sort')) {
             let sortBy = {};
-            sortBy[this.get('sort')] = 'desc';
+            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
             queryBody.sort = sortBy;
         }
-        if (page === 1) {
+        if (page === 1 || this.get('firstLoad')) {
             queryBody.aggregations = this.get('elasticAggregations');
         }
 
@@ -177,29 +190,35 @@ export default ApplicationController.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            let results = json.hits.hits.map((hit) => {
-                let source = Ember.Object.create(hit._source);
-                let r = source.getProperties('type', 'title', 'description', 'language', 'date', 'date_created', 'date_modified', 'date_updated', 'date_published', 'tags', 'sources');
-                r.id = hit._id;
-                r.contributors = source.lists.contributors;
-                r.funders = source.lists.funders;
-                r.publishers = source.lists.publishers;
-                r.institutions = source.lists.institutions;
-                r.organizations = source.lists.organizations;
-                return r;
-            });
+            let results = json.hits.hits.map(hit => Object.assign(
+                {},
+                hit._source,
+                ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
+                    acc,
+                    { [key]: hit._source.lists[key] }
+                ), { typeSlug: hit._source.type.classify().toLowerCase() })
+            ));
+
             if (json.aggregations) {
                 this.set('aggregations', json.aggregations);
             }
-            this.set('numberOfResults', json.hits.total);
-            this.set('took', moment.duration(json.took).asSeconds());
-            this.set('loading', false);
-            this.get('results').addObjects(results);
+            this.setProperties({
+                numberOfResults: json.hits.total,
+                took: moment.duration(json.took).asSeconds(),
+                loading: false,
+                firstLoad: false,
+                results: results,
+            });
+            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+                this.search();
+            }
         });
     },
 
     search() {
-        this.set('page', 1);
+        if (!this.get('firstLoad')) {
+            this.set('page', 1);
+        }
         this.set('loading', true);
         this.get('results').clear();
         this.get('debouncedLoadPage')();
@@ -210,11 +229,9 @@ export default ApplicationController.extend({
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: 'type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tags', title: 'Subject/Tag', component: 'search-facet-typeahead', type: 'tag' },
+            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead', type: 'tag' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', type: 'publisher' },
             { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', type: 'funder' },
-            { key: 'institutions', title: 'Institution', component: 'search-facet-typeahead', type: 'institution' },
-            { key: 'organizations', title: 'Organization', component: 'search-facet-typeahead', type: 'organization' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', type: 'person' },
         ];
@@ -246,11 +263,15 @@ export default ApplicationController.extend({
         return `${ENV.apiUrl}/atom/?elasticQuery=${encodedQuery}`;
     }),
 
+    scrollToResults() {
+        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+    },
+
     actions: {
 
         addFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'remove-filter';
+            const action = 'add-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -262,7 +283,7 @@ export default ApplicationController.extend({
 
         removeFilter(type, filterValue) {
             const category = this.get('category');
-            const action = 'add-filter';
+            const action = 'remove-filter';
             const label = filterValue;
 
             this.get('metrics').trackEvent({ category, action, label });
@@ -318,28 +339,25 @@ export default ApplicationController.extend({
             this.search();
         },
 
-        next() {
-            // If we don't have full pages then we've hit the end of our search
-            if (!this.get('morePages')) {
+        loadPageNoScroll(newPage) {
+            this.send('loadPage', newPage, false);
+        },
+
+        loadPage(newPage, scroll = true) {
+            if (newPage === this.get('page') || newPage < 1 || newPage > this.get('totalPages')) {
                 return;
             }
 
             const category = this.get('category');
-            const action = 'results';
-            const label = 'more-results';
+            const action = 'load-result-page';
+            const label = newPage;
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.incrementProperty('page', 1);
-            this.loadPage();
-        },
-
-        prev() {
-            // No negative pages
-            if (this.get('page') < 1) {
-                return;
+            this.set('page', newPage);
+            if (scroll) {
+                this.scrollToResults();
             }
-            this.decrementProperty('page', 1);
             this.loadPage();
         },
 

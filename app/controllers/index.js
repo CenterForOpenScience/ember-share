@@ -7,10 +7,6 @@ export default Ember.Controller.extend({
 
     placeholder: 'search events',
 
-    init() {
-        this._super(...arguments);
-    },
-
     actions: {
         search() {
             let searchString = this.get('searchString') || '';

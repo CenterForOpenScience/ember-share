@@ -25,6 +25,7 @@ export default BaseAuthenticator.extend({
     authenticate(redirectToLogin = true) {
         return new Ember.RSVP.Promise((resolve, reject) => {
             this.getUserInfo().then(response => {
+                response = response.data.attributes;
                 if (!response || !response.token) {
                     if (redirectToLogin) {
                         return window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
@@ -51,7 +52,7 @@ export default BaseAuthenticator.extend({
 
     getUserInfo() {
         return Ember.$.ajax({
-            url: `${ENV.apiBaseUrl}/api/userinfo`,
+            url: `${ENV.apiUrl}/userinfo`,
             crossDomain: true,
             xhrFields: { withCredentials: true }
         });

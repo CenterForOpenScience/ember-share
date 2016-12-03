@@ -1,0 +1,10 @@
+{{#if showPageControls}}
+    <div class='text-center'>
+        {{page-controls page=page clampedPages=totalPages loadPage=(action 'loadPage')}}
+    </div>
+{{/if}}
+<ul>
+    {{#each data as |relation index|}}
+        <li>{{prettify relation.type}}: {{link-to-work work=relation.creativeWork}}</li>
+    {{/each}}
+</ul>

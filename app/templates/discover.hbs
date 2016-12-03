@@ -15,14 +15,18 @@
         </div>
     </div>
     <div class="row">
-        <div class="text-muted col-sm-2 col-sm-offset-2 hidden-xs">
-            <small>{{numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
-        </div>
-        <div class="col-sm-4 col-xs-12" style="text-align: center">
-            <small>Found {{numberOfResults}} events in {{took}} seconds</small>
-        </div>
-        <div class="text-muted col-sm-2 hidden-xs" style="text-align: right">
-            <small>{{numberOfSources}} aggregated sources</small>
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="row">
+              <div class="text-muted col-sm-4 hidden-xs">
+                  <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
+              </div>
+              <div class="col-sm-4 col-xs-12" style="text-align: center">
+                  <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
+              </div>
+              <div class="text-muted col-sm-4 hidden-xs" style="text-align: right">
+                  <small>Aggregating {{locale-string numberOfSources}} sources</small>
+              </div>
+            </div>
         </div>
     </div>
     {{#if queryBody}}
@@ -62,13 +66,18 @@
                 Clear filters
             </button>
         </div>
-        <div class="col-xs-6 pull-right" style="text-align: right">
-            <select onchange={{action 'selectSortOption' value="target.value"}} class="btn-select">
-                {{#each sortOptions as |sortChoice|}}
-                    <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
-                {{/each}}
-            </select>
-        </div>
+        {{#if (not noResultsMessage)}}
+            <div class="col-sm-6 pull-right" style="text-align: right">
+                <div>
+                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPageNoScroll')}}
+                </div>
+                {{#if hiddenPages}}
+                    <div style="color:gray">
+                        {{locale-string hiddenPages}} additional pages not shown
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
     </div>
     <div class="row visible-xs">
         <div class="col-xs-12 discover-filter-list">
@@ -97,11 +106,19 @@
             </i>
         </div>
     </div>
-    <hr>
+    <hr class='results-top'>
     <div class="row">
         {{#if media.isExtraSmall}}
             <div class='col-xs-12 visible-xs'>
                 {{#bs-collapse collapsed=collapsedFilters}}
+                    <select
+                        onchange={{action 'selectSortOption' value="target.value"}}
+                        class="btn-select"
+                        style="margin-bottom: 8px; width: 100%;">
+                        {{#each sortOptions as |sortChoice|}}
+                            <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
+                        {{/each}}
+                    </select>
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'
@@ -115,6 +132,14 @@
         {{/if}}
         {{#if (not media.isExtraSmall)}}
             <div class='col-sm-3 hidden-xs'>
+                <select
+                    onchange={{action 'selectSortOption' value="target.value"}}
+                    class="btn-select"
+                    style="margin-bottom: 8px; width: 100%;">
+                    {{#each sortOptions as |sortChoice|}}
+                        <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
+                    {{/each}}
+                </select>
                 {{faceted-search
                     onChange='filtersChanged'
                     updateParams='updateParams'
@@ -126,18 +151,18 @@
             </div>
         {{/if}}
         <div class='col-sm-9 col-xs-12'>
-            {{#each results as |obj|}}
-                {{search-result addFilter='addFilter' obj=obj}}
-            {{/each}}
-            <div class="text-center">
-                {{#if loading}}
-                    {{fa-icon 'spinner' pulse=true size=3}}
-                {{else if noResultsMessage}}
-                    <div class="no-results">{{noResultsMessage}}</div>
-                {{else if morePages}}
-                    <button class="btn btn-default" {{action 'next'}}> More </button>
-                {{/if}}
-            </div>
+            {{#if loading}}
+                {{loading-bars}}
+            {{else if noResultsMessage}}
+                <div class="text-center no-results">{{noResultsMessage}}</div>
+            {{else}}
+                {{#each results as |obj|}}
+                    {{search-result addFilter='addFilter' obj=obj}}
+                {{/each}}
+                <div class="pull-right" style="text-align: right">
+                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                </div>
+            {{/if}}
         </div>
     </div>
     <br>

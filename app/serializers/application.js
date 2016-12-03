@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import JSONSerializer from 'ember-data/serializers/json';
+import DS from 'ember-data';
 
-export default JSONSerializer.extend({
+export default DS.JSONAPISerializer.extend({
 
     normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {
         if (typeof payload === 'object' && payload.results) {
