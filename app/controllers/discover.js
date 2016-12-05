@@ -216,6 +216,9 @@ export default ApplicationController.extend({
     },
 
     search() {
+        if (!this.get('firstLoad')) {
+            this.set('page', 1);
+        }
         this.set('loading', true);
         this.get('results').clear();
         this.get('debouncedLoadPage')();
