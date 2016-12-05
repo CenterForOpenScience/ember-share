@@ -31,4 +31,13 @@ export default Ember.Controller.extend(DetailMixin, {
         const outgoing = this.get('model.outgoingWorkRelations') || [];
         return incoming.concat(outgoing);
     }),
+
+    actions: {
+        goBack() {
+            if (document.referrer.includes('\/share')) {
+                history.back();
+            }
+            this.transitionToRoute('discover');
+        }
+    }
 });

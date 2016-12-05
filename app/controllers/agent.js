@@ -28,4 +28,13 @@ export default Ember.Controller.extend(DetailMixin, {
     outgoingAffiliations: Ember.computed('model.outgoingAgentRelations', function() {
         return this.get('model.outgoingAgentRelations').map(relation => relation.related);
     }),
+
+    actions: {
+        goBack() {
+            if (document.referrer.includes('\/share')) {
+                history.back();
+            }
+            this.transitionToRoute('discover');
+        }
+    }
 });
