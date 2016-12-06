@@ -16,6 +16,10 @@ module.exports = function(defaults) {
                 'bower_components/bootstrap-daterangepicker',
                 'bower_components/c3',
             ]
+        },
+        babel: {
+            optional: ['es6.spec.symbols'],
+            includePolyfill: true
         }
     });
 
