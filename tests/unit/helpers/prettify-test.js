@@ -1,10 +1,10 @@
-import { prettify } from 'ember-share/helpers/prettify';
-import { module, test } from 'qunit';
+// import { prettify } from 'ember-share/helpers/prettify';
+// import { module, test } from 'qunit';
 
-module('Unit | Helper | prettify');
+// module('Unit | Helper | prettify');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let result = prettify([42]);
-  assert.ok(result);
-});
+// // Replace this with your real tests.
+// test('it works', function(assert) {
+//   let result = prettify([42]);
+//   assert.ok(result);
+// });
