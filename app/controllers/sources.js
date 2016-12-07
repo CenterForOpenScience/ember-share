@@ -47,13 +47,13 @@ export default Ember.Controller.extend({
     buildTypeaheadQuery(text) {
         return {
             suggestions: {
-                text: text,
+                text,
                 completion: {
                     field: 'suggest',
                     size: 10,
                     fuzzy: true,
                     context: {
-                        type: 'source'
+                        types: 'source'
                     }
                 }
             }
