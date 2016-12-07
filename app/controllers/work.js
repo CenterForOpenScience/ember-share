@@ -32,6 +32,8 @@ export default Ember.Controller.extend(DetailMixin, {
         return incoming.concat(outgoing);
     }),
 
+    retractions: Ember.computed.filterBy('model.incomingWorkRelations', 'type', 'Retracts'),
+
     actions: {
         goBack() {
             if (document.referrer.includes('\/share')) {
