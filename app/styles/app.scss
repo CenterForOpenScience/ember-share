@@ -173,7 +173,6 @@
     padding-top: 60px;
     padding-bottom: 60px;
     font-size: 24px;
-    text-align: left;
 
     position: relative;
     padding: 30px 0;
@@ -195,6 +194,12 @@
       font-weight: 300;
       line-height: 1.4;
       margin-bottom: 0px;
+    }
+
+    .retraction-alert {
+        text-align: left;
+        font-size: 14px;
+        padding: 10px 30px;
     }
 }
 
