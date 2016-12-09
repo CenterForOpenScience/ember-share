@@ -1,6 +1,6 @@
-{{#each banners as |banner|}}
+{{#each openBanners as |banner|}}
     <div class='row'>
-        <div class='col-xs-10 col-xs-offset-1 text-{{banner.color}} bg-{{banner.color}}'>
+        <div class='banner col-xs-10 col-xs-offset-1 text-{{banner.color}} bg-{{banner.color}}'>
             <button {{action 'close' banner}} type="button" class="close pull-right" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
