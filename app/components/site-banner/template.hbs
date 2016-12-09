@@ -1,0 +1,16 @@
+{{#each banners as |banner|}}
+    <div class='row'>
+        <div class='col-xs-10 col-xs-offset-1 text-{{banner.color}} bg-{{banner.color}}'>
+            <button {{action 'close' banner}} type="button" class="close pull-right" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{#if banner.icon}}
+                <div class='pull-left'>
+                    {{fa-icon banner.icon size=5 fixedWidth=true}}
+                </div>
+            {{/if}}
+            <p class='lead'>{{banner.title}}</p>
+            <p>{{banner.description}}</p>
+        </div>
+    </div>
+{{/each}}
