@@ -1,0 +1,10 @@
+& {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+& .banner {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 10px 15px;
+}
