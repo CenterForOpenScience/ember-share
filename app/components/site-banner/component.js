@@ -1,16 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    init() {
-        this._super(...arguments);
-        this.set('closed', []);
-    },
-
-    openBanners: Ember.computed.setDiff('banners', 'closed'),
+    openBanners: Ember.computed('banners.@each.closed', function() {
+        const banners = this.get('banners');
+        return banners.filter(b => !b.get('closed'));
+    }),
 
     actions: {
         close(banner) {
-            this.get('closed').pushObject(banner);
+            banner.set('closed', true);
         }
     }
 });
