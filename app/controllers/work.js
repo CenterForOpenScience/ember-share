@@ -12,6 +12,7 @@ const SECTIONS = [
 ];
 
 export default Ember.Controller.extend(DetailMixin, {
+    routeHistory: Ember.inject.service(),
     sections: SECTIONS,
 
     contributors: Ember.computed('model.relatedAgents', function() {
@@ -36,7 +37,8 @@ export default Ember.Controller.extend(DetailMixin, {
 
     actions: {
         goBack() {
-            if (document.referrer.includes('\/share')) {
+            const previousRouteName = this.get('routeHistory.previous');
+            if (previousRouteName === 'discover' || previousRouteName === 'detail') {
                 history.back();
             } else {
                 this.transitionToRoute('discover');

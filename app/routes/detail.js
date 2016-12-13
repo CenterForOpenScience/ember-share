@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
+import RouteHistoryMixin from 'ember-route-history/mixins/routes/route-history';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RouteHistoryMixin, {
     model(params) {
         let adapter = this.store.adapterFor('graph');
         return adapter.ajax('/api/v2/graph/', 'POST', {
