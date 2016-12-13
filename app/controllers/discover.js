@@ -6,6 +6,7 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
+const MAX_SOURCES = 500;
 let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
@@ -90,7 +91,34 @@ export default ApplicationController.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
+        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
+        this.getCounts();
+    },
+
+    getCounts() {
+        let queryBody = JSON.stringify({
+            size: 0,
+            aggregations: {
+                sources: {
+                    cardinality: {
+                        field: 'sources.raw',
+                        precision_threshold: MAX_SOURCES
+                    }
+                }
+            }
+        });
+        return Ember.$.ajax({
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody
+        }).then((json) => {
+            this.setProperties({
+                numberOfEvents: json.hits.total,
+                numberOfSources: json.aggregations.sources.value
+            });
+        });
     },
 
     searchUrl: Ember.computed(function() {
@@ -148,7 +176,7 @@ export default ApplicationController.extend({
             sources: {
                 terms: {
                     field: 'sources.raw',
-                    size: 500
+                    size: MAX_SOURCES
                 }
             }
         };
@@ -164,13 +192,6 @@ export default ApplicationController.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            if (this.get('firstLoad')) {
-                this.setProperties({
-                    numberOfEvents: json.hits.total,
-                    numberOfSources: json.aggregations.sources.buckets.length
-                });
-            }
-
             let results = json.hits.hits.map(hit => Object.assign(
                 {},
                 hit._source,
@@ -189,12 +210,23 @@ export default ApplicationController.extend({
                 loading: false,
                 firstLoad: false,
                 results: results,
+                queryError: null
             });
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
         }, (errorResponse) => {
-            this.elasticError(errorResponse);
+            this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: []
+            });
+            if (errorResponse.status == 400) {
+                this.set('queryError', errorResponse.responseJSON.error.root_cause[0].reason);
+            } else {
+                this.send('elasticDown');
+            }
         });
     },
 
@@ -248,15 +280,6 @@ export default ApplicationController.extend({
 
     scrollToResults() {
         Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
-    },
-
-    elasticError(errorResponse) {
-        if (errorResponse.status >= 500) {
-            this.send('elasticDown');
-            return;
-        }
-        // TODO on malformed query, show query tutorial
-        console.log(errorResponse.responseJSON);
     },
 
     actions: {
