@@ -33,8 +33,9 @@ export default Ember.Controller.extend(DetailMixin, {
         goBack() {
             if (document.referrer.includes('\/share')) {
                 history.back();
+            } else {
+                this.transitionToRoute('discover');
             }
-            this.transitionToRoute('discover');
         }
     }
 });
