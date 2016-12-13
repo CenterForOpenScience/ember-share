@@ -90,37 +90,7 @@ export default ApplicationController.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.store.adapterFor('graph').ajax('/api/v2/graph/', 'POST', {
-            data: {
-                variables: '',
-                query: `query {
-                  search(type: "creativeworks", size: 0) {
-                    hits { total }
-                  }
-                }`
-            }
-        }).then(data => {
-            this.set('numberOfEvents', data.data.search.hits.total);
-        });
-
-        this.loadSourcesCount();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
-    },
-
-    loadSourcesCount() {
-        let queryBody = JSON.stringify(this.getQueryBody());
-        this.set('loading', true);
-        return Ember.$.ajax({
-            url: this.get('searchUrl'),
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: queryBody
-        }).then((json) => {
-            if (json.aggregations) {
-                this.set('numberOfSources', json.aggregations.sources.buckets.length);
-            }
-        });
     },
 
     searchUrl: Ember.computed(function() {
@@ -178,7 +148,7 @@ export default ApplicationController.extend({
             sources: {
                 terms: {
                     field: 'sources.raw',
-                    size: 200
+                    size: 500
                 }
             }
         };
@@ -194,6 +164,13 @@ export default ApplicationController.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
+            if (this.get('firstLoad')) {
+                this.setProperties({
+                    numberOfEvents: json.hits.total,
+                    numberOfSources: json.aggregations.sources.buckets.length
+                });
+            }
+
             let results = json.hits.hits.map(hit => Object.assign(
                 {},
                 hit._source,
@@ -216,12 +193,8 @@ export default ApplicationController.extend({
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
-        }, (response, textStatus, errorThrown) => {
-            if (response.status >= 500) {
-                this.send('elasticDown');
-                return;
-            }
-            console.log(response.responseJSON, textStatus, errorThrown)
+        }, (errorResponse) => {
+            this.elasticError(errorResponse);
         });
     },
 
@@ -275,6 +248,15 @@ export default ApplicationController.extend({
 
     scrollToResults() {
         Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+    },
+
+    elasticError(errorResponse) {
+        if (errorResponse.status >= 500) {
+            this.send('elasticDown');
+            return;
+        }
+        // TODO on malformed query, show query tutorial
+        console.log(errorResponse.responseJSON);
     },
 
     actions: {
