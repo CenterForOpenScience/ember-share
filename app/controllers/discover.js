@@ -216,6 +216,12 @@ export default ApplicationController.extend({
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
+        }, (response, textStatus, errorThrown) => {
+            if (response.status >= 500) {
+                this.send('elasticDown');
+                return;
+            }
+            console.log(response.responseJSON, textStatus, errorThrown)
         });
     },
 
