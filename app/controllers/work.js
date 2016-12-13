@@ -12,7 +12,6 @@ const SECTIONS = [
 ];
 
 export default Ember.Controller.extend(DetailMixin, {
-    routeHistory: Ember.inject.service(),
     sections: SECTIONS,
 
     contributors: Ember.computed('model.relatedAgents', function() {
@@ -34,15 +33,4 @@ export default Ember.Controller.extend(DetailMixin, {
     }),
 
     retractions: Ember.computed.filterBy('model.incomingWorkRelations', 'type', 'Retracts'),
-
-    actions: {
-        goBack() {
-            const previousRouteName = this.get('routeHistory.previous');
-            if (previousRouteName === 'discover' || previousRouteName === 'detail') {
-                history.back();
-            } else {
-                this.transitionToRoute('discover');
-            }
-        }
-    }
 });
