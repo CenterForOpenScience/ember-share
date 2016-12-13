@@ -1,2 +1,70 @@
-<div class='lead'>{{message}}</div>
-learn to query, dude
+{{#if message}}
+    <h1>{{message}}</h1>
+{{/if}}
+<h2>Query Syntax</h2>
+<div class='col-xs-12 col-med-6'>
+    <h3>Reserved characters</h3>
+    <p>
+        The following characters have special meanings in a query:
+        <code>+ - = &amp;&amp; || &gt; &lt; ! ( ) { } [ ] ^ " ~ * ? : \ /</code>
+    </p>
+    <p>
+        If you want to use any of these reserved characters in your query, escape them with a leading backslash.
+        For instance, to search for <code>(1+1)=2</code>, you would need to type <code>\(1\+1\)\=2</code>.
+    </p>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3>Searching by Field</h3>
+    <p>
+        By default, all available fields are searched, but you can choose to search specific fields instead:
+    </p>
+    <ul>
+        <li><code>title:giraffe</code> -- The title contains the word "giraffe".</li>
+        <li><code>description:"giraffe neck"</code> -- The description contains the exact phrase "giraffe neck".</li>
+        <li><code>contributors:"degrasse tyson"</code> -- The list of contributor names contains the exact phrase "degrasse tyson".</li>
+        <li><code>identifiers:"10.1371/journal.pbio.1002456"</code> -- The list of identifiers contains "10.1371/journal.pbio.1002456"</li>
+    </ul>
+    <h4>Available search fields</h4>
+    <ul>
+        {{#each fields as |field|}}
+            <li>{{field}}</li>
+        {{/each}}
+    </ul>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3>Boolean Operators</h3>
+    <p>
+        By default, all terms in the query are optional, as long as one term matches. You can use boolean operators (<code>+</code>, <code>-</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>) to have more control over the search:
+    </p>
+    <ul>
+        <li><code>+giraffe neck spots</code> -- The word "giraffe" <b>must</b> be present. The words "neck" and "spots" are optional but used for sorting by relevance.</li>
+        <li><code>+giraffe neck spots -stripes</code> -- Same as above, except the word "stripes" <b>must not</b> be present.</li>
+        <li><code>giraffe AND lion</code> -- Both "giraffe" and "lion" <b>must</b> be present.</li>
+        <li><code>giraffe AND NOT lion</code> -- The word "giraffe" <b>must</b> be present, the word "lion" <b>must not</b>. Equivalent to <code>+giraffe -lion</code>.</li>
+        <li><code>tags:(ungulate OR feline)</code> -- The list of tags contains "ungulate", "feline", or both.</li>
+    </ul>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3>Wildcards</h3>
+    <p>
+        Use wildcards to match multiple terms at once. Use <code>?</code> to match any single character, or <code>*</code> to match zero or more characters.
+    </p>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3></h3>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3></h3>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3></h3>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3></h3>
+</div>
+<div class='col-xs-12 col-med-6'>
+    <h3>More Information</h3>
+    <p>
+        For more details about query syntax, see the <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax'>Elasticsearch documentation</a>
+    </p>
+</div>

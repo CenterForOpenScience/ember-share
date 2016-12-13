@@ -222,7 +222,7 @@ export default ApplicationController.extend({
                 numberOfResults: 0,
                 results: []
             });
-            if (errorResponse.status == 400) {
+            if (errorResponse.status === 400) {
                 this.set('queryError', errorResponse.responseJSON.error.root_cause[0].reason);
             } else {
                 this.send('elasticDown');
