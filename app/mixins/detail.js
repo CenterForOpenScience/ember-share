@@ -11,6 +11,7 @@ const VISITABLE = Object.freeze({
 });
 
 export default Ember.Mixin.create({
+    routeHistory: Ember.inject.service(),
     showExtra: false,
 
     icon: Ember.computed('model.type', function() {
@@ -32,6 +33,14 @@ export default Ember.Mixin.create({
     actions: {
         toggleExtra() {
             this.toggleProperty('showExtra');
+        },
+        goBack() {
+            const previousRouteName = this.get('routeHistory.previous');
+            if (previousRouteName === 'discover' || previousRouteName === 'detail') {
+                history.back();
+            } else {
+                this.transitionToRoute('discover');
+            }
         }
     }
 });
