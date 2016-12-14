@@ -43,31 +43,36 @@ export default Ember.Component.extend({
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.suggestions[0].options.map(function(obj) {
-            return obj.payload.name;
+        let textList = response.hits.hits.map(function(obj) {
+            return obj._source.name;
         });
         return getUniqueList(textList);
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/search/_suggest';
+        let base = this.get('options.base') || this.get('key');
+        return `${ENV.apiUrl}/search/${base}/_search`;
     },
 
     buildTypeaheadQuery(text) {
-        let types = this.get('options.type') || this.get('key');
-        return {
-            suggestions: {
-                text,
-                completion: {
-                    field: 'suggest',
-                    size: 10,
-                    fuzzy: true,
-                    context: {
-                        types
-                    }
+        const query = {
+            query: {
+                bool: {
+                    must: [
+                        { match: { name: text } }
+                    ]
                 }
             }
         };
+        const type = this.get('options.type');
+        if (type) {
+            query.query.bool.filter = [{
+                term: {
+                    types: type
+                }
+            }];
+        }
+        return query;
     },
 
     _performSearch(term, resolve, reject) {
