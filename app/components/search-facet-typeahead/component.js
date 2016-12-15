@@ -62,7 +62,15 @@ export default Ember.Component.extend({
                         { match: { name: text } }
                     ]
                 }
+            },
+            /* TODO: use aggregations to get a unique list
+            size: 0,
+            aggregations: {
+                suggestions: {
+                    terms: { field: 'name.raw' }
+                }
             }
+            */
         };
         const type = this.get('options.type');
         if (type) {
