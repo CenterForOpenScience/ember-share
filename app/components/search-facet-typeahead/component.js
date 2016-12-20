@@ -69,8 +69,8 @@ export default Ember.Component.extend({
                 size: RESULTS,
                 query: {
                     bool: {
-                        must: [ match ],
-                        filter: [ { term: { types: type } } ]
+                        must: [match],
+                        filter: [{ term: { types: type } }]
                     }
                 }
             };
