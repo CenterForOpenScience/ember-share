@@ -12,10 +12,10 @@ export default Ember.Component.extend({
         }).then((json) => {
             const properties = json.share.mappings.creativeworks.properties;
             const fields = [];
-            for(const name in properties) {
+            for (const name in properties) {
                 const type = properties[name].type;
                 if (type) {
-                    fields.pushObject({ name, type: properties[name].type});
+                    fields.pushObject({ name, type: properties[name].type });
                 }
             }
             this.set('fields', fields.sortBy('name'));
