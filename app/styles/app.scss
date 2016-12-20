@@ -117,6 +117,16 @@
 
 /* Discover */
 
+.discover-font-margin {
+    font-size:75%;
+    margin-top:15px;
+}
+
+.discover-filter-facets {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
 .discover-filter-block {
     border-radius: 5px;
     color: white;
@@ -169,8 +179,6 @@
     text-align: center;
     text-shadow: 0 1px 0 rgba(0,0,0,.1);
     background-color: #EEE;
-
-    text-align: center;
 
     h1 {
       margin-top: 0;
