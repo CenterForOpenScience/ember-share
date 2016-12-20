@@ -5,17 +5,19 @@
     text-shadow: 0 1px 0 #fff;
 }
 
-.links {
-    list-style: none outside none;
-}
-
 .copyright {
     padding: 10px;
     display: flex;
     justify-content: center;
 }
 
-.center-block > ul {
-    display: table;
-    margin: auto;
+.links {
+    list-style: none outside none;
+}
+
+@media (min-width: 768px) {
+    .center-block > ul {
+        display: table;
+        margin: auto;
+    }
 }
