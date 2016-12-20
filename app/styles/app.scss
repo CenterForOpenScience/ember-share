@@ -101,16 +101,6 @@
     flex-wrap: wrap ;
 }
 
-.index-footer {
-    background-color: #dce6ef ;
-    padding: 10px ;
-}
-
-#index-copyright {
-    display: flex ;
-    justify-content: center ;
-}
-
 .share-search {
     .search-button {
         margin-left: -20px;
@@ -208,13 +198,22 @@ hr.divider {
   margin-bottom: 10px;
 }
 
-/* Work */
+/* Detail */
 
-.work-back-arrow-block {
+.detail-back-arrow-block {
     text-align: left;
 }
 
-.work-back-arrow {
+.detail-back-arrow {
     color: black;
     cursor: pointer;
+}
+
+.detail-section-divider {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.detail-bottom-padding {
+    padding-bottom: 30px;
 }

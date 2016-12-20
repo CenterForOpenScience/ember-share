@@ -1,0 +1,21 @@
+.footer {
+    padding: 20px;
+    justify-content: center;
+    color: #555;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.links {
+    list-style: none outside none;
+}
+
+.copyright {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.center-block > ul {
+    display: table;
+    margin: auto;
+}
