@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ENV from '../../config/environment';
 import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
+const RESULTS = 20;
+
 export default Ember.Component.extend({
 
     metrics: Ember.inject.service(),
@@ -43,10 +45,7 @@ export default Ember.Component.extend({
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.hits.hits.map(function(obj) {
-            return obj._source.name;
-        });
-        return getUniqueList(textList);
+        return getUniqueList(response.hits.hits.mapBy('_source.name'));
     },
 
     typeaheadQueryUrl() {
@@ -55,32 +54,28 @@ export default Ember.Component.extend({
     },
 
     buildTypeaheadQuery(text) {
-        const query = {
-            query: {
-                bool: {
-                    must: [
-                        { match: { name: text } }
-                    ]
-                }
-            },
-            /* TODO: use aggregations to get a unique list
-            size: 0,
-            aggregations: {
-                suggestions: {
-                    terms: { field: 'name.raw' }
+        const match = {
+            match: {
+                'name.autocomplete': {
+                    query: text,
+                    operator: 'and',
+                    fuzziness: 'AUTO'
                 }
             }
-            */
         };
         const type = this.get('options.type');
         if (type) {
-            query.query.bool.filter = [{
-                term: {
-                    types: type
+            return {
+                size: RESULTS,
+                query: {
+                    bool: {
+                        must: [ match ],
+                        filter: [ { term: { types: type } } ]
+                    }
                 }
-            }];
+            };
         }
-        return query;
+        return { size: RESULTS, query: match };
     },
 
     _performSearch(term, resolve, reject) {
