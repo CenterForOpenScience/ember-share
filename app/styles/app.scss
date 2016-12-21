@@ -9,6 +9,11 @@
 @import 'c3';
 @import 'registration' ;
 
+/*
+    note that flex-wrap can mess spacing up in safari so use sparingly
+    https://github.com/backdrop/backdrop-issues/issues/1985
+*/
+
 
 /* Index Style */
 
@@ -45,9 +50,15 @@
     justify-content: center ;
 }
 
+
+// hide search icon on mobile to prevent strange wrapping
+@media (max-width: 420px) {
+    .index-search-icon {
+        display: none;
+    }
+}
+
 #index-tile-row {
-    display: flex ;
-    justify-content: center ;
     padding-top: 40px;
     flex-wrap: wrap ;
     margin-left: 25px;
