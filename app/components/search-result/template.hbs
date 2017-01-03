@@ -8,7 +8,7 @@
             </div>
         {{/if}}
         {{#if obj.date_published}}
-            <span class='col-xs-6 pull-right text-info' style="text-align: right">
+            <span class="col-xs-6 pull-right text-info text-right">
                 <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
             </span>
         {{/if}}
@@ -27,7 +27,7 @@
     {{#if contributors}}
         <div class="row">
             <div class="col-xs-12">
-                <span class="pull-left redirect" style="text-align: left">
+                <span class="pull-left redirect text-left">
                     {{#each contributors as |contrib index|}}
                         {{#if index}}
                             -
@@ -45,7 +45,7 @@
         {{/if}}
 
         <div class="row">
-            <div class="col-xs-9 pull-right text-info" style="text-align: right">
+            <div class="col-xs-9 pull-right text-info text-right">
                 {{#each obj.sources as |source index|}}
                     {{#if index}}
                         ,
@@ -55,7 +55,7 @@
                     </a>
                 {{/each}}
             </div>
-            <div class="col-xs-2 pull-left worktype" style="text-align: left">
+            <div class="col-xs-2 pull-left worktype text-left">
                 <div class="worktype-inner">
                     <a class="filter typefilter" {{action 'addFilter' 'type' obj.type}}>
                         {{type}}
@@ -134,7 +134,7 @@
     </div>
     <div class="col-xs-6 pull-right text-info">
         {{#if obj.publishers}}
-            <span class="pull-right published" style="text-align: right">
+            <span class="pull-right published text-right">
                 <span class="text-muted">Published by </span>
                 {{#each obj.publishers as |publisher|}}
                     <a class="filter" {{action 'addFilter' 'publishers' publisher.name}}>

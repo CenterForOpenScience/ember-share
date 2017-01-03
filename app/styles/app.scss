@@ -101,16 +101,6 @@
     flex-wrap: wrap ;
 }
 
-.index-footer {
-    background-color: #dce6ef ;
-    padding: 10px ;
-}
-
-#index-copyright {
-    display: flex ;
-    justify-content: center ;
-}
-
 .share-search {
     .search-button {
         margin-left: -20px;
@@ -126,6 +116,16 @@
 }
 
 /* Discover */
+
+.discover-font-margin {
+    font-size:75%;
+    margin-top:15px;
+}
+
+.discover-filter-facets {
+    margin-bottom: 8px;
+    width: 100%;
+}
 
 .discover-filter-block {
     border-radius: 5px;
@@ -180,8 +180,6 @@
     text-shadow: 0 1px 0 rgba(0,0,0,.1);
     background-color: #EEE;
 
-    text-align: center;
-
     h1 {
       margin-top: 0;
       line-height: 1;
@@ -208,13 +206,22 @@ hr.divider {
   margin-bottom: 10px;
 }
 
-/* Work */
+/* Detail */
 
-.work-back-arrow-block {
+.detail-back-arrow-block {
     text-align: left;
 }
 
-.work-back-arrow {
+.detail-back-arrow {
     color: black;
     cursor: pointer;
+}
+
+.detail-section-divider {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.detail-bottom-padding {
+    padding-bottom: 30px;
 }

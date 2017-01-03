@@ -1,0 +1,23 @@
+.footer {
+    padding: 20px;
+    justify-content: center;
+    color: #555;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.copyright {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.links {
+    list-style: none outside none;
+}
+
+@media (min-width: 768px) {
+    .center-block > ul {
+        display: table;
+        margin: auto;
+    }
+}
