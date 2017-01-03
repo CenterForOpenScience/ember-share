@@ -1,10 +1,10 @@
 <!-- Title naming convention: 
 
-     [ticket] [target branch] Title
+     [ticket][target branch] Title
 
-     - For develop use 'Feature' (e.g., [SHARE-1234] [Feature] Example PR Title)
-     - For master use 'Hotfix' (e.g., [SHARE-1234] [Hotfix] Example PR Title)
-     - For a release use the release tag (e.g., [SHARE-1234] [X.Y.Z] Example PR Title) -->
+     - For develop use 'Feature' (e.g., [SHARE-1234][Feature] Example PR Title)
+     - For master use 'Hotfix' (e.g., [SHARE-1234][Hotfix] Example PR Title)
+     - For a release use the release tag (e.g., [SHARE-1234][X.Y.Z] Example PR Title) -->
 
 <!-- Before submit your Pull Request, make sure you picked
      the right branch:
