@@ -1,0 +1,28 @@
+.clickable {
+    cursor: pointer;
+}
+
+.icon {
+    margin-left: -15px;
+}
+
+.type-filter-option {
+    padding-bottom: 5px;
+}
+
+.expand-icon {
+    font-size: 10px;
+    color: dimgray;
+}
+
+a {
+    color: dimgray;
+}
+
+.active > a {
+    color: black;
+}
+
+.active {
+    color: black;
+}
