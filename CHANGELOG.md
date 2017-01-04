@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.1.0] - 2016-12-16
+## Added
+* Back button on the details page
+* Site status banners
+
+## Fixed
+* Tests!
+* More page details
+* Match aggregated sources numbers
+
 ## [2.0.0] - 2016-12-02
 ### Added
 * Pagination

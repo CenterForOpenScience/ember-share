@@ -1,0 +1,28 @@
+& .banner-row {
+    padding: 5px 0;
+}
+
+& .banner {
+    padding: 10px 15px;
+}
+
+& .banner-icon {
+    padding-right: 0;
+    text-align: center;
+}
+
+& .danger-dark {
+    background-color: #a94442;
+}
+
+& .warning-dark {
+    background-color: #E0BA7A;
+}
+
+& .info-dark {
+    background-color: #31708f;
+}
+
+& .success-dark {
+    background-color: #3c763d;
+}

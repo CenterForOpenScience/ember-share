@@ -11,6 +11,8 @@ export const RELATION_MAP = Object.freeze({
     Creator: 'contributor',
     Contributor: 'contributor',
     Publisher: 'publisher',
+    Funder: 'funder',
+    Host: 'host',
 });
 
 export const CONTROLLER_MAP = Object.freeze({

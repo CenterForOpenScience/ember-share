@@ -27,5 +27,5 @@ export default Ember.Controller.extend(DetailMixin, {
 
     outgoingAffiliations: Ember.computed('model.outgoingAgentRelations', function() {
         return this.get('model.outgoingAgentRelations').map(relation => relation.related);
-    }),
+    })
 });

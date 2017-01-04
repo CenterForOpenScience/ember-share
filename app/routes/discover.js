@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import RouteHistoryMixin from 'ember-route-history/mixins/routes/route-history';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RouteHistoryMixin, {
     session: Ember.inject.service(),
     resetController(controller, isExiting) {
         if (isExiting) {
@@ -19,6 +20,7 @@ export default Ember.Route.extend({
             controller.set('type', '');
             controller.set('sort', '');
             controller.set('facetFilters', Ember.Object.create());
+            controller.set('firstLoad', true);
         }
     }
 });

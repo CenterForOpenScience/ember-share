@@ -108,14 +108,18 @@ export default ApplicationController.extend({
     },
 
     loadSourcesCount() {
+        let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
-            url: ENV.apiUrl + '/sources/',
+            url: this.get('searchUrl'),
             crossDomain: true,
-            type: 'GET',
+            type: 'POST',
             contentType: 'application/json',
+            data: queryBody
         }).then((json) => {
-            this.set('numberOfSources', json.meta.pagination.count);
+            if (json.aggregations) {
+                this.set('numberOfSources', json.aggregations.sources.buckets.length);
+            }
         });
     },
 

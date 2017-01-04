@@ -1,53 +1,69 @@
 {{title model.title}}
 
 <div class="title-container">
-  <div class="container">
-    <div class="jumbotron">
-      <h1 class="title">
-        {{model.title}}
-        <br>
-        <small>{{model.type}}</small>
-      </h1>
+    <div class="container">
+        <div class="work-back-arrow-block">
+            <a class="work-back-arrow" {{action "goBack"}}>
+                <span class="fa fa-arrow-left"></span>
+            </a>
+        </div>
+        {{#if retractions}}
+            <div class='retraction-alert bg-warning text-warning'>
+                <div class='lead'>{{fa-icon 'exclamation-triangle'}} This work has been retracted.</div>
+                {{#each retractions as |retraction|}}
+                    <div>
+                        Retraction notice:
+                        {{link-to retraction.subject.title 'detail' retraction.subject.type retraction.subject.id}}
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+        <div class="jumbotron">
+            <h1 class="title">
+                {{model.title}}
+                <br>
+                <small>{{model.type}}</small>
+            </h1>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container">
-  <br>
-  <p>
-  {{#if model.description}}
-    {{model.description}}
-  {{else}}
-    <span class="text-muted">No description provided.</span>
-  {{/if}}
-  </p>
-  <br>
-
-  {{#each sections as |section|}}
-    {{#if (get this section.value)}}
-      <br>
-      <h3>{{section.title}}</h3>
-      <hr style="margin-top: 0px; margin-bottom: 10px">
-      {{component section.component model=model data=(get this section.value)}}
-    {{/if}}
-  {{/each}}
-
-  {{#if hasExtra}}
     <br>
-    <h3>Additional Information
-      <small>
-        <a {{action 'toggleExtra'}} href="#">
-          {{#if showExtra}}
-            <i class="fa fa-caret-down"></i>
-          {{else}}
-            <i class="fa fa-caret-left"></i>
-          {{/if}}
-        </a>
-      </small>
-    </h3>
-    <hr style="margin-top: 0px; margin-bottom: 10px">
-    {{#if showExtra}}
-      {{json-pretty obj=model.extra shouldHighlight=true}}
+    <p>
+        {{#if model.description}}
+            {{model.description}}
+        {{else}}
+            <span class="text-muted">No description provided.</span>
+        {{/if}}
+    </p>
+    <br>
+
+    {{#each sections as |section|}}
+        {{#if (get this section.value)}}
+            <br>
+            <h3>{{section.title}}</h3>
+            <hr style="margin-top: 0px; margin-bottom: 10px">
+            {{component section.component model=model data=(get this section.value)}}
+        {{/if}}
+    {{/each}}
+
+    {{#if hasExtra}}
+        <br>
+        <h3>Additional Information
+            <small>
+                <a {{action 'toggleExtra'}} href="#">
+                    {{#if showExtra}}
+                        <i class="fa fa-caret-down"></i>
+                    {{else}}
+                        <i class="fa fa-caret-left"></i>
+                    {{/if}}
+                </a>
+            </small>
+        </h3>
+        <hr style="margin-top: 0px; margin-bottom: 10px">
+        {{#if showExtra}}
+            {{json-pretty obj=model.extra shouldHighlight=true}}
+        {{/if}}
     {{/if}}
-  {{/if}}
 </div>

@@ -1,11 +1,18 @@
 <div class="title-tile">
-    {{#if obj.date_published}}
-        <div class="row">
-            <span class="col-xs-6 pull-right text-info" style="text-align: right">
+    <div class="row">
+        {{#if obj.retracted}}
+            <div class='col-xs-6'>
+                <span class='retraction-alert bg-warning text-warning'>
+                    {{fa-icon 'exclamation-triangle'}} This work has been retracted. {{link-to 'View retraction notice' 'detail' 'retraction' retractionId}}
+                </span>
+            </div>
+        {{/if}}
+        {{#if obj.date_published}}
+            <span class='col-xs-6 pull-right text-info' style="text-align: right">
                 <span class="text-muted">Published </span>{{moment-format obj.date_published 'MMMM YYYY'}}
             </span>
-        </div>
-    {{/if}}
+        {{/if}}
+    </div>
     <div class="row title">
         <h4 class="col-sm-11 redirect">
             {{#link-to 'detail' (slug obj.type) obj.id}}
