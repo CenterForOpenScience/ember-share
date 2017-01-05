@@ -22,5 +22,12 @@ export default Ember.Route.extend(RouteHistoryMixin, {
             controller.set('facetFilters', Ember.Object.create());
             controller.set('firstLoad', true);
         }
+    },
+
+    actions: {
+        elasticDown() {
+            this.intermediateTransitionTo('elastic-down');
+            return false;
+        }
     }
 });
