@@ -39,4 +39,8 @@ export default Ember.Controller.extend(DetailMixin, {
     safeDescription: Ember.computed('model.description', function() {
         return Ember.String.htmlSafe(this.get('model.description')).string;
     }),
+
+    safeTitle: Ember.computed('model.title', function() {
+        return Ember.String.htmlSafe(this.get('model.title')).string;
+    }),
 });

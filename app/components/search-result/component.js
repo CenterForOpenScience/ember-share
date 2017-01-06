@@ -10,6 +10,9 @@ export default Ember.Component.extend({
     type: Ember.computed('obj.type', function() {
         return this.get('obj.type').capitalize();
     }),
+    safeTitle: Ember.computed('obj.title', function() {
+        return Ember.String.htmlSafe(this.get('obj.title')).string;
+    }),
     safeDescription: Ember.computed('obj.description', function() {
         return Ember.String.htmlSafe(this.get('obj.description')).string;
     }),
