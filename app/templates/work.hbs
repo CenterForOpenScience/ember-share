@@ -31,8 +31,8 @@
 <div class="container detail-bottom-padding">
     <br>
     <p>
-        {{#if model.description}}
-            {{model.description}}
+        {{#if safeDescription}}
+            {{{safeDescription}}}
         {{else}}
             <span class="text-muted">No description provided.</span>
         {{/if}}

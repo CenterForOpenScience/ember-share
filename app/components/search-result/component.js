@@ -10,11 +10,14 @@ export default Ember.Component.extend({
     type: Ember.computed('obj.type', function() {
         return this.get('obj.type').capitalize();
     }),
-    abbreviated: Ember.computed('obj.description', function() {
-        return this.get('obj.description').length > this.get('maxDescription');
+    safeDescription: Ember.computed('obj.description', function() {
+        return Ember.String.htmlSafe(this.get('obj.description')).string;
     }),
-    abbreviation: Ember.computed('obj.description', function() {
-        return this.get('obj.description').slice(0, this.get('maxDescription'));
+    abbreviated: Ember.computed('safeDescription', function() {
+        return this.get('safeDescription').length > this.get('maxDescription');
+    }),
+    abbreviation: Ember.computed('safeDescription', function() {
+        return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
     extraContributors: Ember.computed('obj.lists.contributors', function() {
         return (this.get('obj.lists.contributors') || []).slice(this.get('maxContributors'));

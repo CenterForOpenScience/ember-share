@@ -151,6 +151,8 @@
         <div class='col-sm-9 col-xs-12'>
             {{#if loading}}
                 {{loading-bars}}
+            {{else if queryError}}
+                {{query-syntax message=queryError}}
             {{else if noResultsMessage}}
                 <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
