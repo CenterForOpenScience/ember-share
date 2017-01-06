@@ -128,7 +128,7 @@ export default ApplicationController.extend({
     },
 
     transformTypes(obj) {
-        if (typeof(obj) !== "object") {
+        if (typeof (obj) !== 'object') {
             return obj;
         }
         var keys = Object.keys(obj);
@@ -160,12 +160,9 @@ export default ApplicationController.extend({
         });
     },
 
-
     searchUrl: Ember.computed(function() {
         return buildElasticCall();
     }),
-
-
 
     getQueryBody() {
         let facetFilters = this.get('facetFilters');

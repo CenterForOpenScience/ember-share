@@ -7,7 +7,7 @@ export default Ember.Component.extend({
     }),
 
     label: Ember.computed('type', function() {
-        return this.get('type').replace(/^./, function(str){ return str.toUpperCase(); });
+        return this.get('type').replace(/^./, function(str) { return str.toUpperCase(); });
     }),
 
     actions: {
