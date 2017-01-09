@@ -31,7 +31,7 @@
     {{else}}
         <div class="row hidden-xs">
             {{#each sources as |source index|}}
-                {{#if (modIf index 2)}}
+                {{#if (mod-if index 2)}}
                     <div class="row">
                         {{provider-block source=source}}
                     </div>
