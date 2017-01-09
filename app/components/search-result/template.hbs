@@ -16,8 +16,8 @@
     <div class="row title">
         <h4 class="col-sm-11 redirect">
             {{#link-to 'detail' (slug obj.type) obj.id}}
-                {{#if obj.title}}
-                    {{obj.title}}
+                {{#if safeTitle}}
+                    {{{safeTitle}}}
                 {{else}}
                     <i class="no-title">Title not provided</i>
                 {{/if}}
