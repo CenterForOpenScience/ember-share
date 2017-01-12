@@ -209,7 +209,7 @@ export default ApplicationController.extend({
         return {
             sources: {
                 terms: {
-                    field: 'sources.raw',
+                    field: 'sources',
                     size: MAX_SOURCES
                 }
             }
