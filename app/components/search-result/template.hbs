@@ -24,20 +24,20 @@
             {{/link-to}}
         </h4>
     </div>
-    {{#if contributors}}
+    {{#if creators}}
         <div class="row">
             <div class="col-xs-12">
                 <span class="pull-left redirect text-left">
-                    {{#each contributors as |contrib index|}}
+                    {{#each creators as |creator index|}}
                         {{#if index}}
                             -
                         {{/if}}
-                        {{#link-to 'detail' (slug contrib.type) contrib.id}}
-                            {{if contrib.cited_as contrib.cited_as contrib.name}}
+                        {{#link-to 'detail' (slug creator.type) creator.id}}
+                            {{if creator.cited_as creator.cited_as creator.name}}
                         {{/link-to}}
                     {{/each}}
-                    {{#if extraContributors}}
-                        <span class="text-muted">+{{extraContributors.length}}</span>
+                    {{#if extraCreators}}
+                        <span class="text-muted">+{{extraCreators.length}}</span>
                     {{/if}}
                 </span>
             </div>

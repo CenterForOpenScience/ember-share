@@ -4,7 +4,7 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     maxTags: 5,
-    maxContributors: 6,
+    maxCreators: 6,
     maxDescription: 350,
 
     type: Ember.computed('obj.type', function() {
@@ -23,11 +23,11 @@ export default Ember.Component.extend({
     abbreviation: Ember.computed('safeDescription', function() {
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
-    extraContributors: Ember.computed('obj.lists.contributors', function() {
-        return (this.get('obj.lists.contributors') || []).slice(this.get('maxContributors'));
+    extraCreators: Ember.computed('obj.lists.creators', function() {
+        return (this.get('obj.lists.creators') || []).slice(this.get('maxCreators'));
     }),
-    contributors: Ember.computed('obj.lists.contributors', function() {
-        return (this.get('obj.lists.contributors') || []).slice(0, this.get('maxContributors'));
+    creators: Ember.computed('obj.lists.creators', function() {
+        return (this.get('obj.lists.creators') || []).slice(0, this.get('maxCreators'));
     }),
     extraTags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));
