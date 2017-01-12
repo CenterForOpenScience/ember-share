@@ -210,7 +210,7 @@ export default ApplicationController.extend({
                 loading: false,
                 firstLoad: false,
                 results: results,
-                queryError: null
+                queryError: false
             });
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
@@ -223,7 +223,7 @@ export default ApplicationController.extend({
                 results: []
             });
             if (errorResponse.status === 400) {
-                this.set('queryError', errorResponse.responseJSON.error.root_cause[0].reason);
+                this.set('queryError', true);
             } else {
                 this.send('elasticDown');
             }
