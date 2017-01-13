@@ -149,7 +149,7 @@ export default ApplicationController.extend({
 
     getTypes() {
         return Ember.$.ajax({
-            url: ENV.apiUrl + '/modeltypes/',
+            url: ENV.apiUrl + '/schema/creativework/hierarchy/',
             crossDomain: true,
             type: 'GET',
             contentType: 'application/vnd.api+json',
