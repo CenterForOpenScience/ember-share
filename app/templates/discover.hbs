@@ -130,7 +130,7 @@
             </div>
         {{/if}}
         {{#if (not media.isExtraSmall)}}
-            <div class='col-sm-3 hidden-xs'>
+            <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
                 <select
                     onchange={{action 'selectSortOption' value="target.value"}}
                     class="btn-select discover-filter-facets">
@@ -148,7 +148,7 @@
                 }}
             </div>
         {{/if}}
-        <div class='col-sm-9 col-xs-12'>
+        <div class='col-sm-7 col-md-8 col-lg-9 col-xs-12'>
             {{#if loading}}
                 {{loading-bars}}
             {{else if queryError}}
