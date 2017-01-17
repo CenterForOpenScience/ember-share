@@ -49,7 +49,7 @@ export default ApplicationController.extend({
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
-    types: '',
+    types: {},
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
@@ -131,20 +131,15 @@ export default ApplicationController.extend({
         if (typeof (obj) !== 'object') {
             return obj;
         }
-        var keys = Object.keys(obj);
-        var n = keys.length;
 
-        var lowKey;
-        while (n--) {
-            var key = keys[n];
-            if (key === (lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase())) {
-                obj[key] = this.transformTypes(obj[key]);
-                continue;
-            }
+        for (let key in obj) {
+            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
             obj[lowKey] = this.transformTypes(obj[key]);
-            delete obj[key];
+            if (key !== lowKey) {
+                delete obj[key];
+            }
         }
-        return (obj);
+        return obj;
     },
 
     getTypes() {
