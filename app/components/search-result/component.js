@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 
     type: Ember.computed('obj.type', function() {
         // title case work types: 'creative work' --> 'Creative Work'
-        return this.get('obj.type').replace(/\w\S*/g, function(str){return str.capitalize();});
+        return this.get('obj.type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),
     safeDescription: Ember.computed('obj.description', function() {
         return Ember.String.htmlSafe(this.get('obj.description')).string;

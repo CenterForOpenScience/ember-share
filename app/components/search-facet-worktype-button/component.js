@@ -8,7 +8,7 @@ export default Ember.Component.extend({
 
     label: Ember.computed('type', function() {
         // title case work types: 'creative work' --> 'Creative Work'
-        return this.get('type').replace(/\w\S*/g, function(str){return str.capitalize();});
+        return this.get('type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),
 
     actions: {
