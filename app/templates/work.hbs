@@ -2,8 +2,8 @@
 
 <div class="title-container">
     <div class="container">
-        <div class="work-back-arrow-block">
-            <a class="work-back-arrow" {{action "goBack"}}>
+        <div class="detail-back-arrow-block">
+            <a class="detail-back-arrow" {{action "goBack"}}>
                 <span class="fa fa-arrow-left"></span>
             </a>
         </div>
@@ -20,7 +20,7 @@
         {{/if}}
         <div class="jumbotron">
             <h1 class="title">
-                {{model.title}}
+                {{{safeTitle}}}
                 <br>
                 <small>{{model.type}}</small>
             </h1>
@@ -28,11 +28,11 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container detail-bottom-padding">
     <br>
     <p>
-        {{#if model.description}}
-            {{model.description}}
+        {{#if safeDescription}}
+            {{{safeDescription}}}
         {{else}}
             <span class="text-muted">No description provided.</span>
         {{/if}}
@@ -43,7 +43,7 @@
         {{#if (get this section.value)}}
             <br>
             <h3>{{section.title}}</h3>
-            <hr style="margin-top: 0px; margin-bottom: 10px">
+            <hr class="detail-section-divider">
             {{component section.component model=model data=(get this section.value)}}
         {{/if}}
     {{/each}}
@@ -61,7 +61,7 @@
                 </a>
             </small>
         </h3>
-        <hr style="margin-top: 0px; margin-bottom: 10px">
+        <hr class="detail-section-divider">
         {{#if showExtra}}
             {{json-pretty obj=model.extra shouldHighlight=true}}
         {{/if}}

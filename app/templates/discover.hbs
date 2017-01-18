@@ -20,17 +20,17 @@
               <div class="text-muted col-sm-4 hidden-xs">
                   <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
               </div>
-              <div class="col-sm-4 col-xs-12" style="text-align: center">
+              <div class="col-sm-4 col-xs-12 text-center">
                   <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
               </div>
-              <div class="text-muted col-sm-4 hidden-xs" style="text-align: right">
+              <div class="text-muted col-sm-4 hidden-xs text-right">
                   <small>Aggregating {{locale-string numberOfSources}} sources</small>
               </div>
             </div>
         </div>
     </div>
     {{#if queryBody}}
-        <div class="row" style="text-align: center; font-size:75%; margin-top:15px">
+        <div class="row text-center discover-font-margin">
             <i>
                 <a{{action 'toggleCollapsedQueryBody'}} href="#">
                     View query body
@@ -47,7 +47,7 @@
         <div id="queryBody" class="row">
             <div class="col-sm-8 col-sm-offset-2">
                 <div class="row">
-                    <div style="text-align: center; font-size:75%; margin-top:15px">
+                    <div class="text-center discover-font-margin">
                         <i>Search API: <a href={{searchUrl}}>{{searchUrl}}</a></i>
                     </div>
                     <div class="col-sm-8 col-sm-offset-2">
@@ -61,13 +61,13 @@
         </div>
     {{/bs-collapse}}
     <div class="row">
-        <div class="col-xs-6" style="text-align: left;">
+        <div class="col-xs-6 text-left">
             <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
                 Clear filters
             </button>
         </div>
         {{#if (not noResultsMessage)}}
-            <div class="col-sm-6 pull-right" style="text-align: right">
+            <div class="col-sm-6 pull-right text-right">
                 <div>
                     {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPageNoScroll')}}
                 </div>
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div class="row visible-xs">
-        <div class="col-xs-12" style="text-align: right; font-size:75%; margin-top:15px">
+        <div class="col-xs-12 text-right discover-font-margin">
             <i>
                 <a{{action 'toggleCollapsedFilters'}} href="#">
                     View filter options
@@ -113,8 +113,7 @@
                 {{#bs-collapse collapsed=collapsedFilters}}
                     <select
                         onchange={{action 'selectSortOption' value="target.value"}}
-                        class="btn-select"
-                        style="margin-bottom: 8px; width: 100%;">
+                        class="btn-select discover-filter-facets">
                         {{#each sortOptions as |sortChoice|}}
                             <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                         {{/each}}
@@ -134,8 +133,7 @@
             <div class='col-sm-3 hidden-xs'>
                 <select
                     onchange={{action 'selectSortOption' value="target.value"}}
-                    class="btn-select"
-                    style="margin-bottom: 8px; width: 100%;">
+                    class="btn-select discover-filter-facets">
                     {{#each sortOptions as |sortChoice|}}
                         <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
                     {{/each}}
@@ -153,13 +151,15 @@
         <div class='col-sm-9 col-xs-12'>
             {{#if loading}}
                 {{loading-bars}}
+            {{else if queryError}}
+                {{query-syntax}}
             {{else if noResultsMessage}}
                 <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
                 {{#each results as |obj|}}
                     {{search-result addFilter='addFilter' obj=obj}}
                 {{/each}}
-                <div class="pull-right" style="text-align: right">
+                <div class="pull-right text-right">
                     {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
                 </div>
             {{/if}}

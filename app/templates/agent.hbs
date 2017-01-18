@@ -2,8 +2,8 @@
 
 <div class="title-container">
     <div class="container">
-        <div class="work-back-arrow-block">
-          <a class="work-back-arrow" {{action "goBack"}}>
+        <div class="detail-back-arrow-block">
+          <a class="detail-back-arrow" {{action "goBack"}}>
             <span class="fa fa-arrow-left"></span>
           </a>
         </div>
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container detail-bottom-padding">
     <br>
 
     {{#each sections as |section|}}
@@ -28,7 +28,7 @@
             <div class='row'>
                 <br>
                 <h3>{{section.title}}</h3>
-                <hr style="margin-top: 0px; margin-bottom: 10px">
+                <hr class="detail-section-divider">
                 {{component section.component model=model data=(get this section.value)}}
             </div>
         {{/if}}
@@ -47,7 +47,7 @@
                 </a>
             </small>
         </h3>
-        <hr style="margin-top: 0px; margin-bottom: 10px">
+        <hr class="deatil-section-divider">
         {{#if showExtra}}
             {{json-pretty obj=model.extra shouldHighlight=true}}
         {{/if}}

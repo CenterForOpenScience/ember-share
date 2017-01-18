@@ -35,4 +35,12 @@ export default Ember.Controller.extend(DetailMixin, {
     }),
 
     retractions: Ember.computed.filterBy('model.incomingWorkRelations', 'type', 'Retracts'),
+
+    safeDescription: Ember.computed('model.description', function() {
+        return Ember.String.htmlSafe(this.get('model.description')).string;
+    }),
+
+    safeTitle: Ember.computed('model.title', function() {
+        return Ember.String.htmlSafe(this.get('model.title')).string;
+    }),
 });

@@ -6,6 +6,7 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
+const MAX_SOURCES = 500;
 let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
@@ -90,26 +91,22 @@ export default ApplicationController.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.store.adapterFor('graph').ajax('/api/v2/graph/', 'POST', {
-            data: {
-                variables: '',
-                query: `query {
-                  search(type: "creativeworks", size: 0) {
-                    hits { total }
-                  }
-                }`
-            }
-        }).then(data => {
-            this.set('numberOfEvents', data.data.search.hits.total);
-        });
-
-        this.loadSourcesCount();
-        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 250));
+        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
+        this.getCounts();
     },
 
-    loadSourcesCount() {
-        let queryBody = JSON.stringify(this.getQueryBody());
-        this.set('loading', true);
+    getCounts() {
+        let queryBody = JSON.stringify({
+            size: 0,
+            aggregations: {
+                sources: {
+                    cardinality: {
+                        field: 'sources.raw',
+                        precision_threshold: MAX_SOURCES
+                    }
+                }
+            }
+        });
         return Ember.$.ajax({
             url: this.get('searchUrl'),
             crossDomain: true,
@@ -117,9 +114,10 @@ export default ApplicationController.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            if (json.aggregations) {
-                this.set('numberOfSources', json.aggregations.sources.buckets.length);
-            }
+            this.setProperties({
+                numberOfEvents: json.hits.total,
+                numberOfSources: json.aggregations.sources.value
+            });
         });
     },
 
@@ -178,7 +176,7 @@ export default ApplicationController.extend({
             sources: {
                 terms: {
                     field: 'sources.raw',
-                    size: 200
+                    size: MAX_SOURCES
                 }
             }
         };
@@ -212,9 +210,22 @@ export default ApplicationController.extend({
                 loading: false,
                 firstLoad: false,
                 results: results,
+                queryError: false
             });
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
+            }
+        }, (errorResponse) => {
+            this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: []
+            });
+            if (errorResponse.status === 400) {
+                this.set('queryError', true);
+            } else {
+                this.send('elasticDown');
             }
         });
     },
