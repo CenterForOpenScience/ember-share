@@ -1,11 +1,7 @@
 <div class="col-sm-6 col-xs-12">
     <div class="provider-filter">
         {{#link-to "discover" (query-params sources=encodedParam) class="provider-filter"}}
-            {{#if source.attributes.favicon}}
-                <img class="provider-favicon" src={{source.attributes.favicon}}>
-            {{else}}
-                {{fa-icon 'question' class='provider-favicon'}}
-            {{/if}}
+            <img class="provider-favicon" src={{source.attributes.favicon}}>
             {{source.attributes.longTitle}}
         {{/link-to}}
     </div>
