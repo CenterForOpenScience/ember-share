@@ -28,7 +28,7 @@ function dateRangeFilter(field, start, end) {
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (['contributors', 'funders', 'identifiers', 'tags'].includes(field)) {
+        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(field)) {
             field = field + '.exact';
         }
         if (all) {
