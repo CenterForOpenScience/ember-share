@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     abbreviation: Ember.computed('safeDescription', function() {
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
-    allCreators: Ember.computed('obj.lists.creators', function() {
+    allCreators: Ember.computed('obj.lists.contributors', function() {
         return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator');
     }),
     extraCreators: Ember.computed('allCreators', function() {
