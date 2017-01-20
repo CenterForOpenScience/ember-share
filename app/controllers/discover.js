@@ -49,6 +49,7 @@ export default ApplicationController.extend({
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
+    types: {},
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
@@ -67,6 +68,10 @@ export default ApplicationController.extend({
             return total - max;
         }
         return null;
+    }),
+
+    processedTypes: Ember.computed('types', function() {
+        return this.transformTypes(this.get('types'));
     }),
 
     sortOptions: [{
@@ -91,6 +96,7 @@ export default ApplicationController.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
+        this.getTypes();
         this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
         this.getCounts();
     },
@@ -118,6 +124,34 @@ export default ApplicationController.extend({
                 numberOfEvents: json.hits.total,
                 numberOfSources: json.aggregations.sources.value
             });
+        });
+    },
+
+    transformTypes(obj) {
+        if (typeof (obj) !== 'object') {
+            return obj;
+        }
+
+        for (let key in obj) {
+            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
+            obj[lowKey] = this.transformTypes(obj[key]);
+            if (key !== lowKey) {
+                delete obj[key];
+            }
+        }
+        return obj;
+    },
+
+    getTypes() {
+        return Ember.$.ajax({
+            url: ENV.apiUrl + '/schema/creativework/hierarchy/',
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/vnd.api+json',
+        }).then((json) => {
+            if (json.data) {
+                this.set('types', json.data);
+            }
         });
     },
 
@@ -239,11 +273,11 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
-    facets: Ember.computed(function() {
+    facets: Ember.computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead', type: 'tag' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', type: 'publisher' },
             { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', type: 'funder' },
