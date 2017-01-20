@@ -23,11 +23,14 @@ export default Ember.Component.extend({
     abbreviation: Ember.computed('safeDescription', function() {
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
-    extraCreators: Ember.computed('obj.lists.creators', function() {
-        return (this.get('obj.lists.creators') || []).slice(this.get('maxCreators'));
+    allCreators: Ember.computed('obj.lists.creators', function() {
+        return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator');
     }),
-    creators: Ember.computed('obj.lists.creators', function() {
-        return (this.get('obj.lists.creators') || []).slice(0, this.get('maxCreators'));
+    extraCreators: Ember.computed('allCreators', function() {
+        return this.get('allCreators').slice(this.get('maxCreators'));
+    }),
+    creators: Ember.computed('allCreators', function() {
+        return this.get('allCreators').slice(0, this.get('maxCreators'));
     }),
     extraTags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));
