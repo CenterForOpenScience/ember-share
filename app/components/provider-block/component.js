@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from '../../config/environment';
 import { encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Component.extend({
