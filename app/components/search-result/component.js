@@ -24,7 +24,7 @@ export default Ember.Component.extend({
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
     allCreators: Ember.computed('obj.lists.contributors', function() {
-        return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator');
+        return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator').sortBy('order_cited');
     }),
     extraCreators: Ember.computed('allCreators', function() {
         return this.get('allCreators').slice(this.get('maxCreators'));
