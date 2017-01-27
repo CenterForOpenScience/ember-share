@@ -107,7 +107,7 @@ export default ApplicationController.extend({
             aggregations: {
                 sources: {
                     cardinality: {
-                        field: 'sources.raw',
+                        field: 'sources',
                         precision_threshold: MAX_SOURCES
                     }
                 }
