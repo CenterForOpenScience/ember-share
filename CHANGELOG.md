@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.3.0] - 2016-02-02
+## Changed
+* Ingress date -> Ingest date
+* Improved type ahead for filters
+* Expose the full hierarchy of works for searching
+
 ## [2.1.0] - 2016-12-16
 ## Added
 * Back button on the details page
