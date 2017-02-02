@@ -61,7 +61,7 @@ export default Ember.Route.extend(RouteHistoryMixin, {
         // Correct the url
         let slug = model.type.classify().toLowerCase();
         if (slug !== transition.params.detail.type) {
-            return this.transitionTo('detail', slug, model.id);
+            return this.replaceWith('detail', slug, model.id);
         }
     }
 });

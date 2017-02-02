@@ -1,14 +1,4 @@
-<div class='row'>
-    {{search-facet-worktype-button type='publication' label='Publication'
-        selectedTypes=selected onClick=(action 'toggle')}}
-    {{search-facet-worktype-button type='preprint' label='Preprint'
-        selectedTypes=selected onClick=(action 'toggle')}}
-</div>
-<div class='row'>
-    {{search-facet-worktype-button type='project' label='Project'
-        selectedTypes=selected onClick=(action 'toggle')}}
-    {{search-facet-worktype-button type='registration' label='Registration'
-        selectedTypes=selected onClick=(action 'toggle')}}
-    {{search-facet-worktype-button type='creative work' label='Other'
-        selectedTypes=selected onClick=(action 'toggle')}}
+<div class='filter-block'>
+    {{search-facet-worktype-hierarchy state=state defaultCollapsed=false
+        data=data onClick=(action 'toggle')}}
 </div>

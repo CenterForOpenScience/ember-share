@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
     submitAgain: false,
 
     getRegistrations() {
-        var url = ENV.apiUrl + '/registrations/';
+        var url = ENV.apiUrl + '/sourceregistrations/';
         return Ember.$.ajax({
             url: url,
             crossDomain: true,

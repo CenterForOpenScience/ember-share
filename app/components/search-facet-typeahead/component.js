@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ENV from '../../config/environment';
 import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
+const RESULTS = 20;
+
 export default Ember.Component.extend({
 
     metrics: Ember.inject.service(),
@@ -43,31 +45,37 @@ export default Ember.Component.extend({
     },
 
     handleTypeaheadResponse(response) {
-        let textList = response.suggestions[0].options.map(function(obj) {
-            return obj.payload.name;
-        });
-        return getUniqueList(textList);
+        return getUniqueList(response.hits.hits.mapBy('_source.name'));
     },
 
     typeaheadQueryUrl() {
-        return ENV.apiUrl + '/search/_suggest';
+        let base = this.get('options.base') || this.get('key');
+        return `${ENV.apiUrl}/search/${base}/_search`;
     },
 
     buildTypeaheadQuery(text) {
-        let types = this.get('options.type') || this.get('key');
-        return {
-            suggestions: {
-                text,
-                completion: {
-                    field: 'suggest',
-                    size: 10,
-                    fuzzy: true,
-                    context: {
-                        types
-                    }
+        const match = {
+            match: {
+                'name.autocomplete': {
+                    query: text,
+                    operator: 'and',
+                    fuzziness: 'AUTO'
                 }
             }
         };
+        const type = this.get('options.type');
+        if (type) {
+            return {
+                size: RESULTS,
+                query: {
+                    bool: {
+                        must: [match],
+                        filter: [{ term: { types: type } }]
+                    }
+                }
+            };
+        }
+        return { size: RESULTS, query: match };
     },
 
     _performSearch(term, resolve, reject) {

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from '../config/environment';
 
-export default DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
+const ApplicationAdapter =  DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
     session: Ember.inject.service(),
     namespace: 'api/v2',
     host: ENV.apiBaseUrl,
@@ -25,3 +25,5 @@ export default DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
         return Ember.String.underscore(inflector.pluralize(type));
     }
 });
+
+export default ApplicationAdapter;
