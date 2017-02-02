@@ -84,10 +84,10 @@ export default ApplicationController.extend({
         display: 'Date Updated (Asc)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingress Date (Asc)',
+        display: 'Ingest Date (Asc)',
         sortBy: 'date_created'
     }, {
-        display: 'Ingress Date (Desc)',
+        display: 'Ingest Date (Desc)',
         sortBy: '-date_created'
     }],
 
