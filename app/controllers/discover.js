@@ -56,6 +56,8 @@ export default ApplicationController.extend({
     }),
 
     clampedPages: Ember.computed('totalPages', 'size', function() {
+        // requesting over 10000 will error due to elastic limitations
+        // https://www.elastic.co/guide/en/elasticsearch/guide/current/pagination.html
         let maxPages = Math.ceil(10000 / this.get('size'));
         let totalPages = this.get('totalPages');
         return totalPages < maxPages ? totalPages : maxPages;
