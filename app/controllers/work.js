@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DetailMixin from '../mixins/detail';
 import { RELATION_MAP } from '../utils/mappings';
+import ENV from '../config/environment';
 
 const SECTIONS = [
     { title: 'Contributors', value: 'relatedAgents.contributor', component: 'section-related-agents' },
@@ -15,6 +16,13 @@ const SECTIONS = [
 
 export default Ember.Controller.extend(DetailMixin, {
     sections: SECTIONS,
+
+    workType: Ember.computed('model.type', function() {
+        if (this.get('model.type') === 'CreativeWork') {
+            return ENV.creativeworkName;
+        }
+        return this.get('model.type');
+    }),
 
     relatedAgents: Ember.computed('model.relatedAgents', function() {
         const byType = {};

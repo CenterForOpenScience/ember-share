@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     selected: Ember.computed('selectedTypes.[]', function() {
@@ -7,6 +8,9 @@ export default Ember.Component.extend({
     }),
 
     label: Ember.computed('type', function() {
+        if (this.get('type') === 'creative work') {
+            return ENV.creativeworkName;
+        }
         // title case work types: 'creative work' --> 'Creative Work'
         return this.get('type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),
