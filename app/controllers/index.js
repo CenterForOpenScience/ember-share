@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
 
-    placeholder: 'search events',
+    placeholder: 'search scholarly works',
 
     actions: {
         search() {
