@@ -73,7 +73,8 @@ export default ApplicationController.extend({
     }),
 
     processedTypes: Ember.computed('types', function() {
-        return this.transformTypes(this.get('types'));
+        const types = this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
+        return this.transformTypes(types);
     }),
 
     sortOptions: [{
