@@ -93,6 +93,12 @@ export default ApplicationController.extend({
     }, {
         display: 'Ingest Date (Oldest first)',
         sortBy: 'date_created'
+    }, {
+        display: 'Source Name (A-Z)',
+        sortBy: 'sources'
+    }, {
+        display: 'Source Name (Z-A)',
+        sortBy: '-sources'
     }],
 
     init() {
