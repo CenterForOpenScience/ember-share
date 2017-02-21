@@ -111,13 +111,11 @@
         {{#if media.isExtraSmall}}
             <div class='col-xs-12 visible-xs'>
                 {{#bs-collapse collapsed=collapsedFilters}}
-                    <select
-                        onchange={{action 'selectSortOption' value="target.value"}}
-                        class="btn-select discover-filter-facets">
-                        {{#each sortOptions as |sortChoice|}}
-                            <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
-                        {{/each}}
-                    </select>
+                    {{sortby-dropdown
+                        sortOptions=sortOptions
+                        sortDisplay=sortDisplay
+                        selectSortOption=(action 'selectSortOption')
+                    }}
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'
@@ -131,13 +129,11 @@
         {{/if}}
         {{#if (not media.isExtraSmall)}}
             <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
-                <select
-                    onchange={{action 'selectSortOption' value="target.value"}}
-                    class="btn-select discover-filter-facets">
-                    {{#each sortOptions as |sortChoice|}}
-                        <option value={{sortChoice.sortBy}} selected={{eq sort sortChoice.sortBy}}>{{sortChoice.display}}</option>
-                    {{/each}}
-                </select>
+                {{sortby-dropdown
+                    sortOptions=sortOptions
+                    sortDisplay=sortDisplay
+                    selectSortOption=(action 'selectSortOption')
+                }}
                 {{faceted-search
                     onChange='filtersChanged'
                     updateParams='updateParams'
