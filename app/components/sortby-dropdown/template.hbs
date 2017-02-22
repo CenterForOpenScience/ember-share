@@ -1,0 +1,13 @@
+<button class="btn btn-select dropdown-toggle discover-filter-facets align-left"
+    type="button" id="sortBy" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="true">
+    Sort by: {{sortDisplay}}
+    <span class="fa fa-sort pull-right sort-icon"></span>
+</button>
+<ul class="dropdown-menu" aria-labelledby="sortBy">
+    {{#each sortOptions as |option|}}
+        <li class="dropdown-cursor">
+            <a {{action "select" option.sortBy option.display}}>{{option.display}}</a>
+        </li>
+    {{/each}}
+</ul>
