@@ -10,3 +10,11 @@
     cursor: pointer;
     cursor: hand;
 }
+
+.display-text {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
