@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     sources: [],
     numberOfEvents: 0,
     sourcesLastUpdated: Date().toString(),
-    placeholder: 'search aggregated sources',
+    placeholder: 'Search aggregated sources',
     loading: true,
     source_selected: '',
 
