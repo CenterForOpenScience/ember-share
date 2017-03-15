@@ -1,10 +1,16 @@
 # Change Log
 
-# [2.4.0] - 2016-02-10
+# [2.5.0] - 2017-03-15
+## Changed
+* Language changes
+  * Use newest/oldest in place of desc/asc
+  * CreativeWork -> Not Categorized
+
+# [2.4.0] - 2017-02-10
 ## Fixed
 * Show contributors in cited order on detail page
 
-## [2.3.0] - 2016-02-02
+## [2.3.0] - 2017-02-02
 ## Changed
 * Ingress date -> Ingest date
 * Improved type ahead for filters
