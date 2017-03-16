@@ -11,8 +11,8 @@ function dateRangeFilter(field, start, end) {
     if (start && end) {
         let filter = { range: {} };
         filter.range[field] = {
-            gte: moment(start).format(),
-            lte: moment(end).format()
+            gte: `${moment(start).format('YYYY-MM-DD')}||/d`,
+            lte: `${moment(end).format('YYYY-MM-DD')}||/d`
         };
         return filter;
     } else {
