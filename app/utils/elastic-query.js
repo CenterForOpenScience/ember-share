@@ -11,8 +11,8 @@ function dateRangeFilter(field, start, end) {
     if (start && end) {
         let filter = { range: {} };
         filter.range[field] = {
-            gte: moment(start).format(),
-            lte: moment(end).format()
+            gte: `${moment(start).format('YYYY-MM-DD')}||/d`,
+            lte: `${moment(end).format('YYYY-MM-DD')}||/d`
         };
         return filter;
     } else {
@@ -34,7 +34,12 @@ function termsFilter(field, terms, all = true) {
         if (all) {
             return terms.map(term => {
                 let filter = { term: {} };
-                filter.term[field] = term;
+                // creative work filter should not include subtypes
+                if (term === 'creative work' && field === 'types') {
+                    filter.term.type = term;
+                } else {
+                    filter.term[field] = term;
+                }
                 return filter;
             });
         } else {

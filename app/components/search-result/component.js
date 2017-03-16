@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
+import ENV from '../../config/environment';
 
 export default Ember.Component.extend({
     layout,
@@ -8,6 +9,9 @@ export default Ember.Component.extend({
     maxDescription: 350,
 
     type: Ember.computed('obj.type', function() {
+        if (this.get('obj.type') === 'creative work') {
+            return ENV.creativeworkName;
+        }
         // title case work types: 'creative work' --> 'Creative Work'
         return this.get('obj.type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),

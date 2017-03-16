@@ -1,5 +1,9 @@
 # Change Log
 
+# [2.4.0] - 2016-02-10
+## Fixed
+* Show contributors in cited order on detail page
+
 ## [2.3.0] - 2016-02-02
 ## Changed
 * Ingress date -> Ingest date

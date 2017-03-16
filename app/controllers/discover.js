@@ -35,6 +35,7 @@ export default ApplicationController.extend({
     end: '',
     type: '',
     sort: '',
+    sortDisplay: 'Relevance',
 
     noResultsMessage: Ember.computed('numberOfResults', function() {
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
@@ -73,24 +74,25 @@ export default ApplicationController.extend({
     }),
 
     processedTypes: Ember.computed('types', function() {
-        return this.transformTypes(this.get('types'));
+        const types = this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
+        return this.transformTypes(types);
     }),
 
     sortOptions: [{
         display: 'Relevance',
         sortBy: ''
     }, {
-        display: 'Date Updated (Desc)',
+        display: 'Date Updated (Newest first)',
         sortBy: '-date_updated'
     }, {
-        display: 'Date Updated (Asc)',
+        display: 'Date Updated (Oldest first)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingest Date (Asc)',
-        sortBy: 'date_created'
-    }, {
-        display: 'Ingest Date (Desc)',
+        display: 'Ingest Date (Newest first)',
         sortBy: '-date_created'
+    }, {
+        display: 'Ingest Date (Oldest first)',
+        sortBy: 'date_created'
     }],
 
     init() {
@@ -412,7 +414,8 @@ export default ApplicationController.extend({
             this.loadPage();
         },
 
-        selectSortOption(option) {
+        selectSortOption(option, display) {
+            this.set('sortDisplay', display);
             this.set('sort', option);
             this.search();
         },

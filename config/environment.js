@@ -5,6 +5,7 @@ module.exports = function(environment) {
         modulePrefix: 'ember-share',
         environment: environment,
         baseURL: '/share/',
+        creativeworkName: 'Not Categorized',
         locationType: 'auto',
         EmberENV: {
             EXTEND_PROTOTYPES: {
