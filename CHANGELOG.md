@@ -1,5 +1,9 @@
 # Change Log
 
+# [2.6.0] - 2017-03-28
+## Changed
+* favicon -> icon
+
 # [2.5.0] - 2017-03-15
 ## Changed
 * Language changes
