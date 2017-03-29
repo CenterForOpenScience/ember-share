@@ -14,7 +14,7 @@ export default Ember.Route.extend(RouteHistoryMixin, {
                       type: __typename,
                       types,
                       extra,
-                      sources { id, title, favicon },
+                      sources { id, title, icon },
 
                       ${Object.keys(FRAGMENT_MAP).map((type) => `...on ${type} ${FRAGMENT_MAP[type]}`).join('\n')}
                   }
