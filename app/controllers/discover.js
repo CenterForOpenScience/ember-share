@@ -379,7 +379,7 @@ export default ApplicationController.extend({
         },
 
         updateParams(key, value) {
-            if (key === 'date') {
+            if (key.includes('date')) {
                 this.set('start', value.start);
                 this.set('end', value.end);
             } else {
