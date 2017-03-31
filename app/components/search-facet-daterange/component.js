@@ -6,6 +6,22 @@ const DATE_FORMAT = 'Y-MM-DD';
 
 export default Ember.Component.extend({
 
+    filterDisplay: 'Available Date',
+    selectedDateFilter: 'date',
+    filterOptions: [{
+        display: 'Available Date',
+        filterBy: 'date'
+    }, {
+        display: 'Date Published',
+        filterBy: 'date_published'
+    }, {
+        display: 'Date Updated',
+        filterBy: 'date_updated'
+    }, {
+        display: 'Date Ingested',
+        filterBy: 'date_created'
+    }],
+
     init() {
         this._super(...arguments);
         this.updateFilter(this.get('state.start'), this.get('state.end'));
@@ -77,12 +93,12 @@ export default Ember.Component.extend({
     }),
 
     buildQueryObject(start, end) {
-        let key = this.get('key');
+        let key = this.get('selectedDateFilter');
         return dateRangeFilter(key, start, end);
     },
 
     updateFilter(start, end) {
-        let key = this.get('key');
+        let key = this.get('selectedDateFilter');
         let value = start && end ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } : { start: '', end: '' };
         this.set('previousState', this.get('state'));
         this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
@@ -96,7 +112,13 @@ export default Ember.Component.extend({
         clear() {
             this.noFilter();
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
+            this.sendAction('onChange', this.get('selectedDateFilter'), this.buildQueryObject(null, null), { start: '', end: '' });
+        },
+        select(filterBy, display) {
+            this.sendAction('onChange', this.get('selectedDateFilter'), this.buildQueryObject(null, null), { start: '', end: '' });
+            this.set('selectedDateFilter', filterBy);
+            this.set('filterDisplay', display);
+            this.updateFilter(this.get('state.start'), this.get('state.end'));
         }
     }
 });

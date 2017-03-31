@@ -4,3 +4,24 @@
     border: 1px solid #ccc;
     width: 100%;
 }
+
+.icon {
+    margin-top: 3px;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.dropdown-cursor {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.display-text {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
