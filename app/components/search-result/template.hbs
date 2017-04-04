@@ -45,17 +45,7 @@
         {{/if}}
 
         <div class="row">
-            <div class="col-xs-9 pull-right text-info text-right">
-                {{#each obj.sources as |source index|}}
-                    {{#if index}}
-                        ,
-                    {{/if}}
-                    <a class="filter" {{action 'addFilter' 'sources' source}}>
-                        {{source}}
-                    </a>
-                {{/each}}
-            </div>
-            <div class="col-xs-2 pull-left worktype text-left">
+            <div class="col-xs-12 pull-left worktype text-left">
                 <div class="worktype-inner">
                     <a class="filter typefilter" {{action 'addFilter' 'type' obj.type}}>
                         {{type}}
@@ -145,6 +135,26 @@
         {{/if}}
     </div>
 </div>
-<div>
+<div class="row extra">
+    <div class="col-xs-12">
+        {{#if obj.date_created}}
+            <span class="text-muted last-updated">
+                Last ingested on <span class="text-info">{{moment-format obj.date_created 'MMM DD, YYYY'}}</span> from
+                {{#if (gt obj.sources.length 1)}}
+                    one of
+                {{/if}}
+                <span class="text-info">
+                    {{#each obj.sources as |source index|}}
+                        {{#if index}}
+                            ,
+                        {{/if}}
+                        <a class="filter" {{action 'addFilter' 'sources' source}}>
+                            {{source}}
+                        </a>
+                    {{/each}}
+                </span>
+            </span>
+        {{/if}}
+    </div>
 </div>
 <hr>

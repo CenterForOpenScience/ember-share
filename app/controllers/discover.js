@@ -15,7 +15,7 @@ export default ApplicationController.extend({
     category: 'discover',
 
     queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort', 'page'];
+        let allParams = ['q', 'start', 'end', 'date', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
@@ -34,6 +34,7 @@ export default ApplicationController.extend({
     start: '',
     end: '',
     type: '',
+    date: 'date',
     sort: '',
     sortDisplay: 'Relevance',
 
@@ -277,10 +278,10 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
-    facets: Ember.computed('processedTypes', function() {
+    facets: Ember.computed('processedTypes', 'date', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange', date: this.get('date') },
             { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
@@ -379,9 +380,10 @@ export default ApplicationController.extend({
         },
 
         updateParams(key, value) {
-            if (key === 'date') {
+            if (key.includes('date')) {
                 this.set('start', value.start);
                 this.set('end', value.end);
+                this.set('date', value.date);
             } else {
                 value = value ? encodeParams(value) : '';
                 this.set(key, value);
@@ -436,6 +438,7 @@ export default ApplicationController.extend({
             }
             this.set('start', '');
             this.set('end', '');
+            this.set('date', 'date');
             this.set('sort', '');
             this.search();
         }
