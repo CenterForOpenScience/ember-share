@@ -1,14 +1,23 @@
 <div class="title-tile">
-    <div class="row">
-        {{#if obj.retracted}}
-            <div class='col-xs-6'>
+    {{#if obj.retracted}}
+        <div class="row">
+            <div class='col-xs-12'>
                 <span class='retraction-alert bg-warning text-warning'>
                     {{fa-icon 'exclamation-triangle'}} This work has been retracted. {{link-to 'View retraction notice' 'detail' 'retraction' retractionId}}
                 </span>
             </div>
-        {{/if}}
+        </div>
+    {{/if}}
+    <div class="row">
+        <div class="col-xs-6 pull-left worktype text-left">
+            <div class="worktype-inner">
+                <a class="filter typefilter" {{action 'addFilter' 'type' obj.type}}>
+                    {{type}}
+                </a>
+            </div>
+        </div>
         {{#if obj.date_published}}
-            <span class="col-xs-6 pull-right text-info text-right">
+            <span class="col-xs-6 pull-right text-data text-right">
                 <span class="text-muted">Published </span>{{datePublished}}
             </span>
         {{/if}}
@@ -42,17 +51,7 @@
                 </span>
             </div>
         </div>
-        {{/if}}
-
-        <div class="row">
-            <div class="col-xs-12 pull-left worktype text-left">
-                <div class="worktype-inner">
-                    <a class="filter typefilter" {{action 'addFilter' 'type' obj.type}}>
-                        {{type}}
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{/if}}
 </div>
 {{#if abbreviation}}
     <div class="row description">
@@ -78,47 +77,11 @@
         </div>
     </div>
 {{/if}}
-{{#if (or obj.organizations obj.institutions)}}
-    <div class="row extra">
-        <div class="col-xs-12">
-            <span class="text-muted">Affiliated with </span>
-            {{#each obj.organizations as |organization index|}}
-                {{#if index}}
-                    ,
-                {{/if}}
-                <a class="filter" {{action 'addFilter' 'organizations' organization.name}}>
-                    {{organization.name}}
-                </a>
-            {{/each}}
-            {{#if (and obj.organizations obj.institutions)}}, {{/if}}
-            {{#each obj.institutions as |institution|}}
-                <a class="filter" {{action 'addFilter' 'institutions' institution.name}}>
-                    {{institution.name}}
-                </a>
-            {{/each}}
-        </div>
-    </div>
-{{/if}}
-{{#if obj.funders}}
-    <div class="row extra">
-        <div class="col-xs-12">
-            <span class="text-muted">Funded by </span>
-            {{#each obj.funders as |funder|}}
-                {{#if index}}
-                    ,
-                {{/if}}
-                <a class="filter" {{action 'addFilter' 'funders' funder}}>
-                    {{funder}}
-                </a>
-            {{/each}}
-        </div>
-    </div>
-{{/if}}
 <div class="row extra">
     <div class="col-xs-6">
         {{#if obj.date_updated}}
             <span class="text-muted last-updated">
-                Last updated <span class="text-info">{{dateUpdated}}</span>
+                Last updated <span class="text-data">{{dateUpdated}}</span>
             </span>
         {{/if}}
     </div>
@@ -139,7 +102,7 @@
     <div class="col-xs-12">
         {{#if obj.date_created}}
             <span class="text-muted last-updated">
-                Last ingested on <span class="text-info">{{moment-format obj.date_created 'MMM DD, YYYY'}}</span> from
+                Last ingested on <span class="text-data">{{moment-format obj.date_modified 'MMM DD, YYYY'}}</span> from
                 {{#if (gt obj.sources.length 1)}}
                     one of
                 {{/if}}
@@ -157,4 +120,4 @@
         {{/if}}
     </div>
 </div>
-<hr>
+{{!-- <hr> --}}

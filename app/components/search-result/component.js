@@ -4,6 +4,7 @@ import ENV from '../../config/environment';
 import moment from 'moment';
 
 export default Ember.Component.extend({
+    classNames: ['search-result-block'],
     layout,
     maxTags: 5,
     maxCreators: 6,

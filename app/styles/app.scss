@@ -206,6 +206,13 @@
     padding-right: 5px;
 }
 
+.search-result-block {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: darken(white, 2%);
+}
+
 .title-container {
     padding-top: 60px;
     padding-bottom: 60px;

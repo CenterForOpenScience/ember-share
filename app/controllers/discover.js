@@ -285,8 +285,6 @@ export default ApplicationController.extend({
             { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-            { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
         ];
     }),
