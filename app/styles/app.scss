@@ -202,7 +202,8 @@
     background-color: white;
     height: 33px ;
     font-size: 14px ;
-    border-color: #ccc ;
+    padding: 0px;
+    padding-right: 5px;
 }
 
 .title-container {
@@ -250,6 +251,7 @@ hr.divider {
         height: 100%;
         align-items: center;
         display: flex;
+        padding-right: 3px;
     }
 }
 

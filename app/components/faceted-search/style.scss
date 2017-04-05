@@ -31,39 +31,38 @@
 .btn-select {
     background-color: white;
     color: black;
+    padding: 0px;
 }
 
 .ember-power-select-trigger {
     color: black;
     background-color: white;
-    border-width: 1px;
-    border-color: #ccc;
-    border-radius: 0 ;
+    border-color: transparent;
+    padding: 0px;
 }
 
 .ember-power-select-placeholder {
-    color: gray;
+    color: #4f5050;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: gray;
+    color: #4f5050;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: gray;
+    color: #4f5050;
     opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: gray;
+    color: #4f5050;
     opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: gray ;
+    color: #4f5050;
 }
 
 .ember-power-select-status-icon{
     border-color: #333333 transparent transparent transparent;
-
 }

@@ -1,12 +1,16 @@
 .date-range {
     cursor: pointer;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
+    padding: 0px;
     width: 100%;
+
+    > .fa-caret-down {
+        padding-right: 4px;
+    }
 }
 
 .icon {
     margin-top: 3px;
+    padding-right: 3px;
 }
 
 .align-left {
