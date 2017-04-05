@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container restrict-width">
     <br>
     <br>
     <div class="row share-search">
@@ -107,6 +107,8 @@
         </div>
     </div>
     <hr class='results-top'>
+</div>
+<div class="container-fluid">
     <div class="row">
         {{#if media.isExtraSmall}}
             <div class='col-xs-12 visible-xs'>
@@ -127,38 +129,40 @@
                 {{/bs-collapse}}
             </div>
         {{/if}}
-        {{#if (not media.isExtraSmall)}}
-            <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
-                {{sortby-dropdown
-                    sortOptions=sortOptions
-                    sortDisplay=sortDisplay
-                    selectSortOption=(action 'selectSortOption')
-                }}
-                {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
-                    filters=facetFilters
-                    facetStates=facetStates
-                    facets=facets
-                    aggregations=aggregations
-                }}
-            </div>
-        {{/if}}
-        <div class='col-sm-7 col-md-8 col-lg-9 col-xs-12'>
-            {{#if loading}}
-                {{loading-bars}}
-            {{else if queryError}}
-                {{query-syntax}}
-            {{else if noResultsMessage}}
-                <div class="text-center no-results">{{noResultsMessage}}</div>
-            {{else}}
-                {{#each results as |obj|}}
-                    {{search-result addFilter='addFilter' obj=obj}}
-                {{/each}}
-                <div class="pull-right text-right">
-                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+        <div class='col-xs-12 discover-flex-container'>
+            {{#if (not media.isExtraSmall)}}
+                <div class='discover-sidebar hidden-xs'>
+                    {{sortby-dropdown
+                        sortOptions=sortOptions
+                        sortDisplay=sortDisplay
+                        selectSortOption=(action 'selectSortOption')
+                    }}
+                    {{faceted-search
+                        onChange='filtersChanged'
+                        updateParams='updateParams'
+                        filters=facetFilters
+                        facetStates=facetStates
+                        facets=facets
+                        aggregations=aggregations
+                    }}
                 </div>
             {{/if}}
+            <div class='discover-main-content restrict-width'>
+                {{#if loading}}
+                    {{loading-bars}}
+                {{else if queryError}}
+                    {{query-syntax}}
+                {{else if noResultsMessage}}
+                    <div class="text-center no-results">{{noResultsMessage}}</div>
+                {{else}}
+                    {{#each results as |obj|}}
+                        {{search-result addFilter='addFilter' obj=obj}}
+                    {{/each}}
+                    <div class="pull-right text-right">
+                        {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                    </div>
+                {{/if}}
+            </div>
         </div>
     </div>
     <br>

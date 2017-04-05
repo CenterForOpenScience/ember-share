@@ -2,7 +2,8 @@
 {{#each facets as |facet|}}
     <div class='panel panel-default'>
         <div class='panel-heading'>
-            {{facet.title}}
+            <h4 class='title pull-left'>{{facet.title}}</h4>
+            {{help-text-tooltip}}
         </div>
         <div class='panel-body'>
             {{component facet.component
