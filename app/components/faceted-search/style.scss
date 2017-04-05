@@ -1,31 +1,36 @@
 .panel-default {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
-    border-width: 0 ;
+    box-shadow: none;
+    border-bottom-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-color: #AAA;
+    margin-bottom: 5px;
 
     > .panel-heading {
           background-color: white;
           display: flex;
           align-items: left;
           justify-content: left;
-          border-color: black;
+          border-color: transparent;
           color: black;
-          padding-top: 0px;
-          padding-left: 10px;
-          padding-right: 10px;
+          padding-top: 5px;
+          padding-left: 0px;
+          padding-right: 0px;
           padding-bottom: 0px;
     }
 }
 
 .panel-body {
-    padding-top: 5px;
+    padding-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
 }
 
 .btn-select {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
 
 .ember-power-select-trigger {
