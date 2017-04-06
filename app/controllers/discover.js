@@ -7,7 +7,7 @@ import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
 const MAX_SOURCES = 500;
-let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
+let filterQueryParams = ['tags', 'sources', 'publishers', 'contributors', 'type'];
 
 export default ApplicationController.extend({
 
@@ -26,10 +26,6 @@ export default ApplicationController.extend({
     tags: '',
     sources: '',
     publishers: '',
-    funders: '',
-    institutions: '',
-    organizations: '',
-    language: '',
     contributors: '',
     start: '',
     end: '',
@@ -222,6 +218,14 @@ export default ApplicationController.extend({
     }),
 
     loadPage() {
+        if (this.get('sort')) {
+            for (let option of this.get('sortOptions')) {
+                if (this.get('sort') === option.sortBy) {
+                    this.set('sortDisplay', option.display);
+                    break;
+                }
+            }
+        }
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
@@ -445,7 +449,6 @@ export default ApplicationController.extend({
             this.set('start', '');
             this.set('end', '');
             this.set('date', 'date_modified');
-            this.set('sort', '');
             this.search();
         }
     }
