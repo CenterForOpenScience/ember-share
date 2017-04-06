@@ -6,11 +6,9 @@ const DATE_FORMAT = 'Y-MM-DD';
 
 export default Ember.Component.extend({
 
-    filterDisplay: 'Available Date',
+    dateDefault: 'date_modified',
+    filterDisplay: 'Date Ingested',
     filterOptions: [{
-        display: 'Available Date',
-        filterBy: 'date'
-    }, {
         display: 'Date Published',
         filterBy: 'date_published'
     }, {
@@ -18,7 +16,7 @@ export default Ember.Component.extend({
         filterBy: 'date_updated'
     }, {
         display: 'Date Ingested',
-        filterBy: 'date_created'
+        filterBy: 'date_modified'
     }],
 
     init() {
@@ -116,8 +114,8 @@ export default Ember.Component.extend({
         clear() {
             this.noFilter();
             this.set('previousState', this.get('state'));
-            const key = this.get('key');
-            this.sendAction('onChange', key, this.buildQueryObject(null, null, key), { start: '', end: '', date: key });
+            const dateDefault = this.get('dateDefault');
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null, dateDefault), { start: '', end: '', date: dateDefault });
         },
         select(filterBy) {
             this.updateFilter(this.get('state.start'), this.get('state.end'), filterBy);

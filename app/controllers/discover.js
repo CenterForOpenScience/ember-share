@@ -34,7 +34,7 @@ export default ApplicationController.extend({
     start: '',
     end: '',
     type: '',
-    date: 'date',
+    date: 'date_modified',
     sort: '',
     sortDisplay: 'Relevance',
 
@@ -444,7 +444,7 @@ export default ApplicationController.extend({
             }
             this.set('start', '');
             this.set('end', '');
-            this.set('date', 'date');
+            this.set('date', 'date_modified');
             this.set('sort', '');
             this.search();
         }
