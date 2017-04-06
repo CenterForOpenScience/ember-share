@@ -193,8 +193,8 @@
 }
 
 .clear-filters {
-    background-color: #f5f5f5;
-    color: #204762;
+    background-color: white;
+    color: black;
 }
 
 .btn-select {
@@ -225,17 +225,17 @@
     background-color: #EEE;
 
     h1 {
-      margin-top: 0;
-      line-height: 1;
-      font-size: 40px;
+        margin-top: 0;
+        line-height: 1;
+        font-size: 40px;
     }
 
     p {
-      color: grey;
-      font-size: 18px;
-      font-weight: 300;
-      line-height: 1.4;
-      margin-bottom: 0px;
+        color: grey;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 1.4;
+        margin-bottom: 0px;
     }
 
     .retraction-alert {
@@ -246,8 +246,8 @@
 }
 
 hr.divider {
-  margin-top: 0px;
-  margin-bottom: 10px;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 .tooltip-helper {
@@ -259,6 +259,23 @@ hr.divider {
         align-items: center;
         display: flex;
         padding-right: 3px;
+    }
+}
+
+.dropdown-menu {
+    background-color: white;
+
+    > .dropdown-cursor {
+        cursor: pointer;
+        cursor: hand;
+        > a {
+            color: black;
+        }
+        > a:hover, a:focus {
+            background-color: dimgray;
+            background-image: none;
+            color: white;
+        }
     }
 }
 
