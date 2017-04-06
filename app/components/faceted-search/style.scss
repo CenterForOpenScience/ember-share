@@ -41,6 +41,11 @@
     padding: 0px;
 }
 
+.ember-basic-dropdown-trigger--below.ember-power-select-trigger[aria-expanded="true"],
+.ember-basic-dropdown-trigger--in-place.ember-power-select-trigger[aria-expanded="true"] {
+    border-bottom-color: black;
+}
+
 .ember-power-select-placeholder {
     color: #4f5050;
 }

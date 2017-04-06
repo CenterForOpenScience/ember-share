@@ -20,7 +20,7 @@
               <div class="text-muted col-sm-4 hidden-xs">
                   <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
               </div>
-              <div class="col-sm-4 col-xs-12 text-center">
+              <div class="col-sm-4 col-xs-12 text-center discover-results-found">
                   <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
               </div>
               <div class="text-muted col-sm-4 hidden-xs text-right">
@@ -62,8 +62,9 @@
     {{/bs-collapse}}
     <div class="row">
         <div class="col-xs-6 text-left">
-            <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
+            <button {{action 'clearFilters'}} class='btn clear-filters'>
                 Clear filters
+                <i class="fa fa-times text-danger"></i>
             </button>
         </div>
         {{#if (not noResultsMessage)}}

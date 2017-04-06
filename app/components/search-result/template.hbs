@@ -102,7 +102,7 @@
     <div class="col-xs-12">
         {{#if obj.date_created}}
             <span class="text-muted last-updated">
-                Last ingested on <span class="text-data">{{moment-format obj.date_modified 'MMM DD, YYYY'}}</span> from
+                Last ingested <span class="text-data">{{moment-format obj.date_modified 'MMM DD, YYYY'}}</span> from
                 {{#if (gt obj.sources.length 1)}}
                     one of
                 {{/if}}
@@ -120,4 +120,3 @@
         {{/if}}
     </div>
 </div>
-{{!-- <hr> --}}
