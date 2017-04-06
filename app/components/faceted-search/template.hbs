@@ -3,7 +3,9 @@
     <div class='panel panel-default'>
         <div class='panel-heading'>
             <h4 class='title pull-left'>{{facet.title}}</h4>
-            {{help-text-tooltip}}
+            {{#if facet.helpText}}
+                {{help-text-tooltip helpText=facet.helpText}}
+            {{/if}}
         </div>
         <div class='panel-body'>
             {{component facet.component

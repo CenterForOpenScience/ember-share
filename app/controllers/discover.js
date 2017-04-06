@@ -89,11 +89,11 @@ export default ApplicationController.extend({
         display: 'Date Updated (Oldest first)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingest Date (Newest first)',
-        sortBy: '-date_created'
+        display: 'Date Ingested (Newest first)',
+        sortBy: '-date_modified'
     }, {
-        display: 'Ingest Date (Oldest first)',
-        sortBy: 'date_created'
+        display: 'Date Ingested (Oldest first)',
+        sortBy: 'date_modified'
     }],
 
     init() {
@@ -278,11 +278,19 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
+    sourceHelpText: 'External sources, including publisher websites, data repositories, or individuals who submit or edit data.',
+    dateHelpText: `<b>Date Ingested:</b> The date the resource was last ingested by SHARE.
+                    <br><br>
+                    <b>Date Published:</b> The date the work was first made publicly available in any form. <i>Availability dependent on source.</i>
+                    <br><br>
+                    <b>Date Updated:</b> The date the resource was last updated by the provider. <i>Availability dependent on source.</i>`,
+    typeHelpText: 'A controlled vocabulary that describes the resource.',
+
     facets: Ember.computed('processedTypes', 'date', function() {
         return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange', date: this.get('date') },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'sources', title: 'Source', component: 'search-facet-source', helpText: this.get('sourceHelpText') },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange', date: this.get('date'), helpText: this.get('dateHelpText') },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes'), helpText: this.get('typeHelpText') },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
