@@ -390,7 +390,7 @@ export default ApplicationController.extend({
         },
 
         updateParams(key, value) {
-            if (key.includes('date')) {
+            if (key === 'date') {
                 this.set('start', value.start);
                 this.set('end', value.end);
                 this.set('date', value.date);

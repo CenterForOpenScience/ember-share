@@ -95,13 +95,13 @@ export default Ember.Component.extend({
 
     updateFilter(start, end, dateType) {
         const options = this.get('filterOptions');
-        for (const option in options) {
-            if (options[option].filterBy === dateType) {
-                this.set('filterDisplay', options[option].display);
+        for (const option of options) {
+            if (option.filterBy === dateType) {
+                this.set('filterDisplay', option.display);
                 break;
             }
         }
-        let value = start && end ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT), date: dateType } : { start: '', end: '', date: dateType };
+        let value = (start && end) ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT), date: dateType } : { start: '', end: '', date: dateType };
         this.set('previousState', this.get('state'));
         this.sendAction('onChange', this.get('key'), this.buildQueryObject(start, end, dateType), value);
     },
