@@ -6,9 +6,22 @@ const DATE_FORMAT = 'Y-MM-DD';
 
 export default Ember.Component.extend({
 
+    dateDefault: 'date_modified',
+    filterDisplay: 'Date Ingested',
+    filterOptions: [{
+        display: 'Date Published',
+        filterBy: 'date_published'
+    }, {
+        display: 'Date Updated',
+        filterBy: 'date_updated'
+    }, {
+        display: 'Date Ingested',
+        filterBy: 'date_modified'
+    }],
+
     init() {
         this._super(...arguments);
-        this.updateFilter(this.get('state.start'), this.get('state.end'));
+        this.updateFilter(this.get('state.start'), this.get('state.end'), this.get('date'));
     },
 
     didInsertElement() {
@@ -32,7 +45,7 @@ export default Ember.Component.extend({
             Ember.run(() => {
                 let start = picker.startDate;
                 let end = picker.endDate;
-                this.updateFilter(start, end);
+                this.updateFilter(start, end, this.get('date'));
             });
         });
 
@@ -49,12 +62,12 @@ export default Ember.Component.extend({
     },
 
     statePrevious: [],
-    changed: Ember.observer('state.start', 'state.end', function() {
+    changed: Ember.observer('state.start', 'state.end', 'date', function() {
         let start = this.get('state.start');
         let end = this.get('state.end');
         if (start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
             this.set('pickerValue', `${moment(start).format(DATE_FORMAT)} - ${moment(end).format(DATE_FORMAT)}`);
-            this.updateFilter(start, end);
+            this.updateFilter(start, end, this.get('date'));
         }
     }),
 
@@ -76,16 +89,21 @@ export default Ember.Component.extend({
         }
     }),
 
-    buildQueryObject(start, end) {
-        let key = this.get('key');
-        return dateRangeFilter(key, start, end);
+    buildQueryObject(start, end, dateType) {
+        return dateRangeFilter(dateType, start, end);
     },
 
-    updateFilter(start, end) {
-        let key = this.get('key');
-        let value = start && end ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } : { start: '', end: '' };
+    updateFilter(start, end, dateType) {
+        const options = this.get('filterOptions');
+        for (const option of options) {
+            if (option.filterBy === dateType) {
+                this.set('filterDisplay', option.display);
+                break;
+            }
+        }
+        let value = (start && end) ? { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT), date: dateType } : { start: '', end: '', date: dateType };
         this.set('previousState', this.get('state'));
-        this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
+        this.sendAction('onChange', this.get('key'), this.buildQueryObject(start, end, dateType), value);
     },
 
     noFilter() {
@@ -96,7 +114,11 @@ export default Ember.Component.extend({
         clear() {
             this.noFilter();
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
+            const dateDefault = this.get('dateDefault');
+            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null, dateDefault), { start: '', end: '', date: dateDefault });
+        },
+        select(filterBy) {
+            this.updateFilter(this.get('state.start'), this.get('state.end'), filterBy);
         }
     }
 });

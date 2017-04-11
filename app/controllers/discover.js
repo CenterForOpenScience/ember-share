@@ -7,7 +7,7 @@ import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
 const MAX_SOURCES = 500;
-let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
+let filterQueryParams = ['tags', 'sources', 'publishers', 'contributors', 'type'];
 
 export default ApplicationController.extend({
 
@@ -15,7 +15,7 @@ export default ApplicationController.extend({
     category: 'discover',
 
     queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort', 'page'];
+        let allParams = ['q', 'start', 'end', 'date', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
@@ -26,14 +26,11 @@ export default ApplicationController.extend({
     tags: '',
     sources: '',
     publishers: '',
-    funders: '',
-    institutions: '',
-    organizations: '',
-    language: '',
     contributors: '',
     start: '',
     end: '',
     type: '',
+    date: 'date_modified',
     sort: '',
     sortDisplay: 'Relevance',
 
@@ -88,11 +85,11 @@ export default ApplicationController.extend({
         display: 'Date Updated (Oldest first)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingest Date (Newest first)',
-        sortBy: '-date_created'
+        display: 'Date Ingested (Newest first)',
+        sortBy: '-date_modified'
     }, {
-        display: 'Ingest Date (Oldest first)',
-        sortBy: 'date_created'
+        display: 'Date Ingested (Oldest first)',
+        sortBy: 'date_modified'
     }],
 
     init() {
@@ -221,6 +218,14 @@ export default ApplicationController.extend({
     }),
 
     loadPage() {
+        if (this.get('sort')) {
+            for (let option of this.get('sortOptions')) {
+                if (this.get('sort') === option.sortBy) {
+                    this.set('sortDisplay', option.display);
+                    break;
+                }
+            }
+        }
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
@@ -277,15 +282,21 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
-    facets: Ember.computed('processedTypes', function() {
+    sourceHelpText: 'External sources, including publisher websites, data repositories, or individuals who submit or edit data.',
+    dateHelpText: `<b>Date Ingested:</b> The date the resource was last ingested by SHARE.
+                    <br><br>
+                    <b>Date Published:</b> The date the work was first made publicly available in any form. <i>Availability dependent on source.</i>
+                    <br><br>
+                    <b>Date Updated:</b> The date the resource was last updated by the provider. <i>Availability dependent on source.</i>`,
+    typeHelpText: 'A controlled vocabulary that describes the resource.',
+
+    facets: Ember.computed('processedTypes', 'date', function() {
         return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'sources', title: 'Source', component: 'search-facet-source', helpText: this.get('sourceHelpText') },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange', date: this.get('date'), helpText: this.get('dateHelpText') },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes'), helpText: this.get('typeHelpText') },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-            { key: 'language', title: 'Language', component: 'search-facet-language' },
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
         ];
     }),
@@ -382,6 +393,7 @@ export default ApplicationController.extend({
             if (key === 'date') {
                 this.set('start', value.start);
                 this.set('end', value.end);
+                this.set('date', value.date);
             } else {
                 value = value ? encodeParams(value) : '';
                 this.set(key, value);
@@ -436,7 +448,7 @@ export default ApplicationController.extend({
             }
             this.set('start', '');
             this.set('end', '');
-            this.set('sort', '');
+            this.set('date', 'date_modified');
             this.search();
         }
     }

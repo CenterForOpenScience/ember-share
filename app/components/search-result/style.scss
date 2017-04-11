@@ -5,19 +5,33 @@
     padding-bottom: 5px;
 }
 
+.text-data {
+    color: black;
+}
+
+.title > .redirect > a{
+    color: black;
+}
+
+.title-tile {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+}
+
 .published {
     padding-right: 15px;
 }
 
 .tag {
     border-radius: 5px;
-    color: white;
+    color: black;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 4px;
     padding-right: 4px;
     margin-left: 15px ;
-    background: #5bc0de;
+    background-color: darken(white, 10%);
     display: inline-block;
     font-size: 85%;
     margin-top: 4px;
@@ -25,29 +39,21 @@
 
 .worktype {
     padding-top: 2px;
-    padding-bottom: 4px;
-    padding-left:  2px;
-    padding-right: 2px;
-    margin-left: 15px;
+    padding-left:  15px;
     font-size: 85%;
+    padding-bottom: 10px;
 }
 
 .worktype-inner a{
-    background: #ccc;  min-width: 80px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    min-width: 80px;
     max-width: 80px;
     height:26px;
 }
 
-.title-tile {
-    background-color: #f5f5f5;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    padding-top: 5px;
-
-}
-
-.redirect>a {
+.redirect > a {
     color: #337ab7;
 }
 
