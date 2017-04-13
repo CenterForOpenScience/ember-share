@@ -268,6 +268,10 @@ hr.divider {
     }
 }
 
+.tooltip-helper:focus {
+    outline: none;
+}
+
 .dropdown-menu {
     background-color: white;
 
