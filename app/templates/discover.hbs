@@ -61,18 +61,6 @@
                         <i class="fa fa-times text-danger"></i>
                     </button>
                 </div>
-                {{#if (not noResultsMessage)}}
-                    <div class="col-sm-6 pull-right text-right">
-                        <div>
-                            {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPageNoScroll')}}
-                        </div>
-                        {{#if hiddenPages}}
-                            <div style="color:gray">
-                                {{locale-string hiddenPages}} additional pages not shown
-                            </div>
-                        {{/if}}
-                    </div>
-                {{/if}}
             </div> --}}
             <div class="row visible-xs">
                 <div class="col-xs-12 discover-filter-list">
@@ -139,6 +127,11 @@
                     {{/each}}
                     <div class="pull-left text-left">
                         {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                        {{#if hiddenPages}}
+                            <div style="color:gray">
+                                {{locale-string hiddenPages}} additional pages not shown
+                            </div>
+                        {{/if}}
                     </div>
                 {{/if}}
             </div>
@@ -161,5 +154,4 @@
             {{/if}}
         </div>
     </div>
-    <br>
 </div>

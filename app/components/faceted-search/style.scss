@@ -1,3 +1,7 @@
+$discover-background-color: lighten(lightslategray, 45%);
+$darkest-color: #222;
+$placeholder-color: #4f5050;
+
 .panel-default {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
@@ -9,13 +13,12 @@
     margin-bottom: 5px;
 
     > .panel-heading {
-        // test
-        background-color: lighten(lightslategray, 45%);
+        background-color: $discover-background-color;
         display: flex;
         align-items: left;
         justify-content: left;
         border-color: transparent;
-        color: black;
+        color: $darkest-color;
         padding-top: 5px;
         padding-left: 0px;
         padding-right: 0px;
@@ -27,50 +30,47 @@
     padding-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    // test
-    background-color: lighten(lightslategray, 45%);
+    background-color: $discover-background-color;
 }
 
-.btn-select {
-    // test
-    background-color: lighten(lightslategray, 45%);
-    color: black;
+.discover-btn-select {
+    background-color: $discover-background-color;
+    color: $darkest-color;
     padding: 0px;
 }
 
 .ember-power-select-trigger {
-    color: black;
-    // test
-    background-color: lighten(lightslategray, 45%);
+    color: $darkest-color;
+    background-color: $discover-background-color;
     border-color: transparent;
     padding: 0px;
 }
 
 .ember-basic-dropdown-trigger--below.ember-power-select-trigger[aria-expanded="true"],
 .ember-basic-dropdown-trigger--in-place.ember-power-select-trigger[aria-expanded="true"] {
-    border-bottom-color: black;
+    border-bottom-color: $darkest-color;
 }
 
 .ember-power-select-placeholder {
-    color: #4f5050;
+    color: $placeholder-color;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #4f5050;
+    color: $placeholder-color;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #4f5050;
+    color: $placeholder-color;
     opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #4f5050;
+    color: $placeholder-color;
     opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #4f5050;
+    color: $placeholder-color;
 }
 
 .ember-power-select-status-icon{

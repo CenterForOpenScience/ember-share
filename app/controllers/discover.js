@@ -1,3 +1,4 @@
+
 import _ from 'lodash/lodash';
 import moment from 'moment';
 import Ember from 'ember';
@@ -43,10 +44,8 @@ export default ApplicationController.extend({
 
     results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
-    eventsLastUpdated: Date().toString(),
     numberOfResults: 0,
     took: 0,
-    numberOfSources: 0,
     types: {},
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
@@ -123,7 +122,6 @@ export default ApplicationController.extend({
         }).then((json) => {
             this.setProperties({
                 numberOfEvents: json.hits.total,
-                numberOfSources: json.aggregations.sources.value
             });
         });
     },
