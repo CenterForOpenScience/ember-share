@@ -54,14 +54,6 @@
                     </div>
                 </div>
             {{/bs-collapse}}
-           {{!--  <div class="row">
-                <div class="col-xs-6 text-left">
-                    <button {{action 'clearFilters'}} class='btn clear-filters'>
-                        Clear filters
-                        <i class="fa fa-times text-danger"></i>
-                    </button>
-                </div>
-            </div> --}}
             <div class="row visible-xs">
                 <div class="col-xs-12 discover-filter-list">
                     {{#each facetStatesArray as |filter|}}
@@ -102,6 +94,7 @@
                         sortDisplay=sortDisplay
                         selectSortOption=(action 'selectSortOption')
                     }}
+                    {{!-- replace with clear filter button --}}
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'
@@ -142,6 +135,16 @@
                         sortDisplay=sortDisplay
                         selectSortOption=(action 'selectSortOption')
                     }}
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <div class="reset-filters-section">
+                                <button {{action 'clearFilters'}} class='btn reset-filters-btn'>
+                                    Reset all filters
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'

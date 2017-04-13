@@ -132,6 +132,8 @@
 $discover-background-color: lighten(lightslategray, 45%);
 $discover-result-background-color: white;
 $darkest-color: #222;
+$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
+$facet-separator-color: #AAA;
 
 .discover-search-section {
     padding-bottom: 15px;
@@ -211,11 +213,19 @@ $darkest-color: #222;
     padding-top: 8px;
 }
 
-.clear-filters, .clear-filters:focus, .clear-filters:hover, .clear-filters:active {
-    background-color: white;
+.reset-filters-section {
+    border-top: 1px solid transparent;
+    border-color: $facet-separator-color;
+    width: 200px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.reset-filters-btn, .reset-filters-btn:focus, .reset-filters-btn:hover, .reset-filters-btn:active {
+    background-color: $discover-background-color;
     color: $darkest-color;
-    border: 1px solid transparent;
-    border-color: #ccc;
+    border: none;
+    padding-left: 0px;
 }
 
 .discover-btn-select {
@@ -264,7 +274,7 @@ $darkest-color: #222;
             color: $darkest-color;
         }
         > a:hover, a:focus {
-            background-color: #4f5050;
+            background-color: $gray-color;
             background-image: none;
             color: white;
         }

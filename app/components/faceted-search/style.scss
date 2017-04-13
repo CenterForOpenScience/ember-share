@@ -1,6 +1,7 @@
 $discover-background-color: lighten(lightslategray, 45%);
 $darkest-color: #222;
-$placeholder-color: #4f5050;
+$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
+$facet-separator-color: #AAA;
 
 .panel-default {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
@@ -9,7 +10,7 @@ $placeholder-color: #4f5050;
     border-bottom-width: 0;
     border-right-width: 0;
     border-left-width: 0;
-    border-color: #AAA;
+    border-color: $facet-separator-color;
     margin-bottom: 5px;
 
     > .panel-heading {
@@ -52,25 +53,25 @@ $placeholder-color: #4f5050;
 }
 
 .ember-power-select-placeholder {
-    color: $placeholder-color;
+    color: $gray-color;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: $placeholder-color;
+    color: $gray-color;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: $placeholder-color;
+    color: $gray-color;
     opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: $placeholder-color;
+    color: $gray-color;
     opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: $placeholder-color;
+    color: $gray-color;
 }
 
 .ember-power-select-status-icon{
