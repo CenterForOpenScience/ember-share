@@ -135,7 +135,8 @@ $darkest-color: #222;
 $gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
 $facet-separator-color: #AAA;
 $default-text-color: #4f5050;
-$default-text-color-active: #4285f4;
+$default-text-color-active: #337ab7;
+$default-link-hover-color: #23527c;
 $text-muted: #777777;
 
 .discover-search-section {
@@ -204,6 +205,10 @@ $text-muted: #777777;
 
     > i > .elasticsearch-link {
         color: $default-text-color-active;
+    }
+
+    > i > .elasticsearch-link:hover {
+        color: $default-link-hover-color;
     }
 
 }

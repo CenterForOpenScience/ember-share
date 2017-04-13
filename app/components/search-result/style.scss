@@ -1,3 +1,9 @@
+$darkest-color: #222;
+$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
+$default-text-color: #4f5050;
+$default-text-color-active: #337ab7;
+$default-link-hover-color: #23527c;
+
 .row {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -6,11 +12,15 @@
 }
 
 .text-data {
-    color: black;
+    color: $darkest-color;
 }
 
-.title > .redirect > a{
-    color: black;
+.title > .redirect > a {
+    color: darken($default-text-color-active, 10%)
+}
+
+.title > .redirect > a:hover {
+    color: darken($default-text-color-active, 20%)
 }
 
 .title-tile {
@@ -54,7 +64,12 @@
 }
 
 .redirect > a {
-    color: #337ab7;
+    color: $default-text-color-active;
+}
+
+.redirect > a:hover {
+    text-decoration: none;
+    color: $default-link-hover-color;
 }
 
 .redirect {
@@ -89,4 +104,8 @@
 
 .retraction-alert {
     padding: 2px 8px;
+}
+
+.default-cursor {
+    cursor: default;
 }
