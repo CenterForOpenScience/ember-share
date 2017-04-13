@@ -134,17 +134,28 @@
     padding-top: 30px;
     padding-left: 0px;
     padding-right: 0px;
-    max-width: 1020px;
+    // test
+    background-color: lighten(lightslategray, 45%)
 }
 
 .discover-search-block {
-    margin-right: 220px;
+    max-width: 1020px;
+    padding-right: 220px;
+    padding-left: 0px;
+    width: 100%;
 }
 
 .discover-flex-container {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
+    justify-content: center;
+    // test
+    background-color: lighten(lightslategray, 45%)
+}
+
+.discover-flex-search-container {
+    display: flex;
     justify-content: center;
 }
 
@@ -206,7 +217,8 @@
 
 .btn-select {
     color: black;
-    background-color: white;
+    // test
+    background-color: lighten(lightslategray, 45%);
     height: 33px ;
     font-size: 14px ;
     padding: 0px;
@@ -217,7 +229,9 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    background-color: darken(white, 2%);
+    // test
+    background-color: white;
+    // background-color: darken(white, 2%);
 }
 
 .discover-results-found {
