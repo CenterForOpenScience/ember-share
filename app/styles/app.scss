@@ -113,6 +113,7 @@
 }
 
 .share-search {
+
     .search-button {
         margin-left: -20px;
         margin-top: 5px;
@@ -128,6 +129,18 @@
 
 /* Discover */
 
+.discover-search-section {
+    padding-bottom: 15px;
+    padding-top: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    max-width: 1020px;
+}
+
+.discover-search-block {
+    margin-right: 220px;
+}
+
 .discover-flex-container {
     display: flex;
     flex-wrap: nowrap;
@@ -137,15 +150,8 @@
 
 .discover-sidebar {
     width: 220px;
-    padding-right: 20px;
-}
-
-@media (min-width: 1300px) {
-    .discover-sidebar {
-        width: 220px;
-        padding-right: 20px;
-        margin-left: -220px;
-    }
+    padding-left: 20px;
+    margin-top: -40px;
 }
 
 .discover-main-content {
@@ -157,9 +163,8 @@
     color: dimgray;
 }
 
-.discover-font-margin {
+.discover-font {
     font-size:75%;
-    margin-top:15px;
 }
 
 .discover-filter-facets {
