@@ -326,7 +326,7 @@ export default ApplicationController.extend({
     }),
 
     scrollToResults() {
-        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+        Ember.$('html, body').scrollTop(Ember.$('.discover-search-section').position().top);
     },
 
     actions: {

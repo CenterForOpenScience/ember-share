@@ -23,14 +23,18 @@ $default-link-hover-color: #23527c;
     color: darken($default-text-color-active, 20%)
 }
 
+.title {
+    padding-bottom: 0px;
+}
+
 .title-tile {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 5px;
+    padding-top: 15px;
 }
 
 .published {
-    padding-right: 15px;
+    padding-left: 4px;
 }
 
 .tag {
@@ -54,15 +58,6 @@ $default-link-hover-color: #23527c;
     padding-bottom: 10px;
 }
 
-.worktype-inner a{
-    background-color: white;
-    color: black;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    min-width: 80px;
-    max-width: 80px;
-    height:26px;
-}
-
 .redirect > a {
     color: $default-text-color-active;
 }
@@ -82,6 +77,10 @@ $default-link-hover-color: #23527c;
     padding-bottom: 8px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.source-text {
+    color: $darkest-color;
 }
 
 .extra {
