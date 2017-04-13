@@ -2,6 +2,9 @@ $discover-background-color: lighten(lightslategray, 45%);
 $darkest-color: #222;
 $gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
 $facet-separator-color: #AAA;
+$text-muted: #777777;
+$default-text-color: #4f5050;
+$default-text-color-active: #4285f4;
 
 .panel-default {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
@@ -36,8 +39,17 @@ $facet-separator-color: #AAA;
 
 .discover-btn-select {
     background-color: $discover-background-color;
-    color: $darkest-color;
+    color: $default-text-color;
     padding: 0px;
+    border-width: 0px;
+}
+
+.discover-btn-select:hover {
+    color: $darkest-color;
+}
+
+.discover-btn-select:active {
+    color: $default-text-color-active;
 }
 
 .ember-power-select-trigger {
@@ -47,31 +59,42 @@ $facet-separator-color: #AAA;
     padding: 0px;
 }
 
+.ember-power-select-multiple-option {
+    background-color: white;
+    color: $darkest-color;
+    border: 1px solid #ccc;
+}
+
+.ember-power-select-multiple-remove-btn {
+    color: #a94442;  // text-danger
+    font-weight: 900;
+}
+
 .ember-basic-dropdown-trigger--below.ember-power-select-trigger[aria-expanded="true"],
 .ember-basic-dropdown-trigger--in-place.ember-power-select-trigger[aria-expanded="true"] {
     border-bottom-color: $darkest-color;
 }
 
 .ember-power-select-placeholder {
-    color: $gray-color;
+    color: $text-muted;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: $gray-color;
+    color: $text-muted;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: $gray-color;
+    color: $text-muted;
     opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: $gray-color;
+    color: $text-muted;
     opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: $gray-color;
+    color: $text-muted;
 }
 
 .ember-power-select-status-icon{

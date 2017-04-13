@@ -1,11 +1,24 @@
+$darkest-color: #222;
+$default-text-color: #4f5050;
+$default-text-color-active: #4285f4;
+
 .date-range {
     cursor: pointer;
     padding: 0px;
     width: 100%;
+    color: $default-text-color;
 
     > .fa-caret-down {
         padding-right: 4px;
     }
+}
+
+.date-range:hover {
+    color: $darkest-color;
+}
+
+.date-range:active {
+    color: $default-text-color-active;
 }
 
 .icon {
