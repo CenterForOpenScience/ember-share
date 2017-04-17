@@ -1,3 +1,4 @@
+
 import _ from 'lodash/lodash';
 import moment from 'moment';
 import Ember from 'ember';
@@ -19,6 +20,8 @@ export default ApplicationController.extend({
         allParams.push(...filterQueryParams);
         return allParams;
     }),
+
+    placeholder: 'Search scholarly works',
 
     page: 1,
     size: 10,
@@ -43,10 +46,8 @@ export default ApplicationController.extend({
 
     results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
-    eventsLastUpdated: Date().toString(),
     numberOfResults: 0,
     took: 0,
-    numberOfSources: 0,
     types: {},
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
@@ -123,7 +124,6 @@ export default ApplicationController.extend({
         }).then((json) => {
             this.setProperties({
                 numberOfEvents: json.hits.total,
-                numberOfSources: json.aggregations.sources.value
             });
         });
     },
@@ -328,7 +328,7 @@ export default ApplicationController.extend({
     }),
 
     scrollToResults() {
-        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+        Ember.$('html, body').scrollTop(Ember.$('.discover-search-section').position().top);
     },
 
     actions: {

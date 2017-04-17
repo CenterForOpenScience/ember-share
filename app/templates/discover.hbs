@@ -1,124 +1,109 @@
-<div class="container restrict-width">
-    <br>
-    <br>
-    <div class="row share-search">
-        <div class="col-xs-10 col-xs-offset-1">
-            {{input class="form-control" value=q key-up='typing'}}
-        </div>
-        <div class="col-xs-1">
-            <a href="" {{action 'search'}}>
-                {{fa-icon 'search' class='search-button' title='Search'}}
-            </a>
-            <a href={{atomFeedUrl}}>
-                {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+<div class="container-fluid discover-search-section">
+    <div class="row discover-flex-search-container">
+        <div class="col-xs-12 discover-search-block">
+            <div class="row share-search">
+                <div class="col-xs-11 discover-search-bar">
+                    {{input class="form-control" value=q key-up='typing' placeholder=placeholder}}
+                </div>
+                <div class="col-xs-1 discover-search-icons">
+                    <a href="" {{action 'search'}}>
+                        {{fa-icon 'search' class='search-button' title='Search'}}
+                    </a>
+                    <a href={{atomFeedUrl}}>
+                        {{fa-icon 'feed' class='feed-button' title='Atom feed for this search'}}
+                    </a>
+                </div>
+            </div>
             <div class="row">
-              <div class="text-muted col-sm-4 hidden-xs">
-                  <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
-              </div>
-              <div class="col-sm-4 col-xs-12 text-center discover-results-found">
-                  <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
-              </div>
-              <div class="text-muted col-sm-4 hidden-xs text-right">
-                  <small>Aggregating {{locale-string numberOfSources}} sources</small>
-              </div>
-            </div>
-        </div>
-    </div>
-    {{#if queryBody}}
-        <div class="row text-center discover-font-margin">
-            <i>
-                <a{{action 'toggleCollapsedQueryBody'}} href="#">
-                    View query body
-                    {{#if collapsedQueryBody}}
-                        {{fa-icon 'caret-up'}}
-                    {{else}}
-                        {{fa-icon 'caret-down'}}
+                <div class="col-xs-11 discover-search-bar">
+                    <div class="row">
+                      <div class="col-xs-8 text-muted">
+                          <small>Found {{locale-string numberOfResults}} works in {{took}} seconds</small>
+                      </div>
+                      {{#if queryBody}}
+                        <div class="col-xs-4 text-right discover-font">
+                            <i>
+                                <a{{action 'toggleCollapsedQueryBody'}} href="#">
+                                    View query body
+                                    {{#if collapsedQueryBody}}
+                                        {{fa-icon 'caret-up'}}
+                                    {{else}}
+                                        {{fa-icon 'caret-down'}}
+                                    {{/if}}
+                                </a>
+                            </i>
+                        </div>
                     {{/if}}
-                </a>
-            </i>
-        </div>
-    {{/if}}
-    {{#bs-collapse collapsed=collapsedQueryBody}}
-        <div id="queryBody" class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-                <div class="row">
-                    <div class="text-center discover-font-margin">
-                        <i>Search API: <a href={{searchUrl}}>{{searchUrl}}</a></i>
-                    </div>
-                    <div class="col-sm-10 col-sm-offset-1">
-                        {{json-pretty
-                            obj=displayQueryBody
-                            shouldHighlight=true
-                        }}
                     </div>
                 </div>
             </div>
-        </div>
-    {{/bs-collapse}}
-    <div class="row">
-        <div class="col-xs-6 text-left">
-            <button {{action 'clearFilters'}} class='btn clear-filters'>
-                Clear filters
-                <i class="fa fa-times text-danger"></i>
-            </button>
-        </div>
-        {{#if (not noResultsMessage)}}
-            <div class="col-sm-6 pull-right text-right">
-                <div>
-                    {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPageNoScroll')}}
-                </div>
-                {{#if hiddenPages}}
-                    <div style="color:gray">
-                        {{locale-string hiddenPages}} additional pages not shown
+            {{#bs-collapse collapsed=collapsedQueryBody}}
+                <div id="queryBody" class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class=" col-xs-11 text-left discover-font">
+                                <i>Search API: <a class="elasticsearch-link" href={{searchUrl}}>{{searchUrl}}</a></i>
+                            </div>
+                            <div class="col-xs-11">
+                                {{json-pretty
+                                    obj=displayQueryBody
+                                    shouldHighlight=true
+                                }}
+                            </div>
+                        </div>
                     </div>
-                {{/if}}
-            </div>
-        {{/if}}
-    </div>
-    <div class="row visible-xs">
-        <div class="col-xs-12 discover-filter-list">
-            {{#each facetStatesArray as |filter|}}
-                {{#if (and filter.key (not-eq key 'date'))}}
-                    {{#each filter.value as |value|}}
-                        <a class='discover-filter-block' {{action 'removeFilter' filter.key value}}>
-                            {{value}} {{fa-icon 'times'}}
-                        </a>
+                </div>
+            {{/bs-collapse}}
+            <div class="row visible-xs">
+                <div class="col-xs-12 discover-filter-list">
+                    {{#each facetStatesArray as |filter|}}
+                        {{#if (and filter.key (not-eq key 'date'))}}
+                            {{#each filter.value as |value|}}
+                                <a class='discover-filter-block' {{action 'removeFilter' filter.key value}}>
+                                    {{value}} {{fa-icon 'times'}}
+                                </a>
+                            {{/each}}
+                        {{/if}}
                     {{/each}}
-                {{/if}}
-            {{/each}}
+                </div>
+            </div>
+            <div class="row visible-xs">
+                <div class="col-xs-12 text-left discover-font">
+                    <i>
+                        <a{{action 'toggleCollapsedFilters'}} href="#">
+                            View filter options
+                            {{#if collapsedFilters}}
+                                {{fa-icon 'caret-up'}}
+                            {{else}}
+                                {{fa-icon 'caret-down'}}
+                            {{/if}}
+                        </a>
+                    </i>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row visible-xs">
-        <div class="col-xs-12 text-right discover-font-margin">
-            <i>
-                <a{{action 'toggleCollapsedFilters'}} href="#">
-                    View filter options
-                    {{#if collapsedFilters}}
-                        {{fa-icon 'caret-up'}}
-                    {{else}}
-                        {{fa-icon 'caret-down'}}
-                    {{/if}}
-                </a>
-            </i>
-        </div>
-    </div>
-    <hr class='results-top'>
 </div>
 <div class="container-fluid">
     <div class="row">
         {{#if media.isExtraSmall}}
-            <div class='col-xs-12 visible-xs'>
+            <div class='col-xs-12 visible-xs discover-sidebar-xs'>
                 {{#bs-collapse collapsed=collapsedFilters}}
                     {{sortby-dropdown
                         sortOptions=sortOptions
                         sortDisplay=sortDisplay
                         selectSortOption=(action 'selectSortOption')
                     }}
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <div class="reset-filters-section">
+                                <button {{action 'clearFilters'}} class='reset-filters-btn'>
+                                    Reset all filters
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     {{faceted-search
                         onChange='filtersChanged'
                         updateParams='updateParams'
@@ -131,23 +116,6 @@
             </div>
         {{/if}}
         <div class='col-xs-12 discover-flex-container'>
-            {{#if (not media.isExtraSmall)}}
-                <div class='discover-sidebar hidden-xs'>
-                    {{sortby-dropdown
-                        sortOptions=sortOptions
-                        sortDisplay=sortDisplay
-                        selectSortOption=(action 'selectSortOption')
-                    }}
-                    {{faceted-search
-                        onChange='filtersChanged'
-                        updateParams='updateParams'
-                        filters=facetFilters
-                        facetStates=facetStates
-                        facets=facets
-                        aggregations=aggregations
-                    }}
-                </div>
-            {{/if}}
             <div class='discover-main-content restrict-width'>
                 {{#if loading}}
                     {{loading-bars}}
@@ -159,12 +127,43 @@
                     {{#each results as |obj|}}
                         {{search-result addFilter='addFilter' obj=obj}}
                     {{/each}}
-                    <div class="pull-right text-right">
+                    <div class="pull-left text-left">
                         {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                        {{#if hiddenPages}}
+                            <div style="color:gray">
+                                {{locale-string hiddenPages}} additional pages not shown
+                            </div>
+                        {{/if}}
                     </div>
                 {{/if}}
             </div>
+            {{#if (not media.isExtraSmall)}}
+                <div class='discover-sidebar hidden-xs'>
+                    {{sortby-dropdown
+                        sortOptions=sortOptions
+                        sortDisplay=sortDisplay
+                        selectSortOption=(action 'selectSortOption')
+                    }}
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <div class="reset-filters-section">
+                                <button {{action 'clearFilters'}} class='reset-filters-btn'>
+                                    Reset all filters
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {{faceted-search
+                        onChange='filtersChanged'
+                        updateParams='updateParams'
+                        filters=facetFilters
+                        facetStates=facetStates
+                        facets=facets
+                        aggregations=aggregations
+                    }}
+                </div>
+            {{/if}}
         </div>
     </div>
-    <br>
 </div>
