@@ -1,7 +1,8 @@
-$darkest-color: #222;
-$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
+// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
 $default-text-color: #4f5050;
+// bright blue
 $default-text-color-active: #337ab7;
+// dark blue
 $default-link-hover-color: #23527c;
 
 .row {
@@ -12,7 +13,11 @@ $default-link-hover-color: #23527c;
 }
 
 .text-data {
-    color: $darkest-color;
+    color: $default-text-color;
+}
+
+.source-text {
+    color: $default-text-color;
 }
 
 .title > .redirect > a {
@@ -24,7 +29,7 @@ $default-link-hover-color: #23527c;
 }
 
 .title {
-    padding-bottom: 0px;
+   padding-bottom: 2px;
 }
 
 .title-tile {
@@ -38,24 +43,28 @@ $default-link-hover-color: #23527c;
 }
 
 .tag {
-    border-radius: 5px;
-    color: $darkest-color;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-left: 15px ;
-    background-color: darken(white, 10%);
+    color: $default-text-color;
     display: inline-block;
     font-size: 85%;
-    margin-top: 4px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 2px 4px 2px 4px;
+    margin: 2px 4px 2px 0px;
 }
 
 .worktype {
-    padding-top: 2px;
-    padding-left:  15px;
     font-size: 85%;
-    padding-bottom: 10px;
+    margin-top: -2px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+}
+
+.type-label {
+    padding: 3px 5px 3px 5px;
+}
+
+.retraction-alert {
+    padding: 2px 8px;
 }
 
 .redirect > a {
@@ -68,41 +77,12 @@ $default-link-hover-color: #23527c;
 }
 
 .redirect {
-    margin-top: 0;
-    margin-bottom: 5px;
+    margin: 0px;
+    padding-right: 0px;
 }
 
-.description {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.source-text {
-    color: $darkest-color;
-}
-
-.extra {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 15px;
-}
-
-.filter {
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.typefilter {
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.retraction-alert {
-    padding: 2px 8px;
+.default-line-padding {
+    padding: 2px 15px 2px 15px;
 }
 
 .default-cursor {

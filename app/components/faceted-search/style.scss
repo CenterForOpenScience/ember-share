@@ -1,9 +1,14 @@
+// lightslategray is a blue-gray color
 $discover-background-color: lighten(lightslategray, 45%);
-$darkest-color: #222;
-$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
-$facet-separator-color: #AAA;
 $text-muted: #777777;
+
+// light gray
+$facet-separator-color: #AAA;
+// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
 $default-text-color: #4f5050;
+// use for hover on buttons and dark text
+$darkest-color: #222;
+// bright blue
 $default-text-color-active: #337ab7;
 
 .panel-default {

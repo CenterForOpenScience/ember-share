@@ -1,5 +1,8 @@
-$darkest-color: #222;
+// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
 $default-text-color: #4f5050;
+// use for hover on buttons and dark text
+$darkest-color: #222;
+// bright blue
 $default-text-color-active: #337ab7;
 
 .date-range {

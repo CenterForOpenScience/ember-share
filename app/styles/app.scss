@@ -129,15 +129,22 @@
 
 /* Discover */
 
+// lightslategray is a blue-gray color
 $discover-background-color: lighten(lightslategray, 45%);
 $discover-result-background-color: white;
-$darkest-color: #222;
-$gray-color: #4f5050;  // minumum contrast that meets WCAG 2.0 AA/AAA standards
-$facet-separator-color: #AAA;
-$default-text-color: #4f5050;
-$default-text-color-active: #337ab7;
-$default-link-hover-color: #23527c;
 $text-muted: #777777;
+
+// light gray
+$facet-separator-color: #AAA;
+// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
+$default-text-color: #4f5050;
+// use for hover on buttons and dark text
+$darkest-color: #222;
+// bright blue
+$default-text-color-active: #337ab7;
+// dark blue
+$default-link-hover-color: #23527c;
+
 
 .discover-search-section {
     padding-bottom: 15px;
@@ -325,7 +332,7 @@ $text-muted: #777777;
             color: $default-text-color;
         }
         > a:hover, a:focus {
-            background-color: $gray-color;
+            background-color: $default-text-color;
             background-image: none;
             color: white;
         }

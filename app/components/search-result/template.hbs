@@ -19,33 +19,33 @@
             {{/link-to}}
         </h4>
         <div class="col-xs-2 pull-right text-right default-cursor worktype">
-            <span class="typefilter">
+            <span class="type-label">
                 {{type}}
             </span>
         </div>
     </div>
-    {{#if creators}}
-        <div class="row default-cursor">
-            <div class="col-xs-12">
-                <span class="pull-left redirect text-left">
-                    {{#each creators as |creator index|}}
-                        {{#if index}}
-                            -
-                        {{/if}}
-                        {{#link-to 'detail' (slug creator.type) creator.id}}
-                            {{if creator.cited_as creator.cited_as creator.name}}
-                        {{/link-to}}
-                    {{/each}}
-                    {{#if extraCreators}}
-                        <span class="text-muted">+{{extraCreators.length}}</span>
-                    {{/if}}
-                </span>
-            </div>
-        </div>
-    {{/if}}
 </div>
+{{#if creators}}
+    <div class="row default-line-padding default-cursor">
+        <div class="col-xs-12">
+            <span class="pull-left redirect text-left">
+                {{#each creators as |creator index|}}
+                    {{#if index}}
+                        -
+                    {{/if}}
+                    {{#link-to 'detail' (slug creator.type) creator.id}}
+                        {{if creator.cited_as creator.cited_as creator.name}}
+                    {{/link-to}}
+                {{/each}}
+                {{#if extraCreators}}
+                    <span class="text-muted">+{{extraCreators.length}}</span>
+                {{/if}}
+            </span>
+        </div>
+    </div>
+{{/if}}
 {{#if abbreviation}}
-    <div class="row description default-cursor">
+    <div class="row default-line-padding default-cursor">
         <div class="col-sm-12">
             {{{abbreviation}}}
             {{#if abbreviated}}
@@ -55,7 +55,7 @@
     </div>
 {{/if}}
 {{#if tags}}
-    <div class="row default-cursor">
+    <div class="row default-line-padding default-cursor">
         <div class="col-xs-12">
             {{#each tags as |tag|}}
                 <span class='tag'>
@@ -69,7 +69,7 @@
     </div>
 {{/if}}
 {{#if (or obj.date_published obj.publishers)}}
-    <div class="row extra">
+    <div class="row default-line-padding">
         <div class="col-xs-12 default-cursor">
             {{#if obj.date_published}}
                 <span class="pull-left text-data text-left default-cursor">
@@ -94,7 +94,7 @@
     </div>
 {{/if}}
 {{#if obj.date_updated}}
-    <div class="row extra">
+    <div class="row default-line-padding">
         <div class="col-xs-12 default-cursor">
             <span class="text-muted last-updated">
                 Last updated <span class="text-data">{{dateUpdated}}</span>
@@ -102,7 +102,7 @@
         </div>
     </div>
 {{/if}}
-<div class="row extra default-cursor">
+<div class="row default-line-padding default-cursor">
     <div class="col-xs-12">
         <span class="text-muted last-updated">
             Last ingested <span class="text-data">{{moment-format obj.date_modified 'MMM DD, YYYY'}}</span> from
