@@ -27,7 +27,8 @@ export default Ember.Component.extend({
         return this.get('safeDescription').length > this.get('maxDescription');
     }),
     abbreviation: Ember.computed('safeDescription', function() {
-        return this.get('safeDescription').slice(0, this.get('maxDescription'));
+        const trimmedDescription = this.get('safeDescription').slice(0, this.get('maxDescription'));
+        return trimmedDescription.substr(0, Math.min(trimmedDescription.length, trimmedDescription.lastIndexOf(' ')));
     }),
     allCreators: Ember.computed('obj.lists.contributors', function() {
         return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator').sortBy('order_cited');
