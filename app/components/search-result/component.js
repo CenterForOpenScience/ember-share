@@ -52,7 +52,7 @@ export default Ember.Component.extend({
         return null;
     }),
     datePublished: Ember.computed('obj.date_published', function() {
-        return moment(this.get('obj.date_published')).utc().format('MMMM YYYY');
+        return moment(this.get('obj.date_published')).utc().format('YYYY');
     }),
     dateUpdated: Ember.computed('obj.date_updated', function() {
         return moment(this.get('obj.date_updated')).utc().format('MMM DD, YYYY');

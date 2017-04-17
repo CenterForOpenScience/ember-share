@@ -3,7 +3,7 @@
         <div class="col-xs-12 discover-search-block">
             <div class="row share-search">
                 <div class="col-xs-11 discover-search-bar">
-                    {{input class="form-control" value=q key-up='typing'}}
+                    {{input class="form-control" value=q key-up='typing' placeholder=placeholder}}
                 </div>
                 <div class="col-xs-1 discover-search-icons">
                     <a href="" {{action 'search'}}>
@@ -18,7 +18,7 @@
                 <div class="col-xs-11 discover-search-bar">
                     <div class="row">
                       <div class="col-xs-8 text-muted">
-                          <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
+                          <small>Found {{locale-string numberOfResults}} works in {{took}} seconds</small>
                       </div>
                       {{#if queryBody}}
                         <div class="col-xs-4 text-right discover-font">

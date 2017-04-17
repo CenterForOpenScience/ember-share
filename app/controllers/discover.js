@@ -21,6 +21,8 @@ export default ApplicationController.extend({
         return allParams;
     }),
 
+    placeholder: 'Search scholarly works',
+
     page: 1,
     size: 10,
     q: '',
