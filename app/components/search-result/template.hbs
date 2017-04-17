@@ -69,7 +69,7 @@
     </div>
 {{/if}}
 {{#if (or obj.date_published obj.publishers)}}
-    <div class="row default-line-padding">
+    <div class="row date-line-padding">
         <div class="col-xs-12 default-cursor">
             {{#if obj.date_published}}
                 <span class="pull-left text-data text-left default-cursor">
@@ -94,7 +94,7 @@
     </div>
 {{/if}}
 {{#if obj.date_updated}}
-    <div class="row default-line-padding">
+    <div class="row date-line-padding">
         <div class="col-xs-12 default-cursor">
             <span class="text-muted last-updated">
                 Last updated <span class="text-data">{{dateUpdated}}</span>
@@ -102,7 +102,7 @@
         </div>
     </div>
 {{/if}}
-<div class="row default-line-padding default-cursor">
+<div class="row date-line-padding default-cursor">
     <div class="col-xs-12">
         <span class="text-muted last-updated">
             Last ingested <span class="text-data">{{moment-format obj.date_modified 'MMM DD, YYYY'}}</span> from

@@ -115,7 +115,6 @@
 .share-search {
 
     .search-button {
-        margin-left: -20px;
         margin-top: 5px;
         font-size: 150%;
     }
@@ -133,6 +132,7 @@
 $discover-background-color: lighten(lightslategray, 45%);
 $discover-result-background-color: white;
 $text-muted: #777777;
+$xs-width: 768px;
 
 // light gray
 $facet-separator-color: #AAA;
@@ -146,11 +146,18 @@ $default-text-color-active: #337ab7;
 $default-link-hover-color: #23527c;
 
 
+.discover-flex-search-container {
+    display: flex;
+    justify-content: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .discover-search-section {
     padding-bottom: 15px;
     padding-top: 30px;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: $discover-background-color;
 }
 
@@ -161,6 +168,29 @@ $default-link-hover-color: #23527c;
     width: 100%;
 }
 
+.discover-search-bar {
+    padding-left: 15px;
+}
+
+.discover-search-icons {
+    padding: 0px;
+
+    > a:hover {
+        text-decoration: none;
+    }
+}
+
+@media (max-width: $xs-width) {
+    .discover-search-block {
+        padding-right: 15px;
+    }
+
+    .discover-flex-search-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
 .discover-flex-container {
     display: flex;
     flex-wrap: nowrap;
@@ -169,15 +199,14 @@ $default-link-hover-color: #23527c;
     background-color: $discover-background-color;
 }
 
-.discover-flex-search-container {
-    display: flex;
-    justify-content: center;
-}
-
 .discover-sidebar {
     width: 220px;
     padding-left: 20px;
     margin-top: -26px;
+}
+
+.discover-sidebar-xs {
+    background-color: $discover-background-color;
 }
 
 .discover-main-content {
@@ -258,6 +287,12 @@ $default-link-hover-color: #23527c;
     padding-bottom: 8px;
 }
 
+@media (max-width: $xs-width) {
+    .reset-filters-section {
+        width: 100%;
+    }
+}
+
 .reset-filters-btn, .reset-filters-btn:focus {
     color: $default-text-color;
     background-color: $discover-background-color;
@@ -287,12 +322,6 @@ $default-link-hover-color: #23527c;
 
 .discover-btn-select:active {
     color: $default-text-color-active;
-}
-
-.discover-search-icons {
-    > a:hover {
-        text-decoration: none;
-    }
 }
 
 .search-result-block {
