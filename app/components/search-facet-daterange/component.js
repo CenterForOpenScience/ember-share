@@ -107,7 +107,7 @@ export default Ember.Component.extend({
     },
 
     noFilter() {
-        this.set('pickerValue', 'All time');
+        this.set('pickerValue', 'All dates');
     },
 
     actions: {
