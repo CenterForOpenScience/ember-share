@@ -14,8 +14,13 @@
     https://github.com/backdrop/backdrop-issues/issues/1985
 */
 
+$site-max-width: 1050px;  // max width of discover + padding
 
 /* Index Style */
+
+.index-container {
+    max-width: $site-max-width;
+}
 
 .index-search-section {
     min-height: 700px;
@@ -424,6 +429,11 @@ $default-link-hover-color: #23527c;
 
 .detail-bottom-padding {
     padding-bottom: 30px;
+}
+
+/* Sources page */
+.sources-container {
+    max-width: $site-max-width;
 }
 
 /* Error page */

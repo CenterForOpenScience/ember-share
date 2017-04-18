@@ -1,3 +1,9 @@
+$site-max-width: 1050px;  // max width of discover + padding
+
+.footer-container {
+    max-width: $site-max-width;
+}
+
 .footer {
     padding: 20px;
     justify-content: center;
