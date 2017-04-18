@@ -436,6 +436,12 @@ $default-link-hover-color: #23527c;
     max-width: $site-max-width;
 }
 
+/* Profile page */
+.profile-container {
+    max-width: $site-max-width;
+    padding: 50px 15px 50px 15px;
+}
+
 /* Error page */
 
 .error-image {

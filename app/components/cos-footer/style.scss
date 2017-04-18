@@ -27,10 +27,18 @@ $site-max-width: 1050px;  // max width of discover + padding
     padding: 10px;
     display: flex;
     justify-content: center;
+
+    > p > a {
+        text-decoration: none;
+    }
 }
 
 .links {
     list-style: none outside none;
+
+    > li > a {
+        text-decoration: none;
+    }
 }
 
 @media (min-width: 768px) {
