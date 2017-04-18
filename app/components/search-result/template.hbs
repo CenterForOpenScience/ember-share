@@ -58,9 +58,9 @@
     <div class="row default-line-padding default-cursor">
         <div class="col-xs-12">
             {{#each tags as |tag|}}
-                <span class='tag'>
+                <a class="tag" {{action 'addFilter' 'tags' tag}}>
                     {{tag}}
-                </span>
+                </a>
             {{/each}}
             {{#if extraTags}}
                 <span class="text-muted">+{{extraTags.length}}</span>

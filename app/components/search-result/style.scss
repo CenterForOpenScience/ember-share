@@ -1,5 +1,7 @@
 // minumum gray contrast that meets WCAG 2.0 AA/AAA standards
 $default-text-color: #4f5050;
+// use for hover on buttons and dark text
+$darkest-color: #222;
 // bright blue
 $default-text-color-active: #337ab7;
 // dark blue
@@ -50,6 +52,13 @@ $default-link-hover-color: #23527c;
     border: 1px solid #ccc;
     padding: 2px 4px 2px 4px;
     margin: 4px 4px 4px 0px;
+    text-decoration: none;
+}
+
+.tag:hover {
+    color: $darkest-color;
+    border: 1px solid $darkest-color;
+    cursor: pointer;
 }
 
 .worktype {
