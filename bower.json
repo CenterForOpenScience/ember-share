@@ -11,6 +11,6 @@
     "bootstrap-daterangepicker": "^2.1.23",
     "c3": "^0.4.11",
     "d3": "~3.5.0",
-    "osf-style": "https://github.com/CenterForOpenScience/osf-style.git#develop"
+    "osf-style": "https://github.com/CenterForOpenScience/osf-style.git#5dcf5997ad2808ffc7c8564f94cde102bf7a4a96"
   }
 }
