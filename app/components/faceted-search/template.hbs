@@ -2,10 +2,7 @@
 {{#each facets as |facet|}}
     <div class='panel panel-default'>
         <div class='panel-heading'>
-            <h4 class='title pull-left'>{{facet.title}}</h4>
-            {{#if facet.helpText}}
-                {{help-text-tooltip helpText=facet.helpText}}
-            {{/if}}
+            {{facet.title}}
         </div>
         <div class='panel-body'>
             {{component facet.component
@@ -15,8 +12,7 @@
             state=(get facetStates facet.key)
             filter=(get facetFilters facet.key)
             onChange=(action 'facetChanged')
-            data=facet.data
-            date=facet.date}}
+            data=facet.data}}
         </div>
     </div>
 {{/each}}

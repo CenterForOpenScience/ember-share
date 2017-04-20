@@ -17,10 +17,8 @@ export default Ember.Route.extend(RouteHistoryMixin, {
             controller.set('contributors', '');
             controller.set('start', '');
             controller.set('end', '');
-            controller.set('date', 'date_modified');
             controller.set('type', '');
             controller.set('sort', '');
-            controller.set('sortDisplay', 'Relevance');
             controller.set('facetFilters', Ember.Object.create());
             controller.set('firstLoad', true);
         }

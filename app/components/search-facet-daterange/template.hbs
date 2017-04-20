@@ -1,18 +1,4 @@
-<div class="dropdown">
-    <button class="discover-btn-select dropdown-toggle discover-filter-facets align-left display-text dropdown"
-        type="button" id="filterBy" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="true">
-        <span class="fa fa-caret-down pull-right icon"></span>
-        Filter by: {{filterDisplay}}
-    </button>
-    <ul class="dropdown-menu discover-dropdown-menu dropdown" aria-labelledby="filterBy">
-        {{#each filterOptions as |option|}}
-            <li class="dropdown-cursor">
-                <a {{action "select" option.filterBy}}>{{option.display}}</a>
-            </li>
-        {{/each}}
-    </ul>
-</div>
+<!--input type='text' class='date-range' value={{pickerValue}}-->
 <div class='date-range'>
     {{fa-icon 'calendar'}}
     {{pickerValue}}

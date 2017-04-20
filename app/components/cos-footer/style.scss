@@ -1,44 +1,18 @@
-$site-max-width: 1050px;  // max width of discover + padding
-
-.footer-container {
-    max-width: $site-max-width;
-}
-
-.link-holder {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.link-block {
-    margin: auto;
-    width: 200px;
-}
-
 .footer {
-    padding: 20px 0px 20px 0px;
+    padding: 20px;
+    justify-content: center;
     color: #555;
     text-shadow: 0 1px 0 #fff;
-    width: 100%;
 }
 
 .copyright {
     padding: 10px;
     display: flex;
     justify-content: center;
-
-    > p > a {
-        text-decoration: none;
-    }
 }
 
 .links {
     list-style: none outside none;
-
-    > li > a {
-        text-decoration: none;
-    }
 }
 
 @media (min-width: 768px) {

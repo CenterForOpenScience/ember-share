@@ -1,22 +1,19 @@
-$darkest-color: #222;
-$default-text-color: #4f5050;
-$default-text-color-active: #337ab7;
-
 .clickable {
     cursor: pointer;
 }
 
 .close-icon {
-    padding-left: 8px;
+    color: red;
+    padding-left: 15px;
 }
 
 .bubble {
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0 4px;
-    margin: 2px 3px 2px 0;
-    margin-left: -5px;  // prevents it from moving when selected
+    border: .5px solid #ccc;
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -9px;
 }
 
 .type-filter-option {
@@ -31,22 +28,13 @@ $default-text-color-active: #337ab7;
 }
 
 a {
-    color: $default-text-color;
-}
-
-a:hover {
-    color: $darkest-color;
-    text-decoration: none;
-}
-
-a:active {
-    color: $default-text-color-active
+    color: dimgray;
 }
 
 .bubble > a {
-    color: $darkest-color;
+    color: black;
 }
 
 .active {
-    color: $darkest-color;
+    color: black;
 }

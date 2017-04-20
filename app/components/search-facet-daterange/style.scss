@@ -1,42 +1,6 @@
-// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
-$default-text-color: #4f5050;
-// use for hover on buttons and dark text
-$darkest-color: #222;
-// bright blue
-$default-text-color-active: #337ab7;
-
 .date-range {
     cursor: pointer;
-    padding: 0px;
-    width: 100%;
-    color: $default-text-color;
-
-    > .fa-caret-down {
-        padding-right: 4px;
-    }
-}
-
-.date-range:hover {
-    color: $darkest-color;
-}
-
-.date-range:active {
-    color: $default-text-color-active;
-}
-
-.icon {
-    margin-top: 3px;
-    padding-right: 3px;
-}
-
-.align-left {
-    text-align: left;
-}
-
-.display-text {
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
     width: 100%;
 }

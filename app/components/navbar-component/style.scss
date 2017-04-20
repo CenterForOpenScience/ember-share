@@ -1,68 +1,63 @@
-$site-max-width: 1050px;  // max width of discover + padding
-
 & {
-    margin-bottom: 0px;
-    border-bottom: none;
+  margin-bottom: 0px;
+  border-bottom: none;
 
-    a {
-        color: #ffffff;
+  a {
+    color: #ffffff;
 
-        &:hover {
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-        }
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
     }
+  }
 
-    .navbar-inverse .navbar-nav > li > a {
-        color: #ffffff;
+  .navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
 
-        &:hover {
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-        }
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
     }
+  }
 
-    .login-btn {
-        padding: 2px 15px;
-        margin: 12px 15px;
+  .login-btn {
+    padding: 2px 15px;
+    margin: 12px 15px;
 
-        &:hover {
-            background-color: #31b0d5 !important;
-        }
+    &:hover {
+      background-color: #31b0d5 !important;
     }
+  }
 
-    .nav-user-dropdown {
-        padding-top: 12px;
-        padding-bottom: 8px;
-    }
+  .nav-user-dropdown {
+    padding-top: 12px;
+    padding-bottom: 8px;
+  }
 
-    .navbar-header {
-        padding-top: 2px;
-    }
+  .navbar-header {
+    padding-top: 2px;
+  }
 
-    .share {
-        color: white ;
-        font-size: 18px ;
-        padding-left: 10px;
-        line-height: 45px ;
-        background-color: transparent ;
-    }
+  .share {
+    color: white ;
+    font-size: 18px ;
+    padding-left: 10px;
+    line-height: 45px ;
+    background-color: transparent ;
 
-    .navbar-logo {
-        margin-top: 10px;
-        margin-left: 5px;
-        float: left;
-        height: 25px;
-    }
+  }
 
-    .share-logo {
-        text-decoration: none;
-    }
+  .navbar-logo {
+    margin-top: 10px;
+    margin-left: 5px;
+    float: left;
+    height: 25px;
+  }
 
-}
+  .share-logo {
+    text-decoration: none;
+  }
 
-.navbar-container {
-    max-width: $site-max-width;
 }
 
 .gravatar > img {
@@ -72,9 +67,9 @@ $site-max-width: 1050px;  // max width of discover + padding
 
 
 .dropdown-menu {
-    border: 1px solid rgba(100, 100, 100, 0.3);
+  border: 1px solid rgba(100, 100, 100, 0.3);
 }
 
 .dropdown-menu > li > a:hover {
-    color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }

@@ -1,107 +1,50 @@
-// lightslategray is a blue-gray color
-$discover-background-color: lighten(lightslategray, 45%);
-$text-muted: #777777;
-
-// light gray
-$facet-separator-color: #AAA;
-// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
-$default-text-color: #4f5050;
-// use for hover on buttons and dark text
-$darkest-color: #222;
-// bright blue
-$default-text-color-active: #337ab7;
-
 .panel-default {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased ;
-    box-shadow: none;
-    border-bottom-width: 0;
-    border-right-width: 0;
-    border-left-width: 0;
-    border-color: $facet-separator-color;
-    margin-bottom: 5px;
+    border-width: 0 ;
+    background-color: #f5f5f5;
 
     > .panel-heading {
-        background-color: $discover-background-color;
-        display: flex;
-        align-items: left;
-        justify-content: left;
-        border-color: transparent;
-        color: $darkest-color;
-        padding-top: 5px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-bottom: 0px;
+          background-color: rgba(40, 59, 73, 0.84);
+          color: white ;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 2px ;
     }
 }
 
-.panel-body {
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    background-color: $discover-background-color;
-}
-
-.discover-btn-select {
-    background-color: $discover-background-color;
-    color: $default-text-color;
-    padding: 0px;
-    border-width: 0px;
-}
-
-.discover-btn-select:hover {
-    color: $darkest-color;
-}
-
-.discover-btn-select:active {
-    color: $default-text-color-active;
-}
-
 .ember-power-select-trigger {
-    color: $darkest-color;
-    background-color: $discover-background-color;
-    border-color: transparent;
-    padding: 0px;
-}
-
-.ember-power-select-multiple-option {
-    background-color: white;
-    color: $darkest-color;
-    border: 1px solid #ccc;
-}
-
-.ember-power-select-multiple-remove-btn {
-    color: #a94442;  // text-danger
-    font-weight: 900;
-}
-
-.ember-basic-dropdown-trigger--below.ember-power-select-trigger[aria-expanded="true"],
-.ember-basic-dropdown-trigger--in-place.ember-power-select-trigger[aria-expanded="true"] {
-    border-bottom-color: $darkest-color;
+    background-color: #f5f5f5;
+    border-width: 1px;
+    border-color: #ccc;
+    border-radius: 0 ;
+    color: #333333 ;
 }
 
 .ember-power-select-placeholder {
-    color: $text-muted;
+    color: #333333 ;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: $text-muted;
+    color: #333333 ;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: $text-muted;
+    color: #333333;
     opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: $text-muted;
+    color: #333333;
     opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: $text-muted;
+    color: #333333 ;
 }
 
 .ember-power-select-status-icon{
     border-color: #333333 transparent transparent transparent;
+
 }

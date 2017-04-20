@@ -14,13 +14,8 @@
     https://github.com/backdrop/backdrop-issues/issues/1985
 */
 
-$site-max-width: 1050px;  // max width of discover + padding
 
 /* Index Style */
-
-.index-container {
-    max-width: $site-max-width;
-}
 
 .index-search-section {
     min-height: 700px;
@@ -118,8 +113,8 @@ $site-max-width: 1050px;  // max width of discover + padding
 }
 
 .share-search {
-
     .search-button {
+        margin-left: -20px;
         margin-top: 5px;
         font-size: 150%;
     }
@@ -133,130 +128,13 @@ $site-max-width: 1050px;  // max width of discover + padding
 
 /* Discover */
 
-// lightslategray is a blue-gray color
-$discover-background-color: lighten(lightslategray, 45%);
-$discover-result-background-color: white;
-$text-muted: #777777;
-$xs-width: 768px;
-
-// light gray
-$facet-separator-color: #AAA;
-// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
-$default-text-color: #4f5050;
-// use for hover on buttons and dark text
-$darkest-color: #222;
-// bright blue
-$default-text-color-active: #337ab7;
-// dark blue
-$default-link-hover-color: #23527c;
-
-
-.discover-flex-search-container {
-    display: flex;
-    justify-content: center;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.discover-search-section {
-    padding-bottom: 15px;
-    padding-top: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
-    background-color: $discover-background-color;
-}
-
-.discover-search-block {
-    max-width: 1020px;
-    padding-right: 220px;
-    padding-left: 0px;
-    width: 100%;
-}
-
-.discover-search-bar {
-    padding-left: 15px;
-}
-
-.discover-search-icons {
-    padding: 0px;
-
-    > a:hover {
-        text-decoration: none;
-    }
-}
-
-@media (max-width: $xs-width) {
-    .discover-search-block {
-        padding-right: 15px;
-    }
-
-    .discover-flex-search-container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-}
-
-.discover-flex-container {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: center;
-    background-color: $discover-background-color;
-}
-
-.discover-sidebar {
-    width: 220px;
-    padding-left: 20px;
-    margin-top: -26px;
-}
-
-.discover-sidebar-xs {
-    background-color: $discover-background-color;
-}
-
-.discover-main-content {
-    width: 100%;
-    padding-bottom: 15px;
-}
-
-.no-results {
-    font-size: 15px ;
-    color: dimgray;
-}
-
-.discover-font {
+.discover-font-margin {
     font-size:75%;
-    > i > a {
-        color: $default-text-color;
-    }
-
-    > i > a:hover {
-        color: $darkest-color;
-        text-decoration: none;
-    }
-
-    > i > a:active {
-        color: $default-text-color-active;
-    }
-
-    > i > a:focus {
-        text-decoration: none;
-        outline: none;
-    }
-
-    > i > .elasticsearch-link {
-        color: $default-text-color-active;
-    }
-
-    > i > .elasticsearch-link:hover {
-        color: $default-link-hover-color;
-    }
-
+    margin-top:15px;
 }
 
 .discover-filter-facets {
     margin-bottom: 8px;
-    padding-right: 8px;
     width: 100%;
 }
 
@@ -284,102 +162,23 @@ $default-link-hover-color: #23527c;
     padding-top: 8px;
 }
 
-.reset-filters-section {
-    border-top: 1px solid transparent;
-    border-color: $facet-separator-color;
-    width: 200px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+.clear-filters {
+    background-color: #f5f5f5;
+    color: #204762;
 }
 
-@media (max-width: $xs-width) {
-    .reset-filters-section {
-        width: 100%;
-    }
+.btn-select {
+    background-color: #f5f5f5;
+    color: #204762;
+    height: 33px ;
+    font-size: 14px ;
+    border-color: #ccc ;
 }
 
-.reset-filters-btn, .reset-filters-btn:focus {
-    color: $default-text-color;
-    background-color: $discover-background-color;
-    border: none;
-    padding-left: 0px;
-    outline: none;
+.no-results {
+    font-size: 15px ;
+    color: #204762;
 }
-
-.reset-filters-btn:hover {
-    color: $darkest-color;
-}
-
-.reset-filters-btn:active {
-    color: $default-text-color-active;
-}
-
-.discover-btn-select {
-    background-color: $discover-background-color;
-    color: $default-text-color;
-    padding: 0px;
-    border-width: 0px;
-}
-
-.discover-btn-select:hover {
-    color: $darkest-color;
-}
-
-.discover-btn-select:active {
-    color: $default-text-color-active;
-}
-
-.search-result-block {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    background-color: $discover-result-background-color;
-}
-
-.discover-results-found {
-    color: $default-text-color;
-}
-
-.tooltip-helper {
-    padding-left: 4px;
-    width: 100%;
-
-    > .help-icon {
-        height: 100%;
-        align-items: center;
-        display: flex;
-        padding-right: 3px;
-    }
-}
-
-.tooltip-helper:focus {
-    outline: none;
-}
-
-.discover-dropdown-menu {
-    background-color: white;
-
-    > .dropdown-cursor {
-        cursor: pointer;
-        cursor: hand;
-        > a {
-            color: $default-text-color;
-        }
-        > a:hover, a:focus {
-            background-color: $default-text-color;
-            background-image: none;
-            color: white;
-        }
-    }
-}
-
-.restrict-width {
-    max-width: 800px;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-/* Detail */
 
 .title-container {
     padding-top: 60px;
@@ -393,17 +192,17 @@ $default-link-hover-color: #23527c;
     background-color: #EEE;
 
     h1 {
-        margin-top: 0;
-        line-height: 1;
-        font-size: 40px;
+      margin-top: 0;
+      line-height: 1;
+      font-size: 40px;
     }
 
     p {
-        color: grey;
-        font-size: 18px;
-        font-weight: 300;
-        line-height: 1.4;
-        margin-bottom: 0px;
+      color: grey;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.4;
+      margin-bottom: 0px;
     }
 
     .retraction-alert {
@@ -413,12 +212,19 @@ $default-link-hover-color: #23527c;
     }
 }
 
+hr.divider {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+/* Detail */
+
 .detail-back-arrow-block {
     text-align: left;
 }
 
 .detail-back-arrow {
-    color: $default-text-color;
+    color: black;
     cursor: pointer;
 }
 
@@ -429,17 +235,6 @@ $default-link-hover-color: #23527c;
 
 .detail-bottom-padding {
     padding-bottom: 30px;
-}
-
-/* Sources page */
-.sources-container {
-    max-width: $site-max-width;
-}
-
-/* Profile page */
-.profile-container {
-    max-width: $site-max-width;
-    padding: 50px 15px 50px 15px;
 }
 
 /* Error page */

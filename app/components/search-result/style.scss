@@ -1,12 +1,3 @@
-// minumum gray contrast that meets WCAG 2.0 AA/AAA standards
-$default-text-color: #4f5050;
-// use for hover on buttons and dark text
-$darkest-color: #222;
-// bright blue
-$default-text-color-active: #337ab7;
-// dark blue
-$default-link-hover-color: #23527c;
-
 .row {
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -14,94 +5,82 @@ $default-link-hover-color: #23527c;
     padding-bottom: 5px;
 }
 
-.text-data {
-    color: $default-text-color;
-}
-
-.source-text {
-    color: $default-text-color;
-}
-
-.title > .redirect > a {
-    color: darken($default-text-color-active, 10%)
-}
-
-.title > .redirect > a:hover {
-    color: darken($default-text-color-active, 20%)
-}
-
-.title {
-   padding-bottom: 2px;
-}
-
-.title-tile {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 15px;
-}
-
 .published {
-    padding-left: 4px;
+    padding-right: 15px;
 }
 
 .tag {
-    color: $default-text-color;
+    border-radius: 5px;
+    color: white;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-left: 15px ;
+    background: #5bc0de;
     display: inline-block;
     font-size: 85%;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    padding: 2px 4px 2px 4px;
-    margin: 4px 4px 4px 0px;
-    text-decoration: none;
-}
-
-.tag:hover {
-    color: $darkest-color;
-    border: 1px solid $darkest-color;
-    cursor: pointer;
+    margin-top: 4px;
 }
 
 .worktype {
+    padding-top: 2px;
+    padding-bottom: 4px;
+    padding-left:  2px;
+    padding-right: 2px;
+    margin-left: 15px;
     font-size: 85%;
-    margin-top: -2px;
-    padding-left: 0px;
-    padding-bottom: 0px;
 }
 
-.type-label {
-    padding: 3px 5px 3px 5px;
+.worktype-inner a{
+    background: #ccc;  min-width: 80px;
+    max-width: 80px;
+    height:26px;
+}
+
+.title-tile {
+    background-color: #f5f5f5;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-top: 5px;
+
+}
+
+.redirect>a {
+    color: #337ab7;
+}
+
+.redirect {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.description {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.extra {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px;
+}
+
+.filter {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.typefilter {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .retraction-alert {
     padding: 2px 8px;
-}
-
-.redirect > a {
-    color: $default-text-color-active;
-}
-
-.redirect > a:hover {
-    text-decoration: none;
-    color: $default-link-hover-color;
-}
-
-.redirect {
-    margin: 0px;
-    padding-right: 0px;
-}
-
-.description-ellipsis {
-    margin-left: -4px;
-}
-
-.date-line-padding {
-    padding: 0px 15px 0px 15px;
-}
-
-.default-line-padding {
-    padding: 4px 15px 4px 15px;
-}
-
-.default-cursor {
-    cursor: default;
 }
