@@ -14,7 +14,7 @@ const STATUS_HELP = {
         return registration.sourceName + ' is now a source. Check it out!';
     },
     rejected: function(registration) {
-        return registration.sourceName + ' has been rejected as a source. Contact support@osf.io for additional information.';
+        return registration.sourceName + ' has been rejected as a source. Contact share-support@osf.io for additional information.';
     },
 };
 
