@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import ENV from '../../config/environment';
+import moment from 'moment';
 
 export default Ember.Component.extend({
     layout,
@@ -48,6 +49,12 @@ export default Ember.Component.extend({
             return retractions[0].id;
         }
         return null;
+    }),
+    datePublished: Ember.computed('obj.date_published', function() {
+        return moment(this.get('obj.date_published')).utc().format('MMMM YYYY');
+    }),
+    dateUpdated: Ember.computed('obj.date_updated', function() {
+        return moment(this.get('obj.date_updated')).utc().format('MMM DD, YYYY');
     }),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
