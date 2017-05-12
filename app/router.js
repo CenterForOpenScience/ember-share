@@ -24,7 +24,6 @@ Router.map(function() {
     this.route('changes');
     this.route('discover');
     this.route('profile');
-    this.route('support');
     this.route('settings');
     this.route('sources');
     this.route('registration', function() {

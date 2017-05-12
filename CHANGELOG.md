@@ -1,5 +1,9 @@
 # Change Log
 
+# [2.8.0] - 2017-03-28
+## Changed
+* support@osf.io -> share-support@osf.io
+
 # [2.6.0] - 2017-03-28
 ## Changed
 * favicon -> icon
