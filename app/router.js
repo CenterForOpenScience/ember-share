@@ -21,22 +21,23 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-    this.route('changes');
-    this.route('discover');
-    this.route('profile');
-    this.route('settings');
-    this.route('sources');
-    this.route('registration', function() {
-        this.route('form', { path: '/' });
-        this.route('confirmation', { path: '/confirmation/' });
-    });
+  this.route('changes');
+  this.route('discover');
+  this.route('profile');
+  this.route('settings');
+  this.route('sources');
+  this.route('registration', function() {
+      this.route('form', { path: '/' });
+      this.route('confirmation', { path: '/confirmation/' });
+  });
 
-    this.route('detail', { path: '/:type/:id' });
-    this.route('curate', { path: '/curate/:type/:id' });
+  this.route('detail', { path: '/:type/:id' });
+  this.route('curate', { path: '/curate/:type/:id' });
 
-    this.route('elastic-down');
-    this.route('notfound', { path: '/*path' });
-    this.route('notfound');
+  this.route('elastic-down');
+  this.route('notfound', { path: '/*path' });
+  this.route('notfound');
+  this.route('harvest');
 });
 
 export default Router;
