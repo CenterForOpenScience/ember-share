@@ -1,18 +1,9 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
-import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
-
-    numberOfSources: 0,
-    sources: [],
-    numberOfEvents: 0,
-    sourcesLastUpdated: Date().toString(),
-    placeholder: 'Search aggregated sources',
-    loading: true,
-    source_selected: '',
 
     init() {
         this._super(...arguments);
@@ -20,7 +11,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/sources/?sort=long_title';
+        url = url || ENV.apiUrl + '/harvest';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -28,8 +19,8 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.meta.pagination.count);
-            this.get('sources').addObjects(json.data);
+            this.set('numberOfharvests', json.meta.pagination.count);
+            this.get('harvests').addObjects(json.data);
 
             if (json.links.next) {
                 return this.loadPage(json.links.next);
@@ -38,61 +29,39 @@ export default Ember.Controller.extend({
                 this.set('loading', false);
             });
         });
-    },
-
-    typeaheadQueryUrl() {
-        return `${ENV.apiUrl}/search/sources/_search`;
-    },
-
-    buildTypeaheadQuery(text) {
-        return {
-            size: 10,
-            query: {
-                match: {
-                    'name.autocomplete': {
-                        query: text,
-                        operator: 'and',
-                        fuzziness: 'AUTO'
-                    }
-                }
-            }
-        };
-    },
-
-    handleTypeaheadResponse(response) {
-        return getUniqueList(response.hits.hits.mapBy('_source.name'));
-    },
-    actions: {
-        changeFilter(selected) {
-            const category = 'sources';
-            const action = 'filter';
-            const label = selected;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            this.transitionToRoute('discover', { queryParams: { sources: encodeParams(selected) } });
-        },
-
-        elasticSearch(term) {
-            if (Ember.isBlank(term)) { return []; }
-
-            const category = 'sources';
-            const action = 'search';
-            const label = term;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            var data = JSON.stringify(this.buildTypeaheadQuery(term));
-
-            return Ember.$.ajax({
-                url: this.typeaheadQueryUrl(),
-                crossDomain: true,
-                type: 'POST',
-                contentType: 'application/json',
-                data: data
-            }).then(json =>
-                this.handleTypeaheadResponse(json)
-            );
-        }
     }
+
+    //  actions: {
+    //     changeFilter(selected) {
+    //         const category = 'sources';
+    //         const action = 'filter';
+    //         const label = selected;
+     //
+    //         this.get('metrics').trackEvent({ category, action, label });
+     //
+    //         this.transitionToRoute('discover', { queryParams: { sources: encodeParams(selected) } });
+    //     },
+     //
+    //     elasticSearch(term) {
+    //         if (Ember.isBlank(term)) { return []; }
+     //
+    //         const category = 'sources';
+    //         const action = 'search';
+    //         const label = term;
+     //
+    //         this.get('metrics').trackEvent({ category, action, label });
+     //
+    //         var data = JSON.stringify(this.buildTypeaheadQuery(term));
+     //
+    //         return Ember.$.ajax({
+    //             url: this.typeaheadQueryUrl(),
+    //             crossDomain: true,
+    //             type: 'POST',
+    //             contentType: 'application/json',
+    //             data: data
+    //         }).then(json =>
+    //             this.handleTypeaheadResponse(json)
+    //         );
+        // }
+    // }
 });
