@@ -35,7 +35,40 @@ table, th, td {
 	  </tr>
 		{{#each harvests as |harvest|}}
 	  <tr>
-	   	<td>Symbol</td>
+	   	<td>
+				{{#if (equals harvest.attributes.status 0)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/created.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 1)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 2)}}
+			 		<img height="30" width="30" style="align:center" src=assets/images/fail.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 3)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 4)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/reschedule.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 6)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/forced.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 7)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 8)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
+ 			 {{/if}}
+
+			</td>
 	    <td>{{harvest.type}}</td>
 	    <td>{{harvest.attributes.dateStarted}}</td>
 			<td>{{harvest.id}}</td>
