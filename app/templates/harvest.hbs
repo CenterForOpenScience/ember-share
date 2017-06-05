@@ -3,15 +3,30 @@
 	<div onload= "loadPage" class="masthead">
 		<h1 align="center" class="text-muted">Share Harvester Status Board</h1>
 	</div>
-	<div class= "container">
-		<div class= "row">
-			<div class= "col-md-12">
-				{{numberOfharvests}}
-			</div>
-		</div>
-	</div>
-<ul>
-  {{#each harvests as |harvest|}}
-    <li>{{harvest.id}}</li>
-  {{/each}}
-</ul>
+	<div id="table1">
+<div style="width: 100%;40px; padding-bottom:30px">
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+	<table style="width:95%" align="center">
+	  <tr>
+	    <th>Status</th>
+	    <th>Name</th>
+	    <th>Date</th>
+			<th>ID</th>
+			<th>Discription</th>
+	  </tr>
+		{{#each harvests as |harvest|}}
+	  <tr>
+	    <td>{{harvest.attributes.status}}</td>
+	    <td>{{harvest.type}}</td>
+	    <td>{{harvest.attributes.dateStarted}}</td>
+			<td>{{harvest.id}}</td>
+			<td>This is where the Discription will go</td>
+	  </tr>
+		{{/each}}
+	</table>
+</div>
+</div>
