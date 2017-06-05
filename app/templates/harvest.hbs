@@ -5,13 +5,49 @@
 	</div>
 	<div class= "container">
 		<div class= "row">
-			<div class= "col-md-12">
-				{{numberOfharvests}}
-			</div>
+
 		</div>
 	</div>
 <ul>
   {{#each harvests as |harvest|}}
-    <li>{{harvest.id}}</li>
+
+		<div>
+			{{#if (equals harvest.attributes.status 0)}}
+  			<span>Status: Created</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 1)}}
+  			<span>Status: Started</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 2)}}
+  			<span>Status: Failed</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 3)}}
+  			<span>Status: Succeded</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 4)}}
+  			<span>Status: Rescheduled</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 6)}}
+  			<span>Status: Forced</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 7)}}
+  			<span>Status: Skipped</span>
+			{{/if}}
+
+			{{#if (equals harvest.attributes.status 8)}}
+  			<span>Status: Retried</span>
+			{{/if}}
+
+		</div>
+		<span>{{harvest.id}}</span>
+
+		{{log harvest}}
+		{{log "Status is" harvest.attributes.status}}
   {{/each}}
 </ul>
