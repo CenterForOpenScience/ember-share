@@ -1,37 +1,36 @@
 {{outlet}}
 	{{search-header}}
 	<div onload= "loadPage" class="masthead">
-		<h1 align="center" class="text-muted">Share Harvester Status Board</h1>
+		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">SHARE HARVESTER STATUS BOARD</h1>
 	</div>
 
-	<div class= "container">
-		<div class= "row">
-		</div>
-	</div>
-<ul>
-  {{#each harvests as |harvest|}}
-		<div>
-		</div>
-		<span>{{harvest.id}}</span>
-		{{log harvest}}
-		{{log "Status is" harvest.attributes.status}}
-  {{/each}}
-</ul>
 
-	<div id="table1">
-<div style="width: 100%;40px; padding-bottom:30px">
+<div>
 <style>
 table, th, td {
-    border: 1px solid black;
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+}
+th {
+	font-family:Courier;
+	font-size: 3rem;
+	color: #0099ff;
+	padding-bottom: 2px;
+}
+td{
+	font-family:courier;
+	font-size: 2rem;
+
 }
 </style>
-	<table style="width:95%" align="center">
+	<table style="width:99%" align="center" class="table">
 	  <tr>
-	    <th>Status</th>
-	    <th>Name</th>
-	    <th>Date</th>
+	    <th>STATUS</th>
+	    <th>NAME</th>
+	    <th>DATE</th>
 			<th>ID</th>
-			<th>Description</th>
+			<th>DESCRIPTION</th>
 	  </tr>
 		{{#each harvests as |harvest|}}
 	  <tr>
@@ -75,5 +74,4 @@ table, th, td {
 	  </tr>
 		{{/each}}
 	</table>
-</div>
 </div>
