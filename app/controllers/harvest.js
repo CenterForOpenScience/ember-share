@@ -5,13 +5,15 @@ export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
 
+    harvests: [],
+
     init() {
         this._super(...arguments);
         this.loadPage();
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/harvest';
+        url = url || ENV.apiUrl + '/harvest/?sort=id';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
