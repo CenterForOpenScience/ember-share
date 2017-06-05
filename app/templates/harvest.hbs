@@ -3,53 +3,77 @@
 	<div onload= "loadPage" class="masthead">
 		<h1 align="center" class="text-muted">Share Harvester Status Board</h1>
 	</div>
+
 	<div class= "container">
 		<div class= "row">
-
 		</div>
-
-		
 	</div>
 <ul>
   {{#each harvests as |harvest|}}
-
 		<div>
-			{{#if (equals harvest.attributes.status 0)}}
-  			<span>Status: Created</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 1)}}
-  			<span>Status: Started</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 2)}}
-  			<span>Status: Failed</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 3)}}
-  			<span>Status: Succeded</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 4)}}
-  			<span>Status: Rescheduled</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 6)}}
-  			<span>Status: Forced</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 7)}}
-  			<span>Status: Skipped</span>
-			{{/if}}
-
-			{{#if (equals harvest.attributes.status 8)}}
-  			<span>Status: Retried</span>
-			{{/if}}
-
 		</div>
 		<span>{{harvest.id}}</span>
-
 		{{log harvest}}
 		{{log "Status is" harvest.attributes.status}}
   {{/each}}
 </ul>
+
+	<div id="table1">
+<div style="width: 100%;40px; padding-bottom:30px">
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+	<table style="width:95%" align="center">
+	  <tr>
+	    <th>Status</th>
+	    <th>Name</th>
+	    <th>Date</th>
+			<th>ID</th>
+			<th>Description</th>
+	  </tr>
+		{{#each harvests as |harvest|}}
+	  <tr>
+	   	<td>Symbol</td>
+	    <td>{{harvest.type}}</td>
+	    <td>{{harvest.attributes.dateStarted}}</td>
+			<td>{{harvest.id}}</td>
+			<td>
+			 {{#if (equals harvest.attributes.status 0)}}
+				 <span>Created</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 1)}}
+				 <span>Started</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 2)}}
+				 <span>Failed</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 3)}}
+				 <span>Succeded</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 4)}}
+				 <span>Rescheduled</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 6)}}
+				 <span>Forced</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 7)}}
+				 <span>Skipped</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 8)}}
+				 <span>Retried</span>
+			 {{/if}}
+		 </td>
+	  </tr>
+		{{/each}}
+	</table>
+</div>
+</div>
