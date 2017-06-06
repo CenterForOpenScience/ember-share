@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/harvest/?sort=id';
+        url = url || ENV.apiUrl + '/harvest/';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -66,4 +66,4 @@ export default Ember.Controller.extend({
     //         );
         // }
     // }
-});
+ });

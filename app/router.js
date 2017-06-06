@@ -39,6 +39,7 @@ Router.map(function() {
   this.route('notfound');
   this.route('harvest');
   this.route('harvest-history');
+  this.route('harvest-log');
 });
 
 export default Router;

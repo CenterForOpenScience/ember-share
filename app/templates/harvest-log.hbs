@@ -1,7 +1,7 @@
 {{outlet}}
 
 	<div onload= "loadPage" class="masthead">
-		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">HARVEST HISTORY</h1>
+		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">HARVEST LOG</h1>
 	</div>
 
 <div>
@@ -20,20 +20,28 @@ th {
 td{
 	font-family:courier;
 	font-size: 2rem;
+
 }
 </style>
-  <h4>this page should just be the one source that was clicked on</h4>
 	<table style="width:95%" align="center" class="table">
 	  <tr>
-	    <th>STATUS</th>
-	    <th>DATE</th>
-	    <th>CONTEXT</th>
+	    <th>SOURCE</th>
+	    <th>DATE RANGE</th>
+	    <th></th>
+			<th></th>
+			<th></th>
+      <th></th>
+      <th></th>
 	  </tr>
 		{{#each harvests as |harvest|}}
 	  <tr>
-      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /></td>
-      <td>date_started</td>
-      <td>reason why it failed/nothing if it succeeded. </td>
+      <td>Source name</td>
+      <td>date range</td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/created.png /></td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
 
       <!-- <td>
 				{{#if (equals harvest.attributes.status 0)}}
