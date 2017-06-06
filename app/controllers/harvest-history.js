@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/harvest-history/?sort=id';
+        url = url || ENV.apiUrl + '/harvest/?sort=id';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
