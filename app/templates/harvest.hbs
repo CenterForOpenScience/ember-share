@@ -1,9 +1,5 @@
-{{outlet}}
-	{{search-header}}
-	<div onload= "loadPage" class="masthead">
-		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">SHARE HARVESTER STATUS BOARD</h1>
-	</div>
 
+<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">SHARE HARVESTER STATUS BOARD</h1>
 
 <div>
 <style>
@@ -28,7 +24,7 @@ td{
 	  <tr>
 	    <th>STATUS</th>
 	    <th>NAME</th>
-	    <th>DATE</th>
+	    <th>LAST HARVEST</th>
 			<th>ID</th>
 			<th>DESCRIPTION</th>
 	  </tr>
@@ -69,7 +65,7 @@ td{
 
 			</td>
 	    <td>{{harvest.type}}</td>
-	    <td>{{harvest.attributes.startDate}}</td>
+	    <td>{{harvest.attributes.endDate}}</td>
 			<td>{{harvest.id}}</td>
 			<td>
 			 {{#if (equals harvest.attributes.status 0)}}
