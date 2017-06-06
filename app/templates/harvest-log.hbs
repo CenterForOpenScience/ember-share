@@ -1,7 +1,7 @@
-
 {{outlet}}
+
 	<div onload= "loadPage" class="masthead">
-		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">HARVEST HISTORY</h1>
+		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">HARVEST LOG</h1>
 	</div>
 
 <div>
@@ -20,22 +20,16 @@ th {
 td{
 	font-family:courier;
 	font-size: 2rem;
+
 }
 </style>
-  <h4>this page should just be the one source that was clicked on</h4>
 	<table style="width:95%" align="center" class="table">
 	  <tr>
-	    <th>STATUS</th>
-	    <th>NAME</th>
-	    <th>LAST HARVEST</th>
-			<th>ID</th>
-			<th>DESCRIPTION</th>
-
 	    <th>SOURCE</th>
-      <th>DATE RANGE</th>
-      <th></th>
-      <th></th>
-      <th></th>
+	    <th>DATE RANGE</th>
+	    <th></th>
+			<th></th>
+			<th></th>
       <th></th>
       <th></th>
 	  </tr>
@@ -48,16 +42,6 @@ td{
       <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
       <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
       <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
-      <td>
-
-	    <th>DATE</th>
-	    <th>CONTEXT</th>
-	  </tr>
-		{{#each harvests as |harvest|}}
-	  <tr>
-      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /></td>
-      <td>date_started</td>
-      <td>reason why it failed/nothing if it succeeded. </td>
 
       <!-- <td>
 				{{#if (equals harvest.attributes.status 0)}}
@@ -91,12 +75,6 @@ td{
  			 {{#if (equals harvest.attributes.status 8)}}
  				 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
  			 {{/if}}
-			</td>
-	    <td>{{harvest.type}}</td>
-	    <td>{{harvest.attributes.endDate}}</td>
-			</td>
-	    <td>{{harvest.type}}</td>
-	    <td>{{harvest.attributes.startDate}}</td>
 
 			</td> -->
 
@@ -139,7 +117,7 @@ td{
 			 {{#if (equals harvest.attributes.status 8)}}
 				 <span>Retried</span>
 			 {{/if}}
-		 </td>
+		 </td> -->
 	  </tr>
 		{{/each}}
 	</table>

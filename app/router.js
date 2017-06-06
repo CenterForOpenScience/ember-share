@@ -38,6 +38,7 @@ Router.map(function() {
   this.route('notfound', { path: '/*path' });
   this.route('notfound');
   this.route('harvest-history');
+  this.route('harvest-log');
 });
 
 export default Router;
