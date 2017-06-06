@@ -25,15 +25,25 @@ td{
 </style>
 	<table style="width:95%" align="center" class="table">
 	  <tr>
-	    <th>STATUS</th>
-	    <th>NAME</th>
-	    <th>DATE</th>
-			<th>ID</th>
-			<th>DESCRIPTION</th>
+	    <th>SOURCE</th>
+      <th>DATE RANGE</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
 	  </tr>
 		{{#each harvests as |harvest|}}
 	  <tr>
-	   	<td>
+      <td>Source name</td>
+      <td>date range</td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/created.png /></td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>
+      <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
+
+      <!-- <td>
 				{{#if (equals harvest.attributes.status 0)}}
  				 <img height="30" width="30" style="align:center" src=assets/images/created.png />
  			 {{/if}}
@@ -66,8 +76,10 @@ td{
  				 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
  			 {{/if}}
 
-			</td>
-	    <td>{{harvest.type}}</td>
+			</td> -->
+
+
+	    <!-- <td>{{harvest.type}}</td>
 	    <td>{{harvest.attributes.startDate}}</td>
 			<td>{{harvest.id}}</td>
 			<td>
@@ -102,7 +114,7 @@ td{
 			 {{#if (equals harvest.attributes.status 8)}}
 				 <span>Retried</span>
 			 {{/if}}
-		 </td>
+		 </td> -->
 	  </tr>
 		{{/each}}
 	</table>
