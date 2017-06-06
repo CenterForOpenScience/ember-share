@@ -22,21 +22,13 @@ td{
 	font-size: 2rem;
 
 }
+
 </style>
 	<table style="width:95%" align="center" class="table">
+		{{#each sources as |source index|}}
+    {{log source}}
 	  <tr>
-	    <th>SOURCE</th>
-	    <th>DATE RANGE</th>
-	    <th></th>
-			<th></th>
-			<th></th>
-      <th></th>
-      <th></th>
-	  </tr>
-		{{#each harvests as |harvest|}}
-	  <tr>
-      <td>Source name</td>
-      <td>date range</td>
+      <td>{{source.attributes.longTitle}}</td>
       <td><img height="30" width="30" style="align:center" src=assets/images/created.png /></td>
       <td><img height="30" width="30" style="align:center" src=assets/images/fail.png /> </td>
       <td><img height="30" width="30" style="align:center" src=assets/images/succeed.png /> </td>

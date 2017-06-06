@@ -5,7 +5,13 @@ export default Ember.Controller.extend({
 
     metrics: Ember.inject.service(),
 
-    harvests: [],
+    numberOfSources: 0,
+    sources: [],
+    numberOfEvents: 0,
+    sourcesLastUpdated: Date().toString(),
+    placeholder: 'Search aggregated sources',
+    loading: true,
+    source_selected: '',
 
     init() {
         this._super(...arguments);
@@ -13,7 +19,7 @@ export default Ember.Controller.extend({
     },
 
     loadPage(url=null) {
-        url = url || ENV.apiUrl + '/harvest/';
+        url = url || ENV.apiUrl + '/sources/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
             url: url,
@@ -21,8 +27,8 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfharvests', json.meta.pagination.count);
-            this.get('harvests').addObjects(json.data);
+            this.set('numberOfSources', json.meta.pagination.count);
+            this.get('sources').addObjects(json.data);
 
             if (json.links.next) {
                 return this.loadPage(json.links.next);
