@@ -37,7 +37,7 @@ Router.map(function() {
   this.route('elastic-down');
   this.route('notfound', { path: '/*path' });
   this.route('notfound');
-  this.route('harvest');
+  this.route('harvest-history');
 });
 
 export default Router;
