@@ -1,0 +1,9 @@
+{{outlet}}
+
+<h2> Harvest log Data</h2>
+{{#each model as |harvest-log|}}
+
+	{{harvest-log.status}}<br>
+	<br> 
+ 	{{harvest-log.completions}}<br>
+{{/each}}
