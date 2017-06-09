@@ -3,5 +3,4 @@ import ENV from '../config/environment';
 
 export default Ember.Controller.extend({
 
-
  });

@@ -1,0 +1,106 @@
+
+<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">SHARE HARVESTER STATUS BOARD</h1>
+
+<div>
+<style>
+table, th, td {
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+}
+th {
+	font-family:Courier;
+	font-size: 3rem;
+	color: #0099ff;
+	padding-bottom: 2px;
+}
+td{
+	font-family:courier;
+	font-size: 2rem;
+
+}
+</style>
+	<table style="width:95%" align="center" class="table">
+	  <tr>
+	    <th>STATUS</th>
+	    <th>NAME</th>
+	    <th>LAST HARVEST</th>
+			<th>ID</th>
+			<th>DESCRIPTION</th>
+	  </tr>
+		{{#each harvests as |harvest|}}
+	  <tr>
+	   	<td>
+				{{#if (equals harvest.attributes.status 0)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/created.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 1)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 2)}}
+			 		<img height="30" width="30" style="align:center" src=assets/images/fail.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 3)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 4)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/reschedule.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 6)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/forced.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 7)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
+ 			 {{/if}}
+
+ 			 {{#if (equals harvest.attributes.status 8)}}
+ 				 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
+ 			 {{/if}}
+
+			</td>
+	    <td>{{harvest.type}}</td>
+	    <td>{{harvest.attributes.endDate}}</td>
+			<td>{{harvest.id}}</td>
+			<td>
+			 {{#if (equals harvest.attributes.status 0)}}
+				 <span>Created</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 1)}}
+				 <span>Started</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 2)}}
+				 <span>Failed</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 3)}}
+				 <span>Succeded</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 4)}}
+				 <span>Rescheduled</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 6)}}
+				 <span>Forced</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 7)}}
+				 <span>Skipped</span>
+			 {{/if}}
+
+			 {{#if (equals harvest.attributes.status 8)}}
+				 <span>Retried</span>
+			 {{/if}}
+		 </td>
+	  </tr>
+		{{/each}}
+	</table>
+</div>
