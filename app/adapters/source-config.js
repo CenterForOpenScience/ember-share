@@ -1,10 +1,7 @@
 import ApplicationAdapter from './application';
-
+// checked
 export default ApplicationAdapter.extend({
-	host: 'http://localhost:8000',
-	namespace: 'api/v2',
-
-	pathForType(){
-		return 'SourceConfig';
-	}
+		pathForType() {
+			return 'SourceConfig';
+		}
 });

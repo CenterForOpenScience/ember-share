@@ -3,7 +3,11 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
 	model() {
-	   return this.store.findAll('harvest-log');
-		}
+		return Ember.RSVP.hash({
+			harvestlog: this.store.findAll('harvest-log'),
+			sourceconfig: this.store.findAll('source-config'),
+			source: this.store.findAll('source')
+		});
+	}
 
 });
