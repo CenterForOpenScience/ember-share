@@ -38,7 +38,8 @@ Router.map(function() {
   this.route('notfound', { path: '/*path' });
   this.route('notfound');
   this.route('harvest-log');
-  this.route('SourceConfig');
+  this.route('source-config');
+  this.route('source');
 
 });
 
