@@ -2,7 +2,8 @@ import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
 	attrs: {
-		base_Url: 'baseUrl',
-	
-	}
+		
+	//	share_Version: 'shareVersion',
+	 	//source_config: 'sourceConfig',
+		}
 });

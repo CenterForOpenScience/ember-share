@@ -1,8 +1,11 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  attrs: {
-        long_Title: 'longTitle',
 
-    }
+	attrs: {
+		source_Config: 'sourceConfig',
+	//	share_Version: 'shareVersion',
+	 	//source_config: 'sourceConfig',
+		}
+
 });

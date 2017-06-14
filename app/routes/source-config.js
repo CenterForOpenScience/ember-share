@@ -1,9 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-// checked
-  model() {
-     return this.store.findAll('source-config');
-    }
+	model() {
+		return Ember.RSVP.hash({
+			harvestlog: this.store.findAll('harvest-log'),
+			sourceconfig: this.store.findAll('source-config'),
 
+		});
+	},
+setupController(controller, models){
+	controller.setProperties(models);
+	}
 });

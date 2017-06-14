@@ -1,15 +1,32 @@
-{{outlet}}
+	<div onload= "loadPage" class="masthead">
+		<h1 align="center" class="text-muted" style= "font-size:5rem; font-family:courier;">HARVEST LOG</h1>
+	</div>
 
-<h2> Harvest log Data</h2>
-{{#each model.harvestlog as |harvest-log|}}
-	{{harvest-log.status}}<br>
-{{/each}}
+<div>
+<style>
+table, th, td {
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+}
+th {
+	font-family:Courier;
+	font-size: 3rem;
+	color: #0099ff;
+	padding-bottom: 2px;
+}
+td{
+	font-family:courier;
+	font-size: 2rem;
 
-{{#each model.sourceconfig as |source-config|}}
-	{{source-config.label}}<br>
-	{{log source-config}}
-{{/each}}
+}
 
-{{#each model.source as |source|}}
-	{{source.long_Title}}<br>
-{{/each}}
+</style>
+	<table style="width:95%" align="center" class="table">
+		{{#each model.harvestlog as |harvestlog|}}
+		<tr>
+      <td>{{harvestlog.status}}</td>
+		</tr>
+    {{/each}}
+      </table>
+    </div>
