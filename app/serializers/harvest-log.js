@@ -2,7 +2,9 @@ import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
   attrs: {
-        long_Title: 'longTitle',
-
+        date_Started: 'dateStarted',
+        end_Date: 'endDate',
+        start_Date: 'startDate',
+        harvester_Version: 'harvesterVersion',
     }
 });

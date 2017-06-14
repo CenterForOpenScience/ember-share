@@ -7,6 +7,7 @@ const {
 } = DS;
 
 export default Model.extend({
+
 	long_Title: attr('string'),
   name: attr('string'),
 	home_Page: attr('string'),
