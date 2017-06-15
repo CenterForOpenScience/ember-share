@@ -13,8 +13,8 @@ export default Model.extend({
 	status: attr('string'),
   context: attr('string'),
   completions: attr('string'),
-	date_Started: attr('string'),
-	end_Date: attr('string'),
-  start_Date: attr('string'),
-  harvester_Version: attr('string')
+	dateStarted: attr('string'),
+	endDate: attr('string'),
+  startDate: attr('string'),
+  harvesterVersion: attr('string'),
 });

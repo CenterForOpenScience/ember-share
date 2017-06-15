@@ -1,14 +1,8 @@
 {{outlet}}
 
 <h2> Source Config Data</h2>
-
 {{#each model.sourceconfig as |source-config|}}
-	<li>1st loop</li>
-	{{log source-config.name}}<br>
 
-{{/each}}
+	{{source-config.id}}<br>
 
-{{#each sourceconfig as |source-config|}}
-<li>2nd loop</li>
-	{{source-config.source.name}}
 {{/each}}

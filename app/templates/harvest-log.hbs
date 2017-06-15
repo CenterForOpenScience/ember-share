@@ -3,25 +3,9 @@
 <h2> Harvest Log</h2>
 
 <ul>
+
 	{{#each model.harvestlog as |hl|}}
-	<li>{{log hl._internalModel._relationships}}</li>
+		{{log hl}}
 	{{/each}}
 
 </ul>
-
-<!-- {{#each model.source as |source index|}}
-	<li>Title: {{source.long_Title}} index: {{index}}</li>
-{{/each}}
-
-{{#each model.harvestlog as |harvest-log index|}}
-		{{harvest-log}}
-
-	<li>{{harvest-log.date_Started}}index: {{index}}</li>,
-
-	{{harvest-log.id}}<br>
-{{/each}}
-
-{{#each model.sourceconfig as |source-config index|}}
-	<li>{{source-config.label}}index: {{index}}</li>
-
-{{/each}} -->
