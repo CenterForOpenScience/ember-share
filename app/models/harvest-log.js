@@ -1,15 +1,12 @@
 import DS from 'ember-data';
 import Model from 'ember-data/model';
 
-const {
+const{
 	attr,
 	belongsTo,
-	hasMany,
-} = DS;
+}= DS
 
 export default Model.extend({
-	source_Config: belongsTo('source-config'),
+	sourceConfig: belongsTo('source-config',{async: true}),
 
-	status: attr('number'),
-	//source_config: ('harvest-log', {async: true}),
 });
