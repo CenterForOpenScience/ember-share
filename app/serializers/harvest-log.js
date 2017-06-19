@@ -6,7 +6,8 @@ export default ApplicationSerializer.extend({
       return attr;
   },
 
-  keyForRelationship: function(key, relationship) {
-      return key;
- },
+  keyForRelationship: function(key){
+    return key;
+  },
+
 });

@@ -3,9 +3,7 @@
 <h2> Harvest Log</h2>
 
 <ul>
-
 	{{#each model.harvestlog as |hl|}}
-		{{log hl}}
+		<li>{{hl.sourceConfig.label}}{{hl.status}}</li>
 	{{/each}}
-
 </ul>
