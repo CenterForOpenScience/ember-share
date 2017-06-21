@@ -1,9 +1,19 @@
 {{outlet}}
 
-<h2> Harvest Log</h2>
-
-<ul>
+<h1>HARVEST LOGS</h1>
+{{#each model.sourceconfig as |sc|}}
+	<li>LABEL {{sc.label}}</li>
 	{{#each model.harvestlog as |hl|}}
-		<li>{{hl.sourceConfig.label}}{{hl.status}}</li>
+		{{#if (equals hl.sourceConfig.id sc.id)}}
+			<!-- <li>hlscid{{hl.sourceConfig.id}}scid{{sc.id}}</li> -->
+			<li>STATUS {{hl.status}}</li>
+		{{/if}}
 	{{/each}}
-</ul>
+{{/each}}
+
+{{#each model.sourceconfig as |sc|}}
+	<!-- {{#each sc.label}}
+		<li>inside{{sc.label}}</li>
+	{{/each}} -->
+	<li>{{sc.label}}</li>
+{{/each}}

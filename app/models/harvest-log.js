@@ -7,6 +7,7 @@ const {
 	attr,
 } = DS;
 
+
 export default Model.extend({
 	sourceConfig: DS.belongsTo('source-config', {async: true}),
 
@@ -17,5 +18,5 @@ export default Model.extend({
 	endDate: attr('string'),
   startDate: attr('string'),
   harvesterVersion: attr('string'),
-	
+
 });
