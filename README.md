@@ -8,7 +8,7 @@ A web interface for [SHARE](https://github.com/CenterForOpenScience/SHARE).
 
 * `git clone <repository-url>` this repository
 * change into the new directory
-* `npm install`
+* `yarn install --pure-lockfile`
 * `bower install`
 
 ## Running / Development
