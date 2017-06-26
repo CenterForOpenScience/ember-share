@@ -14,34 +14,24 @@ export default Ember.Controller.extend({
     placeholder: 'Search aggregated sources',
     loading: true,
     source_selected: '',
+    sourcesWithData: {},
 
     init() {
         this._super(...arguments);
         this.loadElasticAggregations();
     },
 
-    searchUrl: Ember.computed(function() {
-        return buildElasticCall();
-    }),
-
     getQueryBody() {
-        let query = {
-            query_string: {
-                query: this.get('q') || '*'
-            }
-        };
         let queryBody = {
-            query
-        };
-        queryBody.aggregations = {
-            sources: {
-                terms: {
-                    field: 'sources',
-                    size: ENV.maxSources
+            aggregations: {
+                sources: {
+                    terms: {
+                        field: 'sources',
+                        size: ENV.maxSources
+                    }
                 }
             }
         };
-
         return this.set('queryBody', queryBody);
     },
 
@@ -49,22 +39,27 @@ export default Ember.Controller.extend({
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return Ember.$.ajax({
-            url: this.get('searchUrl'),
+            url: buildElasticCall(),
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            if (json.aggregations) {
-                this.set('aggregations', json.aggregations);
-                this.set('numberOfSources', json.aggregations.sources.buckets.length);
-            }
+            this.set('numberOfSources', json.aggregations.sources.buckets.length);
+            this.set('sourcesWithData', json.aggregations.sources.buckets.reduce(
+                (obj, source) => Object.assign(obj, {[source.key]: ''}), {}));
             this.loadPage();
+        }, () => {
+            this.setProperties({
+                loading: false,
+                numberOfSources: 0,
+                sources: []
+            });
+            this.send('elasticDown');
         });
     },
 
     loadPage(url=null) {
-        let sourcesWithData = this.aggregations.sources.buckets.map(source => source.key);
         url = url || ENV.apiUrl + '/sources/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
@@ -73,7 +68,9 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            let tmpSources = json.data.filter(source => sourcesWithData.includes(source.attributes.longTitle));
+            let tmpSources = json.data.filter(
+                source => source.attributes.longTitle in this.sourcesWithData
+            );
             this.get('sources').addObjects(tmpSources);
 
             if (json.links.next) {
