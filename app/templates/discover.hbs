@@ -3,7 +3,7 @@
     <br>
     <div class="row share-search">
         <div class="col-xs-8 col-xs-offset-2">
-            {{input class="form-control" value=q key-up='typing'}}
+            {{input class="form-control" value=q key-up='typing' placeholder=placeholder}}
         </div>
         <div class="col-xs-2">
             <a href="" {{action 'search'}}>
@@ -18,10 +18,10 @@
         <div class="col-sm-8 col-sm-offset-2">
             <div class="row">
               <div class="text-muted col-sm-4 hidden-xs">
-                  <small>{{locale-string numberOfEvents}} events as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
+                  <small>{{locale-string numberOfEvents}} scholarly works as of {{moment-format eventsLastUpdated 'MMM D, YYYY' 'ddd MMM DD YYYY HH:mm:ss'}}</small>
               </div>
               <div class="col-sm-4 col-xs-12 text-center">
-                  <small>Found {{locale-string numberOfResults}} events in {{took}} seconds</small>
+                  <small>Found {{locale-string numberOfResults}} scholarly works in {{took}} seconds</small>
               </div>
               <div class="text-muted col-sm-4 hidden-xs text-right">
                   <small>Aggregating {{locale-string numberOfSources}} sources</small>
