@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
+import buildElasticCall from '../utils/build-elastic-call';
 import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
@@ -16,10 +17,54 @@ export default Ember.Controller.extend({
 
     init() {
         this._super(...arguments);
-        this.loadPage();
+        this.loadElasticAggregations();
+    },
+
+    searchUrl: Ember.computed(function() {
+        return buildElasticCall();
+    }),
+
+    getQueryBody() {
+        let query = {
+            query_string: {
+                query: this.get('q') || '*'
+            }
+        };
+        let queryBody = {
+            query
+        };
+        queryBody.aggregations = {
+            sources: {
+                terms: {
+                    field: 'sources',
+                    size: ENV.maxSources
+                }
+            }
+        };
+
+        return this.set('queryBody', queryBody);
+    },
+
+    loadElasticAggregations() {
+        let queryBody = JSON.stringify(this.getQueryBody());
+        this.set('loading', true);
+        return Ember.$.ajax({
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody
+        }).then((json) => {
+            if (json.aggregations) {
+                this.set('aggregations', json.aggregations);
+                this.set('numberOfSources', json.aggregations.sources.buckets.length);
+            }
+            this.loadPage();
+        });
     },
 
     loadPage(url=null) {
+        let sourcesWithData = this.aggregations.sources.buckets.map(source => source.key);
         url = url || ENV.apiUrl + '/sources/?sort=long_title';
         this.set('loading', true);
         return Ember.$.ajax({
@@ -28,8 +73,8 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.meta.pagination.count);
-            this.get('sources').addObjects(json.data);
+            let tmpSources = json.data.filter(source => sourcesWithData.includes(source.attributes.longTitle));
+            this.get('sources').addObjects(tmpSources);
 
             if (json.links.next) {
                 return this.loadPage(json.links.next);
