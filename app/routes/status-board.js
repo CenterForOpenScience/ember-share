@@ -9,12 +9,8 @@ export default Ember.Route.extend({
 			sourceconfig: this.store.findAll('source-config')
 		});
 	},
-	// afterModel(model, transition){
-	// 	this.transitionTo('harvest-log', model.get('id'));
-	// }
 });
 
-//rename to status board page
 
 // store has a query model where you can
 // model would be the list of source configs
