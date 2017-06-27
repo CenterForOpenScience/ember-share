@@ -1,6 +1,6 @@
 {{outlet}}
 
 <h2> Source Config Data</h2>
-{{#each model.sourceconfig as |sc|}}
-	<li>{{sc.id}}</li>
+{{#each model as |hl|}}
+	<li>{{hl.sourceConfig.id}}</li>
 {{/each}}

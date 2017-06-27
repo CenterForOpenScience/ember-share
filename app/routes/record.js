@@ -4,14 +4,11 @@ export default Ember.Route.extend({
 
 
     model() {
-      return Ember.RSVP.hash({
-        harvestlog: this.store.findAll('harvest-log'),
-        sourceconfig: this.store.findAll('source-config')
-      });
+      return this.store.query('harvest-log', { source_config_id: "400D1-425-5DF" } );
     },
 });
 
 
-
 //function to return all the harvest logs for a page
 //based on the harvest log
+// return this.store.query('harvest-log', { filter: { source_config_id: "400D1-425-5DF"}}),

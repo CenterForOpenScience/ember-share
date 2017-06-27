@@ -19,6 +19,4 @@ export default Model.extend({
   startDate: attr('string'),
   harvesterVersion: attr('string'),
 
-
-
 });
