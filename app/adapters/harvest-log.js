@@ -4,4 +4,5 @@ export default ApplicationAdapter.extend({
     pathForType() {
         return 'HarvestLog';
     }
+    
 });
