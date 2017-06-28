@@ -1,8 +1,13 @@
 {{outlet}}
 
 <h1>STATUS BOARD</h1>
-{{#each model.sourceconfig as |sc|}}
-	<li>{{sc.id}}</li>
+
+{{#each model as |sc|}}
+	<li>scids:{{sc.id}}</li>
+	<li>recentharvests{{sc.recentHarvests}}</li>
+	{{#each sc.recentHarvests as |rh|}}
+		<li>harvestloop{{rh.id}}</li>
+	{{/each}}
 {{/each}}
 
 <!-- use query method on the store

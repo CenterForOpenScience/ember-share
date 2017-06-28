@@ -1,7 +1,11 @@
 {{outlet}}
 
-<h2> Source Config Data</h2>
-{{#each model as |hl|}}
-  {{hl.id}} <br>
-  {{hl.status}}
+<h2> DETAILS</h2>
+
+<!-- {{#each model as |hl|}} -->
+	<!-- <li>{{hl.id}}{{hl.sourceConfig.label}}{{hl.status}}</li>
+{{/each}} -->
+
+{{#each model as |sc|}}
+	{{sc.recentHarvests}}
 {{/each}}
