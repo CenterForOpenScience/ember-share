@@ -2,10 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
+model() {
 
-    model() {
-      return this.store.query('harvest-log', { source_config_id: "400D1-425-5DF" } );
+  var milk = this.store.findAll('source-config');
+    return milk;
+      console.log(milk);
+      // return this.store.query('harvest-log', {source_config_id: "250C6-E9C-F41"} );
     },
+
 });
 
 
