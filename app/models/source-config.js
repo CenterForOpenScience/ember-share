@@ -4,7 +4,6 @@ import { hasMany } from 'ember-data/relationships';
 
 const{
 	attr,
-	hasMany
 }= DS
 
 export default Model.extend({
