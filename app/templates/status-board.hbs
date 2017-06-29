@@ -6,7 +6,10 @@
 	<li>scids:{{sc.id}}</li>
 	<li>recentharvests{{sc.recentHarvests}}</li>
 	{{#each sc.recentHarvests as |rh|}}
+		<li>{{sc.label}}</li>
+		<li>STATUS{{rh.status}}</li>
 		<li>harvestloop{{rh.id}}</li>
+		<br>
 	{{/each}}
 {{/each}}
 
