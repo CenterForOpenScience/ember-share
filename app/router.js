@@ -40,7 +40,7 @@ Router.map(function() {
   this.route('status-board');
   this.route('record', { path: '/record/:id' });
   this.route('source');
-
+  this.route('source-config');
 });
 // HarevstLogController.transitionToRoute('HarvestLog', aPost, aComment);
 // HarvestLogController.transitionToRoute('/api/v2/HarvestLog?source_config_id=4015A-875-2F1');

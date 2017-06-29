@@ -4,7 +4,8 @@ import { hasMany } from 'ember-data/relationships';
 
 const{
 	attr,
-} = DS;
+	hasMany
+}= DS
 
 export default Model.extend({
 	harvestLog: DS.hasMany('harvest-log', {async: true}),
