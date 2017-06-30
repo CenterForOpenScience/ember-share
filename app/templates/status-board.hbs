@@ -1,12 +1,47 @@
-{{#each model as |sc|}}
+{{outlet}}
 
+<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
+
+<div>
+	<style>
+	table, th, td {
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+	}
+	th {
+		font-family:Courier;
+		font-size: 2rem;
+		color: #0099ff;
+		padding-bottom: 2px;
+	}
+	td{
+		font-family:courier;
+		font-size: 2rem;
+	}
+	</style>
+		<table style="width:95%" align="center" class="table">
+			<tr>
+
+				<th>SOURCE</th>
+				<th>STATUS</th>
+				<th></th>
+				<th></th>
+				<th></th>
+
+			</tr>
+
+{{#each model as |sc|}}
+	<tr>
+		<td>
+			<li>{{#link-to "record" sc}}{{sc.label}}{{/link-to}}</li>
+		</td>
 	{{#each sc.recentHarvests as |rh|}}
-  	{{#status-board Source=sc.id}}
-    	{{#status-board Status=rh.status}}
-      	{{sc.body}}
-    	{{/status-board}}
-  	{{/status-board}}
+		<td> {{rh.status}} </td>
 
   {{/each}}
-
+</tr>
 {{/each}}
+
+</table>
+</div>
