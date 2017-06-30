@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('adapter:source-config', 'Unit | Adapter | source config', {
+moduleFor('adapter:sourceconfig', 'Unit | Adapter | sourceconfig', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
 });

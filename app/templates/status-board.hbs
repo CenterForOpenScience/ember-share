@@ -1,14 +1,12 @@
-{{outlet}}
-
-<h1>STATUS BOARD</h1>
-
 {{#each model as |sc|}}
-	<li>scids:{{sc.id}}</li>
-	<li>recentharvests{{sc.recentHarvests}}</li>
+
 	{{#each sc.recentHarvests as |rh|}}
-		<li>{{sc.label}}</li>
-		<li>STATUS{{rh.status}}</li>
-		<li>harvestloop{{rh.id}}</li>
-		<br>
-	{{/each}}
+  	{{#status-board Source=sc.id}}
+    	{{#status-board Status=rh.status}}
+      	{{sc.body}}
+    	{{/status-board}}
+  	{{/status-board}}
+
+  {{/each}}
+
 {{/each}}
