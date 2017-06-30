@@ -1,5 +1,5 @@
 {{outlet}}
-
+<h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;">{{#link-to "status-board"}}return{{/link-to}}</h3>
 <h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
 
 <div>
@@ -34,8 +34,6 @@
 
 {{#each model.recentHarvests as |hl|}}
 <tr>
-
-
 	<td>
 		{{#if (equals hl.status "0")}}
 		 <img height="30" width="30" style="align:center" src=assets/images/created.png />
