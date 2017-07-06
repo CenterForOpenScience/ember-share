@@ -28,7 +28,7 @@
 			</tr>
 {{#each model as |sc|}}
 		<tr>
-			<td>{{#status-board title=sc.label}}{{/status-board}}</td>
+			<td>{{#link-to "record" sc}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}</td>
 		<td>{{#status-board hl=sc.recentHarvests}}{{/status-board}}</td>
 	</tr>
 {{/each}}
