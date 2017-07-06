@@ -13,6 +13,8 @@ export default ApplicationController.extend({
     metrics: Ember.inject.service(),
     category: 'discover',
 
+    placeholder: 'Search scholarly works',
+
     queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
