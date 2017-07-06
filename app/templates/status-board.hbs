@@ -24,10 +24,14 @@
 			<tr>
 				<th>SOURCE</th>
 				<th>RECENT HARVESTS</th>
+
 			</tr>
 {{#each model as |sc|}}
-{{#status-board Source=sc.label}}
-{{/status-board}}
+		<tr>
+			<td>{{#status-board title=sc.label}}{{/status-board}}</td>
+		<td>{{#status-board hl=sc.recentHarvests}}{{/status-board}}</td>
+	</tr>
 {{/each}}
+
 </table>
 </div>
