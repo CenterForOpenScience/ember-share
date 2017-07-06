@@ -22,59 +22,12 @@
 	</style>
 		<table style="width:95%" align="center" class="table">
 			<tr>
-
 				<th>SOURCE</th>
 				<th>RECENT HARVESTS</th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-
 			</tr>
-
 {{#each model as |sc|}}
-	<tr>
-		<td>
-			<li>{{#link-to "record" sc}}{{sc.label}}{{/link-to}}</li>
-		</td>
-	{{#each sc.recentHarvests as |hl|}}
-	<td>
-		{{#if (equals hl.status "0")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/created.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "1")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "2")}}
-			<img height="30" width="30" style="align:center" src=assets/images/fail.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "3")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "4")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/rehlhedule.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "6")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/forced.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "7")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
-	 {{/if}}
-
-	 {{#if (equals hl.status "8")}}
-		 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
-	 {{/if}}
-	</td>
-
-  {{/each}}
-</tr>
+{{#status-board Source=sc.label}}
+{{/status-board}}
 {{/each}}
-
 </table>
 </div>
