@@ -1,9 +1,35 @@
 {{outlet}}
-<h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;">{{#link-to "status-board"}}return{{/link-to}}</h3>
+
+<ul class="breadcrumb">
+	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
+	<li>{{model.id}}</li>
+</ul>
+
+<h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;"></h3>
 <h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
 
 <div>
 	<style>
+	ul.breadcrumb{
+		padding: 10px;
+		list-style: none;
+		background-color: #eee;
+		font-size: 17px;
+	}
+	ul.breadcrumb li {display: inline;}
+	ul.breadcrumb li+li:before {
+			padding: 8px
+			color: black;
+			content: "/\00a0";
+	}
+	ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+	}
+	ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+	}
 	table, th, td {
 		padding: 3rem;
 		padding-top: 2rem;
@@ -20,6 +46,7 @@
 		font-size: 2rem;
 	}
 	</style>
+
 		<table style="width:95%" align="center" class="table">
 			<tr>
 
@@ -29,16 +56,16 @@
 				<th>DATE STARTED</th>
 				<th>DATE ENDED</th>
 				<th>SHARE VERSION</th>
-
 			</tr>
 
 {{#each model.recentHarvests as |hl|}}
+
 <tr>
 	<td>
-		{{#link-to "details" hl}}
 		{{#if (equals hl.status "0")}}
 		 <img height="30" width="30" style="align:center" src=assets/images/created.png />
 	 {{/if}}
+
 	 {{#if (equals hl.status "1")}}
 		 <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
 	 {{/if}}
@@ -66,7 +93,6 @@
 	 {{#if (equals hl.status "8")}}
 		 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
 	 {{/if}}
-	 {{/link-to}}
 	</td>
 
 	<td>
@@ -107,6 +133,7 @@
 	<td>{{hl.startDate}}</td>
 	<td>{{hl.endDate}}</td>
 	<td>{{hl.harvesterVersion}}</td>
+
 
 </tr>
 {{/each}}
