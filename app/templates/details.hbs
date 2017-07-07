@@ -1,4 +1,32 @@
 {{outlet}}
-<h3>{{#link-to "status-board"}}return{{/link-to}}</h3>
+<ul class="breadcrumb">
+	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
+  <li><a href="javascript:history.back()">Harvest-Log-List</a></li>
+	<li>{{model.id}}</li>
+</ul>
+
 <h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.id}}</h1>
 <h2>{{model.context}}</h2>
+
+	<style>
+	ul.breadcrumb{
+		padding: 10px;
+		list-style: none;
+		background-color: #eee;
+		font-size: 17px;
+	}
+	ul.breadcrumb li {display: inline;}
+	ul.breadcrumb li+li:before {
+			padding: 8px
+			color: black;
+			content: "/\00a0";
+	}
+	ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+	}
+	ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+	}
+  </style>
