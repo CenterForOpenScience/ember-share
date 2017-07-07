@@ -38,11 +38,11 @@ Router.map(function() {
   this.route('notfound', { path: '/*path' });
   this.route('notfound');
   this.route('status-board');
-  this.route('harvestloglist', { path: '/harvestloglist/:id' });
+  this.route('harvestloglist', { path: '/harvestloglist/:label' });
+  this.route('details', { path: 'details/:id'});
   this.route('source');
   this.route('source-config');
 });
-// HarevstLogController.transitionToRoute('HarvestLog', aPost, aComment);
-// HarvestLogController.transitionToRoute('/api/v2/HarvestLog?source_config_id=4015A-875-2F1');
+
 
 export default Router;
