@@ -1,8 +1,8 @@
 {{outlet}}
-
+{{log model.id}}
 <ul class="breadcrumb">
 	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
-	<li>{{model.id}}</li>
+	<li>link</li>
 </ul>
 
 <h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;"></h3>
@@ -58,7 +58,7 @@
 				<th>SHARE VERSION</th>
 			</tr>
 
-{{#each model.recentHarvests as |hl|}}
+{{#each model as |hl|}}
 
 <tr>
 	<td>
