@@ -1,12 +1,13 @@
 {{outlet}}
-{{log model.id}}
 <ul class="breadcrumb">
 	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
-	<li>link</li>
+	<li>Harvest-Log-List</li>
 </ul>
 
+
 <h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;"></h3>
-<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
+<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{label}}</h1>
+
 
 <div>
 	<style>
@@ -59,7 +60,6 @@
 			</tr>
 
 {{#each model as |hl|}}
-
 <tr>
 	<td>
 	{{#link-to "details" hl}}
