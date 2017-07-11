@@ -1,12 +1,15 @@
 {{outlet}}
+{{log model}}
 <ul class="breadcrumb">
 	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
   <li><a href="javascript:history.back()">Harvest-Log-List</a></li>
 	<li>{{model.id}}</li>
 </ul>
 
-<h1 align="center" class="text-muted" style="font-size:4rem; font-family:courier;">{{model.id}}</h1>
-<h2 style="font-size:2rem; padding: 8px; width: 95%; margin-left: 20px;" >{{model.context}}</h2>
+<h1 align="center" style="font-size:4rem; font-family:courier;">{{model.id}}</h1>
+<h2 style="font-size:2rem; padding: 8px; width: 95%; margin-left: 20px; line-height: 130%; background-color: #F8F8F8" >
+  {{model.context}}
+</h2>
 
 	<style>
 	ul.breadcrumb{

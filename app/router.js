@@ -39,7 +39,7 @@ Router.map(function() {
   this.route('notfound');
   this.route('status-board');
   this.route('harvestloglist', { path: '/harvestloglist/:label/:id' });
-  this.resource('details', { path: 'details/:id'});
+  this.route('details', { path: 'details/:id'});
   this.route('source');
   this.route('source-config');
 });
