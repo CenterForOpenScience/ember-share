@@ -61,6 +61,7 @@
 
 		{{#each model as |hl|}}
 <tr>
+
 	<td>
 	{{#link-to "details" hl}}
 		{{#status-emoji status=hl.status}}
@@ -75,7 +76,7 @@
 	<td>{{hl.startDate}}</td>
 	<td>{{hl.endDate}}</td>
 	<td>{{hl.harvesterVersion}}</td>
-	
+
 </tr>
 {{/each}}
 </table>
