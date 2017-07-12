@@ -59,7 +59,7 @@
 				<th>SHARE VERSION</th>
 			</tr>
 
-{{#each model as |hl|}}
+		{{#each model as |hl|}}
 <tr>
 	<td>
 	{{#link-to "details" hl}}
@@ -67,47 +67,15 @@
 		{{/status-emoji}}
 	{{/link-to}}
 	</td>
-
 	<td>
-		{{#if (equals hl.status "0")}}
-			Created
-		{{/if}}
-
-		{{#if (equals hl.status "1")}}
-			Started
-		{{/if}}
-
-		{{#if (equals hl.status "2")}}
-			Failed
-		{{/if}}
-
-		{{#if (equals hl.status "3")}}
-			Succeded
-		{{/if}}
-
-		{{#if (equals hl.status "4")}}
-			Rescheduled
-		{{/if}}
-
-		{{#if (equals hl.status "6")}}
-			Forced
-		{{/if}}
-
-		{{#if (equals hl.status "7")}}
-			Skipped
-		{{/if}}
-
-		{{#if (equals hl.status "8")}}
-			Retried
-		{{/if}}
+		{{#status-context status=hl.status}}{{/status-context}}
 	</td>
 
 	<td>{{hl.id}}</td>
 	<td>{{hl.startDate}}</td>
 	<td>{{hl.endDate}}</td>
 	<td>{{hl.harvesterVersion}}</td>
-
-
+	
 </tr>
 {{/each}}
 </table>

@@ -7,6 +7,15 @@
 </ul>
 
 <h1 align="center" style="font-size:4rem; font-family:courier;">{{model.id}}</h1>
+
+<h1 align="center" style="font-size:4rem; font-family:courier;">
+	{{#status-emoji status=model.status}}{{/status-emoji}}
+</h1>
+
+<h1 align="center" style="font-size:3rem; font-family:courier;">
+	{{#status-context status=model.status}}{{/status-context}}
+</h1>
+
 <h2 style="font-size:2rem; padding: 8px; width: 95%; margin-left: 20px; line-height: 130%; background-color: #F8F8F8" >
   {{model.context}}
 </h2>
