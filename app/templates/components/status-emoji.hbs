@@ -1,0 +1,35 @@
+<article class="status-emoji-class">
+
+
+{{#if (equals status "0")}}
+ <img height="30" width="30" style="align:center" src=assets/images/created.png />
+{{/if}}
+
+{{#if (equals status "1")}}
+ <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
+{{/if}}
+
+{{#if (equals status "2")}}
+  <img height="30" width="30" style="align:center" src=assets/images/fail.png />
+{{/if}}
+
+{{#if (equals status "3")}}
+ <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
+{{/if}}
+
+{{#if (equals status "4")}}
+ <img height="30" width="30" style="align:center" src=assets/images/rehlhedule.png />
+{{/if}}
+
+{{#if (equals status "6")}}
+ <img height="30" width="30" style="align:center" src=assets/images/forced.png />
+{{/if}}
+
+{{#if (equals status "7")}}
+ <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
+{{/if}}
+
+{{#if (equals status "8")}}
+ <img height="30" width="30" style="align:center" src=assets/images/retry.png />
+{{/if}}
+</article>
