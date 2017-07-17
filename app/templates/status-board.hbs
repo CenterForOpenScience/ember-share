@@ -34,7 +34,7 @@
 		<tr>
 			<td>{{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}</td>
 			<td>
-				{{#recent-harvest source-config=sc}}
+				{{#recent-harvest sourceConfigId=sc.id}}
 				{{/recent-harvest}}
 			</td>
 
@@ -45,7 +45,6 @@
 	</tr>
 {{/each}}
 </tbody>
-
 
 </table>
 </div>
