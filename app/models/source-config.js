@@ -12,8 +12,4 @@ export default Model.extend({
 	label: attr('string'),
 	base_url: attr('string'),
 
-	recentHarvests: Ember.computed('id', function(){
-		return this.store.query('harvest-log', { source_config_id: this.get('id')} );
-	}),
-
 });

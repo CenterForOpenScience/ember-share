@@ -1,0 +1,13 @@
+<article class="recent-harvest">
+  {{log "source-config" source-config.id}}
+
+{{#each source-config.recentHarvests as |hl|}}
+
+  {{log "here"}}
+  {{log "hl.status" hl.status}}
+  {{log "hlid" hl.id}}
+  {{hl.status}}
+  {{hl.id}}
+
+{{/each}}
+</article>
