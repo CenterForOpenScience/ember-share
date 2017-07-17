@@ -1,11 +1,10 @@
 <article class="recent-harvest">
-  <!-- {{log "source-config" source-config}} -->
-    {{log recentHarvests}}
-    {{log sourceConfigId}}
 
 {{#each recentHarvests as |hl|}}
-  {{#status-emoji status=hl.status}}
-  {{/status-emoji}}
+  {{#link-to "details" hl}}
+  <td>{{#status-emoji status=hl.status}}
+  {{/status-emoji}}</td>
+  {{/link-to}}
 
 {{/each}}
 

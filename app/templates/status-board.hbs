@@ -33,14 +33,8 @@
 {{#each model as |sc|}}
 		<tr>
 			<td>{{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}</td>
-			<td>
-				{{#recent-harvest sourceConfigId=sc.id}}
-				{{/recent-harvest}}
-			</td>
-
-				<!-- {{#each recentHarvests as |hl|}} -->
-					<!-- <td>{{#status-emoji status=hl.status}}{{/status-emoji}}</td> -->
-				<!-- {{/each}} -->
+			{{#recent-harvest sourceConfigId=sc.id}}
+			{{/recent-harvest}}
 
 	</tr>
 {{/each}}
