@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
+import buildElasticCall from '../utils/build-elastic-call';
 import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
 export default Ember.Controller.extend({
@@ -13,10 +14,49 @@ export default Ember.Controller.extend({
     placeholder: 'Search aggregated sources',
     loading: true,
     source_selected: '',
+    sourcesWithData: {},
 
     init() {
         this._super(...arguments);
-        this.loadPage();
+        this.loadElasticAggregations();
+    },
+
+    getQueryBody() {
+        let queryBody = {
+            aggregations: {
+                sources: {
+                    terms: {
+                        field: 'sources',
+                        size: ENV.maxSources
+                    }
+                }
+            }
+        };
+        return this.set('queryBody', queryBody);
+    },
+
+    loadElasticAggregations() {
+        let queryBody = JSON.stringify(this.getQueryBody());
+        this.set('loading', true);
+        return Ember.$.ajax({
+            url: buildElasticCall(),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody
+        }).then((json) => {
+            this.set('numberOfSources', json.aggregations.sources.buckets.length);
+            this.set('sourcesWithData', json.aggregations.sources.buckets.reduce(
+                (obj, source) => Object.assign(obj, {[source.key]: ''}), {}));
+            this.loadPage();
+        }, () => {
+            this.setProperties({
+                loading: false,
+                numberOfSources: 0,
+                sources: []
+            });
+            this.send('elasticDown');
+        });
     },
 
     loadPage(url=null) {
@@ -28,8 +68,10 @@ export default Ember.Controller.extend({
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            this.set('numberOfSources', json.meta.pagination.count);
-            this.get('sources').addObjects(json.data);
+            let tmpSources = json.data.filter(
+                source => source.attributes.longTitle in this.sourcesWithData
+            );
+            this.get('sources').addObjects(tmpSources);
 
             if (json.links.next) {
                 return this.loadPage(json.links.next);
