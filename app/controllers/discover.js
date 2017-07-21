@@ -6,13 +6,14 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
-const MAX_SOURCES = 500;
 let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
 
     metrics: Ember.inject.service(),
     category: 'discover',
+
+    placeholder: 'Search scholarly works',
 
     queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
@@ -112,7 +113,7 @@ export default ApplicationController.extend({
                 sources: {
                     cardinality: {
                         field: 'sources',
-                        precision_threshold: MAX_SOURCES
+                        precision_threshold: ENV.maxSources
                     }
                 }
             }
@@ -214,7 +215,7 @@ export default ApplicationController.extend({
             sources: {
                 terms: {
                     field: 'sources',
-                    size: MAX_SOURCES
+                    size: ENV.maxSources
                 }
             }
         };
