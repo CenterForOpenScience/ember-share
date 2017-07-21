@@ -1,7 +1,9 @@
 <article class="source-health">
 
 {{#each sourceHealth as |hl|}}
-  {{log hl.status}}
-  {{hl.status}}
+<td>
+  {{#status-emoji status=hl.status}}
+  {{/status-emoji}}
+</td>
 {{/each}}
 </article>
