@@ -1,11 +1,12 @@
 {{outlet}}
-{{log model}}
 <ul class="breadcrumb">
 	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
-  <li><a href="javascript:history.back()">Harvest-Log-List</a></li>
+  <li>{{#link-to "harvestloglist" model.sourceConfig.label model.sourceConfig.id}}Harvest-Log-List{{/link-to}}</li>
 	<li>{{model.id}}</li>
 </ul>
-
+{{log label}}
+{{log id}}
+{{log model}}
 <h1 align="center" style="font-size:4rem; font-family:courier;">{{model.id}}</h1>
 
 <h1 align="center" style="font-size:4rem; font-family:courier;">
