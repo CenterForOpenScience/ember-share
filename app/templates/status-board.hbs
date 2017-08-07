@@ -16,7 +16,6 @@
 		font-family:Courier;
 		font-size: 2rem;
 		color: #0099ff;
-		padding-bottom: 2px;
 	}
 	td{
 		font-family:courier;
@@ -28,16 +27,10 @@
 				<th>SOURCE</th>
 				<th colspan="10">RECENT HARVESTS</th>
 			</tr>
-
-<tbody>
-{{#each model as |sc|}}
-		<tr>
-			<td>{{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}</td>
-			{{#source-health sourceConfigId=sc.id}}
-			{{/source-health}}
-	</tr>
-{{/each}}
-</tbody>
-
+      {{#each model as |sc|}}
+			      {{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}
+		        {{#source-health sourceConfigId=sc.id}}
+			      {{/source-health}}
+      {{/each}}
 </table>
 </div>

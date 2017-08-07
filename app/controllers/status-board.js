@@ -12,8 +12,12 @@ export default Ember.Controller.extend({
   actions: {
     nextPage() {
       let page = this.get('page');
+      if(page== 21) {
+        nextPage()==null;
+      }else{
       this.set('page', page + 1);
-    },
+    }
+  },
     prevPage() {
       let page = this.get('page');
       if (page==1){
