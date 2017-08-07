@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   queryParams: [
-    'page',
+    'links',
   ],
   page: 1,
   meta: Ember.computed('model', function() {
