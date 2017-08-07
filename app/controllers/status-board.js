@@ -14,9 +14,13 @@ export default Ember.Controller.extend({
       let page = this.get('page');
       this.set('page', page + 1);
     },
-
     prevPage() {
+      let page = this.get('page');
+      if (page==1){
+        prevPage()==null;
+      }else{
       this.set('page', this.get('page') - 1);
+      }
     }
   }
 
