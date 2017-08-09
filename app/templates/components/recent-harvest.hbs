@@ -1,0 +1,11 @@
+<article class="recent-harvest">
+
+{{#each recentHarvests as |hl|}}
+  {{#link-to "details" hl}}
+  {{#status-emoji status=hl.status}}
+  {{/status-emoji}}
+  {{/link-to}}
+
+{{/each}}
+
+</article>

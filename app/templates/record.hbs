@@ -1,0 +1,113 @@
+{{outlet}}
+<h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;">{{#link-to "status-board"}}return{{/link-to}}</h3>
+<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
+
+<div>
+	<style>
+	table, th, td {
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+	}
+	th {
+		font-family:Courier;
+		font-size: 2rem;
+		color: #0099ff;
+		padding-bottom: 2px;
+	}
+	td{
+		font-family:courier;
+		font-size: 2rem;
+	}
+	</style>
+		<table style="width:95%" align="center" class="table">
+			<tr>
+
+				<th>STATUS</th>
+				<th>CONTEXT</th>
+				<th>HARVEST LOG ID</th>
+				<th>DATE STARTED</th>
+				<th>DATE ENDED</th>
+				<th>SHARE VERSION</th>
+
+			</tr>
+
+{{#each model.recentHarvests as |hl|}}
+<tr>
+	<td>
+		{{#if (equals hl.status "0")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/created.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "1")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "2")}}
+			<img height="30" width="30" style="align:center" src=assets/images/fail.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "3")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "4")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/rehlhedule.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "6")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/forced.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "7")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
+	 {{/if}}
+
+	 {{#if (equals hl.status "8")}}
+		 <img height="30" width="30" style="align:center" src=assets/images/retry.png />
+	 {{/if}}
+	</td>
+
+	<td>
+		{{#if (equals hl.status "0")}}
+			Created
+		{{/if}}
+
+		{{#if (equals hl.status "1")}}
+			Started
+		{{/if}}
+
+		{{#if (equals hl.status "2")}}
+			Failed
+		{{/if}}
+
+		{{#if (equals hl.status "3")}}
+			Succeded
+		{{/if}}
+
+		{{#if (equals hl.status "4")}}
+			Rescheduled
+		{{/if}}
+
+		{{#if (equals hl.status "6")}}
+			Forced
+		{{/if}}
+
+		{{#if (equals hl.status "7")}}
+			Skipped
+		{{/if}}
+
+		{{#if (equals hl.status "8")}}
+			Retried
+		{{/if}}
+	</td>
+
+	<td>{{hl.id}}</td>
+	<td>{{hl.startDate}}</td>
+	<td>{{hl.endDate}}</td>
+	<td>{{hl.harvesterVersion}}</td>
+
+</tr>
+{{/each}}
+</table>
+</div>

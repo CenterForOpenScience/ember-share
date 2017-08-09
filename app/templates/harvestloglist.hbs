@@ -1,0 +1,88 @@
+{{outlet}}
+<ul class="breadcrumb">
+	<li>{{#link-to "status-board"}}Status-Board{{/link-to}}</li>
+	<li>Harvest-Log-List</li>
+</ul>
+
+<div class="clearfix">
+  <a href="#" class="left btn" {{action "prevPage"}}>&lt; Prev</a>
+  <a href="#" class="right btn" {{action "nextPage"}}>Next &gt;</a>
+</div>
+
+<h3 align="left" class="text-muted" style="font-size:5rm; font-family:courier;"></h3>
+<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{label}}</h1>
+
+
+<div>
+	<style>
+	ul.breadcrumb{
+		padding: 10px;
+		list-style: none;
+		background-color: #eee;
+		font-size: 17px;
+	}
+	ul.breadcrumb li {display: inline;}
+	ul.breadcrumb li+li:before {
+			padding: 8px
+			color: black;
+			content: "/\00a0";
+	}
+	ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+	}
+	ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+	}
+	table, th, td {
+		padding: 3rem;
+		padding-top: 2rem;
+		border-bottom: solid #d9d9d9;
+	}
+	th {
+		font-family:Courier;
+		font-size: 2rem;
+		color: #0099ff;
+		padding-bottom: 2px;
+	}
+	td{
+		font-family:courier;
+		font-size: 2rem;
+	}
+	</style>
+
+		<table style="width:95%" align="center" class="table">
+			<tr>
+
+				<th>STATUS</th>
+				<th>CONTEXT</th>
+				<th>HARVEST LOG ID</th>
+				<th>DATE STARTED</th>
+				<th>DATE ENDED</th>
+				<th>SHARE VERSION</th>
+			</tr>
+
+		{{#each model as |hl|}}
+<tr>
+
+	<td>
+	{{#link-to "details" hl}}
+		{{#status-emoji status=hl.status}}
+		{{/status-emoji}}
+	{{/link-to}}
+	</td>
+	<td>
+		{{#status-context status=hl.status}}{{/status-context}}
+	</td>
+
+	<td>{{hl.id}}</td>
+	<td>{{hl.startDate}}</td>
+	<td>{{hl.endDate}}</td>
+	<td>{{hl.harvesterVersion}}</td>
+
+</tr>
+{{/each}}
+</table>
+</div>
+{{log model}}
