@@ -1,11 +1,11 @@
 <article class="recent-harvest">
 
-{{#each recentHarvests as |hl|}}
-  {{#link-to "details" hl}}
+{{#each recentHarvest as |hl|}}
+{{#link-to "details" hl}}
+<td>
   {{#status-emoji status=hl.status}}
   {{/status-emoji}}
-  {{/link-to}}
-
+</td>
+{{/link-to}}
 {{/each}}
-
 </article>

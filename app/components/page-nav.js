@@ -11,5 +11,4 @@ export default Ember.Component.extend({
       this.set('page', this.get('page') - 1);
       }
     }
-  }
-});
+  });
