@@ -1,8 +1,5 @@
 {{outlet}}
-<div class="clearfix">
-  <a href="#" class="left btn" {{action "prevPage"}}>&lt; Prev</a>
-  <a href="#" class="right btn" {{action "nextPage"}}>Next &gt;</a>
-</div>
+{{page-nav}}
 <h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
 
 <div>
@@ -11,7 +8,6 @@
 		font-family: courier;
 		padding: 3rem;
 		padding-top: 2rem;
-		/*border-bottom: solid;*/
 	}
 	th {
 		padding: 3rem;

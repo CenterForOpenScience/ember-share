@@ -5,7 +5,6 @@ export default Ember.Route.extend({
 	    page: {
 	      refreshModel: true
 	    }
-
 	  },
 	model(params) {
 		return this.get('store').query('source-config', params);
