@@ -1,8 +1,7 @@
 {{outlet}}
-<div class="clearfix">
-  <a href="#" class="left btn" {{action "prevPage"}}>&lt; Prev</a>
-  <a href="#" class="right btn" {{action "nextPage"}}>Next &gt;</a>
-</div>
+
+{{page-nav atLastPage=atLastPage atFirstPage=atFirstPage nextPage=(action 'nextPage') prevPage=(action 'prevPage')}}
+
 <h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
 
 <div>

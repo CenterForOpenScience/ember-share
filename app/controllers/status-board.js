@@ -5,26 +5,18 @@ export default Ember.Controller.extend({
     'page',
   ],
   page: 1,
-  meta: Ember.computed('model', function() {
-    let metadata = this.store.metadataFor('source-config');
-    return Ember.get(metadata, 'pagination');
+  atFirstPage: Ember.computed.equal('page', 1),
+  atLastPage: Ember.computed('page', 'meta.pagination.pages', function(){
+    return this.get('page') === this.get('meta.pagination.pages');
   }),
   actions: {
     nextPage() {
-      let page = this.get('page');
-      if(page== 21) {
-        nextPage()==null;
-      }else{
-      this.set('page', page + 1);
-    }
-  },
+        let page = this.get('page');
+        this.set('page', page + 1);
+    },
     prevPage() {
-      let page = this.get('page');
-      if (page==1){
-        prevPage()==null;
-      }else{
-      this.set('page', this.get('page') - 1);
-      }
+        let page = this.get('page');
+        this.set('page', this.get('page') - 1);
     }
   }
 
