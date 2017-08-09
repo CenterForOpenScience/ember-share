@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function(params) {
-    return this.get('store').findRecord('harvest-log', params.id);
+    return this.get('store').findRecord('harvest-log', params.logId);
   }
 
 });

@@ -1,7 +1,7 @@
 <article class="recent-harvest">
 
 {{#each recentHarvest as |hl|}}
-{{#link-to "details" hl}}
+{{#link-to "status.source-detail.log-detail" sourceConfig.label hl}}
 <td>
   {{#status-emoji status=hl.status}}
   {{/status-emoji}}

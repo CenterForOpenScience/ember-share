@@ -1,4 +1,3 @@
-{{outlet}}
 <div class="clearfix">
   <a href="#" class="left btn" {{action "prevPage"}}>&lt; Prev</a>
   <a href="#" class="right btn" {{action "nextPage"}}>Next &gt;</a>
@@ -9,18 +8,20 @@
 	<style>
 	table, th, td {
 		font-family: courier;
-		padding: 2rem;
+		padding: 1rem;
 		padding-top: 1rem;
 	}
 
 	th {
-		padding: 2rem;
+		padding: 3rem;
 		font-family:Courier;
 		font-size: 2rem;
 		color: #0099ff;
 	}
 	td{
 		padding: 2rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 		font-family:courier;
 		font-size: 2rem;
 	}
@@ -37,8 +38,8 @@
 
 {{#each model as |sc|}}
 		<tr>
-			<td>{{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}</td>
-			<td>{{#recent-harvest sourceConfigId=sc.id}}
+			<td>{{#link-to "status.source-detail" sc.label}}{{sc.label}}{{/link-to}}</td>
+			<td>{{#recent-harvest sourceConfig=sc}}
 			{{/recent-harvest}}</td>
 	</tr>
 {{/each}}
