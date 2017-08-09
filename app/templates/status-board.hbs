@@ -26,6 +26,7 @@
 				<th>SOURCE</th>
 				<th>RECENT HARVESTS</th>
 			</tr>
+<<<<<<< HEAD
 
 <tbody>
 {{#each model as |sc|}}
@@ -37,5 +38,12 @@
 {{/each}}
 </tbody>
 
+=======
+      {{#each model as |sc|}}
+			      {{#link-to "harvestloglist" sc.label sc.id}}{{#status-board title=sc.label}}{{/status-board}}{{/link-to}}
+		        {{#source-health sourceConfigId=sc.id}}
+			      {{/source-health}}
+      {{/each}}
+>>>>>>> da1083e7d694b21f51b1f5da4f0c28a90f12d743
 </table>
 </div>

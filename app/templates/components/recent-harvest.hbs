@@ -2,8 +2,8 @@
 
 {{#each recentHarvests as |hl|}}
   {{#link-to "details" hl}}
-  <td>{{#status-emoji status=hl.status}}
-  {{/status-emoji}}</td>
+  {{#status-emoji status=hl.status}}
+  {{/status-emoji}}
   {{/link-to}}
 
 {{/each}}
