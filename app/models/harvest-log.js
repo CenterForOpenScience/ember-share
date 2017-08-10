@@ -1,7 +1,5 @@
 import DS from 'ember-data';
 import Model from 'ember-data/model';
-import { belongsTo } from 'ember-data/relationships';
-
 
 const {
 	attr,
@@ -18,5 +16,4 @@ export default Model.extend({
 	endDate: attr('string'),
   startDate: attr('string'),
   harvesterVersion: attr('string'),
-
 });
