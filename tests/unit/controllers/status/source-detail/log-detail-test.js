@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('controller:statusboard', 'Unit | Controller | statusboard', {
+moduleFor('controller:status/source-detail/log-detail', 'Unit | Controller | status/source detail/log detail', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

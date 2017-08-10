@@ -37,8 +37,6 @@ Router.map(function() {
   this.route('elastic-down');
   this.route('notfound', { path: '/*path' });
   this.route('notfound');
-  this.route('source');
-  this.route('source-config');
 
   this.route('status', function() {
     this.route('source-detail', { path: '/:label' }, function() {
