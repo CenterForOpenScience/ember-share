@@ -1,11 +1,10 @@
-<article class="recent-harvest">
 
-{{#each recentHarvest as |hl|}}
-{{#link-to "status.source-detail.log-detail" sourceConfig.label hl}}
-<td>
-  {{#status-emoji status=hl.status}}
-  {{/status-emoji}}
-</td>
-{{/link-to}}
-{{/each}}
-</article>
+<div class="recent-harvest">
+  {{#each recentHarvest as |hl|}}
+    {{#link-to "status.source-detail.log-detail" sourceConfig.label hl}}
+      <td>
+        {{status-emoji status=hl.status}}
+      </td>
+    {{/link-to}}
+  {{/each}}
+</div>

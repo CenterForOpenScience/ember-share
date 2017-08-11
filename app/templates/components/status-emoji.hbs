@@ -2,35 +2,35 @@
 
 <div>
 
-{{#if (equals status "0")}}
+{{#if (eq status "0")}}
  <img height="30" width="30" style="align:center" src=assets/images/created.png />
 {{/if}}
 
-{{#if (equals status "1")}}
+{{#if (eq status "1")}}
  <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
 {{/if}}
 
-{{#if (equals status "2")}}
+{{#if (eq status "2")}}
   <img height="30" width="30" style="align:center" src=assets/images/fail.png />
 {{/if}}
 
-{{#if (equals status "3")}}
+{{#if (eq status "3")}}
  <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
 {{/if}}
 
-{{#if (equals status "4")}}
+{{#if (eq status "4")}}
  <img height="30" width="30" style="align:center" src=assets/images/rehlhedule.png />
 {{/if}}
 
-{{#if (equals status "6")}}
+{{#if (eq status "6")}}
  <img height="30" width="30" style="align:center" src=assets/images/forced.png />
 {{/if}}
 
-{{#if (equals status "7")}}
+{{#if (eq status "7")}}
  <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
 {{/if}}
 
-{{#if (equals status "8")}}
+{{#if (eq status "8")}}
  <img height="30" width="30" style="align:center" src=assets/images/retry.png />
 {{/if}}
 

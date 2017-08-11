@@ -1,8 +1,7 @@
 
 <ul class="breadcrumb">
-	<li>{{status-board-breadcrumb}}</li>
-	<li>{{#harvest-log-list-breadcrumb label=model.sourceConfig.label id=model.sourceConfig.id}}
-	{{/harvest-log-list-breadcrumb}}</li>
+	<li>{{#link-to "status"}}Status Board{{/link-to}}</li>
+	<li>{{#link-to "status.source-detail" label}}Harvest Log List{{/link-to}}</li>
 </ul>
 
 
