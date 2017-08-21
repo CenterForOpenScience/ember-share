@@ -14,14 +14,15 @@
     "check-style": "./node_modules/jscs/bin/jscs ."
   },
   "repository": "",
+  "engineStrict": true,
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=6"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "big-integer": "^1.6.17",
-    "broccoli-asset-rev": "^2.4.2",
+    "broccoli-asset-rev": "2.4.2",
     "ember-ajax": "0.7.1",
     "ember-bootstrap": "0.10.0",
     "ember-browserify": "^1.1.10",

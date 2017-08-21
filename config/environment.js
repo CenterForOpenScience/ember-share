@@ -6,6 +6,7 @@ module.exports = function(environment) {
         environment: environment,
         baseURL: '/share/',
         creativeworkName: 'Not Categorized',
+        maxSources: 500,
         locationType: 'auto',
         EmberENV: {
             EXTEND_PROTOTYPES: {
