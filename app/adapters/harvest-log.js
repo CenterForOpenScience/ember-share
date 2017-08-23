@@ -2,7 +2,7 @@ import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
     pathForType() {
-        return 'HarvestLog';
+        return 'harvest_logs';
     },
     ajax(url, type, options) {
      if (options) {
