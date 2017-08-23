@@ -7,6 +7,6 @@ export default Ember.Route.extend({
 	    }
 	  },
 	model(params) {
-		return this.get('store').query('source-config', params);
+		return this.get('store').query('source_config', params);
 	},
 });

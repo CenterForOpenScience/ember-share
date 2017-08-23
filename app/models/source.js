@@ -1,14 +1,11 @@
 import DS from 'ember-data';
 import Model from 'ember-data/model';
 
-const {
-	attr,
-} = DS;
 
 export default Model.extend({
 
-	long_Title: attr('string'),
-  name: attr('string'),
-	home_Page: attr('string'),
-	icon: attr('string')
+	longTitle: DS.attr('string'),
+  name: DS.attr('string'),
+	homePage: DS.attr('string'),
+	icon: DS.attr('string')
 });
