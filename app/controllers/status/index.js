@@ -10,12 +10,13 @@ export default Ember.Controller.extend({
     return this.get('page') === this.get('meta.pagination.pages');
   }),
   actions: {
-    nextPage() {
-        let page = this.get('page');
-        this.set('page', page + 1);
+    nextPage: function() {
+      this.incrementProperty('page');
+
     },
-    prevPage() {
-        this.set('page', this.get('page') - 1);
+    prevPage: function() {
+      this.decrementProperty('page');
+
     }
   }
 
