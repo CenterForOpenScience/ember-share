@@ -1,35 +1,8 @@
 
 {{page-nav atLastPage=atLastPage atFirstPage=atFirstPage nextPage=(action 'nextPage') prevPage=(action 'prevPage')}}
 
-<h1 align="center" class="text-muted" style="font-size:5rm; font-family:courier;">{{model.label}}</h1>
-
 <div>
-	<style>
-	table, th, td {
-		font-family: courier;
-		padding: 1rem;
-		padding-top: 1rem;
-	}
-
-	th {
-		padding: 3rem;
-		font-family:Courier;
-		font-size: 2rem;
-		color: #0099ff;
-	}
-	td{
-		padding: 2rem;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-		font-family:courier;
-		font-size: 2rem;
-	}
-	tr {
-		border-bottom: solid #d9d9d9;
-
-	}
-	</style>
-		<table style="width:95%" align="center" class="table">
+		<table class="statusTable">
 			<tr>
 				<th>SOURCE</th>
 				<th>RECENT HARVESTS</th>
