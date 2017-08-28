@@ -265,24 +265,30 @@ hr.divider {
 }
 
 .logListTable {
+  font-family: courier;
   padding: 30px;
-  padding-top: 20px;
-  padding-bottom: 17px;
-  border-bottom: solid #d9d9d9;
-  width: 95%;
+  width: 100%;
   align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .logListTable th {
   font-family:Courier;
+  padding-top: 10px;
   font-size: 25px;
   color: #0099ff;
+  padding-left: 25px;
+  border-bottom: solid #d9d9d9;
 }
 
 .logListTable td{
   font-family:courier;
   font-size: 22px;
+  padding: 30px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  border-bottom: solid #d9d9d9;
+
 }
 
 /* Error page */

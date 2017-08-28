@@ -5,36 +5,33 @@
 </ul>
 
 <div>
-		<table class= "logListTable">
-			<tr>
+	<table class= "logListTable">
+		<tr>
+			<th>STATUS</th>
+			<th>CONTEXT</th>
+			<th>HARVEST LOG ID</th>
+			<th>DATE STARTED</th>
+			<th>DATE ENDED</th>
+			<th>SHARE VERSION</th>
+		</tr>
+	{{#each model as |hl|}}
+		<tr>
+			<td>
+				{{#link-to "status.source-detail.log-detail" hl}}
+				{{#status-emoji status=hl.status}}
+				{{/status-emoji}}
+				{{/link-to}}
+			</td>
 
-				<th>STATUS</th>
-				<th>CONTEXT</th>
-				<th>HARVEST LOG ID</th>
-				<th>DATE STARTED</th>
-				<th>DATE ENDED</th>
-				<th>SHARE VERSION</th>
-			</tr>
-
-		{{#each model as |hl|}}
-<tr>
-
-	<td>
-	{{#link-to "status.source-detail.log-detail" hl}}
-		{{#status-emoji status=hl.status}}
-		{{/status-emoji}}
-	{{/link-to}}
-	</td>
-	<td>
-		{{#status-context status=hl.status}}{{/status-context}}
-	</td>
-
-	<td>{{hl.id}}</td>
-	<td>{{hl.startDate}}</td>
-	<td>{{hl.endDate}}</td>
-	<td>{{hl.harvesterVersion}}</td>
-
-</tr>
-{{/each}}
-</table>
+		<td>
+			{{#status-context status=hl.status}}{{/status-context}}
+		</td>
+		
+		<td>{{hl.id}}</td>
+		<td>{{hl.startDate}}</td>
+		<td>{{hl.endDate}}</td>
+		<td>{{hl.harvesterVersion}}</td>
+	</tr>
+	{{/each}}
+	</table>
 </div>
