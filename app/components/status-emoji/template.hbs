@@ -1,40 +1,4 @@
 {{yield}}
-<article class="status-emoji-class">
-
-<div>
-
-{{#if (eq status "0")}}
- <img height="30" width="30" style="align:center" src=assets/images/created.png />
-{{/if}}
-
-{{#if (eq status "1")}}
- <img height="30" width="30" style="align:center" src=assets/images/in_progress.png />
-{{/if}}
-
-{{#if (eq status "2")}}
-  <img height="30" width="30" style="align:center" src=assets/images/fail.png />
-{{/if}}
-
-{{#if (eq status "3")}}
- <img height="30" width="30" style="align:center" src=assets/images/succeed.png />
-{{/if}}
-
-{{#if (eq status "4")}}
- <img height="30" width="30" style="align:center" src=assets/images/rehlhedule.png />
-{{/if}}
-
-{{#if (eq status "6")}}
- <img height="30" width="30" style="align:center" src=assets/images/forced.png />
-{{/if}}
-
-{{#if (eq status "7")}}
- <img height="30" width="30" style="align:center" src=assets/images/skipped.png />
-{{/if}}
-
-{{#if (eq status "8")}}
- <img height="30" width="30" style="align:center" src=assets/images/retry.png />
-{{/if}}
-
+<div class="status-emoji-class">
+  <img height="30" width="30" style="align:center" src="assets/images/{{get emojis status}}.png" />
 </div>
-
-</article>
