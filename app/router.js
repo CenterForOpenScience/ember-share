@@ -44,6 +44,7 @@ Router.map(function() {
     });
 });
   this.route('raw-data');
+  this.route('normalized-data');
 });
 
 

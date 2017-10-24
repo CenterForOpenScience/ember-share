@@ -1,12 +1,13 @@
 <div>
-  <table class="rawTableData"
-    <th>Datum</th>
-    <th>dateHarvested</th>
-      <tr>
-		    {{#each model as |rd|}}
-			   <td>{{rd.datum}}</td>
-         <td>{{rd.dateHarvested}}</td>
+  <table class="rawTableData">
+    <tr> 
+      <th>Datum</th>
+      <th>DateHarvested</th>
+    </tr> 
+  {{#each model as |rd|}}
+      <tr> 
+       Datums: <td>{{rd.datum}}</td>
       </tr>
-		    {{/each}}
-  </table>
+  {{/each}} 
+  </table> 
 </div>
