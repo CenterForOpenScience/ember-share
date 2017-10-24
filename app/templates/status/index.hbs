@@ -1,0 +1,17 @@
+
+{{page-nav atLastPage=atLastPage atFirstPage=atFirstPage nextPage=(action 'nextPage') prevPage=(action 'prevPage')}}
+
+<div>
+		<table class="statusTable">
+			<tr>
+				<th>SOURCE</th>
+				<th>RECENT HARVESTS</th>
+			</tr>
+		{{#each model as |sc|}}
+				<tr>
+					<td>{{#link-to "status.source-detail" sc.label}}{{sc.label}}{{/link-to}}</td>
+					<td>{{recent-harvest sourceConfig=sc}}</td>
+				</tr>
+		{{/each}}
+	</table>
+</div>

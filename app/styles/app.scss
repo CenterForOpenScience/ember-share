@@ -237,6 +237,60 @@ hr.divider {
     padding-bottom: 30px;
 }
 
+.statusTable {
+  font-family: courier;
+  font-size: 3px;
+  width: 100%;
+  align: center;
+  margin-bottom: 20px;
+}
+
+.statusTable th {
+  padding: 10px;
+  font-family:Courier;
+  font-size: 28px;
+  color: #0099ff;
+}
+
+.statusTable td{
+  padding: 5px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-family:courier;
+  font-size: 25px;
+}
+
+.statusTable tr {
+  border-bottom: solid #d9d9d9;
+}
+
+.logListTable {
+  font-family: courier;
+  padding: 30px;
+  width: 100%;
+  align: center;
+  margin-bottom: 30px;
+}
+
+.logListTable th {
+  font-family:Courier;
+  padding-top: 10px;
+  font-size: 25px;
+  color: #0099ff;
+  padding-left: 25px;
+  border-bottom: solid #d9d9d9;
+}
+
+.logListTable td{
+  font-family:courier;
+  font-size: 22px;
+  padding: 30px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  border-bottom: solid #d9d9d9;
+
+}
+
 /* Error page */
 
 .error-image {
