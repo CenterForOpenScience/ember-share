@@ -56,6 +56,7 @@ export default Ember.Component.extend({
     dateUpdated: Ember.computed('obj.date_updated', function() {
         return moment(this.get('obj.date_updated')).utc().format('MMM DD, YYYY');
     }),
+    lineage: Ember.computed.alias('obj.lists.lineage'),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
     },
