@@ -8,9 +8,6 @@ export default Ember.Component.extend({
 
     metrics: Ember.inject.service(),
 
-    // TODO: remove when curation is enabled on production
-    curationEnabled: ENV.curationEnabled,
-
     tagName: 'header',
     classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],
     session: Ember.inject.service(),
