@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import RouteHistoryMixin from 'ember-route-history/mixins/routes/route-history';
 
-export default Ember.Route.extend(ApplicationRouteMixin, RouteHistoryMixin, {
-    session: Ember.inject.service(),
+
+export default Route.extend(ApplicationRouteMixin, RouteHistoryMixin, {
+    session: service(),
 
     beforeModel() {
         let session = this.get('session');

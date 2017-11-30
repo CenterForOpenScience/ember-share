@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+
 import ENV from '../config/environment';
 
-export default Ember.Controller.extend({
 
-    metrics: Ember.inject.service(),
+export default Controller.extend({
+    metrics: service(),
 
     placeholder: 'Search scholarly works',
 

@@ -4,7 +4,7 @@ module.exports = function(environment) {
     var ENV = {
         modulePrefix: 'ember-share',
         environment: environment,
-        baseURL: '/share/',
+        rootURL: '/share/',
         creativeworkName: 'Not Categorized',
         maxSources: 500,
         locationType: 'auto',
@@ -36,12 +36,6 @@ module.exports = function(environment) {
             'media-src': "'self'"
         },
 
-        'ember-form-for': {
-            fieldHasErrorClasses: 'has-error',
-            errorClasses: ['text-danger'],
-            hintClasses: ['help-block'],
-        },
-
         modelIDs: {
             creativework: 49,
             publication: 49,
@@ -71,7 +65,7 @@ module.exports = function(environment) {
         ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
 
         // Testem prefers this...
-        ENV.baseURL = '/';
+        ENV.rootURL = '/';
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -100,7 +94,7 @@ module.exports = function(environment) {
         };
 
         // Testem prefers this...
-        ENV.baseURL = '/';
+        ENV.rootURL = '/';
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;

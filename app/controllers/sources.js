@@ -1,11 +1,15 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { isBlank } from '@ember/utils';
+import { run } from '@ember/runloop';
+
 import ENV from '../config/environment';
 import buildElasticCall from '../utils/build-elastic-call';
 import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
-export default Ember.Controller.extend({
 
-    metrics: Ember.inject.service(),
+export default Controller.extend({
+    metrics: service(),
 
     numberOfSources: 0,
     sources: [],
@@ -38,7 +42,7 @@ export default Ember.Controller.extend({
     loadElasticAggregations() {
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
-        return Ember.$.ajax({
+        return $.ajax({
             url: buildElasticCall(),
             crossDomain: true,
             type: 'POST',
@@ -62,7 +66,7 @@ export default Ember.Controller.extend({
     loadPage(url=null) {
         url = url || ENV.apiUrl + '/sources/?sort=long_title';
         this.set('loading', true);
-        return Ember.$.ajax({
+        return $.ajax({
             url: url,
             crossDomain: true,
             type: 'GET',
@@ -76,7 +80,7 @@ export default Ember.Controller.extend({
             if (json.links.next) {
                 return this.loadPage(json.links.next);
             }
-            Ember.run(() => {
+            run(() => {
                 this.set('loading', false);
             });
         });
@@ -116,7 +120,7 @@ export default Ember.Controller.extend({
         },
 
         elasticSearch(term) {
-            if (Ember.isBlank(term)) { return []; }
+            if (isBlank(term)) { return []; }
 
             const category = 'sources';
             const action = 'search';
@@ -126,7 +130,7 @@ export default Ember.Controller.extend({
 
             var data = JSON.stringify(this.buildTypeaheadQuery(term));
 
-            return Ember.$.ajax({
+            return $.ajax({
                 url: this.typeaheadQueryUrl(),
                 crossDomain: true,
                 type: 'POST',

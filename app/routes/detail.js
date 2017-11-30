@@ -1,11 +1,24 @@
-import Ember from 'ember';
-import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+
 import RouteHistoryMixin from 'ember-route-history/mixins/routes/route-history';
 
-export default Ember.Route.extend(RouteHistoryMixin, {
+import { FRAGMENT_MAP, CONTROLLER_MAP } from '../utils/mappings';
+import ENV from '../config/environment';
+
+
+export default Route.extend(RouteHistoryMixin, {
+    session: service(),
+
     model(params) {
-        let adapter = this.store.adapterFor('graph');
-        return adapter.ajax('/api/v2/graph/', 'POST', {
+        return $.ajax({
+            url: `${ENV.apiBaseUrl}/api/v2/graph/`,
+            method: 'POST',
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            headers: {
+              'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken'),
+            },
             data: {
                 variables: '',
                 query: `query {

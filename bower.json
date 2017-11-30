@@ -1,13 +1,8 @@
 {
   "name": "ember-share",
   "dependencies": {
-    "ember": "~2.5.0",
-    "ember-cli-shims": "0.1.1",
-    "ember-cli-test-loader": "0.2.2",
+    "ember": "lts-2-8",
     "ember-qunit-notifications": "0.1.0",
-    "bootstrap-sass": "^3.3.6",
-    "font-awesome": "~4.5.0",
-    "components-font-awesome": "^4.6.3",
     "bootstrap-daterangepicker": "^2.1.23",
     "c3": "^0.4.11",
     "d3": "~3.5.0",

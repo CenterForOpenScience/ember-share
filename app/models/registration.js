@@ -1,7 +1,6 @@
 import DS from 'ember-data';
-import Validator from '../mixins/model-validator';
 
-export default DS.Model.extend(Validator, {
+export default DS.Model.extend({
     contactName: DS.attr('string'),
     contactEmail: DS.attr('string'),
     contactAffiliation: DS.attr('string'),
@@ -20,28 +19,4 @@ export default DS.Model.extend(Validator, {
 
     status: DS.attr('string'),
     submittedAt: DS.attr('string'),
-
-    validations: {
-        contactName: {
-            presence: { message: 'This field is required.' }
-        },
-        contactEmail: {
-            presence: { message: 'This field is required.' },
-            email: { message: 'Not a valid email address.' }
-        },
-        contactAffiliation: {
-            presence: { message: 'This field is required.' }
-        },
-
-        sourceName: {
-            presence: { message: 'This field is required.' }
-        },
-        sourceDescription: {
-            presence: { message: 'This field is required.' }
-        },
-        sourceBaseUrl: {
-            presence: { message: 'This field is required.' },
-            URL: { message: 'Must be a valid url.' }
-        }
-    }
 });

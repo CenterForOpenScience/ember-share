@@ -1,6 +1,10 @@
-import _ from 'lodash/lodash';
-import moment from 'moment';
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+
+import _ from 'lodash';
+import moment from 'moment';
+
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
@@ -9,13 +13,12 @@ import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-qu
 let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
-
-    metrics: Ember.inject.service(),
+    metrics: service(),
     category: 'discover',
 
     placeholder: 'Search scholarly works',
 
-    queryParams:  Ember.computed(function() {
+    queryParams:  computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
@@ -38,7 +41,7 @@ export default ApplicationController.extend({
     sort: '',
     sortDisplay: 'Relevance',
 
-    noResultsMessage: Ember.computed('numberOfResults', function() {
+    noResultsMessage: computed('numberOfResults', function() {
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
     }),
 
@@ -57,7 +60,7 @@ export default ApplicationController.extend({
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
-    clampedPages: Ember.computed('totalPages', 'size', function() {
+    clampedPages: computed('totalPages', 'size', function() {
         // requesting over 10000 will error due to elastic limitations
         // https://www.elastic.co/guide/en/elasticsearch/guide/current/pagination.html
         let maxPages = Math.ceil(10000 / this.get('size'));
@@ -65,7 +68,7 @@ export default ApplicationController.extend({
         return totalPages < maxPages ? totalPages : maxPages;
     }),
 
-    hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
+    hiddenPages: computed('clampedPages', 'totalPages', function() {
         const total = this.get('totalPages');
         const max = this.get('clampedPages');
         if (total !== max) {
@@ -74,7 +77,7 @@ export default ApplicationController.extend({
         return null;
     }),
 
-    processedTypes: Ember.computed('types', function() {
+    processedTypes: computed('types', function() {
         const types = this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
         return this.transformTypes(types);
     }),
@@ -160,7 +163,7 @@ export default ApplicationController.extend({
         });
     },
 
-    searchUrl: Ember.computed(function() {
+    searchUrl: computed(function() {
         return buildElasticCall();
     }),
 
@@ -210,7 +213,7 @@ export default ApplicationController.extend({
         return this.set('queryBody', queryBody);
     },
 
-    elasticAggregations: Ember.computed(function() {
+    elasticAggregations: computed(function() {
         return {
             sources: {
                 terms: {
@@ -278,7 +281,7 @@ export default ApplicationController.extend({
         this.get('debouncedLoadPage')();
     },
 
-    facets: Ember.computed('processedTypes', function() {
+    facets: computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
@@ -293,7 +296,7 @@ export default ApplicationController.extend({
 
     facetStatesArray: [],
 
-    facetStates: Ember.computed(...filterQueryParams, 'end', 'start', function() {
+    facetStates: computed(...filterQueryParams, 'end', 'start', function() {
         let facetStates = {};
         for (let param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));
@@ -311,7 +314,7 @@ export default ApplicationController.extend({
         return facetStates;
     }),
 
-    atomFeedUrl: Ember.computed('queryBody', function() {
+    atomFeedUrl: computed('queryBody', function() {
         let query = this.get('queryBody.query');
         let encodedQuery = encodeURIComponent(JSON.stringify(query));
         return `${ENV.apiUrl}/atom/?elasticQuery=${encodedQuery}`;

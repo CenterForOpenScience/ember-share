@@ -1,9 +1,14 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
+import { inject as service } from '@ember/service';
+import { scheduleOnce } from '@ember/runloop';
+
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
     location: config.locationType,
-    metrics: Ember.inject.service(),
+    metrics: service(),
+
+    rootURL: config.rootURL,
 
     didTransition() {
         this._super(...arguments);
@@ -11,7 +16,7 @@ const Router = Ember.Router.extend({
     },
 
     _trackPage() {
-        Ember.run.scheduleOnce('afterRender', this, () => {
+        scheduleOnce('afterRender', this, () => {
             const page = document.location.pathname;
             const title = this.getWithDefault('currentRouteName', 'unknown');
 
@@ -21,6 +26,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('notfound', { path: '/*path' });
+
     this.route('discover');
     this.route('profile');
     this.route('sources');
@@ -29,7 +36,6 @@ Router.map(function() {
     this.route('detail', { path: '/:type/:id' });
 
     this.route('elastic-down');
-    this.route('notfound', { path: '/*path' });
     this.route('notfound');
 });
 

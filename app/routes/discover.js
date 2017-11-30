@@ -1,8 +1,12 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
+
 import RouteHistoryMixin from 'ember-route-history/mixins/routes/route-history';
 
-export default Ember.Route.extend(RouteHistoryMixin, {
-    session: Ember.inject.service(),
+
+export default Route.extend(RouteHistoryMixin, {
+    session: service(),
     resetController(controller, isExiting) {
         if (isExiting) {
             controller.set('page', 1);
@@ -19,7 +23,7 @@ export default Ember.Route.extend(RouteHistoryMixin, {
             controller.set('end', '');
             controller.set('type', '');
             controller.set('sort', '');
-            controller.set('facetFilters', Ember.Object.create());
+            controller.set('facetFilters', EmberObject.create({}));
             controller.set('firstLoad', true);
         }
     },
