@@ -229,3 +229,20 @@ hr.divider {
 .detail-bottom-padding {
   padding-bottom: 30px;
 }
+
+
+// Registration
+.registration-message-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  min-height: 450px;
+  padding: 25px;
+  text-align: center;
+}
+
+.registration-message {
+  max-width: 650px;
+}
