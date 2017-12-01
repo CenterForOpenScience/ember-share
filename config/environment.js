@@ -1,9 +1,9 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-    var ENV = {
+    const ENV = {
         modulePrefix: 'ember-share',
-        environment: environment,
+        environment,
         rootURL: '/share/',
         creativeworkName: 'Not Categorized',
         maxSources: 500,
@@ -18,10 +18,10 @@ module.exports = function(environment) {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
                 // e.g. 'with-controller': true
-            }
+            },
         },
 
-        APP: {  // jscs:ignore
+        APP: { // jscs:ignore
             // Here you can pass flags/options to your application instance
             // when it is created
         },
@@ -33,7 +33,7 @@ module.exports = function(environment) {
             'connect-src': "'self' www.google-analytics.com",
             'img-src': "'self'",
             'style-src': "'self'",
-            'media-src': "'self'"
+            'media-src': "'self'",
         },
 
         modelIDs: {
@@ -43,11 +43,11 @@ module.exports = function(environment) {
             project: 49,
             registration: 49,
             dataset: 49,
-            person: 47
-        }
+            person: 47,
+        },
 
     };
-    //this needs to go in an actual env at some point
+    // this needs to go in an actual env at some point
     ENV.csrfCookie = 'csrftoken';
     ENV.apiBaseUrl = 'http://localhost:8000';
     ENV.apiUrl = 'http://localhost:8000/api/v2';
@@ -85,7 +85,7 @@ module.exports = function(environment) {
         ENV.metricsAdapters = [{
             name: 'GoogleAnalytics',
             environments: ['production'],
-            config: { id: 'UA-83881781-1' }
+            config: { id: 'UA-83881781-1' },
         }];
 
         ENV.modelIDs = {

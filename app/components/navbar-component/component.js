@@ -14,17 +14,16 @@ export default Component.extend({
 
     tagName: 'header',
     classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],
-    rootUrl: ENV.rootURL,
 
     gravatarSrc: computed('session.data.authenticated.user', function() {
-        let userData = this.get('session.data.authenticated.user');
+        const userData = this.get('session.data.authenticated.user');
         if (userData) {
-            return userData.gravatar + '&s=25';
+            return `${userData.gravatar}&s=25`;
         }
     }),
 
     userName: computed('session.data.authenticated.user', function() {
-        let userData = this.get('session.data.authenticated.user');
+        const userData = this.get('session.data.authenticated.user');
         if (userData) {
             return `${userData.firstName} ${userData.lastName}`;
         }
@@ -47,6 +46,8 @@ export default Component.extend({
         track(event) {
             const label = event;
             this.get('metrics').trackEvent({ category, action, label });
-        }
-    }
+        },
+    },
+
+    rootUrl: ENV.rootURL,
 });

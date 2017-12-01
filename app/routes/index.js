@@ -7,5 +7,5 @@ export default Route.extend({
         if (isExiting) {
             controller.set('searchString', '');
         }
-    }
+    },
 });

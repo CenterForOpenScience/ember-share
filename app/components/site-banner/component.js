@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
-    openBanners: Ember.computed('banners.@each.closed', function() {
+export default Component.extend({
+    openBanners: computed('banners.@each.closed', function() {
         const banners = this.get('banners');
         return banners.filter(b => !b.get('closed'));
     }),
@@ -9,6 +10,6 @@ export default Ember.Component.extend({
     actions: {
         close(banner) {
             banner.set('closed', true);
-        }
-    }
+        },
+    },
 });

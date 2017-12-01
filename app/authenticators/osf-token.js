@@ -1,17 +1,21 @@
 import Ember from 'ember';
-import ENV from '../config/environment';
+import { inject as service } from '@ember/service';
+
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
+import ENV from '../config/environment';
+
+
 export default BaseAuthenticator.extend({
-    session: Ember.inject.service(),
+    session: service(),
 
     csrfToken() {
         if (!document.cookie && document.cookie === '') {
             return null;
         }
-        let cookies = document.cookie.split(';');
+        const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim();
+            const cookie = cookies[i].trim();
             if (cookie.substring(0, ENV.csrfCookie.length + 1) === `${ENV.csrfCookie}=`) {
                 return decodeURIComponent(cookie.substring(ENV.csrfCookie.length + 1));
             }
@@ -24,7 +28,7 @@ export default BaseAuthenticator.extend({
 
     authenticate(redirectToLogin = true) {
         return new Ember.RSVP.Promise((resolve, reject) => {
-            this.getUserInfo().then(response => {
+            this.getUserInfo().then((response) => {
                 response = response.data.attributes;
                 if (!response || !response.token) {
                     if (redirectToLogin) {
@@ -34,7 +38,7 @@ export default BaseAuthenticator.extend({
                 } else {
                     resolve({
                         user: response,
-                        csrfToken: this.csrfToken()
+                        csrfToken: this.csrfToken(),
                     });
                 }
             });
@@ -42,19 +46,19 @@ export default BaseAuthenticator.extend({
     },
 
     invalidate() {
-        return Ember.$.ajax({
+        return $.ajax({
             method: 'POST',
             url: `${ENV.apiBaseUrl}/accounts/logout/`,
             crossDomain: true,
-            xhrFields: { withCredentials: true }
+            xhrFields: { withCredentials: true },
         });
     },
 
     getUserInfo() {
-        return Ember.$.ajax({
+        return $.ajax({
             url: `${ENV.apiUrl}/userinfo`,
             crossDomain: true,
-            xhrFields: { withCredentials: true }
+            xhrFields: { withCredentials: true },
         });
-    }
+    },
 });

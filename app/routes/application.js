@@ -9,9 +9,9 @@ export default Route.extend(ApplicationRouteMixin, RouteHistoryMixin, {
     session: service(),
 
     beforeModel() {
-        let session = this.get('session');
+        const session = this.get('session');
         if (!session.get('isAuthenticated')) {
             session.authenticate('authenticator:osf-token', false).catch(() => {});
         }
-    }
+    },
 });

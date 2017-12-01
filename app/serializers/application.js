@@ -1,16 +1,20 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default DS.JSONAPISerializer.extend({
+const { JSONAPISerializer } = DS;
+
+
+export default JSONAPISerializer.extend({
 
     normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {
-        if (typeof payload === 'object' && payload.results) {
-            payload = payload.results;
+        let results = payload;
+        if (typeof results === 'object' && payload.results) {
+            results = payload.results;
         }
-        return this._super(store, primaryModelClass, payload, id, requestType);
+        return this._super(store, primaryModelClass, results, id, requestType);
     },
 
-    keyForAttribute: function(attr) {
+    keyForAttribute(attr) {
         return Ember.String.underscore(attr);
-    }
+    },
 });

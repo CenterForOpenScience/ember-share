@@ -17,7 +17,7 @@ export default Route.extend(RouteHistoryMixin, {
             crossDomain: true,
             xhrFields: { withCredentials: true },
             headers: {
-              'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken'),
+                'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken'),
             },
             data: {
                 variables: '',
@@ -29,23 +29,38 @@ export default Route.extend(RouteHistoryMixin, {
                       extra,
                       sources { id, title, icon },
 
-                      ${Object.keys(FRAGMENT_MAP).map((type) => `...on ${type} ${FRAGMENT_MAP[type]}`).join('\n')}
+                      ${Object.keys(FRAGMENT_MAP).map(type => `...on ${type} ${FRAGMENT_MAP[type]}`).join('\n')}
                   }
-              }`
-            }
-        }).then(data => {
+              }`,
+            },
+        }).then((data) => {
             if (data.errors) {
                 throw Error(data.errors[0].message);
             }
             return data.data.shareObject;
         });
     },
-    actions: {
-        error(error) {
-            console.error(error);
-            return this.intermediateTransitionTo('notfound');
+
+    afterModel(model, transition) {
+        if (!model) {
+            // If the model could not be loaded. Do nothing.
+            return;
+        }
+
+        // If the type slug /:SLUG/:SHARE-ID is not the type of the object
+        // Correct the url
+        const slug = model.type.classify().toLowerCase();
+        if (slug !== transition.params.detail.type) {
+            return this.replaceWith('detail', slug, model.id);
         }
     },
+
+    actions: {
+        error() {
+            return this.intermediateTransitionTo('notfound');
+        },
+    },
+
     setup(model, transition) {
         if (!model) {
             // If the model could not be loaded. Do nothing.
@@ -64,17 +79,4 @@ export default Route.extend(RouteHistoryMixin, {
         this.set('controllerName', view);
         return this._super(model, transition);
     },
-    afterModel(model, transition) {
-        if (!model) {
-            // If the model could not be loaded. Do nothing.
-            return;
-        }
-
-        // If the type slug /:SLUG/:SHARE-ID is not the type of the object
-        // Correct the url
-        let slug = model.type.classify().toLowerCase();
-        if (slug !== transition.params.detail.type) {
-            return this.replaceWith('detail', slug, model.id);
-        }
-    }
 });

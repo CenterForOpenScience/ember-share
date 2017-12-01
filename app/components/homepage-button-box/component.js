@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
     tagName: 'button',
     classNames: ['btn', 'btn-default', 'btn-sm'],
     classNameBindings: ['selected:active'],
 
     didRender() {
-        Ember.$('.infoBox').parent().css({ outline: '0' });
+        $('.infoBox').parent().css({ outline: '0' });
     },
 });

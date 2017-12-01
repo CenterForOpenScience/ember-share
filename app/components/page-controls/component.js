@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
-    atFirstPage: Ember.computed.equal('page', 1),
+export default Component.extend({
+    atFirstPage: computed.equal('page', 1),
 
-    atLastPage: Ember.computed('page', 'clampedPages', function() {
+    atLastPage: computed('page', 'clampedPages', function() {
         return this.get('page') === this.get('clampedPages');
     }),
 
-    pageLinks: Ember.computed('page', 'clampedPages', function() {
+    pageLinks: computed('page', 'clampedPages', function() {
         const radius = 2;
         const page = this.get('page');
         const max = this.get('clampedPages');
@@ -38,6 +39,6 @@ export default Ember.Component.extend({
 
         nextPage() {
             this.get('loadPage')(this.get('page') + 1);
-        }
-    }
+        },
+    },
 });

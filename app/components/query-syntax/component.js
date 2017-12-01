@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+
 import ENV from '../../config/environment';
 
-export default Ember.Component.extend({
+export default Component.extend({
     showFields: false,
 
     init() {
         this._super(...arguments);
-        Ember.$.ajax({
-            url: ENV.apiUrl + '/search/_mappings/creativeworks',
+        $.ajax({
+            url: `${ENV.apiUrl}/search/_mappings/creativeworks`,
             contentType: 'application/json',
         }).then((json) => {
             const properties = json.share.mappings.creativeworks.properties;
@@ -25,6 +26,6 @@ export default Ember.Component.extend({
     actions: {
         toggleFields() {
             this.toggleProperty('showFields');
-        }
-    }
+        },
+    },
 });

@@ -32,6 +32,6 @@ export default Route.extend(RouteHistoryMixin, {
         elasticDown() {
             this.intermediateTransitionTo('elastic-down');
             return false;
-        }
-    }
+        },
+    },
 });

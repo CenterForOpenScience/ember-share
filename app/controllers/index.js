@@ -11,7 +11,7 @@ export default Controller.extend({
 
     actions: {
         search() {
-            let searchString = this.get('searchString') || '';
+            const searchString = this.get('searchString') || '';
 
             const category = 'homepage';
             const action = 'search';
@@ -46,6 +46,6 @@ export default Controller.extend({
             this.get('metrics').trackEvent({ category, action, label });
 
             window.location.href = `${ENV.apiBaseUrl}/api/`;
-        }
-    }
+        },
+    },
 });

@@ -5,6 +5,6 @@ export default Route.extend({
         elasticDown() {
             this.intermediateTransitionTo('elastic-down');
             return false;
-        }
-    }
+        },
+    },
 });

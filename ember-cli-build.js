@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const Autoprefixer = require('autoprefixer');
 const CSSNano = require('cssnano');
 
@@ -10,9 +10,9 @@ module.exports = function(defaults) {
     // Values chosen abritrarily, feel free to change
     const LEAN_BUILD = ['production'].includes(EmberApp.env());
 
-    var app = new EmberApp(defaults, {
+    const app = new EmberApp(defaults, {
         'ember-font-awesome': {
-            useScss: true
+            useScss: true,
         },
         'ember-bootstrap': {
             bootstrapVersion: 3,
@@ -25,10 +25,10 @@ module.exports = function(defaults) {
                 'bower_components/osf-style/css',
                 'bower_components/bootstrap-daterangepicker',
                 'bower_components/c3',
-            ]
+            ],
         },
         'ember-cli-babel': {
-            includePolyfill: true
+            includePolyfill: true,
         },
         postcssOptions: {
             // Doesn't agree with SCSS; must be disabled
@@ -46,7 +46,7 @@ module.exports = function(defaults) {
         },
         babel: {
             optional: ['es6.spec.symbols'],
-        }
+        },
     });
 
     // Use `app.import` to add additional libraries to the generated

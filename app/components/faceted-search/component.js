@@ -1,16 +1,16 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
     init() {
         this._super(...arguments);
     },
 
     actions: {
         facetChanged(key, facet, value) {
-            let filters = this.get('filters');
+            const filters = this.get('filters');
             filters.set(key, facet);
             this.sendAction('updateParams', key, value);
             this.sendAction('onChange', filters);
-        }
-    }
+        },
+    },
 });

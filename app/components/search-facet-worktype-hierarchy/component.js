@@ -1,18 +1,20 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-    metrics: Ember.inject.service(),
+    metrics: service(),
     category: 'filter-facets',
+
+    selected: computed('state', function() {
+        return this.get('state') || [];
+    }),
 
     init() {
         this._super(...arguments);
         this.set('toggleState', this.get('defaultCollapsed'));
     },
-
-    selected: Ember.computed('state', function() {
-        return this.get('state') || [];
-    }),
 
     actions: {
         toggle(type) {
@@ -21,6 +23,6 @@ export default Ember.Component.extend({
 
         toggleBody() {
             this.toggleProperty('toggleState');
-        }
-    }
+        },
+    },
 });

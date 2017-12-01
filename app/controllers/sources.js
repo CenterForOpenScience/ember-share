@@ -3,9 +3,9 @@ import { inject as service } from '@ember/service';
 import { isBlank } from '@ember/utils';
 import { run } from '@ember/runloop';
 
+import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 import ENV from '../config/environment';
 import buildElasticCall from '../utils/build-elastic-call';
-import { getUniqueList, encodeParams } from 'ember-share/utils/elastic-query';
 
 
 export default Controller.extend({
@@ -14,66 +14,96 @@ export default Controller.extend({
     numberOfSources: 0,
     sources: [],
     numberOfEvents: 0,
-    sourcesLastUpdated: Date().toString(),
     placeholder: 'Search aggregated sources',
     loading: true,
     source_selected: '',
     sourcesWithData: {},
 
-    init() {
-        this._super(...arguments);
-        this.loadElasticAggregations();
+    sourcesLastUpdated: Date().toString(),
+
+    actions: {
+        changeFilter(selected) {
+            const category = 'sources';
+            const action = 'filter';
+            const label = selected;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
+            this.transitionToRoute('discover', { queryParams: { sources: encodeParams(selected) } });
+        },
+
+        elasticSearch(term) {
+            if (isBlank(term)) { return []; }
+
+            const category = 'sources';
+            const action = 'search';
+            const label = term;
+
+            this.get('metrics').trackEvent({ category, action, label });
+
+            const data = JSON.stringify(this.buildTypeaheadQuery(term));
+
+            return $.ajax({
+                url: this.typeaheadQueryUrl(),
+                crossDomain: true,
+                type: 'POST',
+                contentType: 'application/json',
+                data,
+            }).then(json =>
+                this.handleTypeaheadResponse(json),
+            );
+        },
     },
 
     getQueryBody() {
-        let queryBody = {
+        const queryBody = {
             aggregations: {
                 sources: {
                     terms: {
                         field: 'sources',
-                        size: ENV.maxSources
-                    }
-                }
-            }
+                        size: ENV.maxSources,
+                    },
+                },
+            },
         };
         return this.set('queryBody', queryBody);
     },
 
     loadElasticAggregations() {
-        let queryBody = JSON.stringify(this.getQueryBody());
+        const queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
         return $.ajax({
             url: buildElasticCall(),
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
-            data: queryBody
+            data: queryBody,
         }).then((json) => {
             this.set('numberOfSources', json.aggregations.sources.buckets.length);
             this.set('sourcesWithData', json.aggregations.sources.buckets.reduce(
-                (obj, source) => Object.assign(obj, {[source.key]: ''}), {}));
+                (obj, source) => Object.assign(obj, { [source.key]: '' }), {}));
             this.loadPage();
         }, () => {
             this.setProperties({
                 loading: false,
                 numberOfSources: 0,
-                sources: []
+                sources: [],
             });
             this.send('elasticDown');
         });
     },
 
-    loadPage(url=null) {
-        url = url || ENV.apiUrl + '/sources/?sort=long_title';
+    loadPage(url = null) {
+        const tmpUrl = url || `${ENV.apiUrl}/sources/?sort=long_title`;
         this.set('loading', true);
         return $.ajax({
-            url: url,
+            url: tmpUrl,
             crossDomain: true,
             type: 'GET',
             contentType: 'application/json',
         }).then((json) => {
-            let tmpSources = json.data.filter(
-                source => source.attributes.longTitle in this.sourcesWithData
+            const tmpSources = json.data.filter(
+                source => source.attributes.longTitle in this.sourcesWithData,
             );
             this.get('sources').addObjects(tmpSources);
 
@@ -98,47 +128,19 @@ export default Controller.extend({
                     'name.autocomplete': {
                         query: text,
                         operator: 'and',
-                        fuzziness: 'AUTO'
-                    }
-                }
-            }
+                        fuzziness: 'AUTO',
+                    },
+                },
+            },
         };
     },
 
     handleTypeaheadResponse(response) {
         return getUniqueList(response.hits.hits.mapBy('_source.name'));
     },
-    actions: {
-        changeFilter(selected) {
-            const category = 'sources';
-            const action = 'filter';
-            const label = selected;
 
-            this.get('metrics').trackEvent({ category, action, label });
-
-            this.transitionToRoute('discover', { queryParams: { sources: encodeParams(selected) } });
-        },
-
-        elasticSearch(term) {
-            if (isBlank(term)) { return []; }
-
-            const category = 'sources';
-            const action = 'search';
-            const label = term;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            var data = JSON.stringify(this.buildTypeaheadQuery(term));
-
-            return $.ajax({
-                url: this.typeaheadQueryUrl(),
-                crossDomain: true,
-                type: 'POST',
-                contentType: 'application/json',
-                data: data
-            }).then(json =>
-                this.handleTypeaheadResponse(json)
-            );
-        }
-    }
+    init() {
+        this._super(...arguments);
+        this.loadElasticAggregations();
+    },
 });

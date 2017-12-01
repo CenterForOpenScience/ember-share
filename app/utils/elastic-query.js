@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import moment from 'moment';
 
 /*
@@ -9,10 +8,10 @@ import moment from 'moment';
  */
 function dateRangeFilter(field, start, end) {
     if (start && end) {
-        let filter = { range: {} };
+        const filter = { range: {} };
         filter.range[field] = {
             gte: `${moment(start).format('YYYY-MM-DD')}||/d`,
-            lte: `${moment(end).format('YYYY-MM-DD')}||/d`
+            lte: `${moment(end).format('YYYY-MM-DD')}||/d`,
         };
         return filter;
     } else {
@@ -24,16 +23,18 @@ function dateRangeFilter(field, start, end) {
  * @function termsFilter
  * @param String field Name of the field to filter
  * @param Array terms List of terms to match
- * @param Boolean [all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms.
+ * @param Boolean [all] If true (default), return an array of filters to match
+ * results with *all* of the terms. Otherwise, return a single filter to match
+ * results with *any* of the terms.
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
         if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(field)) {
-            field = field + '.exact';
+            field = `${field}.exact`;
         }
         if (all) {
-            return terms.map(term => {
-                let filter = { term: {} };
+            return terms.map((term) => {
+                const filter = { term: {} };
                 // creative work filter should not include subtypes
                 if (term === 'creative work' && field === 'types') {
                     filter.term.type = term;
@@ -43,7 +44,7 @@ function termsFilter(field, terms, all = true) {
                 return filter;
             });
         } else {
-            let filter = { terms: {} };
+            const filter = { terms: {} };
             filter.terms[field] = terms;
             return filter;
         }
@@ -73,7 +74,7 @@ function decodeParams(param) {
 function getSplitParams(params) {
     if (!params.length) {
         return params.slice(0);
-    } else if (params.length && Ember.$.isArray(params[0])) {
+    } else if (params.length && $.isArray(params[0])) {
         return params[0];
     } else if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
@@ -89,5 +90,5 @@ export {
     getUniqueList,
     encodeParams,
     decodeParams,
-    getSplitParams
+    getSplitParams,
 };

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
+import { once } from '@ember/runloop';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -10,19 +11,19 @@ import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
-let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
+const filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default ApplicationController.extend({
     metrics: service(),
-    category: 'discover',
 
-    placeholder: 'Search scholarly works',
-
-    queryParams:  computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort', 'page'];
+    queryParams: computed(function() {
+        const allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
+
+    category: 'discover',
+    placeholder: 'Search scholarly works',
 
     page: 1,
     size: 10,
@@ -41,30 +42,51 @@ export default ApplicationController.extend({
     sort: '',
     sortDisplay: 'Relevance',
 
-    noResultsMessage: computed('numberOfResults', function() {
-        return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
-    }),
-
     collapsedFilters: true,
     collapsedQueryBody: true,
 
-    results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
-    eventsLastUpdated: Date().toString(),
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
     types: {},
 
-    totalPages: Ember.computed('numberOfResults', 'size', function() {
+    sortOptions: [{
+        display: 'Relevance',
+        sortBy: '',
+    }, {
+        display: 'Date Updated (Newest first)',
+        sortBy: '-date_updated',
+    }, {
+        display: 'Date Updated (Oldest first)',
+        sortBy: 'date_updated',
+    }, {
+        display: 'Ingest Date (Newest first)',
+        sortBy: '-date_created',
+    }, {
+        display: 'Ingest Date (Oldest first)',
+        sortBy: 'date_created',
+    }],
+
+    facetStatesArray: [],
+
+    eventsLastUpdated: Date().toString(),
+
+    results: Ember.ArrayProxy.create({ content: [] }),
+
+    noResultsMessage: computed('numberOfResults', function() {
+        return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
+    }),
+
+    totalPages: computed('numberOfResults', 'size', function() {
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
     clampedPages: computed('totalPages', 'size', function() {
         // requesting over 10000 will error due to elastic limitations
         // https://www.elastic.co/guide/en/elasticsearch/guide/current/pagination.html
-        let maxPages = Math.ceil(10000 / this.get('size'));
-        let totalPages = this.get('totalPages');
+        const maxPages = Math.ceil(10000 / this.get('size'));
+        const totalPages = this.get('totalPages');
         return totalPages < maxPages ? totalPages : maxPages;
     }),
 
@@ -82,204 +104,20 @@ export default ApplicationController.extend({
         return this.transformTypes(types);
     }),
 
-    sortOptions: [{
-        display: 'Relevance',
-        sortBy: ''
-    }, {
-        display: 'Date Updated (Newest first)',
-        sortBy: '-date_updated'
-    }, {
-        display: 'Date Updated (Oldest first)',
-        sortBy: 'date_updated'
-    }, {
-        display: 'Ingest Date (Newest first)',
-        sortBy: '-date_created'
-    }, {
-        display: 'Ingest Date (Oldest first)',
-        sortBy: 'date_created'
-    }],
-
-    init() {
-        //TODO Sort initial results on date_modified
-        this._super(...arguments);
-        this.set('firstLoad', true);
-        this.set('facetFilters', Ember.Object.create());
-        this.getTypes();
-        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
-        this.getCounts();
-    },
-
-    getCounts() {
-        let queryBody = JSON.stringify({
-            size: 0,
-            aggregations: {
-                sources: {
-                    cardinality: {
-                        field: 'sources',
-                        precision_threshold: ENV.maxSources
-                    }
-                }
-            }
-        });
-        return Ember.$.ajax({
-            url: this.get('searchUrl'),
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: queryBody
-        }).then((json) => {
-            this.setProperties({
-                numberOfEvents: json.hits.total,
-                numberOfSources: json.aggregations.sources.value
-            });
-        });
-    },
-
-    transformTypes(obj) {
-        if (typeof (obj) !== 'object') {
-            return obj;
-        }
-
-        for (let key in obj) {
-            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
-            obj[lowKey] = this.transformTypes(obj[key]);
-            if (key !== lowKey) {
-                delete obj[key];
-            }
-        }
-        return obj;
-    },
-
-    getTypes() {
-        return Ember.$.ajax({
-            url: ENV.apiUrl + '/schema/creativework/hierarchy/',
-            crossDomain: true,
-            type: 'GET',
-            contentType: 'application/vnd.api+json',
-        }).then((json) => {
-            if (json.data) {
-                this.set('types', json.data);
-            }
-        });
-    },
-
     searchUrl: computed(function() {
         return buildElasticCall();
     }),
-
-    getQueryBody() {
-        let facetFilters = this.get('facetFilters');
-        let filters = [];
-        for (let k of Object.keys(facetFilters)) {
-            let filter = facetFilters[k];
-            if (filter) {
-                if (Ember.$.isArray(filter)) {
-                    filters = filters.concat(filter);
-                } else {
-                    filters.push(filter);
-                }
-            }
-        }
-
-        let query = {
-            query_string: {
-                query: this.get('q') || '*'
-            }
-        };
-        if (filters.length) {
-            query = {
-                bool: {
-                    must: query,
-                    filter: filters
-                }
-            };
-        }
-
-        let page = this.get('page');
-        let queryBody = {
-            query,
-            from: (page - 1) * this.get('size')
-        };
-        if (this.get('sort')) {
-            let sortBy = {};
-            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
-            queryBody.sort = sortBy;
-        }
-        if (page === 1 || this.get('firstLoad')) {
-            queryBody.aggregations = this.get('elasticAggregations');
-        }
-
-        this.set('displayQueryBody', { query });
-        return this.set('queryBody', queryBody);
-    },
 
     elasticAggregations: computed(function() {
         return {
             sources: {
                 terms: {
                     field: 'sources',
-                    size: ENV.maxSources
-                }
-            }
+                    size: ENV.maxSources,
+                },
+            },
         };
     }),
-
-    loadPage() {
-        let queryBody = JSON.stringify(this.getQueryBody());
-        this.set('loading', true);
-        return Ember.$.ajax({
-            url: this.get('searchUrl'),
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: queryBody
-        }).then((json) => {
-            let results = json.hits.hits.map(hit => Object.assign(
-                {},
-                hit._source,
-                ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
-                    acc,
-                    { [key]: hit._source.lists[key] }
-                ), { typeSlug: hit._source.type.classify().toLowerCase() })
-            ));
-
-            if (json.aggregations) {
-                this.set('aggregations', json.aggregations);
-            }
-            this.setProperties({
-                numberOfResults: json.hits.total,
-                took: moment.duration(json.took).asSeconds(),
-                loading: false,
-                firstLoad: false,
-                results: results,
-                queryError: false
-            });
-            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
-                this.search();
-            }
-        }, (errorResponse) => {
-            this.setProperties({
-                loading: false,
-                firstLoad: false,
-                numberOfResults: 0,
-                results: []
-            });
-            if (errorResponse.status === 400) {
-                this.set('queryError', true);
-            } else {
-                this.send('elasticDown');
-            }
-        });
-    },
-
-    search() {
-        if (!this.get('firstLoad')) {
-            this.set('page', 1);
-        }
-        this.set('loading', true);
-        this.get('results').clear();
-        this.get('debouncedLoadPage')();
-    },
 
     facets: computed('processedTypes', function() {
         return [
@@ -294,20 +132,18 @@ export default ApplicationController.extend({
         ];
     }),
 
-    facetStatesArray: [],
-
     facetStates: computed(...filterQueryParams, 'end', 'start', function() {
-        let facetStates = {};
-        for (let param of filterQueryParams) {
+        const facetStates = {};
+        for (const param of filterQueryParams) {
             facetStates[param] = getSplitParams(this.get(param));
         }
         facetStates.date = { start: this.get('start'), end: this.get('end') };
 
-        Ember.run.once(this, function() {
-            let facets = this.get('facetStates');
-            let facetArray = [];
-            for (let key of Object.keys(facets)) {
-                facetArray.push({ key: key, value: facets[key] });
+        once(this, function() {
+            const facets = this.get('facetStates');
+            const facetArray = [];
+            for (const key of Object.keys(facets)) {
+                facetArray.push({ key, value: facets[key] });
             }
             this.set('facetStatesArray', facetArray);
         });
@@ -315,14 +151,10 @@ export default ApplicationController.extend({
     }),
 
     atomFeedUrl: computed('queryBody', function() {
-        let query = this.get('queryBody.query');
-        let encodedQuery = encodeURIComponent(JSON.stringify(query));
+        const query = this.get('queryBody.query');
+        const encodedQuery = encodeURIComponent(JSON.stringify(query));
         return `${ENV.apiUrl}/atom/?elasticQuery=${encodedQuery}`;
     }),
-
-    scrollToResults() {
-        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
-    },
 
     actions: {
 
@@ -333,8 +165,8 @@ export default ApplicationController.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            let currentValue = getSplitParams(this.get(type)) || [];
-            let newValue = getUniqueList([filterValue].concat(currentValue));
+            const currentValue = getSplitParams(this.get(type)) || [];
+            const newValue = getUniqueList([filterValue].concat(currentValue));
             this.set(type, encodeParams(newValue));
         },
 
@@ -346,7 +178,7 @@ export default ApplicationController.extend({
             this.get('metrics').trackEvent({ category, action, label });
 
             let currentValue = getSplitParams(this.get(type)) || [];
-            let index = currentValue.indexOf(filterValue);
+            const index = currentValue.indexOf(filterValue);
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
@@ -383,12 +215,13 @@ export default ApplicationController.extend({
         },
 
         updateParams(key, value) {
+            let tmpValue = value;
             if (key === 'date') {
                 this.set('start', value.start);
                 this.set('end', value.end);
             } else {
-                value = value ? encodeParams(value) : '';
-                this.set(key, value);
+                tmpValue = value ? encodeParams(value) : '';
+                this.set(key, tmpValue);
             }
         },
 
@@ -432,8 +265,8 @@ export default ApplicationController.extend({
             this.get('metrics').trackEvent({ category, action, label });
 
             this.set('facetFilters', Ember.Object.create());
-            for (var param in filterQueryParams) {
-                let key = filterQueryParams[param];
+            for (const param in filterQueryParams) {
+                const key = filterQueryParams[param];
                 if (filterQueryParams.indexOf(key) > -1) {
                     this.set(key, '');
                 }
@@ -442,6 +275,178 @@ export default ApplicationController.extend({
             this.set('end', '');
             this.set('sort', '');
             this.search();
+        },
+    },
+
+    scrollToResults() {
+        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+    },
+
+    search() {
+        if (!this.get('firstLoad')) {
+            this.set('page', 1);
         }
-    }
+        this.set('loading', true);
+        this.get('results').clear();
+        this.get('debouncedLoadPage')();
+    },
+
+    loadPage() {
+        const queryBody = JSON.stringify(this.getQueryBody());
+        this.set('loading', true);
+        return $.ajax({
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody,
+        }).then((json) => {
+            const results = json.hits.hits.map(hit => Object.assign(
+                {},
+                hit._source,
+                ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
+                    acc,
+                    { [key]: hit._source.lists[key] },
+                ), { typeSlug: hit._source.type.classify().toLowerCase() }),
+            ));
+
+            if (json.aggregations) {
+                this.set('aggregations', json.aggregations);
+            }
+            this.setProperties({
+                numberOfResults: json.hits.total,
+                took: moment.duration(json.took).asSeconds(),
+                loading: false,
+                firstLoad: false,
+                results,
+                queryError: false,
+            });
+            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+                this.search();
+            }
+        }, (errorResponse) => {
+            this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: [],
+            });
+            if (errorResponse.status === 400) {
+                this.set('queryError', true);
+            } else {
+                this.send('elasticDown');
+            }
+        });
+    },
+
+    getQueryBody() {
+        const facetFilters = this.get('facetFilters');
+        let filters = [];
+        for (const k of Object.keys(facetFilters)) {
+            const filter = facetFilters[k];
+            if (filter) {
+                if (Ember.$.isArray(filter)) {
+                    filters = filters.concat(filter);
+                } else {
+                    filters.push(filter);
+                }
+            }
+        }
+
+        let query = {
+            query_string: {
+                query: this.get('q') || '*',
+            },
+        };
+        if (filters.length) {
+            query = {
+                bool: {
+                    must: query,
+                    filter: filters,
+                },
+            };
+        }
+
+        const page = this.get('page');
+        const queryBody = {
+            query,
+            from: (page - 1) * this.get('size'),
+        };
+        if (this.get('sort')) {
+            const sortBy = {};
+            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
+            queryBody.sort = sortBy;
+        }
+        if (page === 1 || this.get('firstLoad')) {
+            queryBody.aggregations = this.get('elasticAggregations');
+        }
+
+        this.set('displayQueryBody', { query });
+        return this.set('queryBody', queryBody);
+    },
+
+    getTypes() {
+        return $.ajax({
+            url: `${ENV.apiUrl}/schema/creativework/hierarchy/`,
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/vnd.api+json',
+        }).then((json) => {
+            if (json.data) {
+                this.set('types', json.data);
+            }
+        });
+    },
+
+    transformTypes(obj) {
+        const value = obj;
+        if (typeof (value) !== 'object') {
+            return value;
+        }
+
+        for (const key in value) {
+            const lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
+            value[lowKey] = this.transformTypes(value[key]);
+            if (key !== lowKey) {
+                delete value[key];
+            }
+        }
+        return value;
+    },
+
+    getCounts() {
+        const queryBody = JSON.stringify({
+            size: 0,
+            aggregations: {
+                sources: {
+                    cardinality: {
+                        field: 'sources',
+                        precision_threshold: ENV.maxSources,
+                    },
+                },
+            },
+        });
+        return $.ajax({
+            url: this.get('searchUrl'),
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: queryBody,
+        }).then((json) => {
+            this.setProperties({
+                numberOfEvents: json.hits.total,
+                numberOfSources: json.aggregations.sources.value,
+            });
+        });
+    },
+
+    init() {
+        // TODO Sort initial results on date_modified
+        this._super(...arguments);
+        this.set('firstLoad', true);
+        this.set('facetFilters', Ember.Object.create());
+        this.getTypes();
+        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
+        this.getCounts();
+    },
 });

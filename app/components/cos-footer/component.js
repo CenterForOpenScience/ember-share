@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-    currentYear: Ember.computed(function() {
+export default Component.extend({
+    currentYear: computed(function() {
         return new Date().getUTCFullYear();
     }),
 });

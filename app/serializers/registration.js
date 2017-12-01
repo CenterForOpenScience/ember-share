@@ -10,11 +10,12 @@ export default ApplicationSerializer.extend({
     },
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-        payload.data.type = 'registration';
-        return this._super(store, primaryModelClass, payload, id, requestType);
+        const value = payload;
+        value.data.type = 'registration';
+        return this._super(store, primaryModelClass, value, id, requestType);
     },
 
-    keyForAttribute: function(attr) {
+    keyForAttribute(attr) {
         return attr;
-    }
+    },
 });
