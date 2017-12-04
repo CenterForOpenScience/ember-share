@@ -17,7 +17,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "devDependencies": {
     "broccoli-asset-rev": "2.4.5",
