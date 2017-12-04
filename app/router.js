@@ -22,7 +22,7 @@ const Router = EmberRouter.extend({
 
             this.get('metrics').trackPage({ page, title });
         });
-    }
+    },
 });
 
 Router.map(function() {

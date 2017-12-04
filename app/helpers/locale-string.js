@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
+const { Helper } = Ember;
+
 export function localeString([value]) {
     return !!value ? value.toLocaleString() : value;
 }
 
-export default Ember.Helper.helper(localeString);
+export default Helper.helper(localeString);

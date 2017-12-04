@@ -4,7 +4,10 @@ import DS from 'ember-data';
 
 import ENV from '../config/environment';
 
-const ApplicationAdapter = DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
+const { JSONAPIAdapter } = DS;
+
+
+const ApplicationAdapter = JSONAPIAdapter.extend(DS.BuildURLMixin, {
     session: service(),
     namespace: 'api/v2',
     host: ENV.apiBaseUrl,
@@ -13,7 +16,7 @@ const ApplicationAdapter = DS.JSONAPIAdapter.extend(DS.BuildURLMixin, {
     },
     ajax(url, method, hash) {
         // add trailing slash
-        const tmpUrl = url.replace(/([^\/])(\?|$)/, '$1/$2');
+        const tmpUrl = url.replace(/([^/])(\?|$)/, '$1/$2');
 
         const tmpHash = hash || {};
         tmpHash.crossDomain = true;

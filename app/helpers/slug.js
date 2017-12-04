@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
+const { Helper } = Ember;
+
 export function slug([type]) {
     return type.classify().toLowerCase();
 }
 
-export default Ember.Helper.helper(slug);
+export default Helper.helper(slug);
