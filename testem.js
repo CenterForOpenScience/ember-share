@@ -1,4 +1,3 @@
-/* jshint node:true */
 /* eslint-env node */
 module.exports = {
     framework: 'qunit',

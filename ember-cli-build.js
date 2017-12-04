@@ -22,9 +22,9 @@ module.exports = function(defaults) {
         sassOptions: {
             includePaths: [
                 'node_modules/font-awesome/scss',
-                'bower_components/osf-style/css',
-                'bower_components/bootstrap-daterangepicker',
-                'bower_components/c3',
+                'node_modules/@centerforopenscience/osf-style/css',
+                'node_modules/bootstrap-daterangepicker',
+                'node_modules/c3',
             ],
         },
         'ember-cli-babel': {
@@ -62,9 +62,9 @@ module.exports = function(defaults) {
     // please specify an object with the list of modules as keys
     // along with the exports of each module as its value.
 
-    app.import('bower_components/bootstrap-daterangepicker/daterangepicker.js');
-    app.import('bower_components/d3/d3.js');
-    app.import('bower_components/c3/c3.js');
+    app.import('node_modules/bootstrap-daterangepicker/daterangepicker.js');
+    app.import('node_modules/d3/d3.js');
+    app.import('node_modules/c3/c3.js');
 
     return app.toTree();
 };
