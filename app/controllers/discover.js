@@ -68,8 +68,6 @@ export default ApplicationController.extend({
         sortBy: 'date_created',
     }],
 
-    facetStatesArray: [],
-
     eventsLastUpdated: Date().toString(),
 
     results: Ember.ArrayProxy.create({ content: [] }),
@@ -138,16 +136,16 @@ export default ApplicationController.extend({
             facetStates[param] = getSplitParams(this.get(param));
         }
         facetStates.date = { start: this.get('start'), end: this.get('end') };
-
-        once(this, function() {
-            const facets = this.get('facetStates');
-            const facetArray = [];
-            for (const key of Object.keys(facets)) {
-                facetArray.push({ key, value: facets[key] });
-            }
-            this.set('facetStatesArray', facetArray);
-        });
         return facetStates;
+    }),
+
+    facetStatesArray: computed('facetStates', function() {
+        const facets = this.get('facetStates');
+        const facetArray = [];
+        for (const key of Object.keys(facets)) {
+            facetArray.push({ key, value: facets[key] });
+        }
+        return facetArray;
     }),
 
     atomFeedUrl: computed('queryBody', function() {

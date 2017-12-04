@@ -26,11 +26,6 @@ export default Component.extend({
         }
     }),
 
-    init() {
-        this._super(...arguments);
-        this.send('setState', this.get('state'));
-    },
-
     actions: {
         setState(selected) {
             const category = this.get('category');

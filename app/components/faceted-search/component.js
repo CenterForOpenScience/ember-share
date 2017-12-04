@@ -1,10 +1,6 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-    init() {
-        this._super(...arguments);
-    },
-
     actions: {
         facetChanged(key, facet, value) {
             const filters = this.get('filters');

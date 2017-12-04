@@ -39,11 +39,6 @@ export default Component.extend({
         }
     }),
 
-    init() {
-        this._super(...arguments);
-        this.send('changeFilter', this.get('state'));
-    },
-
     actions: {
         changeFilter(selected) {
             const category = this.get('category');

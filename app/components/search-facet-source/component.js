@@ -4,6 +4,7 @@ import TypeaheadComponent from '../search-facet-typeahead/component';
 
 
 export default TypeaheadComponent.extend({
+    donut: null,
 
     sourcesList: computed('aggregations', function() {
         const data = this.get('aggregations.sources.buckets');

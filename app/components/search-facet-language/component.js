@@ -40,15 +40,6 @@ export default Component.extend({
         }
     }),
 
-    init() {
-        this._super(...arguments);
-        const languageCodes = this.get('state') ? this.get('state') : [];
-        const languageNames = languageCodes.map(lang =>
-            langs.where('3', lang).name,
-        );
-        this.send('changeFilter', languageNames);
-    },
-
     actions: {
         changeFilter(languageNames) {
             const category = this.get('category');
