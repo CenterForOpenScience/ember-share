@@ -1,9 +1,10 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
-# Unreleased
+# [2.13.0] - 2017-12-18
 ## Added
-* Link to status page in footer
+* Link to COS status page in footer
+* Display work lineage in search results
 
 # [2.10.0] - 2017-08-03
 ## Fixed
