@@ -57,7 +57,6 @@ module.exports = function(environment) {
     ENV.csrfCookie = 'csrftoken';
     ENV.apiBaseUrl = 'http://localhost:8000';
     ENV.apiUrl = 'http://localhost:8000/api/v2';
-    ENV.curationEnabled = true;
 
     // if (environment === 'development') {
     //     ENV.APP.LOG_RESOLVER = true;
@@ -70,7 +69,6 @@ module.exports = function(environment) {
     if (environment === 'staging') {
         ENV.apiBaseUrl = 'https://staging-share.osf.io';
         ENV.apiUrl = 'https://staging-share.osf.io/api/v2';
-        ENV.curationEnabled = true;
 
         // Testem prefers this...
         ENV.baseURL = '/';
@@ -90,7 +88,6 @@ module.exports = function(environment) {
     if (environment === 'production') {
         ENV.apiBaseUrl = 'https://share.osf.io';
         ENV.apiUrl = 'https://share.osf.io/api/v2';
-        ENV.curationEnabled = false;
         ENV.metricsAdapters = [{
             name: 'GoogleAnalytics',
             environments: ['production'],

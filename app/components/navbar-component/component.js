@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from '../../config/environment';
 
 const category = 'navbar';
 const action = 'click';
@@ -7,9 +6,6 @@ const action = 'click';
 export default Ember.Component.extend({
 
     metrics: Ember.inject.service(),
-
-    // TODO: remove when curation is enabled on production
-    curationEnabled: ENV.curationEnabled,
 
     tagName: 'header',
     classNames: ['navbar', 'navbar-inverse', 'navbar-static-top'],

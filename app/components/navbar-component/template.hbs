@@ -33,12 +33,7 @@
           </a>
           <ul class="dropdown-menu">
             <li>{{#link-to 'profile' invokeAction=(action 'track' 'my profile')}}<i class="fa fa-user" aria-hidden="true"></i> My Profile{{/link-to}}</li>
-              {{!-- TODO: remove curationEnabled check when curation is enabled on production --}}
-              {{#if curationEnabled}}
-                <li>{{link-to 'Changes' 'changes' class='nav-link'}}</li>
-              {{/if}}
               <li><a {{action 'logout'}}><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a></li>
-              <!--  {{#link-to 'settings'}}<i class="fa fa-cog" aria-hidden="true"></i> Settings{{/link-to}} -->
             </ul>
         </li>
       {{else}}

@@ -7,243 +7,242 @@
 @import 'pod-styles';
 @import 'daterangepicker.scss';
 @import 'c3';
-@import 'registration' ;
 
-/*
-    note that flex-wrap can mess spacing up in safari so use sparingly
-    https://github.com/backdrop/backdrop-issues/issues/1985
-*/
+// note that flex-wrap can mess spacing up in safari so use sparingly
+// https://github.com/backdrop/backdrop-issues/issues/1985
+
+html {
+  height: 100%;
+}
+
+body > div.ember-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .content {
+    flex: 1 0 auto;
+  }
+}
+
+// Variables
+$color-white: #fff;
+
+$color-bg-blue-light: #c5d6e6;
+$color-bg-gray-light: #f5f5f5;
+$color-bg-gray-lighter: #eee;
+
+$color-text-blue: #204762;
+$color-text-dark: #333;
+$color-text-gray-dark: #808080;
 
 
-/* Index Style */
+// Index Style
 
 .index-search-section {
-    min-height: 700px;
-    background: #C5D6E6 url('images/bg6.jpg') top center repeat-y;
-    background-size: cover;
+  background: $color-bg-blue-light url('images/bg6.jpg') top center repeat-y;
+  background-size: cover;
+  min-height: 700px;
 }
 
 .index-source-section {
-    background: #C5D6E6 url('images/bg7.jpg') top center repeat-y;
-    background-size: cover;
+  background: $color-bg-blue-light url('images/bg7.jpg') top center repeat-y;
+  background-size: cover;
 }
 
 .index-jumbo {
-    padding-bottom: 40px ;
+  padding-bottom: 40px;
 }
 
 .index-background {
-    display: block ;
-    margin-left: auto ;
-    margin-right: auto ;
-    height: 20% ;
-    width: 20% ;
+  display: block;
+  height: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
 }
 
 .index-search-row {
-    margin-left: 15px;
-    margin-right: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 #index-row {
-    display: flex ;
-    justify-content: center ;
+  display: flex;
+  justify-content: center;
 }
 
 
 // hide search icon on mobile to prevent strange wrapping
 @media (max-width: 420px) {
-    .index-search-icon {
-        display: none;
-    }
+  .index-search-icon {
+    display: none;
+  }
 }
 
 #index-tile-row {
-    padding-top: 40px;
-    flex-wrap: wrap ;
-    margin-left: 25px;
-    margin-right: 25px;
-    text-align: center;
+  flex-wrap: wrap;
+  margin-left: 25px;
+  margin-right: 25px;
+  padding-top: 40px;
+  text-align: center;
 }
 
 .index-tile {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 25px;
-    display: block;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 25px;
 }
 
 .form-control {
-    font-size: 12px ;
-    width: 100% ;
+  font-size: 12px;
+  width: 100%;
 }
 
 .index-advanced {
-    font-size: 12px ;
+  font-size: 12px;
 }
 
 .index-info {
-    background-color: white ;
-    padding-top: 25px ;
-    padding-bottom: 25px ;
-    background-size: cover ;
-}
-
-.index-provider {
-    min-height: 400px ;
-    padding-top: 25px ;
-    padding-bottom: 25px ;
-}
-
-.index-provider-title {
-    color: rgb(224, 235, 243) ;
-    font-family: 'Yanone Kaffeesatz' , sans-serif;
-    font-weight: bold ;
-    font-size: 40px ;
-    padding-left: 15px;
-    padding-right: 15px;
-    display: flex ;
-    justify-content: center ;
-}
-
-#index-provider-tile {
-    display: flex ;
-    justify-content: center ;
-    flex-wrap: wrap ;
+  background-color: $color-white;
+  background-size: cover;
+  padding-bottom: 25px;
+  padding-top: 25px;
 }
 
 .share-search {
-    .search-button {
-        margin-left: -20px;
-        margin-top: 5px;
-        font-size: 150%;
-    }
+  .search-button {
+    font-size: 150%;
+    margin-left: -20px;
+    margin-top: 5px;
+  }
 
-    .feed-button {
-        margin-left: 5px;
-        margin-top: 5px;
-        font-size: 150%;
-    }
+  .feed-button {
+    font-size: 150%;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
 }
 
-/* Discover */
+// Discover
 
 .discover-font-margin {
-    font-size:75%;
-    margin-top:15px;
+  font-size: 75%;
+  margin-top: 15px;
 }
 
 .discover-filter-facets {
-    margin-bottom: 8px;
-    width: 100%;
+  margin-bottom: 8px;
+  width: 100%;
 }
 
 .discover-filter-block {
-    border-radius: 5px;
-    color: white;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 4px;
-    padding-right: 4px;
-    margin: 2px;
-    background: gray;
-    display: inline-block;
-    font-size: 75%;
-    cursor: pointer;
+  background: $color-text-gray-dark;
+  border-radius: 5px;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 75%;
+  margin: 2px;
+  padding-top: 2px 4px;
 }
 
 .discover-filter-block:hover {
-    color: white;
-    background: gray;
-    text-decoration: none;
+  background: $color-text-gray-dark;
+  color: $color-white;
+  text-decoration: none;
 }
 
 .discover-filter-list {
-    padding-top: 8px;
+  padding-top: 8px;
 }
 
 .clear-filters {
-    background-color: #f5f5f5;
-    color: #204762;
+  background-color: $color-bg-gray-light;
+  color: $color-text-blue;
 }
 
 .btn-select {
-    background-color: #f5f5f5;
-    color: #204762;
-    height: 33px ;
-    font-size: 14px ;
-    border-color: #ccc ;
+  background-color: $color-bg-gray-light;
+  border-color: #ccc;
+  color: $color-text-blue;
+  font-size: 14px;
+  height: 33px;
 }
 
 .no-results {
-    font-size: 15px ;
-    color: #204762;
+  color: $color-text-blue;
+  font-size: 15px;
 }
 
 .title-container {
-    padding-top: 60px;
-    padding-bottom: 60px;
-    font-size: 24px;
+  background-color: $color-bg-gray-lighter;
+  font-size: 24px;
+  padding: 30px 0;
+  position: relative;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0,0,0,.1);
 
-    position: relative;
-    padding: 30px 0;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(0,0,0,.1);
-    background-color: #EEE;
+  h1 {
+    font-size: 40px;
+    line-height: 1;
+    margin-top: 0;
+  }
 
-    h1 {
-      margin-top: 0;
-      line-height: 1;
-      font-size: 40px;
-    }
+  p {
+    color: $color-text-gray-dark;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
 
-    p {
-      color: grey;
-      font-size: 18px;
-      font-weight: 300;
-      line-height: 1.4;
-      margin-bottom: 0px;
-    }
-
-    .retraction-alert {
-        text-align: left;
-        font-size: 14px;
-        padding: 10px 30px;
-    }
+  .retraction-alert {
+    font-size: 14px;
+    padding: 10px 30px;
+    text-align: left;
+  }
 }
 
 hr.divider {
-  margin-top: 0px;
   margin-bottom: 10px;
+  margin-top: 0;
 }
 
-/* Detail */
+// Detail
 
 .detail-back-arrow-block {
-    text-align: left;
+  text-align: left;
 }
 
 .detail-back-arrow {
-    color: black;
-    cursor: pointer;
+  color: $color-text-dark;
+  cursor: pointer;
 }
 
 .detail-section-divider {
-    margin-top: 0px;
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  margin-top: 0;
 }
 
 .detail-bottom-padding {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
-/* Error page */
 
-.error-image {
-    -webkit-animation:spin 600s linear infinite;
-    -moz-animation:spin 600s linear infinite;
-    animation:spin 600s linear infinite;
+// Registration
+.registration-message-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  min-height: 450px;
+  padding: 25px;
+  text-align: center;
 }
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.registration-message {
+  max-width: 650px;
+}
