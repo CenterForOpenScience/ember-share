@@ -29,23 +29,24 @@ function dateRangeFilter(field, start, end) {
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(field)) {
-            field = `${field}.exact`;
+        let tmpField = field;
+        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(tmpField)) {
+            tmpField = `${field}.exact`;
         }
         if (all) {
             return terms.map((term) => {
                 const filter = { term: {} };
                 // creative work filter should not include subtypes
-                if (term === 'creative work' && field === 'types') {
+                if (term === 'creative work' && tmpField === 'types') {
                     filter.term.type = term;
                 } else {
-                    filter.term[field] = term;
+                    filter.term[tmpField] = term;
                 }
                 return filter;
             });
         } else {
             const filter = { terms: {} };
-            filter.terms[field] = terms;
+            filter.terms[tmpField] = terms;
             return filter;
         }
     } else {

@@ -1,4 +1,4 @@
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 
 import TypeaheadComponent from '../search-facet-typeahead/component';
 
@@ -11,13 +11,16 @@ export default TypeaheadComponent.extend({
         return data ? data.mapBy('key') : [];
     }),
 
-    dataChanged: observer('aggregations', function() {
-        const data = this.get('aggregations.sources.buckets');
-        this.updateDonut(data);
-    }),
+    didReceiveAttrs() {
+        if (!this.get('loading') && this.get('aggregations')) {
+            const data = this.get('aggregations.sources.buckets');
+            this.updateDonut(data);
+        }
+    },
 
     updateDonut(data) {
-        const columns = data.map(({ key, doc_count }) => [key, doc_count]); // jscs:ignore
+        // eslint-disable-next-line camelcase
+        const columns = data.map(({ key, doc_count }) => [key, doc_count]);
         const title = columns.length + (columns.length === 1 ? ' Source' : ' Sources');
 
         const donut = this.get('donut');
@@ -34,6 +37,7 @@ export default TypeaheadComponent.extend({
 
     initDonut(title, columns) {
         const element = this.$('.donut').get(0);
+        // eslint-disable-next-line no-undef
         const donut = c3.generate({
             bindto: element,
             data: {

@@ -3,7 +3,7 @@
     <br>
     <div class="row share-search">
         <div class="col-xs-8 col-xs-offset-2">
-            {{input class="form-control" value=q key-up='typing' placeholder=placeholder}}
+            {{input class="form-control" value=q placeholder=placeholder}}
         </div>
         <div class="col-xs-2">
             <a href="" {{action 'search'}}>
@@ -117,7 +117,6 @@
                         selectSortOption=(action 'selectSortOption')
                     }}
                     {{faceted-search
-                        onChange='filtersChanged'
                         updateParams='updateParams'
                         filters=facetFilters
                         facetStates=facetStates
@@ -141,11 +140,12 @@
                     facetStates=facetStates
                     facets=facets
                     aggregations=aggregations
+                    loading=fetchData.isRunning
                 }}
             </div>
         {{/if}}
         <div class='col-sm-7 col-md-8 col-lg-9 col-xs-12'>
-            {{#if loading}}
+            {{#if fetchData.isRunning}}
                 {{loading-bars}}
             {{else if queryError}}
                 {{query-syntax}}

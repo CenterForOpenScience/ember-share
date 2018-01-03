@@ -1,4 +1,4 @@
-import { observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
 
@@ -12,16 +12,7 @@ const DATE_FORMAT = 'Y-MM-DD';
 export default Component.extend({
     statePrevious: null,
 
-    changed: observer('state.start', 'state.end', function() {
-        const start = this.get('state.start');
-        const end = this.get('state.end');
-        if (start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
-            this.set('pickerValue', `${moment(start).format(DATE_FORMAT)} - ${moment(end).format(DATE_FORMAT)}`);
-            this.updateFilter(start, end);
-        }
-    }),
-
-    filterUpdated: observer('state', function() {
+    filterUpdated: computed('state', function() {
         const state = this.get('state');
         if (state.start) {
             const start = moment(this.get('state.start'));
@@ -39,8 +30,7 @@ export default Component.extend({
         }
     }),
 
-    init() {
-        this._super(...arguments);
+    didReceiveAttrs() {
         this.set('statePrevious', []);
         this.updateFilter(this.get('state.start'), this.get('state.end'));
     },
@@ -77,7 +67,7 @@ export default Component.extend({
         });
 
         run.scheduleOnce('actions', this, function() {
-            this.filterUpdated();
+            this.get('filterUpdated');
         });
     },
 
@@ -95,6 +85,12 @@ export default Component.extend({
     },
 
     updateFilter(start, end) {
+        if (!start && !end) {
+            this.noFilter();
+        } else if (start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
+            this.set('pickerValue', `${moment(start).format(DATE_FORMAT)} - ${moment(end).format(DATE_FORMAT)}`);
+        }
+
         const key = this.get('key');
         const value = start && end ?
             { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } :

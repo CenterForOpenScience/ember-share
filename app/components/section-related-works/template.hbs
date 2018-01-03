@@ -1,6 +1,6 @@
 {{#if showPageControls}}
     <div class='text-center'>
-        {{page-controls page=page clampedPages=totalPages loadPage=(action 'loadPage')}}
+        {{page-controls page=page clampedPages=totalPages loadPage=(perform loadPage)}}
     </div>
 {{/if}}
 <ul>

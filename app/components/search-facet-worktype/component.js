@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import compare from 'ember';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
 
 import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+
 
 export default Component.extend({
     metrics: service(),
@@ -16,11 +17,11 @@ export default Component.extend({
         return this.get('state') || [];
     }),
 
-    changed: observer('state', function() {
+    changed: computed('state', function() {
         const state = isBlank(this.get('state')) ? [] : this.get('state');
         const previousState = this.get('previousState') || [];
 
-        if (Ember.compare(previousState, state) !== 0) {
+        if (compare(previousState, state) !== 0) {
             const value = this.get('state') || [];
             this.send('setState', value);
         }

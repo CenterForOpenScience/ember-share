@@ -6,7 +6,6 @@ export default Component.extend({
             const filters = this.get('filters');
             filters.set(key, facet);
             this.sendAction('updateParams', key, value);
-            this.sendAction('onChange', filters);
         },
     },
 });

@@ -1,18 +1,20 @@
-import Ember from 'ember';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
-import { debounce } from '@ember/runloop';
+import { computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
+import compare from 'ember';
+
+import { task, timeout } from 'ember-concurrency';
 
 import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 import ENV from '../../config/environment';
 
 
 const RESULTS = 20;
+const DEBOUNCE_MS = 250;
+
 
 export default Component.extend({
-
     metrics: service(),
     category: 'filter-facets',
 
@@ -29,11 +31,11 @@ export default Component.extend({
         return value || [];
     }),
 
-    changed: observer('state', function() {
+    changed: computed('state', function() {
         const state = isBlank(this.get('state')) ? [] : this.get('state');
         const previousState = this.get('previousState') || [];
 
-        if (Ember.compare(previousState, state) !== 0) {
+        if (compare(previousState, state) !== 0) {
             const value = this.get('state');
             this.send('changeFilter', value || []);
         }
@@ -51,12 +53,6 @@ export default Component.extend({
             this.set('previousState', this.get('state'));
             this.sendAction('onChange', this.get('key'), filter, value);
         },
-
-        elasticSearch(term) {
-            return new Ember.RSVP.Promise((resolve, reject) => {
-                debounce(this, this._performSearch, term, resolve, reject, 250);
-            });
-        },
     },
 
     buildQueryObjectMatch(selected) {
@@ -64,10 +60,6 @@ export default Component.extend({
         const newValue = !selected[0] ? [] : selected;
         const newFilter = this.get('filterType')(key, getUniqueList(newValue));
         return { filter: newFilter, value: newValue };
-    },
-
-    handleTypeaheadResponse(response) {
-        return getUniqueList(response.hits.hits.mapBy('_source.name'));
     },
 
     typeaheadQueryUrl() {
@@ -100,20 +92,20 @@ export default Component.extend({
         return { size: RESULTS, query: match };
     },
 
-    _performSearch(term, resolve, reject) {
-        if (isBlank(term)) { return []; }
+    searchElastic: task(function* (term) {
+        if (isBlank(term)) { yield []; }
+        yield timeout(DEBOUNCE_MS);
 
         const data = JSON.stringify(this.buildTypeaheadQuery(term));
 
-        return $.ajax({
+        const response = yield $.ajax({
             url: this.typeaheadQueryUrl(),
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
             data,
-        }).then(json =>
-            resolve(this.handleTypeaheadResponse(json)),
-        reject,
-        );
-    },
+        });
+
+        return getUniqueList(response.hits.hits.mapBy('_source.name'));
+    }).restartable(),
 });

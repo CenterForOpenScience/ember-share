@@ -23,12 +23,12 @@
 
                     <div class="row" id="index-tile-row">
                         <div class=" index-tile col-lg-4">
-                            {{#link-to 'discover' (query-params type="publication") class="index-filter" invokeAction=(action 'track' 'publication')}}
+                            {{#link-to 'discover' (query-params type=publicationQueryParam) class="index-filter" invokeAction=(action 'track' 'publication')}}
                                 {{ homepage-button-box label='PUBLICATIONS' icon='fa fa-book' }}
                             {{/link-to}}
                         </div>
                         <div class="index-tile col-lg-4">
-                            {{#link-to 'discover' (query-params type="preprint") class="index-filter" invokeAction=(action 'track' 'preprint')}}
+                            {{#link-to 'discover' (query-params type=preprintQueryParam) class="index-filter" invokeAction=(action 'track' 'preprint')}}
                                 {{ homepage-button-box label='PREPRINTS' icon='fa fa-file-text' }}
                             {{/link-to}}
                         </div>

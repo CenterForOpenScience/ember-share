@@ -2,8 +2,14 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
+import { task, timeout } from 'ember-concurrency';
+
 import ENV from '../../config/environment';
 import { PAGE_FRAGMENT_MAP } from '../../utils/mappings';
+
+
+const DEBOUNCE_MS = 250;
+
 
 export default Component.extend({
     store: service(),
@@ -22,18 +28,15 @@ export default Component.extend({
         return Math.min(maxPages, Math.ceil(this.get('model.totalRelatedWorks') / this.get('pageSize')));
     }),
 
-    actions: {
-        loadPage(newPage) {
-            if (this.get('loadingPage')) {
-                return;
-            }
-            this.set('loadingPage', true);
 
-            const offset = (newPage - 1) * this.get('pageSize');
-            const model = this.get('model');
+    loadPage: task(function* (newPage) {
+        yield timeout(DEBOUNCE_MS);
+        const offset = (newPage - 1) * this.get('pageSize');
+        const model = this.get('model');
 
-            // TODO consolidate graphql queries in a util or service or something
-            $.ajax({
+        // TODO consolidate graphql queries in a util or service or something (SHARE-1031)
+        try {
+            const data = yield $.ajax({
                 url: `${ENV.apiBaseUrl}/api/v2/graph/`,
                 method: 'POST',
                 crossDomain: true,
@@ -51,14 +54,15 @@ export default Component.extend({
                         }
                     }`,
                 },
-            }).then((data) => {
-                if (data.errors) { throw Error(data.errors[0].message); }
-                this.setProperties({
-                    offset,
-                    loadingPage: false,
-                    'model.relatedWorks': data.data.shareObject.relatedWorks,
-                });
             });
-        },
-    },
+
+            this.setProperties({
+                offset,
+                loadingPage: false,
+                'model.relatedWorks': data.data.shareObject.relatedWorks,
+            });
+        } catch (e) {
+            throw Error(e);
+        }
+    }).restartable(),
 });

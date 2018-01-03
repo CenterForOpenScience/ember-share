@@ -9,6 +9,9 @@ export default Controller.extend({
 
     placeholder: 'Search scholarly works',
 
+    publicationQueryParam: ['publication'],
+    preprintQueryParam: ['preprint'],
+
     actions: {
         search() {
             const searchString = this.get('searchString') || '';

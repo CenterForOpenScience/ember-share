@@ -1,51 +1,145 @@
-import Ember from 'ember';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
-import { once } from '@ember/runloop';
+import EmberObject, { computed } from '@ember/object';
+import ArrayProxy from '@ember/array/proxy';
 
-import _ from 'lodash';
 import moment from 'moment';
+import QueryParams from 'ember-parachute';
+import { task, timeout } from 'ember-concurrency';
 
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
 import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
 
-const filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
-export default ApplicationController.extend({
+const DEBOUNCE_MS = 250;
+
+const filterQueryParamsList = ['tags', 'sources', 'publishers', 'funders', 'language', 'contributors', 'type'];
+
+const filterQueryParams = {
+    sort: {
+        defaultValue: '',
+        refresh: true,
+    },
+    start: {
+        defaultValue: '',
+        refresh: true,
+    },
+    end: {
+        defaultValue: '',
+        refresh: true,
+    },
+    type: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    tags: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    sources: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    publishers: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    funders: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    language: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    contributors: {
+        defaultValue: [],
+        refresh: true,
+        serialize(value) {
+            return encodeParams(value);
+        },
+        deserialize(value = '') {
+            return getSplitParams(value) || [];
+        },
+    },
+    page: {
+        defaultValue: 1,
+        refresh: true,
+    },
+};
+
+export const discoverQueryParams = new QueryParams(
+    filterQueryParams,
+    {
+        q: {
+            defaultValue: '',
+            refresh: true,
+        },
+        size: {
+            defaultValue: 10,
+            refresh: true,
+        },
+    },
+);
+
+const elasticAggregations = {
+    sources: {
+        terms: {
+            field: 'sources',
+            size: ENV.maxSources,
+        },
+    },
+};
+
+
+export default ApplicationController.extend(discoverQueryParams.Mixin, {
     metrics: service(),
-
-    queryParams: computed(function() {
-        const allParams = ['q', 'start', 'end', 'sort', 'page'];
-        allParams.push(...filterQueryParams);
-        return allParams;
-    }),
 
     category: 'discover',
     placeholder: 'Search scholarly works',
 
-    page: 1,
-    size: 10,
-    q: '',
-    tags: '',
-    sources: '',
-    publishers: '',
-    funders: '',
-    institutions: '',
-    organizations: '',
-    language: '',
-    contributors: '',
-    start: '',
-    end: '',
-    type: '',
-    sort: '',
     sortDisplay: 'Relevance',
 
     collapsedFilters: true,
     collapsedQueryBody: true,
 
-    loading: true,
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
@@ -70,7 +164,9 @@ export default ApplicationController.extend({
 
     eventsLastUpdated: Date().toString(),
 
-    results: Ember.ArrayProxy.create({ content: [] }),
+    results: ArrayProxy.create({ content: [] }),
+
+    queryParamsChanged: computed.or('queryParamsState.{page,sort,q,tags,sources,publishers,funders,language,contributors,type,start,end}.changed'),
 
     noResultsMessage: computed('numberOfResults', function() {
         return this.get('numberOfResults') > 0 ? '' : 'No results. Try removing some filters.';
@@ -102,21 +198,6 @@ export default ApplicationController.extend({
         return this.transformTypes(types);
     }),
 
-    searchUrl: computed(function() {
-        return buildElasticCall();
-    }),
-
-    elasticAggregations: computed(function() {
-        return {
-            sources: {
-                terms: {
-                    field: 'sources',
-                    size: ENV.maxSources,
-                },
-            },
-        };
-    }),
-
     facets: computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
@@ -130,10 +211,10 @@ export default ApplicationController.extend({
         ];
     }),
 
-    facetStates: computed(...filterQueryParams, 'end', 'start', function() {
+    facetStates: computed(...filterQueryParamsList, 'end', 'start', function() {
         const facetStates = {};
-        for (const param of filterQueryParams) {
-            facetStates[param] = getSplitParams(this.get(param));
+        for (const param of filterQueryParamsList) {
+            facetStates[param] = this.get(param);
         }
         facetStates.date = { start: this.get('start'), end: this.get('end') };
         return facetStates;
@@ -163,9 +244,9 @@ export default ApplicationController.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            const currentValue = getSplitParams(this.get(type)) || [];
+            const currentValue = this.get(type);
             const newValue = getUniqueList([filterValue].concat(currentValue));
-            this.set(type, encodeParams(newValue));
+            this.set(type, newValue);
         },
 
         removeFilter(type, filterValue) {
@@ -175,12 +256,11 @@ export default ApplicationController.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            let currentValue = getSplitParams(this.get(type)) || [];
+            const currentValue = this.get(type);
             const index = currentValue.indexOf(filterValue);
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            currentValue = currentValue.length ? encodeParams(currentValue) : '';
             this.set(type, currentValue);
             this.get('facetFilters');
         },
@@ -193,38 +273,21 @@ export default ApplicationController.extend({
             this.toggleProperty('collapsedFilters');
         },
 
-        typing(val, event) {
-            // Ignore all keycodes that do not result in the value changing
-            // 8 == Backspace, 32 == Space
-            if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
-                return;
-            }
-            this.search();
-        },
-
         search() {
             const category = this.get('category');
             const action = 'search';
             const label = this.get('q');
 
             this.get('metrics').trackEvent({ category, action, label });
-
-            this.search();
         },
 
         updateParams(key, value) {
-            let tmpValue = value;
             if (key === 'date') {
                 this.set('start', value.start);
                 this.set('end', value.end);
             } else {
-                tmpValue = value ? encodeParams(value) : '';
-                this.set(key, tmpValue);
+                this.set(key, value);
             }
-        },
-
-        filtersChanged() {
-            this.search();
         },
 
         loadPageNoScroll(newPage) {
@@ -246,13 +309,11 @@ export default ApplicationController.extend({
             if (scroll) {
                 this.scrollToResults();
             }
-            this.loadPage();
         },
 
         selectSortOption(option, display) {
             this.set('sortDisplay', display);
             this.set('sort', option);
-            this.search();
         },
 
         clearFilters() {
@@ -262,44 +323,43 @@ export default ApplicationController.extend({
 
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.set('facetFilters', Ember.Object.create());
-            for (const param in filterQueryParams) {
-                const key = filterQueryParams[param];
-                if (filterQueryParams.indexOf(key) > -1) {
-                    this.set(key, '');
-                }
-            }
-            this.set('start', '');
-            this.set('end', '');
-            this.set('sort', '');
-            this.search();
+            this.resetQueryParams(Object.keys(filterQueryParams));
         },
     },
 
-    scrollToResults() {
-        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+    setup({ queryParams }) {
+        this.get('fetchData').perform(queryParams);
     },
 
-    search() {
-        if (!this.get('firstLoad')) {
-            this.set('page', 1);
+    queryParamsDidChange({ shouldRefresh, queryParams }) {
+        if (shouldRefresh) {
+            this.get('fetchData').perform(queryParams);
         }
-        this.set('loading', true);
-        this.get('results').clear();
-        this.get('debouncedLoadPage')();
     },
 
-    loadPage() {
-        const queryBody = JSON.stringify(this.getQueryBody());
-        this.set('loading', true);
-        return $.ajax({
-            url: this.get('searchUrl'),
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: queryBody,
-        }).then((json) => {
-            const results = json.hits.hits.map(hit => Object.assign(
+    reset(isExiting) {
+        if (isExiting) {
+            this.resetQueryParams();
+            this.set('facetFilters', EmberObject.create({}));
+        }
+    },
+
+    scrollToResults() {
+        $('html, body').scrollTop($('.results-top').position().top);
+    },
+
+    fetchData: task(function* (queryParams) {
+        yield timeout(DEBOUNCE_MS);
+        const queryBody = yield JSON.stringify(this.getQueryBody(queryParams));
+        try {
+            const response = yield $.ajax({
+                url: buildElasticCall(),
+                crossDomain: true,
+                type: 'POST',
+                contentType: 'application/json',
+                data: queryBody,
+            });
+            const results = response.hits.hits.map(hit => Object.assign(
                 {},
                 hit._source,
                 ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
@@ -308,24 +368,20 @@ export default ApplicationController.extend({
                 ), { typeSlug: hit._source.type.classify().toLowerCase() }),
             ));
 
-            if (json.aggregations) {
-                this.set('aggregations', json.aggregations);
+            if (response.aggregations) {
+                this.set('aggregations', response.aggregations);
             }
             this.setProperties({
-                numberOfResults: json.hits.total,
-                took: moment.duration(json.took).asSeconds(),
-                loading: false,
-                firstLoad: false,
+                numberOfResults: response.hits.total,
+                took: moment.duration(response.took).asSeconds(),
                 results,
                 queryError: false,
             });
-            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
-                this.search();
-            }
-        }, (errorResponse) => {
+            // if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+            //     this.search();
+            // }
+        } catch (errorResponse) {
             this.setProperties({
-                loading: false,
-                firstLoad: false,
                 numberOfResults: 0,
                 results: [],
             });
@@ -334,16 +390,16 @@ export default ApplicationController.extend({
             } else {
                 this.send('elasticDown');
             }
-        });
-    },
+        }
+    }).restartable(),
 
-    getQueryBody() {
+    getQueryBody(queryParams) {
         const facetFilters = this.get('facetFilters');
         let filters = [];
         for (const k of Object.keys(facetFilters)) {
             const filter = facetFilters[k];
             if (filter) {
-                if (Ember.$.isArray(filter)) {
+                if ($.isArray(filter)) {
                     filters = filters.concat(filter);
                 } else {
                     filters.push(filter);
@@ -353,7 +409,7 @@ export default ApplicationController.extend({
 
         let query = {
             query_string: {
-                query: this.get('q') || '*',
+                query: queryParams.q || '*',
             },
         };
         if (filters.length) {
@@ -370,49 +426,54 @@ export default ApplicationController.extend({
             query,
             from: (page - 1) * this.get('size'),
         };
-        if (this.get('sort')) {
+
+        let sortValue = this.get('sort');
+        if (!this.get('queryParamsChanged')) {
+            sortValue = '-date_modified';
+        }
+
+        if (sortValue) {
             const sortBy = {};
-            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
+            sortBy[sortValue.replace(/^-/, '')] = sortValue[0] === '-' ? 'desc' : 'asc';
             queryBody.sort = sortBy;
         }
-        if (page === 1 || this.get('firstLoad')) {
-            queryBody.aggregations = this.get('elasticAggregations');
-        }
+
+        queryBody.aggregations = elasticAggregations;
 
         this.set('displayQueryBody', { query });
         return this.set('queryBody', queryBody);
     },
 
-    getTypes() {
-        return $.ajax({
+    getTypes: task(function* () {
+        const response = yield $.ajax({
             url: `${ENV.apiUrl}/schema/creativework/hierarchy/`,
             crossDomain: true,
             type: 'GET',
             contentType: 'application/vnd.api+json',
-        }).then((json) => {
-            if (json.data) {
-                this.set('types', json.data);
-            }
         });
-    },
+        if (response.data) {
+            this.set('types', response.data);
+        }
+    }),
 
-    transformTypes(obj) {
-        const value = obj;
-        if (typeof (value) !== 'object') {
-            return value;
+    transformTypes(types) {
+        const tmpTypes = types;
+        if (typeof (tmpTypes) !== 'object') {
+            return tmpTypes;
         }
 
-        for (const key in value) {
+        for (const key of Object.keys(tmpTypes)) {
             const lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
-            value[lowKey] = this.transformTypes(value[key]);
+            tmpTypes[lowKey] = this.transformTypes(tmpTypes[key]);
             if (key !== lowKey) {
-                delete value[key];
+                delete tmpTypes[key];
             }
         }
-        return value;
+
+        return tmpTypes;
     },
 
-    getCounts() {
+    getCounts: task(function* () {
         const queryBody = JSON.stringify({
             size: 0,
             aggregations: {
@@ -424,27 +485,23 @@ export default ApplicationController.extend({
                 },
             },
         });
-        return $.ajax({
-            url: this.get('searchUrl'),
+        const response = yield $.ajax({
+            url: buildElasticCall(),
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
             data: queryBody,
-        }).then((json) => {
-            this.setProperties({
-                numberOfEvents: json.hits.total,
-                numberOfSources: json.aggregations.sources.value,
-            });
         });
-    },
+        this.setProperties({
+            numberOfEvents: response.hits.total,
+            numberOfSources: response.aggregations.sources.value,
+        });
+    }),
 
     init() {
-        // TODO Sort initial results on date_modified
         this._super(...arguments);
-        this.set('firstLoad', true);
-        this.set('facetFilters', Ember.Object.create());
-        this.getTypes();
-        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
-        this.getCounts();
+        this.set('facetFilters', EmberObject.create());
+        this.get('getTypes').perform();
+        this.get('getCounts').perform();
     },
 });

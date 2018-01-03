@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
+import compare from 'ember';
 
 import langs from 'npm:langs';
 
@@ -30,11 +30,11 @@ export default Component.extend({
         return languageNames;
     }),
 
-    changed: observer('state', function() {
+    changed: computed('state', function() {
         const state = isBlank(this.get('state')) ? [] : this.get('state');
         const previousState = this.get('previousState') || [];
 
-        if (Ember.compare(previousState, state) !== 0) {
+        if (compare(previousState, state) !== 0) {
             const value = this.get('state');
             this.send('changeFilter', value || []);
         }
@@ -56,9 +56,10 @@ export default Component.extend({
     },
 
     buildQueryObject(selected) {
+        let tmpSelected = selected;
         const key = this.get('key');
-        if (!Ember.$.isArray(selected)) {
-            selected = [selected];
+        if (!$.isArray(tmpSelected)) {
+            tmpSelected = [tmpSelected];
         }
         const languageCodes = selected.map(lang =>
             (langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']),

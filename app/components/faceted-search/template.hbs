@@ -6,13 +6,15 @@
         </div>
         <div class='panel-body'>
             {{component facet.component
-            key=facet.key
-            options=facet
-            aggregations=aggregations
-            state=(get facetStates facet.key)
-            filter=(get facetFilters facet.key)
-            onChange=(action 'facetChanged')
-            data=facet.data}}
+                key=facet.key
+                options=facet
+                aggregations=aggregations
+                state=(get facetStates facet.key)
+                filter=(get facetFilters facet.key)
+                onChange=(action 'facetChanged')
+                data=facet.data
+                loading=loading
+            }}
         </div>
     </div>
 {{/each}}
