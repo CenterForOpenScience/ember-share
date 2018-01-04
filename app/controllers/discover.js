@@ -331,9 +331,13 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         this.get('fetchData').perform(queryParams);
     },
 
-    queryParamsDidChange({ shouldRefresh, queryParams }) {
+    queryParamsDidChange({ shouldRefresh, queryParams, changed }) {
         if (shouldRefresh) {
             this.get('fetchData').perform(queryParams);
+        }
+
+        if (queryParams.page !== 1 && !changed.page) {
+            this.set('page', 1);
         }
     },
 
@@ -377,9 +381,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
                 results,
                 queryError: false,
             });
-            // if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
-            //     this.search();
-            // }
         } catch (errorResponse) {
             this.setProperties({
                 numberOfResults: 0,
