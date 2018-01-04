@@ -25,6 +25,8 @@ const Router = EmberRouter.extend({
     },
 });
 
+/* eslint-disable array-callback-return */
+
 Router.map(function() {
     this.route('notfound', { path: '/*path' });
 
@@ -38,5 +40,7 @@ Router.map(function() {
     this.route('elastic-down');
     this.route('notfound');
 });
+
+/* eslint-enable array-callback-return */
 
 export default Router;

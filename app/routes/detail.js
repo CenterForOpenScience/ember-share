@@ -70,7 +70,8 @@ export default Route.extend(RouteHistoryMixin, {
         // Find the most specific template available for the found type
         let view = null;
         for (let i = 0; i < model.types.length; i++) {
-            if ((view = CONTROLLER_MAP[model.types[i]])) {
+            view = CONTROLLER_MAP[model.types[i]];
+            if (view) {
                 break;
             }
         }

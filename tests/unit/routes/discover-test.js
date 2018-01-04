@@ -4,6 +4,7 @@ moduleFor('route:discover', 'Unit | Route | discover', {
     // Specify the other units that are required for this test.
     needs: [
         'service:metrics',
+        'service:session',
     ],
 });
 
