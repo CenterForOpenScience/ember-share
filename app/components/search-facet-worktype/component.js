@@ -38,12 +38,12 @@ export default Component.extend({
             const key = this.get('key');
             const { filter, value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
+            this.updateFacet(key, filter, value);
         },
 
         toggle(type) {
             let selected = this.get('selected');
-            selected = selected.contains(type) ? [] : [type];
+            selected = selected.includes(type) ? [] : [type];
             this.send('setState', selected);
         },
     },

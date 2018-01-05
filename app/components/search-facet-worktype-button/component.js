@@ -6,7 +6,7 @@ import ENV from '../../config/environment';
 export default Component.extend({
     selected: computed('selectedTypes.[]', function() {
         const selectedTypes = this.get('selectedTypes');
-        return selectedTypes.contains(this.get('type'));
+        return selectedTypes.includes(this.get('type'));
     }),
 
     label: computed('type', function() {
@@ -20,11 +20,11 @@ export default Component.extend({
     actions: {
         click() {
             this.$().blur();
-            this.sendAction('onClick', this.get('type'));
+            this.onClick(this.get('type'));
         },
 
         toggleBody() {
-            this.sendAction('toggleCollapse');
+            this.toggleCollapse();
         },
     },
 });

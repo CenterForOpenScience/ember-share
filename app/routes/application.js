@@ -11,6 +11,7 @@ export default Route.extend(ApplicationRouteMixin, RouteHistoryMixin, {
     beforeModel() {
         const session = this.get('session');
         if (!session.get('isAuthenticated')) {
+            // eslint-disable-next-line ember/named-functions-in-promises
             session.authenticate('authenticator:osf-token', false).catch(() => {});
         }
     },

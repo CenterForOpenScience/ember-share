@@ -82,7 +82,7 @@ export default Component.extend({
 
     actions: {
         addFilter(type, filter) {
-            this.sendAction('addFilter', type, filter);
+            this.addFilter(type, filter);
         },
     },
 });

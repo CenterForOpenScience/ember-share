@@ -117,11 +117,12 @@
                         selectSortOption=(action 'selectSortOption')
                     }}
                     {{faceted-search
-                        updateParams='updateParams'
+                        updateParams=(action 'updateParams')
                         filters=facetFilters
                         facetStates=facetStates
                         facets=facets
                         aggregations=aggregations
+                        loading=fetchData.isRunning
                     }}
                 {{/bs-collapse}}
             </div>
@@ -134,8 +135,7 @@
                     selectSortOption=(action 'selectSortOption')
                 }}
                 {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
+                    updateParams=(action 'updateParams')
                     filters=facetFilters
                     facetStates=facetStates
                     facets=facets
@@ -153,7 +153,7 @@
                 <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
                 {{#each results as |obj|}}
-                    {{search-result addFilter='addFilter' obj=obj}}
+                    {{search-result addFilter=(action 'addFilter') obj=obj}}
                 {{/each}}
                 <div class="pull-right text-right">
                     {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}

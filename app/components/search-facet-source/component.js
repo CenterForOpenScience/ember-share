@@ -45,7 +45,7 @@ export default TypeaheadComponent.extend({
                 type: 'donut',
                 onclick: (d) => {
                     const selected = this.get('selected');
-                    if (!selected.contains(d.name)) {
+                    if (!selected.includes(d.name)) {
                         this.send('changeFilter', [d.name, ...selected]);
                     }
                 },

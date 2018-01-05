@@ -23,22 +23,17 @@ export default Route.extend(RouteHistoryMixin, {
                 variables: '',
                 query: `query {
                     shareObject(id: "${params.id}") {
-                      id,
-                      type: __typename,
-                      types,
-                      extra,
-                      sources { id, title, icon },
+                        id,
+                        type: __typename,
+                        types,
+                        extra,
+                        sources { id, title, icon },
 
-                      ${Object.keys(FRAGMENT_MAP).map(type => `...on ${type} ${FRAGMENT_MAP[type]}`).join('\n')}
-                  }
-              }`,
+                        ${Object.keys(FRAGMENT_MAP).map(type => `...on ${type} ${FRAGMENT_MAP[type]}`).join('\n')}
+                    }
+                }`,
             },
-        }).then((data) => {
-            if (data.errors) {
-                throw Error(data.errors[0].message);
-            }
-            return data.data.shareObject;
-        });
+        }).then(this._handleErrors.bind(this));
     },
 
     afterModel(model, transition) {
@@ -79,5 +74,12 @@ export default Route.extend(RouteHistoryMixin, {
         this.set('templateName', view);
         this.set('controllerName', view);
         return this._super(model, transition);
+    },
+
+    _handleErrors(data) {
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
+        return data.data.shareObject;
     },
 });

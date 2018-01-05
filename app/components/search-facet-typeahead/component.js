@@ -51,7 +51,7 @@ export default Component.extend({
 
             const { filter, value } = this.buildQueryObjectMatch(selected);
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), filter, value);
+            this.updateFacet(this.get('key'), filter, value);
         },
     },
 

@@ -1,6 +1,6 @@
-import Ember from 'ember';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
 import { ICON_MAP } from '../utils/mappings';
 
@@ -13,7 +13,7 @@ const VISITABLE = Object.freeze({
     scheme: /https?|ftps?/i,
 });
 
-export default Ember.Mixin.create({
+export default Mixin.create({
     routeHistory: service(),
     showExtra: false,
 

@@ -5,7 +5,7 @@ export default Component.extend({
 
     actions: {
         select(sortBy, display) {
-            this.sendAction('selectSortOption', sortBy, display);
+            this.selectSortOption(sortBy, display);
         },
     },
 });

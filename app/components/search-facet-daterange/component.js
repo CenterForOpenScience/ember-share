@@ -75,7 +75,7 @@ export default Component.extend({
         clear() {
             this.noFilter();
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
+            this.updateFacet(this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
         },
     },
 
@@ -96,7 +96,7 @@ export default Component.extend({
             { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } :
             { start: '', end: '' };
         this.set('previousState', this.get('state'));
-        this.sendAction('onChange', key, this.buildQueryObject(start, end), value);
+        this.updateFacet(key, this.buildQueryObject(start, end), value);
     },
 
     noFilter() {

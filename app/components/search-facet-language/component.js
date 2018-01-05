@@ -51,7 +51,7 @@ export default Component.extend({
             const key = this.get('key');
             const { filter, value } = this.buildQueryObject(languageNames || []);
             this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
+            this.updateFacet(key, filter, value);
         },
     },
 
