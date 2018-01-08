@@ -20,11 +20,11 @@ export default Component.extend({
     actions: {
         click() {
             this.$().blur();
-            this.onClick(this.get('type'));
+            this.get('onClick')(this.get('type'));
         },
 
         toggleBody() {
-            this.toggleCollapse();
+            this.get('toggleCollapse')();
         },
     },
 });

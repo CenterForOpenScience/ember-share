@@ -18,7 +18,7 @@ export default Component.extend({
 
     actions: {
         toggle(type) {
-            this.onClick(type);
+            this.get('onClick')(type);
         },
 
         toggleBody() {

@@ -38,7 +38,7 @@ export default Component.extend({
             const key = this.get('key');
             const { filter, value } = this.buildQueryObjectMatch(selected.length ? selected : []);
             this.set('previousState', this.get('state'));
-            this.updateFacet(key, filter, value);
+            this.get('updateFacet')(key, filter, value);
         },
 
         toggle(type) {
