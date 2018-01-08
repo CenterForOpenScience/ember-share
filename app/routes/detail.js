@@ -11,6 +11,7 @@ export default Route.extend(RouteHistoryMixin, {
     session: service(),
 
     model(params) {
+        // TODO consolidate graphql queries in a util or service or something (SHARE-1031)
         return $.ajax({
             url: `${ENV.apiBaseUrl}/api/v2/graph/`,
             method: 'POST',

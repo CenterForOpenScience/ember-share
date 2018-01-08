@@ -35,34 +35,32 @@ export default Component.extend({
         const model = this.get('model');
 
         // TODO consolidate graphql queries in a util or service or something (SHARE-1031)
-        try {
-            const data = yield $.ajax({
-                url: `${ENV.apiBaseUrl}/api/v2/graph/`,
-                method: 'POST',
-                crossDomain: true,
-                xhrFields: { withCredentials: true },
-                headers: {
-                    'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken'),
-                },
-                data: {
-                    variables: '',
-                    query: `query {
-                        shareObject(id: "${model.id}") {
-                            ...on AbstractAgent {
-                                ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedWorks(offset)}
-                            }
+        const data = yield $.ajax({
+            url: `${ENV.apiBaseUrl}/api/v2/graph/`,
+            method: 'POST',
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
+            headers: {
+                'X-CSRFTOKEN': this.get('session.data.authenticated.csrfToken'),
+            },
+            data: {
+                variables: '',
+                query: `query {
+                    shareObject(id: "${model.id}") {
+                        ...on AbstractAgent {
+                            ${PAGE_FRAGMENT_MAP.AbstractAgent.relatedWorks(offset)}
                         }
-                    }`,
-                },
-            });
+                    }
+                }`,
+            },
+        });
 
-            this.setProperties({
-                offset,
-                loadingPage: false,
-                'model.relatedWorks': data.data.shareObject.relatedWorks,
-            });
-        } catch (e) {
-            throw Error(e);
-        }
+        if (data.errors) { throw Error(data.errors[0].message); }
+
+        this.setProperties({
+            offset,
+            loadingPage: false,
+            'model.relatedWorks': data.data.shareObject.relatedWorks,
+        });
     }).restartable(),
 });

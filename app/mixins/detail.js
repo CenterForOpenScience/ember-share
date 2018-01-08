@@ -24,10 +24,10 @@ export default Mixin.create({
     // Links that people could actual click on and not get XML/JSON/etc
     links: computed('model.identifiers', function() {
         return this.get('model.identifiers').filter(identifier =>
-            Object.keys(VISITABLE).reduce((acc, k) => acc ||
-            VISITABLE[k].test(identifier[k]), false) &&
-            !Object.keys(AVOID).reduce((acc, k) => acc ||
-            AVOID[k].test(identifier[k]), false),
+            Object.keys(VISITABLE).reduce((acc, k) =>
+                acc || VISITABLE[k].test(identifier[k]), false) &&
+            !Object.keys(AVOID).reduce((acc, k) =>
+                acc || AVOID[k].test(identifier[k]), false),
         );
     }),
 
