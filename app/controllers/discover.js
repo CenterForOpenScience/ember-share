@@ -9,7 +9,7 @@ import { task, timeout } from 'ember-concurrency';
 import ApplicationController from './application';
 import buildElasticCall from '../utils/build-elastic-call';
 import ENV from '../config/environment';
-import { getUniqueList, getSplitParams, encodeParams } from '../utils/elastic-query';
+import { getUniqueList, getSplitParams, encodeParams, getFilter } from '../utils/elastic-query';
 
 
 const DEBOUNCE_MS = 250;
@@ -29,7 +29,7 @@ const filterQueryParams = {
         defaultValue: '',
         refresh: true,
     },
-    type: {
+    types: {
         defaultValue: [],
         refresh: true,
         serialize(value) {
@@ -128,6 +128,58 @@ const elasticAggregations = {
     },
 };
 
+const facets = [
+    {
+        title: 'Source',
+        paramName: 'sources',
+        component: 'search-facet-source',
+    },
+    {
+        title: 'Date',
+        paramName: 'start',
+        filterName: 'date',
+        component: 'search-facet-daterange',
+        filter: 'dateRangeFilter',
+    },
+    {
+        title: 'Type',
+        paramName: 'types',
+        component: 'search-facet-worktype',
+        data: {},
+    },
+    {
+        title: 'Tag',
+        paramName: 'tags',
+        component: 'search-facet-typeahead',
+    },
+    {
+        title: 'Publisher',
+        paramName: 'publishers',
+        component: 'search-facet-typeahead',
+        base: 'agents',
+        type: 'publisher',
+    },
+    {
+        title: 'Funder',
+        paramName: 'funders',
+        component: 'search-facet-typeahead',
+        base: 'agents',
+        type: 'funder',
+    },
+    {
+        title: 'Language',
+        paramName: 'language',
+        component: 'search-facet-language',
+    },
+    {
+        title: 'People',
+        paramName: 'contributors',
+        component: 'search-facet-typeahead',
+        base: 'agents',
+        type: 'person',
+    },
+];
+
 
 export default ApplicationController.extend(discoverQueryParams.Mixin, {
     metrics: service(),
@@ -143,7 +195,8 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
-    types: {},
+
+    facets,
 
     sortOptions: [{
         display: 'Relevance',
@@ -193,35 +246,8 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         return null;
     }),
 
-    processedTypes: computed('types', function() {
-        const types = this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
-        return this.transformTypes(types);
-    }),
-
-    facets: computed('processedTypes', function() {
-        return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
-            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
-            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-            { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
-        ];
-    }),
-
-    facetStates: computed(...filterQueryParamsList, 'end', 'start', function() {
-        const facetStates = {};
-        for (const param of filterQueryParamsList) {
-            facetStates[param] = this.get(param);
-        }
-        facetStates.date = { start: this.get('start'), end: this.get('end') };
-        return facetStates;
-    }),
-
-    facetStatesArray: computed('facetStates', function() {
-        const facets = this.get('facetStates');
+    facetStatesArray: computed(...filterQueryParamsList, 'end', 'start', function() {
+        const facets = this.get('queryParamsState');
         const facetArray = [];
         for (const key of Object.keys(facets)) {
             facetArray.push({ key, value: facets[key] });
@@ -262,7 +288,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
                 currentValue.splice(index, 1);
             }
             this.set(type, currentValue);
-            this.get('facetFilters');
         },
 
         toggleCollapsedQueryBody() {
@@ -344,7 +369,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     reset(isExiting) {
         if (isExiting) {
             this.resetQueryParams();
-            this.set('facetFilters', EmberObject.create({}));
         }
     },
 
@@ -395,7 +419,7 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     }).restartable(),
 
     getQueryBody(queryParams) {
-        const facetFilters = this.get('facetFilters');
+        const facetFilters = this.constructFacetFilters();
         let filters = [];
         for (const k of Object.keys(facetFilters)) {
             const filter = facetFilters[k];
@@ -445,6 +469,33 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         return this.set('queryBody', queryBody);
     },
 
+    constructFacetFilters() {
+        const filters = {};
+        facets.forEach((facet) => {
+            const filterType = facet.filter || 'termsFilter';
+            const field = facet.filterName || facet.paramName;
+
+            let terms = null;
+            let start = null;
+            let end = null;
+
+            if (filterType === 'dateRangeFilter') {
+                start = this.get('queryParamsState').start.value;
+                end = this.get('queryParamsState').end.value;
+            } else {
+                terms = this.get('queryParamsState')[field].value;
+            }
+
+            filters[field] = getFilter(field, filterType, terms, start, end);
+        });
+
+        return filters;
+    },
+
+    isTypeFacet(obj) {
+        return obj.paramName === 'types';
+    },
+
     getTypes: task(function* () {
         const response = yield $.ajax({
             url: `${ENV.apiUrl}/schema/creativework/hierarchy/`,
@@ -453,7 +504,8 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
             contentType: 'application/vnd.api+json',
         });
         if (response.data) {
-            this.set('types', response.data);
+            const types = response.data.CreativeWork ? response.data.CreativeWork.children : {};
+            facets.find(this.isTypeFacet).data = this.transformTypes(types);
         }
     }),
 
@@ -501,7 +553,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
 
     init() {
         this._super(...arguments);
-        this.set('facetFilters', EmberObject.create());
         this.get('getTypes').perform();
         this.get('getCounts').perform();
     },

@@ -4,7 +4,6 @@ import Component from '@ember/component';
 
 import moment from 'moment';
 
-import { dateRangeFilter } from 'ember-share/utils/elastic-query';
 
 const DATE_FORMAT = 'Y-MM-DD';
 
@@ -12,28 +11,29 @@ const DATE_FORMAT = 'Y-MM-DD';
 export default Component.extend({
     statePrevious: null,
 
-    filterUpdated: computed('state', function() {
-        const state = this.get('state');
-        if (state.start) {
-            const start = moment(this.get('state.start'));
-            const end = moment(this.get('state.end'));
+    pickerCreated: false,
+
+    pickerValue: computed('states.{start.value,end.value}', 'pickerCreated', function() {
+        const start = this.get('states.start.value');
+        const end = this.get('states.end.value');
+
+        if (start && this.get('pickerCreated')) {
+            const formattedStart = moment(start);
+            const formattedEnd = moment(end);
             const picker = this.$('.date-range').data('daterangepicker');
-            picker.setStartDate(start);
-            picker.setEndDate(end);
+
+            picker.setStartDate(formattedStart);
+            picker.setEndDate(formattedEnd);
+
             if (picker.chosenLabel && picker.chosenLabel !== 'Custom Range') {
-                this.set('pickerValue', picker.chosenLabel);
+                return picker.chosenLabel;
             } else {
-                this.set('pickerValue', `${start.format(DATE_FORMAT)} - ${end.format(DATE_FORMAT)}`);
+                return `${formattedStart.format(DATE_FORMAT)} - ${formattedEnd.format(DATE_FORMAT)}`;
             }
         } else {
-            this.noFilter();
+            return 'All time';
         }
     }),
-
-    didReceiveAttrs() {
-        this.set('statePrevious', []);
-        this.updateFilter(this.get('state.start'), this.get('state.end'));
-    },
 
     didInsertElement() {
         this._super(...arguments);
@@ -66,40 +66,25 @@ export default Component.extend({
             });
         });
 
-        run.scheduleOnce('actions', this, function() {
-            this.get('filterUpdated');
-        });
+        this.set('pickerCreated', true);
     },
 
     actions: {
         clear() {
-            this.noFilter();
-            this.set('previousState', this.get('state'));
-            this.get('updateFacet')(this.get('key'), this.buildQueryObject(null, null), { start: '', end: '' });
+            this.get('updateFacet')('start', '');
+            this.get('updateFacet')('end', '');
         },
-    },
-
-    buildQueryObject(start, end) {
-        const key = this.get('key');
-        return dateRangeFilter(key, start, end);
     },
 
     updateFilter(start, end) {
         if (!start && !end) {
-            this.noFilter();
-        } else if (start !== this.get('statePrevious.start') || end !== this.get('statePrevious.end')) {
-            this.set('pickerValue', `${moment(start).format(DATE_FORMAT)} - ${moment(end).format(DATE_FORMAT)}`);
+            this.send('clear');
+        } else {
+            const formattedStart = moment(start).format(DATE_FORMAT);
+            const formattedEnd = moment(end).format(DATE_FORMAT);
+
+            this.get('updateFacet')('start', formattedStart);
+            this.get('updateFacet')('end', formattedEnd);
         }
-
-        const key = this.get('key');
-        const value = start && end ?
-            { start: moment(start).format(DATE_FORMAT), end: moment(end).format(DATE_FORMAT) } :
-            { start: '', end: '' };
-        this.set('previousState', this.get('state'));
-        this.get('updateFacet')(key, this.buildQueryObject(start, end), value);
-    },
-
-    noFilter() {
-        this.set('pickerValue', 'All time');
     },
 });

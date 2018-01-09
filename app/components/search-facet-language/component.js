@@ -1,12 +1,10 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
-import { isBlank } from '@ember/utils';
-import compare from 'ember';
 
 import langs from 'npm:langs';
 
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 
 
 export default Component.extend({
@@ -22,50 +20,31 @@ export default Component.extend({
         return langs.names();
     }),
 
-    selected: computed('state', function() {
-        const languageCodes = this.get('state') || [];
+    selected: computed('state.value.[]', function() {
+        const languageCodes = this.get('state.value') || [];
         const languageNames = languageCodes.map(lang =>
             langs.where('3', lang).name,
         );
         return languageNames;
     }),
 
-    changed: computed('state', function() {
-        const state = isBlank(this.get('state')) ? [] : this.get('state');
-        const previousState = this.get('previousState') || [];
-
-        if (compare(previousState, state) !== 0) {
-            const value = this.get('state');
-            this.send('changeFilter', value || []);
-        }
-    }),
-
     actions: {
-        changeFilter(languageNames) {
+        changeFilter(selected) {
             const category = this.get('category');
             const action = 'filter';
-            const label = languageNames;
-
+            const label = selected;
             this.get('metrics').trackEvent({ category, action, label });
 
-            const key = this.get('key');
-            const { filter, value } = this.buildQueryObject(languageNames || []);
-            this.set('previousState', this.get('state'));
-            this.get('updateFacet')(key, filter, value);
+            const languageNames = [].concat(selected || []);
+            const languageCodes = languageNames.map(lang =>
+                (langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']),
+            );
+
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(languageCodes));
         },
     },
 
-    buildQueryObject(selected) {
-        let tmpSelected = selected;
-        const key = this.get('key');
-        if (!$.isArray(tmpSelected)) {
-            tmpSelected = [tmpSelected];
-        }
-        const languageCodes = selected.map(lang =>
-            (langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']),
-        );
-
-        const newFilter = termsFilter(key, getUniqueList(languageCodes));
-        return { filter: newFilter, value: languageCodes };
+    updateFilter(languageCodes) {
+        this.get('updateFacet')(this.get('paramName'), getUniqueList(languageCodes));
     },
 });

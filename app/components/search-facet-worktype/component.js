@@ -1,10 +1,8 @@
-import compare from 'ember';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
-import { isBlank } from '@ember/utils';
 
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 
 
 export default Component.extend({
@@ -12,19 +10,8 @@ export default Component.extend({
 
     category: 'filter-facets',
 
-
-    selected: computed('state', function() {
-        return this.get('state') || [];
-    }),
-
-    changed: computed('state', function() {
-        const state = isBlank(this.get('state')) ? [] : this.get('state');
-        const previousState = this.get('previousState') || [];
-
-        if (compare(previousState, state) !== 0) {
-            const value = this.get('state') || [];
-            this.send('setState', value);
-        }
+    selected: computed('state.value.[]', function() {
+        return this.get('state.value') || [];
     }),
 
     actions: {
@@ -32,13 +19,9 @@ export default Component.extend({
             const category = this.get('category');
             const action = 'filter';
             const label = selected;
-
             this.get('metrics').trackEvent({ category, action, label });
 
-            const key = this.get('key');
-            const { filter, value } = this.buildQueryObjectMatch(selected.length ? selected : []);
-            this.set('previousState', this.get('state'));
-            this.get('updateFacet')(key, filter, value);
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(selected));
         },
 
         toggle(type) {
@@ -46,11 +29,5 @@ export default Component.extend({
             selected = selected.includes(type) ? [] : [type];
             this.send('setState', selected);
         },
-    },
-
-    buildQueryObjectMatch(selected) {
-        const newValue = !selected[0] ? [] : selected;
-        const newFilter = termsFilter('types', getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
     },
 });

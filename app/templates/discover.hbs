@@ -81,7 +81,7 @@
     </div>
     <div class="row visible-xs">
         <div class="col-xs-12 discover-filter-list">
-            {{#each facetStatesArray as |filter|}}
+            {{!-- {{#each facetStatesArray as |filter|}}
                 {{#if (and filter.key (not-eq key 'date'))}}
                     {{#each filter.value as |value|}}
                         <a class='discover-filter-block' {{action 'removeFilter' filter.key value}}>
@@ -89,7 +89,7 @@
                         </a>
                     {{/each}}
                 {{/if}}
-            {{/each}}
+            {{/each}} --}}
         </div>
     </div>
     <div class="row visible-xs">
@@ -108,9 +108,27 @@
     </div>
     <hr class='results-top'>
     <div class="row">
-        {{#if media.isExtraSmall}}
-            <div class='col-xs-12 visible-xs'>
-                {{#bs-collapse collapsed=collapsedFilters}}
+        {{#if getTypes.isIdle}}
+            {{#if media.isExtraSmall}}
+                <div class='col-xs-12 visible-xs'>
+                    {{#bs-collapse collapsed=collapsedFilters}}
+                        {{sortby-dropdown
+                            sortOptions=sortOptions
+                            sortDisplay=sortDisplay
+                            selectSortOption=(action 'selectSortOption')
+                        }}
+                        {{faceted-search
+                            updateParams=(action 'updateParams')
+                            facetStates=queryParamsState
+                            facets=facets
+                            aggregations=aggregations
+                            loading=fetchData.isRunning
+                        }}
+                    {{/bs-collapse}}
+                </div>
+            {{/if}}
+            {{#if (not media.isExtraSmall)}}
+                <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
                     {{sortby-dropdown
                         sortOptions=sortOptions
                         sortDisplay=sortDisplay
@@ -118,31 +136,13 @@
                     }}
                     {{faceted-search
                         updateParams=(action 'updateParams')
-                        filters=facetFilters
-                        facetStates=facetStates
+                        facetStates=queryParamsState
                         facets=facets
                         aggregations=aggregations
                         loading=fetchData.isRunning
                     }}
-                {{/bs-collapse}}
-            </div>
-        {{/if}}
-        {{#if (not media.isExtraSmall)}}
-            <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
-                {{sortby-dropdown
-                    sortOptions=sortOptions
-                    sortDisplay=sortDisplay
-                    selectSortOption=(action 'selectSortOption')
-                }}
-                {{faceted-search
-                    updateParams=(action 'updateParams')
-                    filters=facetFilters
-                    facetStates=facetStates
-                    facets=facets
-                    aggregations=aggregations
-                    loading=fetchData.isRunning
-                }}
-            </div>
+                </div>
+            {{/if}}
         {{/if}}
         <div class='col-sm-7 col-md-8 col-lg-9 col-xs-12'>
             {{#if fetchData.isRunning}}

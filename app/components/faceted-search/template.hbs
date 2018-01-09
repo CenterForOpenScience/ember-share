@@ -6,11 +6,11 @@
         </div>
         <div class='panel-body'>
             {{component facet.component
-                key=facet.key
+                paramName=facet.paramName
                 options=facet
                 aggregations=aggregations
-                state=(get facetStates facet.key)
-                filter=(get facetFilters facet.key)
+                state=(get facetStates facet.paramName)
+                states=facetStates
                 updateFacet=(action 'facetChanged')
                 data=facet.data
                 loading=loading

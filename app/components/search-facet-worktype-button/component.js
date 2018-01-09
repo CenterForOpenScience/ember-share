@@ -5,7 +5,7 @@ import ENV from '../../config/environment';
 
 export default Component.extend({
     selected: computed('selectedTypes.[]', function() {
-        const selectedTypes = this.get('selectedTypes');
+        const selectedTypes = this.get('selectedTypes.value') ? this.get('selectedTypes.value') : this.get('selectedTypes');
         return selectedTypes.includes(this.get('type'));
     }),
 

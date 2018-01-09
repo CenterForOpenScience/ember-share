@@ -2,11 +2,10 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
-import compare from 'ember';
 
 import { task, timeout } from 'ember-concurrency';
 
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 import ENV from '../../config/environment';
 
 
@@ -18,27 +17,12 @@ export default Component.extend({
     metrics: service(),
     category: 'filter-facets',
 
-    filterType: computed(function() {
-        return termsFilter;
-    }),
-
     placeholder: computed(function() {
         return `Add ${this.get('options.title')} filter`;
     }),
 
-    selected: computed('state', function() {
-        const value = this.get('state');
-        return value || [];
-    }),
-
-    changed: computed('state', function() {
-        const state = isBlank(this.get('state')) ? [] : this.get('state');
-        const previousState = this.get('previousState') || [];
-
-        if (compare(previousState, state) !== 0) {
-            const value = this.get('state');
-            this.send('changeFilter', value || []);
-        }
+    selected: computed('state.value.[]', function() {
+        return this.get('state.value') || [];
     }),
 
     actions: {
@@ -48,22 +32,12 @@ export default Component.extend({
             const label = selected;
 
             this.get('metrics').trackEvent({ category, action, label });
-
-            const { filter, value } = this.buildQueryObjectMatch(selected);
-            this.set('previousState', this.get('state'));
-            this.get('updateFacet')(this.get('key'), filter, value);
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(selected));
         },
     },
 
-    buildQueryObjectMatch(selected) {
-        const key = this.get('key');
-        const newValue = !selected[0] ? [] : selected;
-        const newFilter = this.get('filterType')(key, getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
-    },
-
     typeaheadQueryUrl() {
-        const base = this.get('options.base') || this.get('key');
+        const base = this.get('options.base') || this.get('paramName');
         return `${ENV.apiUrl}/search/${base}/_search`;
     },
 
