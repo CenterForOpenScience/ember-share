@@ -1,6 +1,11 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
+# [2.14.0] - 2018-01-10
+## Removed
+* Source registration form
+* Significant amounts of unused, dead, or commented-out code
+
 # [2.13.0] - 2017-12-18
 ## Added
 * Link to COS status page in footer
