@@ -17,7 +17,7 @@ cache:
 install:
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - export PATH=$HOME/.yarn/bin:$PATH
-- yarn --pure-lockfile --ignore-engines
+- yarn --prefer-offline --pure-lockfile
 - npm rebuild node-sass
 
 script:
