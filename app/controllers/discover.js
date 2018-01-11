@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import EmberObject, { computed } from '@ember/object';
+import { computed } from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
 
 import moment from 'moment';
@@ -14,7 +14,7 @@ import { getUniqueList, getSplitParams, encodeParams, getFilter } from '../utils
 
 const DEBOUNCE_MS = 250;
 
-const filterQueryParamsList = ['tags', 'sources', 'publishers', 'funders', 'language', 'contributors', 'type'];
+const filterQueryParamsList = ['tags', 'sources', 'publishers', 'funders', 'language', 'contributors', 'types'];
 
 const filterQueryParams = {
     sort: {
@@ -246,11 +246,10 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         return null;
     }),
 
-    facetStatesArray: computed(...filterQueryParamsList, 'end', 'start', function() {
-        const facets = this.get('queryParamsState');
+    facetStatesArray: computed(...filterQueryParamsList, function() {
         const facetArray = [];
-        for (const key of Object.keys(facets)) {
-            facetArray.push({ key, value: facets[key] });
+        for (const param of filterQueryParamsList) {
+            facetArray.push({ param, value: this.get('queryParamsState')[param].value });
         }
         return facetArray;
     }),
@@ -262,32 +261,29 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     }),
 
     actions: {
-
-        addFilter(type, filterValue) {
+        addFilter(param, filterValue) {
             const category = this.get('category');
             const action = 'add-filter';
             const label = filterValue;
-
             this.get('metrics').trackEvent({ category, action, label });
 
-            const currentValue = this.get(type);
+            const currentValue = this.get(param);
             const newValue = getUniqueList([filterValue].concat(currentValue));
-            this.set(type, newValue);
+            this.set(param, newValue);
         },
 
-        removeFilter(type, filterValue) {
+        removeFilter(param, filterValue) {
             const category = this.get('category');
             const action = 'remove-filter';
             const label = filterValue;
-
             this.get('metrics').trackEvent({ category, action, label });
 
-            const currentValue = this.get(type);
+            const currentValue = this.get(param);
             const index = currentValue.indexOf(filterValue);
             if (index > -1) {
                 currentValue.splice(index, 1);
             }
-            this.set(type, currentValue);
+            this.resetQueryParams([param]);
         },
 
         toggleCollapsedQueryBody() {
@@ -302,8 +298,9 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
             const category = this.get('category');
             const action = 'search';
             const label = this.get('q');
-
             this.get('metrics').trackEvent({ category, action, label });
+
+            this.get('fetchData').perform(this.get('queryParams'));
         },
 
         updateParams(key, value) {
@@ -327,7 +324,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
             const category = this.get('category');
             const action = 'load-result-page';
             const label = newPage;
-
             this.get('metrics').trackEvent({ category, action, label });
 
             this.set('page', newPage);
@@ -345,7 +341,6 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
             const category = this.get('category');
             const action = 'clear-filters';
             const label = 'clear';
-
             this.get('metrics').trackEvent({ category, action, label });
 
             this.resetQueryParams(Object.keys(filterQueryParams));

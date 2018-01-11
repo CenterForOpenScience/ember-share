@@ -74,7 +74,6 @@
     "bootstrap-sass": "^3.3.7",
     "cssnano": "^3.10.0",
     "ember-cli-babel": "6.8.2",
-    "ember-responsive": "^2.0.5",
     "font-awesome": "^4.7.0",
     "langs": "^1.0.2"
   }
