@@ -1,6 +1,10 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
+# [2.14.1] - 2018-01-12
+## Fixed
+* Copyright year in footer
+
 # [2.14.0] - 2018-01-10
 ## Removed
 * Source registration form
@@ -58,7 +62,7 @@
 * MathJax rendering
 * More sorting methods
 * Detail pages for Organizations and Institutions
-  * List of published/funded/related works 
+  * List of published/funded/related works
 
 ## Changed
 * Numbers now have commas
