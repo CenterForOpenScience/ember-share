@@ -1,5 +1,5 @@
 <div class="navbar-inverse">
-  <div class="container">
+  <div class="container navbar-wrapper">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -38,7 +38,7 @@
           </li>
         {{else}}
           <li>
-            <a class="btn btn-info navbar-btn login-btn" {{action 'login'}}>Sign in with OSF</a>
+            <a class="btn btn-info navbar-btn" id="login-btn" {{action 'login'}}>Sign in with OSF</a>
           </li>
         {{/if}}
       </ul>

@@ -25,6 +25,10 @@ body > div.ember-view {
   }
 }
 
+.container {
+    max-width: 1170px;
+}
+
 // Variables
 $color-white: #fff;
 
