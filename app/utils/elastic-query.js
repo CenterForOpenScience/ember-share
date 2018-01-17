@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import moment from 'moment';
 
 /*
@@ -9,10 +8,10 @@ import moment from 'moment';
  */
 function dateRangeFilter(field, start, end) {
     if (start && end) {
-        let filter = { range: {} };
+        const filter = { range: {} };
         filter.range[field] = {
             gte: `${moment(start).format('YYYY-MM-DD')}||/d`,
-            lte: `${moment(end).format('YYYY-MM-DD')}||/d`
+            lte: `${moment(end).format('YYYY-MM-DD')}||/d`,
         };
         return filter;
     } else {
@@ -24,27 +23,30 @@ function dateRangeFilter(field, start, end) {
  * @function termsFilter
  * @param String field Name of the field to filter
  * @param Array terms List of terms to match
- * @param Boolean [all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms.
+ * @param Boolean [all] If true (default), return an array of filters to match
+ * results with *all* of the terms. Otherwise, return a single filter to match
+ * results with *any* of the terms.
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(field)) {
-            field = field + '.exact';
+        let tmpField = field;
+        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(tmpField)) {
+            tmpField = `${field}.exact`;
         }
         if (all) {
-            return terms.map(term => {
-                let filter = { term: {} };
+            return terms.map((term) => {
+                const filter = { term: {} };
                 // creative work filter should not include subtypes
-                if (term === 'creative work' && field === 'types') {
+                if (term === 'creative work' && tmpField === 'types') {
                     filter.term.type = term;
                 } else {
-                    filter.term[field] = term;
+                    filter.term[tmpField] = term;
                 }
                 return filter;
             });
         } else {
-            let filter = { terms: {} };
-            filter.terms[field] = terms;
+            const filter = { terms: {} };
+            filter.terms[tmpField] = terms;
             return filter;
         }
     } else {
@@ -57,7 +59,8 @@ function uniqueFilter(value, index, self) {
 }
 
 function getUniqueList(data) {
-    return data.filter(uniqueFilter);
+    const value = data || [];
+    return value.filter(uniqueFilter);
 }
 
 function encodeParams(tags) {
@@ -73,7 +76,7 @@ function decodeParams(param) {
 function getSplitParams(params) {
     if (!params.length) {
         return params.slice(0);
-    } else if (params.length && Ember.$.isArray(params[0])) {
+    } else if (params.length && $.isArray(params[0])) {
         return params[0];
     } else if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
@@ -83,11 +86,28 @@ function getSplitParams(params) {
     return params;
 }
 
+/*
+ * @function getFilter
+ * @param String field Name of the field to filter
+ * @param String filter Name of the function to build the filter
+ * @param Array terms List of terms to match
+ * @param Object start Beginning of date range
+ * @param Object end End of date range
+ */
+function getFilter(field, filter, terms = [], start = null, end = null) {
+    if (filter === 'termsFilter') {
+        return termsFilter(field, getUniqueList(terms));
+    } else {
+        return dateRangeFilter(field, start, end);
+    }
+}
+
 export {
     dateRangeFilter,
     termsFilter,
     getUniqueList,
     encodeParams,
     decodeParams,
-    getSplitParams
+    getSplitParams,
+    getFilter,
 };

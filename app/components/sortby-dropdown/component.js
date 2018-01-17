@@ -1,12 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-
+export default Component.extend({
     classNames: ['dropdown'],
 
     actions: {
         select(sortBy, display) {
-            this.sendAction('selectSortOption', sortBy, display);
-        }
-    }
+            this.get('selectSortOption')(sortBy, display);
+        },
+    },
 });

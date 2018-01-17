@@ -1,4 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+import ENV from '../../config/environment';
+
+
+export default Component.extend({
+    baseUrl: ENV.apiBaseUrl,
 });

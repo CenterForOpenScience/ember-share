@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+
 import { encodeParams } from 'ember-share/utils/elastic-query';
 
-export default Ember.Component.extend({
-    encodedParam: Ember.computed(function() {
-        return encodeParams([this.get('source.attributes.longTitle')])[0];
-    })
+export default Component.extend({
+    encodedParam: computed(function() {
+        return encodeParams([this.get('source.attributes.longTitle')]);
+    }),
 });

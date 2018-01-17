@@ -1,26 +1,51 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+'use strict';
+
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const Autoprefixer = require('autoprefixer');
+const CSSNano = require('cssnano');
+
 
 module.exports = function(defaults) {
-    var app = new EmberApp(defaults, {
+    // Values chosen abritrarily, feel free to change
+    const LEAN_BUILD = ['production'].includes(EmberApp.env());
+
+    const app = new EmberApp(defaults, {
         'ember-font-awesome': {
-            useScss: true
+            useScss: true,
         },
         'ember-bootstrap': {
-            importBootstrapFont: false
+            bootstrapVersion: 3,
+            importBootstrapCSS: false,
+            importBootstrapFont: false,
         },
         sassOptions: {
             includePaths: [
-                'bower_components/osf-style/css',
-                'bower_components/bootstrap-daterangepicker',
-                'bower_components/c3',
-            ]
+                'node_modules/font-awesome/scss',
+                'node_modules/@centerforopenscience/osf-style/css',
+                'node_modules/bootstrap-daterangepicker',
+                'node_modules/c3',
+            ],
+        },
+        'ember-cli-babel': {
+            includePolyfill: true,
+        },
+        postcssOptions: {
+            // Doesn't agree with SCSS; must be disabled
+            compile: { enabled: false },
+            filter: {
+                browsers: ['last 4 versions'],
+                enabled: LEAN_BUILD,
+                include: ['**/*.css'],
+                plugins: [{
+                    module: Autoprefixer,
+                }, {
+                    module: CSSNano,
+                }],
+            },
         },
         babel: {
             optional: ['es6.spec.symbols'],
-            includePolyfill: true
-        }
+        },
     });
 
     // Use `app.import` to add additional libraries to the generated
@@ -36,9 +61,9 @@ module.exports = function(defaults) {
     // please specify an object with the list of modules as keys
     // along with the exports of each module as its value.
 
-    app.import('bower_components/bootstrap-daterangepicker/daterangepicker.js');
-    app.import('bower_components/d3/d3.js');
-    app.import('bower_components/c3/c3.js');
+    app.import('node_modules/bootstrap-daterangepicker/daterangepicker.js');
+    app.import('node_modules/d3/d3.js');
+    app.import('node_modules/c3/c3.js');
 
     return app.toTree();
 };

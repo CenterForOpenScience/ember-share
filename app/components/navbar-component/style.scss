@@ -1,75 +1,78 @@
+$color-white: #fff;
+$color-gray-light: #cdcdcd;
+
 & {
-  margin-bottom: 0px;
-  border-bottom: none;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
 
-  a {
-    color: #ffffff;
+a {
+  color: $color-white;
 
-    &:hover {
-      color: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-    }
+  &:hover {
+    color: $color-gray-light;
+    cursor: pointer;
   }
+}
 
-  .navbar-inverse .navbar-nav > li > a {
-    color: #ffffff;
+.navbar-nav > li > a {
+  color: $color-white;
+  line-height: 20px;
+  padding-bottom: 15px;
+  padding-top: 15px;
 
-    &:hover {
-      color: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-    }
+  &:hover {
+    color: $color-gray-light;
+    cursor: pointer;
   }
+}
 
-  .login-btn {
-    padding: 2px 15px;
-    margin: 12px 15px;
+#login-btn {
+  margin: 12px 15px;
+  padding: 2px 15px;
 
-    &:hover {
-      background-color: #31b0d5 !important;
-    }
+  &:hover {
+    background-color: #31b0d5;
   }
+}
 
-  .nav-user-dropdown {
-    padding-top: 12px;
-    padding-bottom: 8px;
-  }
+.nav-user-dropdown {
+  padding-bottom: 8px;
+  padding-top: 12px;
+}
 
-  .navbar-header {
-    padding-top: 2px;
-  }
+.navbar-header {
+  padding-top: 2px;
+}
 
-  .share {
-    color: white ;
-    font-size: 18px ;
-    padding-left: 10px;
-    line-height: 45px ;
-    background-color: transparent ;
+.share {
+  background-color: transparent;
+  color: $color-white;
+  font-size: 18px;
+  line-height: 45px;
+  padding-left: 10px;
+}
 
-  }
+.navbar-logo {
+  float: left;
+  height: 25px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
 
-  .navbar-logo {
-    margin-top: 10px;
-    margin-left: 5px;
-    float: left;
-    height: 25px;
-  }
-
-  .share-logo {
-    text-decoration: none;
-  }
-
+.share-logo {
+  text-decoration: none;
 }
 
 .gravatar > img {
-    border: 1px solid #CDCDCD;
-    margin-right: 5px;
+  border: 1px solid $color-gray-light;
+  margin-right: 5px;
 }
-
 
 .dropdown-menu {
   border: 1px solid rgba(100, 100, 100, 0.3);
-}
 
-.dropdown-menu > li > a:hover {
-  color: rgba(255, 255, 255, 0.8);
+  li > a:hover {
+    color: $color-gray-light;
+  }
 }

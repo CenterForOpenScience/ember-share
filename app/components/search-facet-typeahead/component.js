@@ -1,55 +1,43 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import { isBlank } from '@ember/utils';
+
+import { task, timeout } from 'ember-concurrency';
+
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 import ENV from '../../config/environment';
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+
 
 const RESULTS = 20;
+const DEBOUNCE_MS = 250;
 
-export default Ember.Component.extend({
 
-    metrics: Ember.inject.service(),
+export default Component.extend({
+    metrics: service(),
     category: 'filter-facets',
 
-    filterType: Ember.computed(function() {
-        return termsFilter;
+    placeholder: computed(function() {
+        return `Add ${this.get('options.title')} filter`;
     }),
 
-    init() {
-        this._super(...arguments);
-        this.send('changeFilter', this.get('state'));
-    },
-
-    placeholder: Ember.computed(function() {
-        return 'Add ' + this.get('options.title') + ' filter';
+    selected: computed('state.value.[]', function() {
+        return this.get('state.value') || [];
     }),
 
-    selected: Ember.computed('state', function() {
-        let value = this.get('state');
-        return value ? value : [];
-    }),
+    actions: {
+        changeFilter(selected) {
+            const category = this.get('category');
+            const action = 'filter';
+            const label = selected;
 
-    changed: Ember.observer('state', function() {
-        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
-        let previousState = this.get('previousState') || [];
-
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get('state');
-            this.send('changeFilter', value ? value : []);
-        }
-    }),
-
-    buildQueryObjectMatch(selected) {
-        let key = this.get('key');
-        let newValue = !selected[0] ? [] : selected;
-        let newFilter = this.get('filterType')(key, getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
-    },
-
-    handleTypeaheadResponse(response) {
-        return getUniqueList(response.hits.hits.mapBy('_source.name'));
+            this.get('metrics').trackEvent({ category, action, label });
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(selected));
+        },
     },
 
     typeaheadQueryUrl() {
-        let base = this.get('options.base') || this.get('key');
+        const base = this.get('options.base') || this.get('paramName');
         return `${ENV.apiUrl}/search/${base}/_search`;
     },
 
@@ -59,9 +47,9 @@ export default Ember.Component.extend({
                 'name.autocomplete': {
                     query: text,
                     operator: 'and',
-                    fuzziness: 'AUTO'
-                }
-            }
+                    fuzziness: 'AUTO',
+                },
+            },
         };
         const type = this.get('options.type');
         if (type) {
@@ -70,48 +58,28 @@ export default Ember.Component.extend({
                 query: {
                     bool: {
                         must: [match],
-                        filter: [{ term: { types: type } }]
-                    }
-                }
+                        filter: [{ term: { types: type } }],
+                    },
+                },
             };
         }
         return { size: RESULTS, query: match };
     },
 
-    _performSearch(term, resolve, reject) {
-        if (Ember.isBlank(term)) { return []; }
+    searchElastic: task(function* (term) {
+        if (isBlank(term)) { yield []; }
+        yield timeout(DEBOUNCE_MS);
 
-        var data = JSON.stringify(this.buildTypeaheadQuery(term));
+        const data = JSON.stringify(this.buildTypeaheadQuery(term));
 
-        return Ember.$.ajax({
+        const response = yield $.ajax({
             url: this.typeaheadQueryUrl(),
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
-            data: data
-        }).then((json) =>
-            resolve(this.handleTypeaheadResponse(json)),
-            reject
-        );
-    },
+            data,
+        });
 
-    actions: {
-        changeFilter(selected) {
-            const category = this.get('category');
-            const action = 'filter';
-            const label = selected;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected);
-            this.set('previousState', this.get('state'));
-            this.sendAction('onChange', this.get('key'), filter, value);
-        },
-
-        elasticSearch(term) {
-            return new Ember.RSVP.Promise((resolve, reject) => {
-                Ember.run.debounce(this, this._performSearch, term, resolve, reject, 250);
-            });
-        }
-    }
+        return getUniqueList(response.hits.hits.mapBy('_source.name'));
+    }).restartable(),
 });

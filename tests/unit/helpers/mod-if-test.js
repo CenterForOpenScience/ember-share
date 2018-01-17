@@ -5,11 +5,11 @@ module('Unit | Helper | mod if');
 
 // Replace this with your real tests.
 test('mod even', function(assert) {
-  let result = modIf([5, 2]);
-  assert.ok(result);
+    const result = modIf([5, 2]);
+    assert.ok(result);
 });
 
 test('mod odd', function(assert) {
-  let result = modIf([4, 2]);
-  assert.notOk(result);
+    const result = modIf([4, 2]);
+    assert.notOk(result);
 });

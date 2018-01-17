@@ -1,54 +1,33 @@
-import Ember from 'ember';
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 
-    metrics: Ember.inject.service(),
+
+export default Component.extend({
+    metrics: service(),
+
     category: 'filter-facets',
 
-    init() {
-        this._super(...arguments);
-        this.send('setState', this.get('state'));
-    },
-
-    selected: Ember.computed('state', function() {
-        return this.get('state') || [];
+    selected: computed('state.value.[]', function() {
+        return this.get('state.value') || [];
     }),
-
-    changed: Ember.observer('state', function() {
-        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
-        let previousState = this.get('previousState') || [];
-
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get('state') || [];
-            this.send('setState', value);
-        }
-    }),
-
-    buildQueryObjectMatch(selected) {
-        let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter('types', getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
-    },
 
     actions: {
         setState(selected) {
             const category = this.get('category');
             const action = 'filter';
             const label = selected;
-
             this.get('metrics').trackEvent({ category, action, label });
 
-            let key = this.get('key');
-            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
-            this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(selected));
         },
 
         toggle(type) {
             let selected = this.get('selected');
-            selected = selected.contains(type) ? [] : [type];
+            selected = selected.includes(type) ? [] : [type];
             this.send('setState', selected);
-        }
-    }
+        },
+    },
 });

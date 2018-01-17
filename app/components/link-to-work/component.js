@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
     tagName: 'span',
-    slugType: Ember.computed('work.type', function() {
+    slugType: computed('work.type', function() {
         return this.get('work.type').classify().toLowerCase();
     }),
-    title: Ember.computed('work.title', function() {
+    title: computed('work.title', function() {
         return this.get('work.title') || '(Untitled)';
     }),
 });

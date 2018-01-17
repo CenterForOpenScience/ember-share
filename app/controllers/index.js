@@ -1,15 +1,20 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+
 import ENV from '../config/environment';
 
-export default Ember.Controller.extend({
 
-    metrics: Ember.inject.service(),
+export default Controller.extend({
+    metrics: service(),
 
     placeholder: 'Search scholarly works',
 
+    publicationQueryParam: ['publication'],
+    preprintQueryParam: ['preprint'],
+
     actions: {
         search() {
-            let searchString = this.get('searchString') || '';
+            const searchString = this.get('searchString') || '';
 
             const category = 'homepage';
             const action = 'search';
@@ -44,6 +49,6 @@ export default Ember.Controller.extend({
             this.get('metrics').trackEvent({ category, action, label });
 
             window.location.href = `${ENV.apiBaseUrl}/api/`;
-        }
-    }
+        },
+    },
 });

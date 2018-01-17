@@ -25,6 +25,10 @@ body > div.ember-view {
   }
 }
 
+.container {
+    max-width: 1170px;
+}
+
 // Variables
 $color-white: #fff;
 
@@ -145,7 +149,7 @@ $color-text-gray-dark: #808080;
   display: inline-block;
   font-size: 75%;
   margin: 2px;
-  padding-top: 2px 4px;
+  padding: 2px 4px;
 }
 
 .discover-filter-block:hover {

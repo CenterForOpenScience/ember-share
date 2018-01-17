@@ -23,46 +23,46 @@ export const CONTROLLER_MAP = Object.freeze({
 
 export const PAGE_FRAGMENT_MAP = Object.freeze({
     AbstractAgent: {
-        relatedWorks: (offset) => `
-          relatedWorks(offset:${offset | 0}) {
+        relatedWorks: offset => `
+          relatedWorks(offset:${offset || 0}) {
             type: __typename
             creativeWork { id, type: __typename, title }
           }
         `,
-        incomingAgentRelations: (offset) => `
-          incomingAgentRelations(offset:${offset | 0}) {
+        incomingAgentRelations: offset => `
+          incomingAgentRelations(offset:${offset || 0}) {
             type: __typename
             subject { id, type: __typename, name }
           }
         `,
-        outgoingAgentRelations: (offset) => `
-          outgoingAgentRelations(offset:${offset | 0}) {
+        outgoingAgentRelations: offset => `
+          outgoingAgentRelations(offset:${offset || 0}) {
             type: __typename
             related { id, type: __typename, name }
           }
         `,
     },
     AbstractCreativeWork: {
-        incomingWorkRelations: (offset) => `
-          incomingWorkRelations(offset:${offset | 0}) {
+        incomingWorkRelations: offset => `
+          incomingWorkRelations(offset:${offset || 0}) {
             type: __typename
             subject { id, type: __typename, title }
           }
         `,
-        outgoingWorkRelations: (offset) => `
-          outgoingWorkRelations(offset:${offset | 0}) {
+        outgoingWorkRelations: offset => `
+          outgoingWorkRelations(offset:${offset || 0}) {
             type: __typename
             related { id, type: __typename, title }
           }
         `,
-        relatedAgents: (offset) => `
-          relatedAgents(offset:${offset | 0}) {
+        relatedAgents: offset => `
+          relatedAgents(offset:${offset || 0}) {
             type: __typename,
             citedAs,
             agent { id, type: __typename, name }
           }
-        `
-    }
+        `,
+    },
 });
 
 // GraphQL fragments that dictate the default attributes

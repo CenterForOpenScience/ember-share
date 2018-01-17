@@ -1,28 +1,30 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+
 import ENV from '../../config/environment';
 
-export default Ember.Component.extend({
-    selected: Ember.computed('selectedTypes.[]', function() {
-        let selectedTypes = this.get('selectedTypes');
-        return selectedTypes.contains(this.get('type'));
+export default Component.extend({
+    selected: computed('selectedTypes.[]', function() {
+        const selectedTypes = this.get('selectedTypes.value') ? this.get('selectedTypes.value') : this.get('selectedTypes');
+        return selectedTypes.includes(this.get('type'));
     }),
 
-    label: Ember.computed('type', function() {
+    label: computed('type', function() {
         if (this.get('type') === 'creative work') {
             return ENV.creativeworkName;
         }
         // title case work types: 'creative work' --> 'Creative Work'
-        return this.get('type').replace(/\w\S*/g, function(str) {return str.capitalize();});
+        return this.get('type').replace(/\w\S*/g, function(str) { return str.capitalize(); });
     }),
 
     actions: {
         click() {
             this.$().blur();
-            this.sendAction('onClick', this.get('type'));
+            this.get('onClick')(this.get('type'));
         },
 
         toggleBody() {
-            this.sendAction('toggleCollapse');
-        }
-    }
+            this.get('toggleCollapse')();
+        },
+    },
 });

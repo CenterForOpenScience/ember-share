@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+
 import DetailMixin from '../mixins/detail';
 import { RELATION_MAP } from '../utils/mappings';
 import ENV from '../config/environment';
@@ -14,17 +17,19 @@ const SECTIONS = [
     { title: 'Collected From', value: 'model.sources', component: 'section-sources' },
 ];
 
-export default Ember.Controller.extend(DetailMixin, {
+export default Controller.extend(DetailMixin, {
     sections: SECTIONS,
 
-    workType: Ember.computed('model.type', function() {
+    retractions: computed.filterBy('model.incomingWorkRelations', 'type', 'Retracts'),
+
+    workType: computed('model.type', function() {
         if (this.get('model.type') === 'CreativeWork') {
             return ENV.creativeworkName;
         }
         return this.get('model.type');
     }),
 
-    relatedAgents: Ember.computed('model.relatedAgents', function() {
+    relatedAgents: computed('model.relatedAgents', function() {
         const byType = {};
         this.get('model.relatedAgents').forEach((relation) => {
             const type = RELATION_MAP[relation.type];
@@ -36,19 +41,17 @@ export default Ember.Controller.extend(DetailMixin, {
         return byType;
     }),
 
-    relatedWorks: Ember.computed('model.incomingWorkRelations', 'model.outgoingWorkRelations', function() {
+    relatedWorks: computed('model.{incomingWorkRelations,outgoingWorkRelations}', function() {
         const incoming = this.get('model.incomingWorkRelations') || [];
         const outgoing = this.get('model.outgoingWorkRelations') || [];
         return incoming.concat(outgoing);
     }),
 
-    retractions: Ember.computed.filterBy('model.incomingWorkRelations', 'type', 'Retracts'),
-
-    safeDescription: Ember.computed('model.description', function() {
+    safeDescription: computed('model.description', function() {
         return Ember.String.htmlSafe(this.get('model.description')).string;
     }),
 
-    safeTitle: Ember.computed('model.title', function() {
+    safeTitle: computed('model.title', function() {
         return Ember.String.htmlSafe(this.get('model.title')).string;
     }),
 });

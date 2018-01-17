@@ -1,6 +1,8 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+
+import ENV from '../config/environment';
+
 
 export default Controller.extend({
-    session: service(),
+    rootUrl: ENV.rootURL,
 });

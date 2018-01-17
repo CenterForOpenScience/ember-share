@@ -1,72 +1,50 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+
 import langs from 'npm:langs';
-import { termsFilter, getUniqueList } from 'ember-share/utils/elastic-query';
 
-export default Ember.Component.extend({
+import { getUniqueList } from 'ember-share/utils/elastic-query';
 
-    metrics: Ember.inject.service(),
+
+export default Component.extend({
+
+    metrics: service(),
     category: 'filter-facets',
 
-    init() {
-        this._super(...arguments);
-        let languageCodes = this.get('state') ? this.get('state') : [];
-        let languageNames = languageCodes.map(lang =>
-            langs.where('3', lang).name
-        );
-        this.send('changeFilter', languageNames);
-    },
-
-    placeholder: Ember.computed(function() {
-        return 'Add ' + this.get('options.title') + ' filter';
+    placeholder: computed(function() {
+        return `Add ${this.get('options.title')} filter`;
     }),
 
-    languages: Ember.computed(function() {
+    languages: computed(function() {
         return langs.names();
     }),
 
-    changed: Ember.observer('state', function() {
-        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
-        let previousState = this.get('previousState') || [];
-
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get('state');
-            this.send('changeFilter', value ? value : []);
-        }
-    }),
-
-    buildQueryObject(selected) {
-        let key = this.get('key');
-        if (!Ember.$.isArray(selected)) {
-            selected = [selected];
-        }
-        let languageCodes = selected.map(lang =>
-            langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']
-        );
-
-        let newFilter = termsFilter(key, getUniqueList(languageCodes));
-        return { filter: newFilter, value: languageCodes };
-    },
-
-    selected: Ember.computed('state', function() {
-        let languageCodes =  this.get('state') || [];
-        let languageNames = languageCodes.map(lang =>
-            langs.where('3', lang).name
+    selected: computed('state.value.[]', function() {
+        const languageCodes = this.get('state.value') || [];
+        const languageNames = languageCodes.map(lang =>
+            langs.where('3', lang).name,
         );
         return languageNames;
     }),
 
     actions: {
-        changeFilter(languageNames) {
+        changeFilter(selected) {
             const category = this.get('category');
             const action = 'filter';
-            const label = languageNames;
-
+            const label = selected;
             this.get('metrics').trackEvent({ category, action, label });
 
-            let key = this.get('key');
-            let { filter: filter, value: value } = this.buildQueryObject(languageNames || []);
-            this.set('previousState', this.get('state'));
-            this.sendAction('onChange', key, filter, value);
-        }
-    }
+            const languageNames = [].concat(selected || []);
+            const languageCodes = languageNames.map(lang =>
+                (langs.where('name', lang) ? langs.where('name', lang)['3'] : langs.where('3', lang)['3']),
+            );
+
+            this.get('updateFacet')(this.get('paramName'), getUniqueList(languageCodes));
+        },
+    },
+
+    updateFilter(languageCodes) {
+        this.get('updateFacet')(this.get('paramName'), getUniqueList(languageCodes));
+    },
 });

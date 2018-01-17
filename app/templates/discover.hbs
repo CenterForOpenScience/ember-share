@@ -3,7 +3,7 @@
     <br>
     <div class="row share-search">
         <div class="col-xs-8 col-xs-offset-2">
-            {{input class="form-control" value=q key-up='typing' placeholder=placeholder}}
+            {{input class="form-control" value=q placeholder=placeholder}}
         </div>
         <div class="col-xs-2">
             <a href="" {{action 'search'}}>
@@ -82,13 +82,11 @@
     <div class="row visible-xs">
         <div class="col-xs-12 discover-filter-list">
             {{#each facetStatesArray as |filter|}}
-                {{#if (and filter.key (not-eq key 'date'))}}
-                    {{#each filter.value as |value|}}
-                        <a class='discover-filter-block' {{action 'removeFilter' filter.key value}}>
-                            {{value}} {{fa-icon 'times'}}
-                        </a>
-                    {{/each}}
-                {{/if}}
+                {{#each filter.value as |value|}}
+                    <a class='discover-filter-block' {{action 'removeFilter' filter.param value}}>
+                        {{value}} {{fa-icon 'times'}}
+                    </a>
+                {{/each}}
             {{/each}}
         </div>
     </div>
@@ -108,7 +106,7 @@
     </div>
     <hr class='results-top'>
     <div class="row">
-        {{#if media.isExtraSmall}}
+        {{#if getTypes.isIdle}}
             <div class='col-xs-12 visible-xs'>
                 {{#bs-collapse collapsed=collapsedFilters}}
                     {{sortby-dropdown
@@ -117,17 +115,14 @@
                         selectSortOption=(action 'selectSortOption')
                     }}
                     {{faceted-search
-                        onChange='filtersChanged'
-                        updateParams='updateParams'
-                        filters=facetFilters
-                        facetStates=facetStates
+                        updateParams=(action 'updateParams')
+                        facetStates=queryParamsState
                         facets=facets
                         aggregations=aggregations
+                        loading=fetchData.isRunning
                     }}
                 {{/bs-collapse}}
             </div>
-        {{/if}}
-        {{#if (not media.isExtraSmall)}}
             <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
                 {{sortby-dropdown
                     sortOptions=sortOptions
@@ -135,17 +130,16 @@
                     selectSortOption=(action 'selectSortOption')
                 }}
                 {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
-                    filters=facetFilters
-                    facetStates=facetStates
+                    updateParams=(action 'updateParams')
+                    facetStates=queryParamsState
                     facets=facets
                     aggregations=aggregations
+                    loading=fetchData.isRunning
                 }}
             </div>
         {{/if}}
         <div class='col-sm-7 col-md-8 col-lg-9 col-xs-12'>
-            {{#if loading}}
+            {{#if fetchData.isRunning}}
                 {{loading-bars}}
             {{else if queryError}}
                 {{query-syntax}}
@@ -153,7 +147,7 @@
                 <div class="text-center no-results">{{noResultsMessage}}</div>
             {{else}}
                 {{#each results as |obj|}}
-                    {{search-result addFilter='addFilter' obj=obj}}
+                    {{search-result addFilter=(action 'addFilter') obj=obj}}
                 {{/each}}
                 <div class="pull-right text-right">
                     {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}

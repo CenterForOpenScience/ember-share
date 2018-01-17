@@ -1,17 +1,22 @@
 import Ember from 'ember';
-import ENV from '../config/environment';
+import { inject as service } from '@ember/service';
+
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
+import { task } from 'ember-concurrency';
+
+import ENV from '../config/environment';
+
 
 export default BaseAuthenticator.extend({
-    session: Ember.inject.service(),
+    session: service(),
 
     csrfToken() {
         if (!document.cookie && document.cookie === '') {
             return null;
         }
-        let cookies = document.cookie.split(';');
+        const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim();
+            const cookie = cookies[i].trim();
             if (cookie.substring(0, ENV.csrfCookie.length + 1) === `${ENV.csrfCookie}=`) {
                 return decodeURIComponent(cookie.substring(ENV.csrfCookie.length + 1));
             }
@@ -24,37 +29,38 @@ export default BaseAuthenticator.extend({
 
     authenticate(redirectToLogin = true) {
         return new Ember.RSVP.Promise((resolve, reject) => {
-            this.getUserInfo().then(response => {
-                response = response.data.attributes;
-                if (!response || !response.token) {
-                    if (redirectToLogin) {
-                        return window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
-                    }
-                    reject('not logged in');
-                } else {
-                    resolve({
-                        user: response,
-                        csrfToken: this.csrfToken()
-                    });
+            const responseAttrs = this.get('getUserInfo').perform();
+
+            if (!responseAttrs || !responseAttrs.token) {
+                if (redirectToLogin) {
+                    window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
+                    return;
                 }
-            });
+                reject('not logged in');
+            } else {
+                resolve({
+                    user: responseAttrs,
+                    csrfToken: this.csrfToken(),
+                });
+            }
         });
     },
 
     invalidate() {
-        return Ember.$.ajax({
+        return $.ajax({
             method: 'POST',
             url: `${ENV.apiBaseUrl}/accounts/logout/`,
             crossDomain: true,
-            xhrFields: { withCredentials: true }
+            xhrFields: { withCredentials: true },
         });
     },
 
-    getUserInfo() {
-        return Ember.$.ajax({
+    getUserInfo: task(function* () {
+        const response = yield $.ajax({
             url: `${ENV.apiUrl}/userinfo`,
             crossDomain: true,
-            xhrFields: { withCredentials: true }
+            xhrFields: { withCredentials: true },
         });
-    }
+        return response.data.attributes;
+    }),
 });
