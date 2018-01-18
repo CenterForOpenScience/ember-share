@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { inject as service } from '@ember/service';
 
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import { task } from 'ember-concurrency';
@@ -8,8 +7,6 @@ import ENV from '../config/environment';
 
 
 export default BaseAuthenticator.extend({
-    session: service(),
-
     csrfToken() {
         if (!document.cookie && document.cookie === '') {
             return null;
