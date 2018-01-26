@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { inject as service } from '@ember/service';
 
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import { task } from 'ember-concurrency';
@@ -8,8 +7,6 @@ import ENV from '../config/environment';
 
 
 export default BaseAuthenticator.extend({
-    session: service(),
-
     csrfToken() {
         if (!document.cookie && document.cookie === '') {
             return null;
@@ -29,20 +26,7 @@ export default BaseAuthenticator.extend({
 
     authenticate(redirectToLogin = true) {
         return new Ember.RSVP.Promise((resolve, reject) => {
-            const responseAttrs = this.get('getUserInfo').perform();
-
-            if (!responseAttrs || !responseAttrs.token) {
-                if (redirectToLogin) {
-                    window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
-                    return;
-                }
-                reject('not logged in');
-            } else {
-                resolve({
-                    user: responseAttrs,
-                    csrfToken: this.csrfToken(),
-                });
-            }
+            this.get('getUserInfo').perform(resolve, reject, redirectToLogin);
         });
     },
 
@@ -55,12 +39,25 @@ export default BaseAuthenticator.extend({
         });
     },
 
-    getUserInfo: task(function* () {
+    getUserInfo: task(function* (resolve, reject, redirectToLogin) {
         const response = yield $.ajax({
             url: `${ENV.apiUrl}/userinfo`,
             crossDomain: true,
             xhrFields: { withCredentials: true },
         });
-        return response.data.attributes;
+        const responseAttrs = response.data.attributes;
+
+        if (!responseAttrs || !responseAttrs.token) {
+            if (redirectToLogin) {
+                window.location = `${ENV.apiBaseUrl}/accounts/osf/login/?${Ember.$.param({ next: window.location.pathname + window.location.search })}`;
+                return;
+            }
+            reject('not logged in');
+        } else {
+            resolve({
+                user: responseAttrs,
+                csrfToken: this.csrfToken(),
+            });
+        }
     }),
 });
