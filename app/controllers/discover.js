@@ -215,6 +215,8 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         sortBy: 'date_created',
     }],
 
+    searchUrl: buildElasticCall(),
+
     eventsLastUpdated: Date().toString(),
 
     results: ArrayProxy.create({ content: [] }),
