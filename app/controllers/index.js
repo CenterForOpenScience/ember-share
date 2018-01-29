@@ -1,8 +1,6 @@
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
-import ENV from '../config/environment';
-
 
 export default Controller.extend({
     metrics: service(),
@@ -30,25 +28,6 @@ export default Controller.extend({
             const label = event;
 
             this.get('metrics').trackEvent({ category, action, label });
-        },
-        transitionRegistration() {
-            const category = 'homepage';
-            const action = 'click';
-            const label = 'registration';
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            this.transitionToRoute('registration');
-        },
-
-        transitionAPI() {
-            const category = 'homepage';
-            const action = 'click';
-            const label = 'API';
-
-            this.get('metrics').trackEvent({ category, action, label });
-
-            window.location.href = `${ENV.apiBaseUrl}/api/`;
         },
     },
 });
