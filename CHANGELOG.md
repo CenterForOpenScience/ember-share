@@ -1,6 +1,10 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
+# [2.15.0] - 2018-02-02
+* Upgrade Ember to 2.18
+* Upgrade dependencies
+
 # [2.14.1] - 2018-01-12
 ## Fixed
 * Copyright year in footer
