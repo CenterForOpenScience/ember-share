@@ -14,7 +14,7 @@ import { getUniqueList, getSplitParams, encodeParams, getFilter } from '../utils
 
 const DEBOUNCE_MS = 250;
 
-const filterQueryParamsList = ['tags', 'sources', 'publishers', 'funders', 'language', 'contributors', 'types'];
+const filterQueryParamsList = ['tags', 'sources', 'publishers', 'funders', 'language', 'contributors', 'type'];
 
 const filterQueryParams = {
     sort: {
@@ -29,7 +29,7 @@ const filterQueryParams = {
         defaultValue: '',
         refresh: true,
     },
-    types: {
+    type: {
         defaultValue: [],
         refresh: true,
         serialize(value) {
@@ -143,7 +143,7 @@ const facets = [
     },
     {
         title: 'Type',
-        paramName: 'types',
+        paramName: 'type',
         component: 'search-facet-worktype',
         data: {},
     },
@@ -490,7 +490,7 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     },
 
     isTypeFacet(obj) {
-        return obj.paramName === 'types';
+        return obj.paramName === 'type';
     },
 
     getTypes: task(function* () {
