@@ -1,6 +1,9 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
+# [2.15.1] - 2018-02-22
+* Fix search button running a blank query
+
 # [2.15.0] - 2018-02-05
 * Upgrade Ember to 2.18
 * Upgrade dependencies

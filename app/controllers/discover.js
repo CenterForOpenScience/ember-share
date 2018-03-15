@@ -302,7 +302,7 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
             const label = this.get('q');
             this.get('metrics').trackEvent({ category, action, label });
 
-            this.get('fetchData').perform(this.get('queryParams'));
+            this.get('fetchData').perform(this.get('allQueryParams'));
         },
 
         updateParams(key, value) {

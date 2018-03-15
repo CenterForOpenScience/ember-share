@@ -21,6 +21,11 @@ module.exports = function(environment) {
             },
         },
 
+        sentryDSN: null,
+        sentryOptions: {
+            release: process.env.GIT_COMMIT,
+        },
+
         APP: { // jscs:ignore
             // Here you can pass flags/options to your application instance
             // when it is created
