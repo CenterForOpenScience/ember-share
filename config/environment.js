@@ -90,7 +90,12 @@ module.exports = function(environment) {
         ENV.metricsAdapters = [{
             name: 'GoogleAnalytics',
             environments: ['production'],
-            config: { id: 'UA-83881781-1' },
+            config: {
+                id: 'UA-83881781-1',
+                setFields: {
+                    anonymizeIp: true,
+                },
+            },
         }];
 
         ENV.modelIDs = {
