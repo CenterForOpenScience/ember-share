@@ -54,8 +54,8 @@ module.exports = function(environment) {
     };
     // this needs to go in an actual env at some point
     ENV.csrfCookie = 'csrftoken';
-    ENV.apiBaseUrl = 'http://localhost:8000';
-    ENV.apiUrl = 'http://localhost:8000/api/v2';
+    ENV.apiBaseUrl = 'http://localhost:8003';
+    ENV.apiUrl = 'http://localhost:8003/api/v2';
 
     // if (environment === 'development') {
     //     ENV.APP.LOG_RESOLVER = true;
