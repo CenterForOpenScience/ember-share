@@ -12,6 +12,7 @@ module.exports = {
         'Chrome',
         'Firefox',
     ],
+    browser_start_timeout: 60,
     browser_args: {
         Chrome: [
             '--headless',
