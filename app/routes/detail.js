@@ -10,9 +10,19 @@ import ENV from '../config/environment';
 export default Route.extend(RouteHistoryMixin, {
     session: service(),
 
-    model(params) {
-        // TODO consolidate graphql queries in a util or service or something (SHARE-1031)
-        return $.ajax({
+    async model(params) {
+        // the id might refer to a suid (which should be loaded via ember-data)
+        // or to a ShareObject (until those are removed)
+        try {
+            const suid = await this.store.findRecord('suid', params.id, {
+                include: 'sourceConfig,formattedmetadatarecordSet',
+            });
+            return suid;
+        } catch (err) {
+            // pass -- for now, assume it's a ShareObject id
+        }
+
+        const graphqlResult = await $.ajax({
             url: `${ENV.apiBaseUrl}/api/v2/graph/`,
             method: 'POST',
             crossDomain: true,
@@ -34,7 +44,8 @@ export default Route.extend(RouteHistoryMixin, {
                     }
                 }`,
             },
-        }).then(this._handleErrors.bind(this));
+        });
+        return this._handleErrors(graphqlResult);
     },
 
     afterModel(model, transition) {
@@ -45,7 +56,7 @@ export default Route.extend(RouteHistoryMixin, {
 
         // If the type slug /:SLUG/:SHARE-ID is not the type of the object
         // Correct the url
-        const slug = model.type.classify().toLowerCase();
+        const slug = model.type ? model.type.classify().toLowerCase() : model.constructor.modelName;
         if (slug !== transition.params.detail.type) {
             return this.replaceWith('detail', slug, model.id);
         }
@@ -63,10 +74,12 @@ export default Route.extend(RouteHistoryMixin, {
             return this._super(model, transition);
         }
 
+        const types = model.types || [model.constructor.modelName];
+
         // Find the most specific template available for the found type
         let view = null;
-        for (let i = 0; i < model.types.length; i++) {
-            view = CONTROLLER_MAP[model.types[i]];
+        for (let i = 0; i < types.length; i++) {
+            view = CONTROLLER_MAP[types[i]];
             if (view) {
                 break;
             }

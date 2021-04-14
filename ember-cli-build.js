@@ -79,6 +79,11 @@ module.exports = function(defaults) {
     app.import('node_modules/bootstrap-daterangepicker/daterangepicker.js');
     app.import('node_modules/d3/d3.js');
     app.import('node_modules/c3/c3.js');
+    app.import('node_modules/xml-formatter/index.js', {
+        using: [
+            { transformation: 'cjs', as: 'xml-formatter' },
+        ],
+    });
 
     return app.toTree();
 };

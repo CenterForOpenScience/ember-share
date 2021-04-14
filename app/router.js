@@ -35,6 +35,8 @@ Router.map(function() {
     this.route('sources');
     this.route('registration');
 
+    // NOTE the 'detail' route manually delegates to template/controller pairs
+    // not listed here -- see the route handler's `setup` hook
     this.route('detail', { path: '/:type/:id' });
 
     this.route('elastic-down');

@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 
 const { JSONAPISerializer } = DS;
@@ -15,6 +14,31 @@ export default JSONAPISerializer.extend({
     },
 
     keyForAttribute(attr) {
-        return Ember.String.underscore(attr);
+        return attr;
+    },
+
+    keyForRelationship(key) {
+        return key;
+    },
+
+    modelNameFromPayloadKey(key) {
+        if (key === 'SourceUniqueIdentifier') {
+            return 'suid';
+        }
+        return this._super(key);
+    },
+
+    modelNameFromPayloadType(payloadType) {
+        if (payloadType === 'SourceUniqueIdentifier') {
+            return 'suid';
+        }
+        return this._super(payloadType);
+    },
+
+    payloadTypeFromModelName(modelName) {
+        if (modelName === 'suid') {
+            return 'SourceUniqueIdentifier';
+        }
+        return this._super(modelName);
     },
 });

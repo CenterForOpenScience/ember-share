@@ -18,6 +18,7 @@ export const RELATION_MAP = Object.freeze({
 export const CONTROLLER_MAP = Object.freeze({
     Agent: 'agent',
     'Creative Work': 'work',
+    suid: 'suid',
     // Person: 'person',
 });
 
