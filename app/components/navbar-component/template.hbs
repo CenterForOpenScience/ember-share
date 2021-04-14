@@ -18,11 +18,13 @@
         <li>
           {{link-to 'Discover' 'discover' class='nav-link' }}
         </li>
-        <li>
-          <a class="nav-link" href="https://osf.io/cpsin/wiki/home/?view">FAQ</a>
-        </li>
 
         {{#if session.isAuthenticated}}
+          {{#if session.data.authenticated.user.🦄}}
+            <li>
+              <a class='nav-link' href='/admin/'>Admin</a>
+            </li>
+          {{/if}}
           <li class="dropdown">
             <a id="nav-user-dropdown" role="button" data-toggle="dropdown">
               <span class="gravatar">

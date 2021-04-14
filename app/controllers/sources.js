@@ -137,9 +137,4 @@ export default Controller.extend({
             },
         };
     },
-
-    init() {
-        this._super(...arguments);
-        this.get('loadElasticAggregations').perform();
-    },
 });

@@ -27,7 +27,7 @@ const ApplicationAdapter = JSONAPIAdapter.extend(DS.BuildURLMixin, {
     },
     pathForType(type) {
         const inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
-        return Ember.String.underscore(inflector.pluralize(type));
+        return Ember.String.underscore(inflector.pluralize(type)).replace(/_/g, '');
     },
 });
 
