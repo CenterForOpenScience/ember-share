@@ -195,6 +195,7 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
+    indexName: null,
 
     facets,
 
@@ -256,10 +257,14 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
         return facetArray;
     }),
 
-    atomFeedUrl: computed('queryBody', function() {
+    atomFeedUrl: computed('queryBody', 'indexName', function() {
         const query = this.get('queryBody.query');
         const encodedQuery = encodeURIComponent(JSON.stringify(query));
-        return `${ENV.apiUrl}/atom/?elasticQuery=${encodedQuery}`;
+
+        // HACK: hard-coded index name here -- delete as soon as that old index is gone
+        const useOldFeed = Boolean(this.get('indexName') === 'share_customtax_1');
+        const feedPath = useOldFeed ? '/atom/' : '/feeds/atom/';
+        return `${ENV.apiUrl}${feedPath}?elasticQuery=${encodedQuery}`;
     }),
 
     actions: {
@@ -393,6 +398,9 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
                 ), { typeSlug: hit._source.type.classify().toLowerCase() }),
             ));
 
+            const firstHit = response.hits.hits[0];
+            const indexName = firstHit ? firstHit._index : null;
+
             if (response.aggregations) {
                 this.set('aggregations', response.aggregations);
             }
@@ -401,11 +409,13 @@ export default ApplicationController.extend(discoverQueryParams.Mixin, {
                 took: moment.duration(response.took).asSeconds(),
                 results,
                 queryError: false,
+                indexName,
             });
         } catch (errorResponse) {
             this.setProperties({
                 numberOfResults: 0,
                 results: [],
+                indexName: null,
             });
             if (errorResponse.status === 400) {
                 this.set('queryError', true);
