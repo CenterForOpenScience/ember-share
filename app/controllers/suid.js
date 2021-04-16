@@ -7,9 +7,19 @@ export default Controller.extend(DetailMixin, {
         const fmrs = this.get('model.formattedmetadatarecordSet');
         if (fmrs.length) {
             const fmr = fmrs.find(fmr => fmr.get('recordFormat') === 'sharev2_elastic');
-            return fmr ? fmr.get('formattedMetadataJSON') : {};
+            return fmr ? fmr.get('formattedMetadataJSON') : null;
         } else {
-            return {};
+            return null;
+        }
+    }),
+
+    oaidcRecord: computed('model.formattedmetadatarecordSet.@each.recordFormat', function() {
+        const fmrs = this.get('model.formattedmetadatarecordSet');
+        if (fmrs.length) {
+            const fmr = fmrs.find(fmr => fmr.get('recordFormat') === 'oai_dc');
+            return fmr ? fmr.get('formattedMetadataXML') : null;
+        } else {
+            return null;
         }
     }),
 });

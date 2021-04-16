@@ -27,17 +27,35 @@
     </section>
     <section>
         <h2>Metadata cards</h2>
-        {{#each this.model.formattedmetadatarecordSet as |fmr|}}
-            {{#if fmr}}
-                <section>
-                    <h3>{{fmr.recordFormat}} format</h3>
-                    {{#if fmr.hasXML}}
-                        <pre>{{fmr.formattedMetadataXML}}</pre>
-                    {{else}}
-                        {{json-pretty obj=fmr.formattedMetadataJSON}}
-                    {{/if}}
-                </section>
-            {{/if}}
-        {{/each}}
+        {{#if this.oaidcRecord}}
+            <section>
+                <h3>Simple Dublin Core format</h3>
+                <p>
+                The <a href="https://en.wikipedia.org/wiki/Dublin_Core">Dublin Core</a> is a set of "core"
+                metadata elements for describing resources or creative works from any discipline.
+                </p>
+                <p>
+                SHARE serves metadata in Dublin Core format at <a href="/oai-pmh">our OAI-PMH feed</a>
+                using the <a href="https://www.openarchives.org/OAI/openarchivesprotocol.html">Open Archive Initiative Protocol for Metadata Harvesting</a>.
+                </p>
+                <pre>{{this.oaidcRecord}}</pre>
+            </section>
+        {{/if}}
+        {{#if this.elasticRecord}}
+            <section>
+                <h3>SHAREv2 "search result" format</h3>
+                <p>
+                This non-standard JSON format is what SHARE currently uses to index metadata
+                records for search and discovery.
+                </p>
+                <p>
+                Behind the scenes, the {{#link-to 'discover'}}SHARE discover page{{/link-to}} depends on
+                search results in this format, as do the
+                <a href="https://osf.io/preprints/discover">OSF Preprints</a> and
+                <a href="https://osf.io/registries/discover">OSF Registries</a> discover pages.
+                </p>
+                {{json-pretty obj=this.elasticRecord}}
+            </section>
+        {{/if}}
     </section>
 </div>
