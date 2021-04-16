@@ -9,9 +9,7 @@
         </div>
         <div class="jumbotron">
             <h1 class="title">
-                Metadata Cards<br>
-                for<br>
-                <cite>{{this.elasticRecord.title}}</cite>
+                Metadata for <cite>“{{this.elasticRecord.title}}”</cite>
             </h1>
         </div>
     </div>
@@ -19,7 +17,7 @@
 
 <div class="container detail-bottom-padding">
     <section>
-        <h2>External links</h2>
+        <h2>Identifiers</h2>
         <ul>
             {{#each this.elasticRecord.identifiers as |uri|}}
                 <li>{{uri-display uri=uri}}</li>
@@ -27,16 +25,19 @@
             <li>({{this.model.sourceConfig.label}}, {{this.model.identifier}})</li>
         </ul>
     </section>
-    {{#each this.model.formattedmetadatarecordSet as |fmr|}}
-        {{#if fmr}}
-            <section>
-                <h2>Metadata card formatted as {{fmr.recordFormat}}</h2>
-                {{#if fmr.hasXML}}
-                    <pre>{{fmr.formattedMetadataXML}}</pre>
-                {{else}}
-                    {{json-pretty obj=fmr.formattedMetadataJSON}}
-                {{/if}}
-            </section>
-        {{/if}}
-    {{/each}}
+    <section>
+        <h2>Metadata cards</h2>
+        {{#each this.model.formattedmetadatarecordSet as |fmr|}}
+            {{#if fmr}}
+                <section>
+                    <h3>{{fmr.recordFormat}} format</h3>
+                    {{#if fmr.hasXML}}
+                        <pre>{{fmr.formattedMetadataXML}}</pre>
+                    {{else}}
+                        {{json-pretty obj=fmr.formattedMetadataJSON}}
+                    {{/if}}
+                </section>
+            {{/if}}
+        {{/each}}
+    </section>
 </div>
