@@ -1,6 +1,10 @@
 # Change Log
 *`CenterForOpenScience/ember-share` releases are tied to `CenterForOpenScience/SHARE` releases. If there were no changes to `ember-share` in a release then it will not be listed in this changelog. [Release notes for CenterForOpenScience/SHARE](https://github.com/CenterForOpenScience/SHARE/blob/develop/CHANGELOG.md).*
 
+# [21.1.0] - 2021-05-03
+* minimal work to prop this old app up while backend changes rock the boat
+* add `suid` route
+
 # [2.15.4] - 2018-06-19
 * Anonymize IP addresses sent to google analytics
 
