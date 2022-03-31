@@ -18,3 +18,7 @@ A web interface for [SHARE](https://github.com/CenterForOpenScience/SHARE).
   (`./manage.py runbot elasticsearch` in the SHARE root directory)
 * `ember server`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
+
+## Testing
+
+* `yarn run test`
